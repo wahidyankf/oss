@@ -1,11 +1,11 @@
 {
-  "name": "ayokoding-web",
-  "version": "0.0.1",
+  "name": "next-hello",
+  "version": "0.1.0",
   "private": true,
   "nx": {
-    "name": "ayokoding-web",
+    "name": "next-hello",
     "projectType": "application",
-    "sourceRoot": "apps/ayokoding-web/src"
+    "sourceRoot": "apps/next-hello/src"
   },
   "scripts": {
     "dev": "next dev",

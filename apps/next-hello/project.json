@@ -1,8 +1,8 @@
 {
-  "name": "ayokoding-web",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "root": "apps/ayokoding-web",
-  "sourceRoot": "apps/ayokoding-web/src",
+  "name": "next-hello",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "root": "apps/next-hello",
+  "sourceRoot": "apps/next-hello/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,14 +10,14 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/ayokoding-web"
+        "outputPath": "dist/apps/next-hello"
       },
       "configurations": {
         "development": {
-          "outputPath": "dist/apps/ayokoding-web"
+          "outputPath": "dist/apps/next-hello"
         },
         "production": {
-          "outputPath": "dist/apps/ayokoding-web"
+          "outputPath": "dist/apps/next-hello"
         }
       }
     },
@@ -25,29 +25,29 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "ayokoding-web:build",
+        "buildTarget": "next-hello:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "ayokoding-web:build:development"
+          "buildTarget": "next-hello:build:development"
         },
         "production": {
-          "buildTarget": "ayokoding-web:build:production"
+          "buildTarget": "next-hello:build:production"
         }
       }
     },
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "ayokoding-web:build:production"
+        "buildTarget": "next-hello:build:production"
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/ayokoding-web"],
+      "outputs": ["{workspaceRoot}/coverage/apps/next-hello"],
       "options": {
-        "jestConfig": "apps/ayokoding-web/jest.config.js",
+        "jestConfig": "apps/next-hello/jest.config.js",
         "passWithNoTests": true,
         "runInBand": true,
         "codeCoverage": false
@@ -57,7 +57,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/ayokoding-web/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/next-hello/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "typecheck": {
