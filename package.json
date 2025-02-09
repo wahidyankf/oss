@@ -45,8 +45,12 @@
     "next": "^15.1.6"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,md,json}": [
+    "*.{js,jsx,ts,tsx,md,json,html}": [
       "prettier --write"
     ]
+  },
+  "volta": {
+    "node": "20.11.0",
+    "npm": "11.1.0"
   }
 }

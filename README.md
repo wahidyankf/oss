@@ -30,8 +30,25 @@ ayokoding/
 
 ### Prerequisites
 
-- Node.js (v18 or later)
-- npm (v9 or later)
+- Volta (recommended for managing Node.js and npm versions)
+- Node.js (v20.11.0 LTS)
+- npm (v10.2.4)
+
+### Installing Volta
+
+Volta simplifies Node.js version management:
+
+1. Install Volta:
+
+   ```bash
+   curl https://get.volta.sh | bash
+   ```
+
+2. Install and use the project's Node.js version:
+   ```bash
+   volta install node@20.11.0
+   volta use node@20.11.0
+   ```
 
 ### Installation
 
