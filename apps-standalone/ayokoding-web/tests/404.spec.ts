@@ -9,9 +9,9 @@ test('404 page has correct content', async ({ page }) => {
   await expect(notFoundHeading).toBeVisible();
 
   // Check navigation links
-  const homeLink = page.getByRole('link', { name: 'Home' });
+  const homeLink = page.getByRole('link', { name: 'Go to Home' });
   await expect(homeLink).toBeVisible();
 
-  const categoriesLink = page.getByRole('link', { name: 'Categories' });
+  const categoriesLink = page.getByRole('link', { name: 'View Categories' });
   await expect(categoriesLink).toBeVisible();
 });

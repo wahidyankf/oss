@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('categories page loads and has content', async ({ page }) => {
   // Navigate to the categories page
-  await page.goto('/categories');
+  await page.goto('/c');
 
   // Check page title or heading
   const headingLocator = page.getByRole('heading', { name: 'All Contents' });
