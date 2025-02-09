@@ -4,7 +4,8 @@ export default function Navigation() {
   return (
     <nav>
       <Link href="/">Home</Link>
-      <Link href="/posts">Blog</Link>
+      <span className="mx-2">|</span>
+      <Link href="/c">Categories</Link>
     </nav>
   );
 }
