@@ -22,12 +22,13 @@
     }
   },
   "include": [
-    "next-env.d.ts",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "**/*.spec.ts",
-    "**/*.spec.tsx"
+    "next-env.d.ts",
+    "../../dist/apps/ayokoding-web/.next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
