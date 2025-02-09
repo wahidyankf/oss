@@ -3,9 +3,7 @@ import { getAllPostSlugs, getPostData } from '../../lib/markdownUtils';
 
 export default async function PostsList() {
   const slugs = getAllPostSlugs();
-  const posts = await Promise.all(
-    slugs.map(async (slug) => await getPostData(slug)),
-  );
+  const posts = await Promise.all(slugs.map((slug) => getPostData(slug)));
 
   // Get unique categories
   const categories = [

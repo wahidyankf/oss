@@ -21,7 +21,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const slugString = slug.join('/');
-  const postData = await getPostData(slugString);
+  const postData = getPostData(slugString);
 
   return {
     title: postData.title,
@@ -32,7 +32,7 @@ export async function generateMetadata({
 export default async function Post({ params }: PageProps) {
   const { slug } = await params;
   const slugString = slug.join('/');
-  const postData = await getPostData(slugString);
+  const postData = getPostData(slugString);
 
   return (
     <article>
