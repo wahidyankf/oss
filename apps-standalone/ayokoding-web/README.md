@@ -1,7 +1,14 @@
 # Ayokoding Web
 
 ## Overview
-A modern web application built with Next.js, React, and TypeScript, featuring server-side rendering and static site generation.
+Ayokoding Web is a modern, educational web platform designed to provide coding tutorials, resources, and learning paths for developers of all skill levels. Built with cutting-edge web technologies, this application offers an interactive and engaging learning experience.
+
+## Purpose
+The goal of Ayokoding Web is to:
+- Provide high-quality, accessible coding tutorials
+- Create learning paths for various programming technologies
+- Share insights and best practices in software development
+- Build a community of learners and developers
 
 ## Prerequisites
 - Node.js 20.11.0
@@ -44,7 +51,15 @@ npm run build
 ## Project Structure
 - `src/app/`: Main application routes and components
 - `src/app/__tests__/`: Test files
+- `src/lib/`: Utility functions and helper modules
 - `public/`: Static assets
+- `scripts/`: Utility scripts for project management
+
+## Configuration
+### Environment Variables
+Create a `.env.local` file in the project root and add the following variables:
+- `NEXT_PUBLIC_SITE_URL`: Base URL for the application
+- `NEXT_PUBLIC_ANALYTICS_ID`: Analytics tracking ID (optional)
 
 ## Scripts
 - `dev`: Start development server
@@ -53,12 +68,23 @@ npm run build
 - `test`: Run Jest tests
 - `lint`: Run ESLint
 - `typecheck`: Run TypeScript type checking
+- `generate:category-pages`: Generate static category pages
 
 ## Deployment
-Optimized for static and server-side rendering with Next.js.
+Optimized for static and server-side rendering with Next.js. Recommended deployment platforms:
+- Vercel
+- Netlify
+- Cloudflare Pages
 
 ## Contributing
-Please read the contributing guidelines before making changes.
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
 
 ## License
-[Insert License Information]
+This project is open-source and available under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+For questions or support, please open an issue on GitHub or contact the maintainers.

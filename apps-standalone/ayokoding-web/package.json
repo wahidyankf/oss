@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "next lint",
     "build:ts": "tsc",
-    "generate:categories": "ts-node scripts/generate-category-pages.ts"
+    "generate:categories": "ts-node scripts/generate-category-pages.ts",
+    "test:all": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
