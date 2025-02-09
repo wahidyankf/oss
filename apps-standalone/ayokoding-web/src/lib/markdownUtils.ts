@@ -57,7 +57,10 @@ interface PostData {
   contentHtml: string;
   title: string;
   date: string;
-  [key: string]: any;
+  formattedDate?: string;
+  description?: string;
+  tags?: string[];
+  category?: string;
 }
 
 function getPostData(slug: string): PostData {
@@ -71,8 +74,12 @@ function getPostData(slug: string): PostData {
   return {
     slug,
     contentHtml,
-    ...data,
-  } as PostData;
+    title: data.title || '',
+    date: data.date || '',
+    description: data.description,
+    tags: data.tags,
+    category: data.category,
+  };
 }
 
 function getAllPosts(): PostData[] {
