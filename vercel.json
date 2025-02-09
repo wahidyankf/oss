@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx nx build ayokoding-web",
+  "buildCommand": "mkdir -p apps/ayokoding-web/public && npx nx build ayokoding-web",
   "outputDirectory": "dist/apps/ayokoding-web",
   "framework": "nextjs",
   "routes": [{ "src": "/(.*)", "dest": "/$1" }],
@@ -11,7 +11,7 @@
   "projectSettings": {
     "framework": "nextjs",
     "devCommand": "npx nx serve ayokoding-web",
-    "buildCommand": "npx nx build ayokoding-web",
+    "buildCommand": "mkdir -p apps/ayokoding-web/public && npx nx build ayokoding-web",
     "outputDirectory": "dist/apps/ayokoding-web"
   }
 }
