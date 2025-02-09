@@ -8,7 +8,9 @@
     "web:build": "npm run build --workspace=ayokoding-web",
     "web:dev": "npm run dev --workspace=ayokoding-web",
     "web:test": "npm run test --workspace=ayokoding-web",
-    "prepare": "husky install"
+    "web:typecheck": "npm run typecheck --workspace=ayokoding-web",
+    "prepare": "husky install",
+    "typecheck": "npx nx run-many --target=typecheck"
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",

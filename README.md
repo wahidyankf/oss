@@ -116,9 +116,24 @@ Before pushing changes, the pre-push hook will:
 
 - Run tests for all affected projects
 - Build all affected projects
-- Prevent pushing if any tests fail or builds are unsuccessful
+- Run type checking for all affected projects
+- Prevent pushing if any tests fail, builds are unsuccessful, or type checking reveals errors
 
-This ensures code quality, build integrity, and prevents breaking changes from being pushed to the repository.
+This ensures code quality, build integrity, type safety, and prevents breaking changes from being pushed to the repository.
+
+## TypeScript Type Checking
+
+Run type checking for the entire project:
+
+```bash
+npm run typecheck
+```
+
+Or for a specific workspace:
+
+```bash
+npm run web:typecheck
+```
 
 ## Contributing
 
