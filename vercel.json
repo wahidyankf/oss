@@ -1,8 +1,13 @@
 {
-  "buildCommand": "npx nx build ayokoding-web",
-  "outputDirectory": "apps/ayokoding-web/.next",
+  "buildCommand": "cd /home/wkf-devbox/wkf-repos/wahidyankf/ayokoding && npx nx build ayokoding-web",
+  "outputDirectory": "/home/wkf-devbox/wkf-repos/wahidyankf/ayokoding/apps/ayokoding-web/.next",
   "framework": "nextjs",
-  "routes": [{ "src": "/(.*)", "dest": "apps/ayokoding-web/$1" }],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/home/wkf-devbox/wkf-repos/wahidyankf/ayokoding/apps/ayokoding-web/$1"
+    }
+  ],
   "git": {
     "deploymentEnabled": {
       "main": true
@@ -10,8 +15,8 @@
   },
   "projectSettings": {
     "framework": "nextjs",
-    "devCommand": "npx nx serve ayokoding-web",
-    "buildCommand": "npx nx build ayokoding-web",
-    "outputDirectory": "apps/ayokoding-web/.next"
+    "devCommand": "cd /home/wkf-devbox/wkf-repos/wahidyankf/ayokoding && npx nx serve ayokoding-web",
+    "buildCommand": "cd /home/wkf-devbox/wkf-repos/wahidyankf/ayokoding && npx nx build ayokoding-web",
+    "outputDirectory": "/home/wkf-devbox/wkf-repos/wahidyankf/ayokoding/apps/ayokoding-web/.next"
   }
 }
