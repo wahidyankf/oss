@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test('categories page loads and has content', async ({ page }) => {
-  await page.goto('/c');
+  // Navigate to the categories page
+  await page.goto('/categories');
 
   // Check page title or heading
-  await expect(page.getByText(/Contents/i)).toBeVisible();
+  const headingLocator = page.getByRole('heading', { name: 'All Contents' });
+  await expect(headingLocator).toBeVisible();
 
   // Check for categories navigation
   const categoryLinks = page.getByRole('link');

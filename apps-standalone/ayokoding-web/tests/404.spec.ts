@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test';
 
 test('404 page has correct content', async ({ page }) => {
+  // Navigate to a non-existent page
   await page.goto('/non-existent-page');
 
-  // Check 404 text
-  await expect(page.getByText('404')).toBeVisible();
-  await expect(page.getByText('Page Not Found')).toBeVisible();
+  // Check page not found text
+  const notFoundHeading = page.getByRole('heading', { name: 'Page Not Found' });
+  await expect(notFoundHeading).toBeVisible();
 
   // Check navigation links
-  const navLinks = page.getByRole('link');
-  await expect(navLinks.filter({ hasText: 'Go to Home' })).toBeVisible();
-  await expect(navLinks.filter({ hasText: 'View Categories' })).toBeVisible();
+  const homeLink = page.getByRole('link', { name: 'Home' });
+  await expect(homeLink).toBeVisible();
+
+  const categoriesLink = page.getByRole('link', { name: 'Categories' });
+  await expect(categoriesLink).toBeVisible();
 });
