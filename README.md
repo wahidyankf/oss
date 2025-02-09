@@ -1,8 +1,44 @@
 # Ayokoding Monorepo
 
-## Project Overview
+## Overview
 
-This is a Next.js monorepo built with Nx, designed to provide a scalable and maintainable web application architecture.
+This monorepo is a comprehensive development workspace that includes multiple applications, libraries, and tools.
+
+## Project Structure
+
+```
+ayokoding/
+├── apps/
+│   ├── next-hello/   # Main Next.js web application
+│   └── web-e2e/      # End-to-end tests for the web application
+├── apps-standalone/  # Apps that are hard/not yet integrated to the monorepo
+│   └── ayokoding-web/  # Standalone version of the web application
+│   └── ...           # Standalone applications
+├── libs/             # Shared libraries and components
+│   └── ...           # Reusable code and shared utilities
+├── scripts/          # Utility scripts for project management
+└── tools/            # Development and build tools
+```
+
+### Folder Descriptions
+
+#### Apps
+
+- `next-hello`: The primary web application integrated into the monorepo
+- `web-e2e`: End-to-end testing suite for the web application
+
+#### Apps-Standalone
+
+The `apps-standalone` folder is used for applications that are:
+
+- Difficult to integrate into the monorepo
+- Experimental projects
+- Not yet ready for full monorepo integration
+- Maintained separately from the main monorepo workflow
+
+#### Libs
+
+Shared libraries and components that can be used across different applications in the monorepo.
 
 ## Tech Stack
 
@@ -16,34 +52,14 @@ This is a Next.js monorepo built with Nx, designed to provide a scalable and mai
 - **Code Formatting**: Prettier
 - **Git Hooks**: Husky
 
-## Project Structure
-
-```
-ayokoding/
-├── apps/
-│   ├── next-hello/   # Main Next.js web application
-│   └── web-e2e/      # End-to-end tests for the web application
-├── apps-standalone/  # Apps that are hard/not yet integrated to the monorepo
-│   └── ...           # Standalone applications
-├── libs/             # Shared libraries and components
-```
-
-### Apps-Standalone Folder
-
-The `apps-standalone` folder is used for applications that are:
-
-- Difficult to integrate into the monorepo
-- Experimental projects
-- Not yet ready for full monorepo integration
-- Maintained separately from the main monorepo workflow
-
 ## Getting Started
 
 ### Prerequisites
 
 - Volta (recommended for managing Node.js and npm versions)
-- Node.js (v20.11.0 LTS)
-- npm (v10.2.4)
+- Node.js (version 20.x or later)
+- npm (version 9.x or later)
+- Nx CLI
 
 ### Installing Volta
 
@@ -64,14 +80,20 @@ Volta simplifies Node.js version management:
 ### Installation
 
 1. Clone the repository
-2. Install dependencies:
+
+   ```bash
+   git clone https://github.com/wahidyankf/ayokoding.git
+   cd ayokoding
+   ```
+
+2. Install dependencies
    ```bash
    npm install
    ```
 
-### Running the Application
+### Development
 
-- Start development server:
+- Start the main application:
 
   ```bash
   npx nx serve next-hello
@@ -202,6 +224,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [Your Email]
+Wahid Yankfi - [Your Email or Social Media]
 
-Project Link: [https://github.com/yourusername/ayokoding](https://github.com/yourusername/ayokoding)
+Project Link: [https://github.com/wahidyankf/ayokoding](https://github.com/wahidyankf/ayokoding)
