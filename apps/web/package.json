@@ -1,0 +1,22 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "web",
+    "projectType": "application",
+    "sourceRoot": "web"
+  },
+  "dependencies": {
+    "@nx/next": "^20.4.2",
+    "next": "14.0.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.11.2",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/testing-library__jest-dom": "^5.14.9"
+  }
+}
