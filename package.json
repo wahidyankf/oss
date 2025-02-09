@@ -17,6 +17,8 @@
     "@babel/preset-env": "^7.26.8",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@nx/jest": "20.4.2",
     "@nx/next": "20.4.2",
     "@nx/react": "20.4.2",
