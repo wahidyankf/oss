@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd apps/ayokoding-web && next build",
-  "outputDirectory": "dist/apps/ayokoding-web/.next",
+  "buildCommand": "./vercel-build.sh",
+  "outputDirectory": "apps/ayokoding-web/.next",
   "framework": "nextjs",
   "routes": [{ "src": "/(.*)", "dest": "apps/ayokoding-web/$1" }],
   "git": {
@@ -11,7 +11,7 @@
   "projectSettings": {
     "framework": "nextjs",
     "devCommand": "cd apps/ayokoding-web && next dev",
-    "buildCommand": "cd apps/ayokoding-web && next build",
-    "outputDirectory": "dist/apps/ayokoding-web/.next"
+    "buildCommand": "./vercel-build.sh",
+    "outputDirectory": "apps/ayokoding-web/.next"
   }
 }
