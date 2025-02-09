@@ -30,6 +30,13 @@ export function getAllPostSlugs() {
   return slugs;
 }
 
+export function getPostsByCategory(category: string) {
+  const slugs = getAllPostSlugs().filter(slug => 
+    slug.startsWith(`${category}/`) || slug === category
+  );
+  return slugs;
+}
+
 export async function getPostData(slug: string) {
   const fullPath = path.join(postsDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
