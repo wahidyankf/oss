@@ -1,13 +1,40 @@
 #!/bin/sh
 
-# Run tests for affected projects
-npm run test:all:standalone
+# Exit on first error
+set -e
 
-# Run tests for affected projects
-npx nx affected --target=test
+# Log start of pre-push checks
+echo "Starting pre-push checks..."
+
+# Verify Node.js and npm versions
+NODE_VERSION=$(node --version)
+NPM_VERSION=$(npm --version)
+echo "Node.js version: $NODE_VERSION"
+echo "npm version: $NPM_VERSION"
+
+# Run tests for standalone projects with error handling
+if ! npm run test:all:standalone; then
+    echo "Standalone tests failed. Please fix the issues before pushing."
+    exit 1
+fi
+
+# Run Nx affected tests
+if ! npx nx affected --target=test; then
+    echo "Nx affected tests failed. Please fix the issues before pushing."
+    exit 1
+fi
 
 # Typecheck affected projects
-npx nx affected --target=typecheck
+if ! npx nx affected --target=typecheck; then
+    echo "Nx typecheck failed. Please fix the type errors before pushing."
+    exit 1
+fi
 
 # Build affected projects
-npx nx affected --target=build
+if ! npx nx affected --target=build; then
+    echo "Nx build failed. Please fix the build issues before pushing."
+    exit 1
+fi
+
+echo "All pre-push checks passed successfully!"
+exit 0
