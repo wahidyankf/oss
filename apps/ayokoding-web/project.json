@@ -14,7 +14,7 @@
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/ayokoding-web"
+          "outputPath": "apps/ayokoding-web/.next"
         },
         "production": {}
       }
