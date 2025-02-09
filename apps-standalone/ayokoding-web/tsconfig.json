@@ -13,14 +13,12 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "rootDir": ".",
-    "outDir": "./dist",
-    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
     "plugins": [
       {
         "name": "next"
@@ -38,6 +36,7 @@
     ]
   },
   "include": [
+    "next-env.d.ts",
     "scripts/**/*.mts",
     "scripts/**/*.ts",
     "src/**/*",
@@ -48,7 +47,6 @@
     "**/*.spec.ts",
     "**/*.test.ts",
     "next.config.js",
-    "jest.config.js",
-    "tailwind.config.js"
+    "jest.config.js"
   ]
 }
