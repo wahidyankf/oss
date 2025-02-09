@@ -26,9 +26,10 @@
     "**/*.spec.tsx",
     "**/*.ts",
     "**/*.tsx",
+    "../../dist/apps/ayokoding-web/.next/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    "../../dist/apps/ayokoding-web/.next/types/**/*.ts"
+    "../../dist/dist/apps/ayokoding-web/.next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
