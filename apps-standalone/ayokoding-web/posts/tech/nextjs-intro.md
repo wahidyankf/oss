@@ -1,8 +1,8 @@
 ---
 title: Introduction to Next.js
-date: 2025-02-10
+date: 2024-02-15
 ---
 
-# Next.js: A Powerful React Framework
+# Getting Started with Next.js
 
-Next.js is a React framework that enables functionality such as server-side rendering and generating static websites. It's a great tool for building modern web applications.
+Next.js is a powerful React framework that makes building web applications easier and more efficient.

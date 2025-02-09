@@ -55,6 +55,8 @@ function getPostsByCategory(category: string): string[] {
 interface PostData {
   slug: string;
   contentHtml: string;
+  title: string;
+  date: string;
   [key: string]: any;
 }
 
@@ -70,7 +72,25 @@ function getPostData(slug: string): PostData {
     slug,
     contentHtml,
     ...data,
-  };
+  } as PostData;
+}
+
+function getAllPosts(): PostData[] {
+  const slugs = getAllPostSlugs();
+  return slugs
+    .map(slug => getPostData(slug))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+function getRecentPosts(limit: number = 5): PostData[] {
+  return getAllPosts().slice(0, limit);
+}
+
+function getPostsByDateRange(startDate: Date, endDate: Date): PostData[] {
+  return getAllPosts().filter(post => {
+    const postDate = new Date(post.date);
+    return postDate >= startDate && postDate <= endDate;
+  });
 }
 
 function generateCategoryPages(): void {
@@ -104,6 +124,7 @@ export default function ${category.charAt(0).toUpperCase() + category.slice(1)}P
             <Link href={\`/posts/\${post.slug}\`}>
               {post.title}
             </Link>
+            <p>Published on: {post.date}</p>
           </li>
         ))}
       </ul>
@@ -122,5 +143,8 @@ export {
   getCategories,
   getPostsByCategory,
   getPostData,
+  getAllPosts,
+  getRecentPosts,
+  getPostsByDateRange,
   generateCategoryPages
 };

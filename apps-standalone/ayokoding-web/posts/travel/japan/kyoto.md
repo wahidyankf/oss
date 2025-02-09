@@ -1,8 +1,8 @@
 ---
-title: Exploring Kyoto's Ancient Temples
-date: 2025-02-13
+title: Discovering Kyoto
+date: 2024-05-01
 ---
 
-# A Journey Through Kyoto's Historical Wonders
+# The Timeless Beauty of Kyoto
 
-Kyoto, the former imperial capital of Japan, is a city steeped in history and tradition. From its stunning temples to its serene gardens, Kyoto offers a glimpse into Japan's rich cultural heritage.
+Explore the historic city of Kyoto, known for its traditional architecture, beautiful gardens, and rich cultural heritage.

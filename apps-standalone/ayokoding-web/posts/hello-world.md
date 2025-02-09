@@ -1,6 +1,6 @@
 ---
-title: Hello World
-date: 2025-02-09
+title: Hello, World!
+date: 2024-01-01
 ---
 
 # Welcome to My First Blog Post
