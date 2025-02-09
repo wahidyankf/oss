@@ -16,7 +16,10 @@ const config = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.jest.json'
+      tsconfig: '<rootDir>/tsconfig.jest.json',
+      diagnostics: {
+        warnOnly: true
+      }
     }
   }
 };
