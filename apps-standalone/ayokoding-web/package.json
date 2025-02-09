@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "next lint",
     "build:ts": "tsc",
-    "generate:categories": "ts-node scripts/generate-category-pages.ts",
+    "clean": "rm -rf .next",
     "test:all": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {

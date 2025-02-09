@@ -37,17 +37,19 @@ function getAllPostSlugs(): string[] {
 
 function getCategories(): string[] {
   const slugs = getAllPostSlugs();
-  const categories = [...new Set(
-    slugs.map(slug => 
-      slug.includes('/') ? slug.split('/')[0] : 'Uncategorized'
-    )
-  )];
+  const categories = [
+    ...new Set(
+      slugs.map((slug) =>
+        slug.includes('/') ? slug.split('/')[0] : 'Uncategorized',
+      ),
+    ),
+  ];
   return categories;
 }
 
 function getPostsByCategory(category: string): string[] {
-  const slugs = getAllPostSlugs().filter(slug => 
-    slug.startsWith(`${category}/`) || slug === category
+  const slugs = getAllPostSlugs().filter(
+    (slug) => slug.startsWith(`${category}/`) || slug === category,
   );
   return slugs;
 }
@@ -64,7 +66,46 @@ interface PostData {
 }
 
 function getPostData(slug: string): PostData {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
+  // Try the exact slug first
+  let fullPath = path.join(postsDirectory, `${slug}.md`);
+
+  // If the exact file doesn't exist, try finding it in nested directories
+  if (!fs.existsSync(fullPath)) {
+    // Traverse directories to find the markdown file
+    function findMarkdownFile(dir: string): string | null {
+      const files = fs.readdirSync(dir);
+
+      for (const file of files) {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+
+        if (stat.isDirectory()) {
+          const nestedResult = findMarkdownFile(filePath);
+          if (nestedResult) return nestedResult;
+        } else if (path.extname(file) === '.md' && file !== 'README.md') {
+          const relativePath = path.relative(postsDirectory, filePath);
+          const fileSlug = relativePath.replace(/\.md$/, '');
+          if (fileSlug === slug) return filePath;
+        }
+      }
+
+      return null;
+    }
+
+    const foundPath = findMarkdownFile(postsDirectory);
+    if (foundPath) {
+      fullPath = foundPath;
+    } else {
+      // If README.md exists in the directory, use it
+      const readmePath = path.join(postsDirectory, `${slug}/README.md`);
+      if (fs.existsSync(readmePath)) {
+        fullPath = readmePath;
+      } else {
+        throw new Error(`No markdown file found for slug: ${slug}`);
+      }
+    }
+  }
+
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
@@ -85,7 +126,7 @@ function getPostData(slug: string): PostData {
 function getAllPosts(): PostData[] {
   const slugs = getAllPostSlugs();
   return slugs
-    .map(slug => getPostData(slug))
+    .map((slug) => getPostData(slug))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
@@ -94,64 +135,9 @@ function getRecentPosts(limit: number = 5): PostData[] {
 }
 
 function getPostsByDateRange(startDate: Date, endDate: Date): PostData[] {
-  return getAllPosts().filter(post => {
+  return getAllPosts().filter((post) => {
     const postDate = new Date(post.date);
     return postDate >= startDate && postDate <= endDate;
-  });
-}
-
-function generateCategoryPages(): void {
-  const categories = getCategories();
-  const appDir = path.join(process.cwd(), 'src', 'app', 'posts');
-
-  categories.forEach(category => {
-    // Skip if it's already a page or Uncategorized
-    if (category === 'Uncategorized') return;
-    
-    const categoryPagePath = path.join(appDir, category, 'page.tsx');
-    
-    // Create directory if it doesn't exist
-    fs.mkdirSync(path.dirname(categoryPagePath), { recursive: true });
-    
-    // Only create page if it doesn't already exist
-    if (!fs.existsSync(categoryPagePath)) {
-      const pageContent = `import Link from 'next/link';
-import { getPostsByCategory, getPostData } from '../../../lib/markdownUtils';
-
-export default function ${category.charAt(0).toUpperCase() + category.slice(1)}Posts() {
-  const slugs = getPostsByCategory('${category}');
-  const posts = slugs.map(slug => {
-    const post = getPostData(slug);
-    return {
-      ...post,
-      formattedDate: new Date(post.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-    };
-  });
-
-  return (
-    <div>
-      <h1>${category.charAt(0).toUpperCase() + category.slice(1)} Blog Posts</h1>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <Link href={\`/posts/\${post.slug}\`}>
-              {post.title}
-            </Link>
-            <p>Published on: {post.formattedDate}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}`;
-      
-      fs.writeFileSync(categoryPagePath, pageContent);
-      console.log(`Generated category page for: ${category}`);
-    }
   });
 }
 
@@ -163,5 +149,4 @@ export {
   getAllPosts,
   getRecentPosts,
   getPostsByDateRange,
-  generateCategoryPages
 };
