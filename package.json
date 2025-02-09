@@ -46,6 +46,7 @@
     "typescript": "~5.4.2"
   },
   "dependencies": {
+    "@nx/js": "^20.4.2",
     "@nx/web": "^20.4.2",
     "next": "^15.1.6"
   },
