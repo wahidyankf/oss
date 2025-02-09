@@ -113,7 +113,17 @@ import { getPostsByCategory, getPostData } from '../../../lib/markdownUtils';
 
 export default function ${category.charAt(0).toUpperCase() + category.slice(1)}Posts() {
   const slugs = getPostsByCategory('${category}');
-  const posts = slugs.map(slug => getPostData(slug));
+  const posts = slugs.map(slug => {
+    const post = getPostData(slug);
+    return {
+      ...post,
+      formattedDate: new Date(post.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    };
+  });
 
   return (
     <div>
@@ -124,7 +134,7 @@ export default function ${category.charAt(0).toUpperCase() + category.slice(1)}P
             <Link href={\`/posts/\${post.slug}\`}>
               {post.title}
             </Link>
-            <p>Published on: {post.date}</p>
+            <p>Published on: {post.formattedDate}</p>
           </li>
         ))}
       </ul>

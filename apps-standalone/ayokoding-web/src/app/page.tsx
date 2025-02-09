@@ -3,7 +3,14 @@ import Link from 'next/link';
 import { getRecentPosts } from '../lib/markdownUtils';
 
 export default function Home() {
-  const recentPosts = getRecentPosts();
+  const recentPosts = getRecentPosts().map(post => ({
+    ...post,
+    formattedDate: new Date(post.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }));
 
   return (
     <div>
@@ -21,7 +28,7 @@ export default function Home() {
                     {post.title}
                   </Link>
                 </h3>
-                <p className="text-gray-600 mb-2">Published on: {post.date}</p>
+                <p className="text-gray-600 mb-2">Published on: {post.formattedDate}</p>
                 <Link 
                   href={`/posts/${post.slug}`} 
                   className="text-blue-500 hover:text-blue-700 transition-colors"
