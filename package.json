@@ -18,8 +18,11 @@
     "ayokoding-web:start": "npm run start --workspace=apps-standalone/ayokoding-web",
     "ayokoding-web:test": "npm run test --workspace=apps-standalone/ayokoding-web",
     "ayokoding-web:typecheck": "npm run typecheck --workspace=apps-standalone/ayokoding-web",
+    "ayokoding-web:test:all": "npm run ayokoding-web:test && npm run ayokoding-web:typecheck",
+    "test:echo": "echo 'Running tests for Ayokoding monorepo'",
     "typecheck": "npx nx run-many --target=typecheck",
-    "test:all": "npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
+    "test:all:standalone": "npm run ayokoding-web:test:all",
+    "test:all": "npm run test:echo && npm run test:all:standalone && npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
     "build": "./scripts/build.sh"
   },
   "devDependencies": {

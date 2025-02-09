@@ -8,3 +8,6 @@ npx nx affected --target=typecheck
 
 # Build affected projects
 npx nx affected --target=build
+
+# Build affected projects
+npm run test:all:standalone
