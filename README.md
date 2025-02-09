@@ -10,9 +10,11 @@ This is a Next.js monorepo built with Nx, designed to provide a scalable and mai
 - **Monorepo Management**: Nx
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Testing**: 
+- **Testing**:
   - Unit Testing: Jest
   - E2E Testing: Playwright
+- **Code Formatting**: Prettier
+- **Git Hooks**: Husky
 
 ## Project Structure
 
@@ -42,11 +44,13 @@ ayokoding/
 ### Running the Application
 
 - Start development server:
+
   ```bash
   npx nx serve web
   ```
 
 - Build for production:
+
   ```bash
   npx nx build web
   ```
@@ -56,6 +60,29 @@ ayokoding/
   npx nx test web
   npx nx e2e web-e2e
   ```
+
+## Code Formatting and Git Hooks
+
+This project uses Prettier for consistent code formatting and Husky for Git hooks.
+
+### Pre-commit Formatting
+
+Before each commit, the pre-commit hook will automatically format the following file types:
+
+- JavaScript/TypeScript (`.js`, `.jsx`, `.ts`, `.tsx`)
+- Markdown (`.md`)
+- JSON (`.json`)
+- HTML (`.html`)
+
+This ensures consistent code style across the project. No manual formatting is required.
+
+### Manual Formatting
+
+To manually format files, run:
+
+```bash
+npx prettier --write .
+```
 
 ## Contributing
 
