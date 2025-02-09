@@ -1,4 +1,3 @@
-import Navigation from '../components/Navigation';
 import Link from 'next/link';
 import { getRecentContents } from '../lib/markdownUtils';
 import { readdirSync, statSync } from 'fs';
@@ -68,7 +67,6 @@ export default async function Home() {
 
   return (
     <div>
-      <Navigation />
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">Welcome to My Blog</h1>
 
