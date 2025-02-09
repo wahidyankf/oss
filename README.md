@@ -21,9 +21,9 @@ This is a Next.js monorepo built with Nx, designed to provide a scalable and mai
 ```
 ayokoding/
 ├── apps/
-│   ├── web/           # Main Next.js web application
-│   └── web-e2e/       # End-to-end tests for the web application
-├── libs/              # Shared libraries and components
+│   ├── ayokoding-web/   # Main Next.js web application
+│   └── web-e2e/         # End-to-end tests for the web application
+├── libs/                # Shared libraries and components
 ```
 
 ## Getting Started
@@ -63,18 +63,18 @@ Volta simplifies Node.js version management:
 - Start development server:
 
   ```bash
-  npx nx serve web
+  npx nx serve ayokoding-web
   ```
 
 - Build for production:
 
   ```bash
-  npx nx build web
+  npx nx build ayokoding-web
   ```
 
 - Run tests:
   ```bash
-  npx nx test web
+  npx nx test ayokoding-web
   npx nx e2e web-e2e
   ```
 
