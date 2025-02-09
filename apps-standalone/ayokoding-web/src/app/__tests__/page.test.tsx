@@ -41,18 +41,8 @@ describe('Home Page', () => {
   it('renders the home page', () => {
     render(<Home />)
     
-    // Check for Next.js logo
-    const nextLogo = screen.getByAltText('Next.js logo')
-    expect(nextLogo).toBeInTheDocument()
-
-    // Check for instructions
-    const editInstruction = screen.getByText(/Get started by editing/i)
-    expect(editInstruction).toBeInTheDocument()
-
-    // Check for deployment and docs links
-    const deployLink = screen.getByText('Deploy now')
-    const docsLink = screen.getByText('Read our docs')
-    expect(deployLink).toBeInTheDocument()
-    expect(docsLink).toBeInTheDocument()
+    // Check for Hello World text
+    const helloText = screen.getByText('Hello, World!')
+    expect(helloText).toBeInTheDocument()
   })
 })
