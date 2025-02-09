@@ -1,0 +1,6 @@
+{
+  "buildCommand": "nx build ayokoding-web",
+  "outputDirectory": "dist/apps/ayokoding-web/.next",
+  "framework": "nextjs",
+  "routes": [{ "src": "/(.*)", "dest": "apps/ayokoding-web/$1" }]
+}
