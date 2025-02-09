@@ -14,7 +14,7 @@
     "ayokoding-web:lint": "cd apps-standalone/ayokoding-web && npm run lint",
     "ayokoding-web:typecheck": "cd apps-standalone/ayokoding-web && npm run typecheck",
     "ayokoding-web:test": "cd apps-standalone/ayokoding-web && npm run test",
-    "ayokoding-web:test:all": "npm run ayokoding-web:typecheck && npm run ayokoding-web:test && npm run ayokoding-web:lint && npm run ayokoding-web:build",
+    "ayokoding-web:test:all": "cd apps-standalone/ayokoding-web && npm run test:all",
     "test:echo": "echo 'Running tests for Ayokoding monorepo'",
     "typecheck": "npx nx run-many --target=typecheck",
     "test:all:standalone": "npm run ayokoding-web:test:all",
