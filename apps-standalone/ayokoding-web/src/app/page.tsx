@@ -54,7 +54,7 @@ export default function Home() {
     })
   }));
 
-  const postsPath = path.join(process.cwd(), 'posts');
+  const postsPath = path.join(process.cwd(), 'contents');
 
   return (
     <div>

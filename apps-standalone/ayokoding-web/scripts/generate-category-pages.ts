@@ -1,3 +1,3 @@
-import { generateCategoryPages } from '../src/lib/markdownUtils.js';
+import { generateCategoryPages } from '../src/lib/markdownUtils';
 
 generateCategoryPages();
