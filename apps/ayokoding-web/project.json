@@ -48,9 +48,7 @@
         "jestConfig": "apps/ayokoding-web/jest.config.js",
         "passWithNoTests": true,
         "runInBand": true,
-        "codeCoverage": false,
-        "silent": false,
-        "maxWorkers": 1
+        "codeCoverage": false
       }
     },
     "lint": {

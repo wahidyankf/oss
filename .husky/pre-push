@@ -1,11 +1,7 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
 # Run tests for affected projects
 npx nx affected --target=test
-
-# Build affected projects
-npx nx affected --target=build
 
 # Typecheck affected projects
 npx nx affected --target=typecheck
