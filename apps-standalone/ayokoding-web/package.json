@@ -1,11 +1,10 @@
 {
   "name": "ayokoding-web",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --type=module",
+    "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "jest",
@@ -13,7 +12,7 @@
     "lint": "next lint",
     "test:all": "npm run typecheck && npm run lint && npm run test && npm run build",
     "build:ts": "tsc",
-    "generate:categories": "node --loader ts-node/esm scripts/generate-category-pages.mts"
+    "generate:categories": "ts-node scripts/generate-category-pages.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
