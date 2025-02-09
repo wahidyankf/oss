@@ -2,17 +2,17 @@
 set -e
 
 # Create public directory if it doesn't exist
-mkdir -p apps/ayokoding-web/public
+mkdir -p apps/next-hello/public
 
 # Copy favicon.ico if it exists
-if [ -f apps/ayokoding-web/public/favicon.ico ]; then
-  cp apps/ayokoding-web/public/favicon.ico apps/ayokoding-web/public/favicon.ico.bak
+if [ -f apps/next-hello/public/favicon.ico ]; then
+  cp apps/next-hello/public/favicon.ico apps/next-hello/public/favicon.ico.bak
 fi
 
 # Run the build
-npx nx build ayokoding-web
+npx nx build next-hello
 
 # Restore favicon.ico if it was backed up
-if [ -f apps/ayokoding-web/public/favicon.ico.bak ]; then
-  mv apps/ayokoding-web/public/favicon.ico.bak apps/ayokoding-web/public/favicon.ico
+if [ -f apps/next-hello/public/favicon.ico.bak ]; then
+  mv apps/next-hello/public/favicon.ico.bak apps/next-hello/public/favicon.ico
 fi

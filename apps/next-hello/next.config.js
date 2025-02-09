@@ -20,7 +20,7 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  distDir: '../../dist/apps/ayokoding-web/.next',
+  distDir: '../../dist/apps/next-hello/.next',
 };
 
 const plugins = [

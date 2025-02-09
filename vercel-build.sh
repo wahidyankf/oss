@@ -2,7 +2,7 @@
 set -e
 
 # Change to the project root
-cd apps/ayokoding-web
+cd apps/next-hello
 
 # Install dependencies
 npm install
