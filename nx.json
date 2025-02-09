@@ -66,6 +66,12 @@
   ],
   "tasksRunnerOptions": {
     "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint"]
+      }
+    },
+    "vercel": {
       "runner": "@vercel/remote-nx",
       "options": {
         "cacheableOperations": ["build", "test", "lint"],
