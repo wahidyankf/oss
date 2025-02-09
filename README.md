@@ -103,6 +103,48 @@ npx prettier --write .
 
 ## Contributing
 
+### Conventional Commits
+
+This project uses Conventional Commits for commit messages. The commit message should be structured as follows:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+#### Commit Types
+
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, missing semi-colons, etc.)
+- `refactor`: Code refactoring
+- `test`: Adding or modifying tests
+- `chore`: Maintenance tasks, build changes
+- `perf`: Performance improvements
+- `ci`: CI/CD pipeline changes
+- `build`: Build system changes
+- `revert`: Reverting previous commits
+
+#### Example Commit Messages
+
+```
+feat(web): add login functionality
+
+fix(api): resolve authentication error
+
+docs: update README with new setup instructions
+
+chore: upgrade dependencies
+```
+
+Commit messages are automatically validated by commitlint to ensure consistency.
+
+### Steps to Contribute
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
