@@ -2,8 +2,10 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import Home from '../page'
 
+// Disable specific ESLint rules for this file
 /* eslint-disable @next/next/no-img-element */
 
+// More robust mock for next/image that handles priority prop
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: {
@@ -20,6 +22,7 @@ jest.mock('next/image', () => ({
       width, 
       height, 
       className, 
+      priority,
       ...rest 
     } = props;
     return <img 
@@ -28,6 +31,7 @@ jest.mock('next/image', () => ({
       width={width} 
       height={height} 
       className={className}
+      data-priority={priority ? "true" : undefined}
       {...rest} 
     />
   }
