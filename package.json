@@ -20,8 +20,8 @@
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@nx/jest": "20.4.2",
-    "@nx/next": "20.4.2",
-    "@nx/react": "20.4.2",
+    "@nx/next": "^20.4.2",
+    "@nx/react": "^20.4.2",
     "@tailwindcss/postcss": "^4.0.5",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -44,6 +44,7 @@
     "typescript": "~5.4.2"
   },
   "dependencies": {
+    "@nx/web": "^20.4.2",
     "next": "^15.1.6"
   },
   "lint-staged": {

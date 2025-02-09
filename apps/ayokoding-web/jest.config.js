@@ -1,7 +1,7 @@
 const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
-  dir: './apps/web',
+  dir: './apps/ayokoding-web',
 });
 
 module.exports = createJestConfig({

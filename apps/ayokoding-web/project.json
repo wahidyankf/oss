@@ -1,8 +1,8 @@
 {
   "name": "ayokoding-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "root": "apps/web",
-  "sourceRoot": "apps/web/src",
+  "root": "apps/ayokoding-web",
+  "sourceRoot": "apps/ayokoding-web/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,11 +10,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/web"
+        "outputPath": "dist/apps/ayokoding-web"
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/web"
+          "outputPath": "apps/ayokoding-web"
         },
         "production": {}
       }
@@ -23,29 +23,29 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "web:build",
+        "buildTarget": "ayokoding-web:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "web:build:development"
+          "buildTarget": "ayokoding-web:build:development"
         },
         "production": {
-          "buildTarget": "web:build:production"
+          "buildTarget": "ayokoding-web:build:production"
         }
       }
     },
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "web:build:production"
+        "buildTarget": "ayokoding-web:build:production"
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/web"],
+      "outputs": ["{workspaceRoot}/coverage/apps/ayokoding-web"],
       "options": {
-        "jestConfig": "apps/web/jest.config.js",
+        "jestConfig": "apps/ayokoding-web/jest.config.js",
         "passWithNoTests": true,
         "runInBand": true,
         "codeCoverage": false,
@@ -57,7 +57,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/ayokoding-web/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
