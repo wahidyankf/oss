@@ -7,5 +7,11 @@
     "deploymentEnabled": {
       "main": true
     }
+  },
+  "projectSettings": {
+    "framework": "nextjs",
+    "devCommand": "npx nx serve ayokoding-web",
+    "buildCommand": "npx nx build ayokoding-web",
+    "outputDirectory": "apps/ayokoding-web/.next"
   }
 }
