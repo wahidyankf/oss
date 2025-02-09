@@ -1,6 +1,6 @@
 {
   "buildCommand": "cd apps/ayokoding-web && next build",
-  "outputDirectory": "apps/ayokoding-web/.next",
+  "outputDirectory": "dist/apps/ayokoding-web/.next",
   "framework": "nextjs",
   "routes": [{ "src": "/(.*)", "dest": "apps/ayokoding-web/$1" }],
   "git": {
@@ -12,6 +12,6 @@
     "framework": "nextjs",
     "devCommand": "cd apps/ayokoding-web && next dev",
     "buildCommand": "cd apps/ayokoding-web && next build",
-    "outputDirectory": "apps/ayokoding-web/.next"
+    "outputDirectory": "dist/apps/ayokoding-web/.next"
   }
 }
