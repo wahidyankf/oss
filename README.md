@@ -22,9 +22,20 @@ This is a Next.js monorepo built with Nx, designed to provide a scalable and mai
 ayokoding/
 ├── apps/
 │   ├── next-hello/   # Main Next.js web application
-│   └── web-e2e/         # End-to-end tests for the web application
-├── libs/                # Shared libraries and components
+│   └── web-e2e/      # End-to-end tests for the web application
+├── apps-standalone/  # Apps that are hard/not yet integrated to the monorepo
+│   └── ...           # Standalone applications
+├── libs/             # Shared libraries and components
 ```
+
+### Apps-Standalone Folder
+
+The `apps-standalone` folder is used for applications that are:
+
+- Difficult to integrate into the monorepo
+- Experimental projects
+- Not yet ready for full monorepo integration
+- Maintained separately from the main monorepo workflow
 
 ## Getting Started
 
