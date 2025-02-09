@@ -101,6 +101,24 @@ To manually format files, run:
 npx prettier --write .
 ```
 
+## Git Hooks
+
+### Pre-commit Hooks
+
+Before each commit, the pre-commit hook will:
+
+- Format files using Prettier
+- Validate file formatting
+
+### Pre-push Hooks
+
+Before pushing changes, the pre-push hook will:
+
+- Run tests for all affected projects
+- Prevent pushing if any tests fail
+
+This ensures code quality and prevents breaking changes from being pushed to the repository.
+
 ## Contributing
 
 ### Conventional Commits
