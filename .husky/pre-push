@@ -3,5 +3,8 @@
 # Run tests for affected projects
 npx nx affected --target=test
 
+# Build affected projects
+npx nx affected --target=build
+
 # Typecheck affected projects
 npx nx affected --target=typecheck

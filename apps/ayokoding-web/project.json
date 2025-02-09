@@ -6,16 +6,11 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "executor": "nx:run-script",
       "options": {
-        "outputPath": "dist/apps/ayokoding-web"
+        "script": "build"
       },
       "configurations": {
-        "development": {
-          "outputPath": "apps/ayokoding-web"
-        },
         "production": {}
       }
     },

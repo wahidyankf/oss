@@ -115,10 +115,11 @@ Before each commit, the pre-commit hook will:
 Before pushing changes, the pre-push hook will:
 
 - Run tests for all affected projects
+- Build all affected projects
 - Run type checking for all affected projects
-- Prevent pushing if any tests fail or type checking reveals errors
+- Prevent pushing if any tests fail, builds are unsuccessful, or type checking reveals errors
 
-This ensures code quality, type safety, and prevents breaking changes from being pushed to the repository.
+This ensures code quality, build integrity, type safety, and prevents breaking changes from being pushed to the repository.
 
 ## TypeScript Type Checking
 
