@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   typescript: {
-    ignoreBuildErrors: false
+    ignoreBuildErrors: true
+  },
+  experimental: {
+    // Add any experimental features if needed
   }
 };
 

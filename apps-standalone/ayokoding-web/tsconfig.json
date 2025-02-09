@@ -30,8 +30,6 @@
       ]
     },
     "types": [
-      "jest",
-      "@testing-library/jest-dom",
       "node"
     ]
   },
@@ -44,9 +42,6 @@
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "next.config.js",
-    "jest.config.js"
+    "next.config.js"
   ]
 }

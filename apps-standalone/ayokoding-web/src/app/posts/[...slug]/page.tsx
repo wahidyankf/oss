@@ -1,14 +1,27 @@
 import { Metadata } from 'next';
 import { getAllPostSlugs, getPostData } from '../../../lib/markdownUtils';
 
+// Define types for params and page props
+type Params = {
+  slug: string[];
+};
+
+interface PageProps {
+  params: Promise<Params>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
   return paths.map((slug) => ({ slug: slug.split('/') }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string[] } }): Promise<Metadata> {
-  const slug = params.slug.join('/');
-  const postData = await getPostData(slug);
+export async function generateMetadata({ 
+  params 
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const slugString = slug.join('/');
+  const postData = await getPostData(slugString);
 
   return {
     title: postData.title,
@@ -16,13 +29,10 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
   };
 }
 
-interface PageProps {
-  params: { slug: string[] };
-}
-
 export default async function Post({ params }: PageProps) {
-  const slug = params.slug.join('/');
-  const postData = await getPostData(slug);
+  const { slug } = await params;
+  const slugString = slug.join('/');
+  const postData = await getPostData(slugString);
   
   return (
     <article>
