@@ -115,9 +115,10 @@ Before each commit, the pre-commit hook will:
 Before pushing changes, the pre-push hook will:
 
 - Run tests for all affected projects
-- Prevent pushing if any tests fail
+- Build all affected projects
+- Prevent pushing if any tests fail or builds are unsuccessful
 
-This ensures code quality and prevents breaking changes from being pushed to the repository.
+This ensures code quality, build integrity, and prevents breaking changes from being pushed to the repository.
 
 ## Contributing
 
