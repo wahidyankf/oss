@@ -1,8 +1,8 @@
 {
-  "buildCommand": "./vercel-build.sh",
-  "outputDirectory": "apps/ayokoding-web/.next",
+  "buildCommand": "npx nx build ayokoding-web",
+  "outputDirectory": "dist/apps/ayokoding-web",
   "framework": "nextjs",
-  "routes": [{ "src": "/(.*)", "dest": "apps/ayokoding-web/$1" }],
+  "routes": [{ "src": "/(.*)", "dest": "/$1" }],
   "git": {
     "deploymentEnabled": {
       "main": true
@@ -10,8 +10,8 @@
   },
   "projectSettings": {
     "framework": "nextjs",
-    "devCommand": "cd apps/ayokoding-web && next dev",
-    "buildCommand": "./vercel-build.sh",
-    "outputDirectory": "apps/ayokoding-web/.next"
+    "devCommand": "npx nx serve ayokoding-web",
+    "buildCommand": "npx nx build ayokoding-web",
+    "outputDirectory": "dist/apps/ayokoding-web"
   }
 }
