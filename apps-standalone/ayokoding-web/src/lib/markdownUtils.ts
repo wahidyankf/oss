@@ -10,6 +10,11 @@ export function getAllPostSlugs() {
   const slugs: string[] = [];
 
   function traverseDirectory(dir: string) {
+    // Skip directories with README.md
+    if (fs.existsSync(path.join(dir, 'README.md'))) {
+      return;
+    }
+
     const files = fs.readdirSync(dir);
 
     for (const file of files) {
@@ -18,7 +23,7 @@ export function getAllPostSlugs() {
 
       if (stat.isDirectory()) {
         traverseDirectory(filePath);
-      } else if (path.extname(file) === '.md') {
+      } else if (path.extname(file) === '.md' && file !== 'README.md') {
         const relativePath = path.relative(postsDirectory, filePath);
         const slug = relativePath.replace(/\.md$/, '');
         slugs.push(slug);
