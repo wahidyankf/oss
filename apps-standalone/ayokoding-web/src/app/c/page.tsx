@@ -3,22 +3,28 @@ import { getAllPostSlugs, getPostData } from '../../lib/markdownUtils';
 
 export default async function PostsList() {
   const slugs = getAllPostSlugs();
-  const posts = await Promise.all(slugs.map(async (slug) => await getPostData(slug)));
+  const posts = await Promise.all(
+    slugs.map(async (slug) => await getPostData(slug)),
+  );
 
   // Get unique categories
-  const categories = [...new Set(slugs.map(slug => 
-    slug.includes('/') ? slug.split('/')[0] : 'Uncategorized'
-  ))];
+  const categories = [
+    ...new Set(
+      slugs.map((slug) =>
+        slug.includes('/') ? slug.split('/')[0] : 'Uncategorized',
+      ),
+    ),
+  ];
 
   return (
     <div>
-      <h1>Blog Posts</h1>
-      
+      <h1>Contents</h1>
+
       <h2>Categories</h2>
       <ul>
         {categories.map((category) => (
           <li key={category}>
-            <Link href={`/posts/${category}`}>
+            <Link href={`/c/${category}`}>
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </Link>
           </li>
@@ -29,9 +35,7 @@ export default async function PostsList() {
       <ul>
         {posts.map((post) => (
           <li key={post.slug}>
-            <Link href={`/posts/${post.slug}`}>
-              {post.title}
-            </Link>
+            <Link href={`/c/${post.slug}`}>{post.title}</Link>
           </li>
         ))}
       </ul>

@@ -16,8 +16,8 @@ export async function generateStaticParams() {
   return paths.map((slug) => ({ slug: slug.split('/') }));
 }
 
-export async function generateMetadata({ 
-  params 
+export async function generateMetadata({
+  params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const slugString = slug.join('/');
@@ -33,7 +33,7 @@ export default async function Post({ params }: PageProps) {
   const { slug } = await params;
   const slugString = slug.join('/');
   const postData = await getPostData(slugString);
-  
+
   return (
     <article>
       <h1>{postData.title}</h1>

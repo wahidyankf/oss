@@ -13,6 +13,7 @@
     "test:all": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.20",
     "gray-matter": "^4.0.3",
     "next": "15.1.6",
     "react": "^18.2.0",
