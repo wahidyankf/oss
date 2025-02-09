@@ -47,7 +47,7 @@ function getCategories(): string[] {
   return categories;
 }
 
-function getPostsByCategory(category: string): string[] {
+function getContentsByCategory(category: string): string[] {
   const slugs = getAllPostSlugs().filter(
     (slug) => slug.startsWith(`${category}/`) || slug === category,
   );
@@ -123,19 +123,24 @@ function getPostData(slug: string): PostData {
   };
 }
 
-function getAllPosts(): PostData[] {
+function getAllContents(): PostData[] {
   const slugs = getAllPostSlugs();
   return slugs
     .map((slug) => getPostData(slug))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-function getRecentPosts(limit: number = 5): PostData[] {
-  return getAllPosts().slice(0, limit);
+async function getRecentContents(limit: number = 5): Promise<PostData[]> {
+  const allContents = getAllContents();
+  const sortedContents = allContents.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+  const recentContents = sortedContents.slice(0, limit);
+  return Promise.all(recentContents.map((post) => getPostData(post.slug)));
 }
 
-function getPostsByDateRange(startDate: Date, endDate: Date): PostData[] {
-  return getAllPosts().filter((post) => {
+function getContentsByDateRange(startDate: Date, endDate: Date): PostData[] {
+  return getAllContents().filter((post) => {
     const postDate = new Date(post.date);
     return postDate >= startDate && postDate <= endDate;
   });
@@ -144,9 +149,9 @@ function getPostsByDateRange(startDate: Date, endDate: Date): PostData[] {
 export {
   getAllPostSlugs,
   getCategories,
-  getPostsByCategory,
+  getContentsByCategory,
   getPostData,
-  getAllPosts,
-  getRecentPosts,
-  getPostsByDateRange,
+  getAllContents,
+  getRecentContents,
+  getContentsByDateRange,
 };
