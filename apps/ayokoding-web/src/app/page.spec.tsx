@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import Index from './page';
+import Home from './page';
 
-describe('Index', () => {
+describe('Home', () => {
   it('renders the page', () => {
-    render(<Index />);
-    expect(screen.getByText(/Hello/i)).toBeInTheDocument();
+    render(<Home />);
+    expect(screen.getByText(/Hello, Ayokoding!/i)).toBeInTheDocument();
   });
 });
