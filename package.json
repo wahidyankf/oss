@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "prepare": "echo 'Skipping Husky install'",
-    "ayokoding-web:build": "npm run build --workspace=ayokoding-web",
+    "ayokoding-web:build": "npx nx build ayokoding-web",
     "ayokoding-web:dev": "npm run dev --workspace=ayokoding-web",
     "ayokoding-web:test": "npm run test --workspace=ayokoding-web",
     "ayokoding-web:typecheck": "npm run typecheck --workspace=ayokoding-web",
@@ -22,7 +22,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
-    "@nx/jest": "20.4.2",
+    "@nx/jest": "^20.4.2",
     "@nx/next": "^20.4.2",
     "@nx/react": "^20.4.2",
     "@tailwindcss/postcss": "^4.0.5",
