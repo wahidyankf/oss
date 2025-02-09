@@ -47,22 +47,47 @@ function getCategories(): string[] {
   return categories;
 }
 
-function getContentsByCategory(category: string): string[] {
-  const slugs = getAllPostSlugs().filter(
-    (slug) => slug.startsWith(`${category}/`) || slug === category,
-  );
-  return slugs;
-}
+export async function getContentsByCategory(
+  category: string,
+): Promise<PostData[]> {
+  const postsDirectory = path.join(process.cwd(), 'src', 'contents');
+  const categoryPath = path.join(postsDirectory, category);
 
-interface PostData {
-  slug: string;
-  contentHtml: string;
-  title: string;
-  date: string;
-  formattedDate?: string;
-  description?: string;
-  tags?: string[];
-  category?: string;
+  // Check if the category directory exists
+  if (!fs.existsSync(categoryPath)) {
+    return [];
+  }
+
+  // Read the category directory
+  const fileNames = fs.readdirSync(categoryPath);
+
+  // Filter markdown files
+  const markdownFiles = fileNames.filter(
+    (fileName) => fileName.endsWith('.md') && fileName !== 'README.md',
+  );
+
+  // Get full data for each markdown file
+  const posts: PostData[] = await Promise.all(
+    markdownFiles.map(async (fileName) => {
+      const slug = `${category}/${fileName.replace(/\.md$/, '')}`;
+      const fullPath = path.join(categoryPath, fileName);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const matterResult = matter(fileContents);
+
+      return {
+        slug,
+        title: matterResult.data.title || '',
+        date: matterResult.data.date || '',
+        description: matterResult.data.description || '',
+        contentHtml: await markdownToHtml(matterResult.content || ''),
+        tags: matterResult.data.tags || [],
+        category: category,
+      };
+    }),
+  );
+
+  // Sort posts by date
+  return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 function getPostData(slug: string): PostData {
@@ -139,19 +164,26 @@ async function getRecentContents(limit: number = 5): Promise<PostData[]> {
   return Promise.all(recentContents.map((post) => getPostData(post.slug)));
 }
 
-function getContentsByDateRange(startDate: Date, endDate: Date): PostData[] {
-  return getAllContents().filter((post) => {
-    const postDate = new Date(post.date);
-    return postDate >= startDate && postDate <= endDate;
-  });
+export interface PostData {
+  slug: string;
+  contentHtml: string;
+  title: string;
+  date: string;
+  formattedDate?: string;
+  description?: string;
+  tags?: string[];
+  category?: string;
+}
+
+async function markdownToHtml(markdown: string): Promise<string> {
+  const result = await remark().use(html).process(markdown);
+  return result.toString();
 }
 
 export {
   getAllPostSlugs,
   getCategories,
-  getContentsByCategory,
   getPostData,
-  getAllContents,
   getRecentContents,
-  getContentsByDateRange,
+  markdownToHtml,
 };

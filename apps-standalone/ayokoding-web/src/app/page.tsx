@@ -22,7 +22,12 @@ function generateContentTree(
           if (stats.isDirectory()) {
             return (
               <li key={item} className="my-1">
-                <span className="font-semibold text-gray-700">{item}/</span>
+                <Link
+                  href={`/c/${relativePath}`}
+                  className="font-semibold text-gray-700 hover:text-blue-600 hover:underline"
+                >
+                  {item}/
+                </Link>
                 {generateContentTree(basePath, relativePath)}
               </li>
             );
