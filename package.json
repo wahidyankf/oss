@@ -1,8 +1,11 @@
 {
   "name": "ayokoding",
+  "version": "0.0.1",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "apps-standalone/*",
+    "libs/*"
   ],
   "scripts": {
     "prepare": "echo 'Skipping Husky install'",
@@ -10,6 +13,11 @@
     "next-hello:dev": "npm run dev --workspace=next-hello",
     "next-hello:test": "npm run test --workspace=next-hello",
     "next-hello:typecheck": "npm run typecheck --workspace=next-hello",
+    "ayokoding-web:build": "npm run build --workspace=apps-standalone/ayokoding-web",
+    "ayokoding-web:dev": "npm run dev --workspace=apps-standalone/ayokoding-web",
+    "ayokoding-web:start": "npm run start --workspace=apps-standalone/ayokoding-web",
+    "ayokoding-web:test": "npm run test --workspace=apps-standalone/ayokoding-web",
+    "ayokoding-web:typecheck": "npm run typecheck --workspace=apps-standalone/ayokoding-web",
     "typecheck": "npx nx run-many --target=typecheck",
     "test:all": "npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
     "build": "./scripts/build.sh"
