@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npx nx build ayokoding-web --prod",
   "outputDirectory": "dist/apps/ayokoding-web",
-  "framework": "nextjs",
+  "framework": null,
   "routes": [{ "src": "/(.*)", "dest": "/$1" }],
   "git": {
     "deploymentEnabled": {
@@ -9,9 +9,9 @@
     }
   },
   "projectSettings": {
-    "framework": "nextjs",
+    "framework": null,
     "devCommand": "npx nx serve ayokoding-web",
-    "buildCommand": "npm run build",
+    "buildCommand": "npx nx build ayokoding-web --prod",
     "outputDirectory": "dist/apps/ayokoding-web"
   }
 }

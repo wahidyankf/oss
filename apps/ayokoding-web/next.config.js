@@ -20,8 +20,7 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  // Add any other Next.js config options here
-  distDir: 'dist',
+  distDir: '../../dist/apps/ayokoding-web/.next',
 };
 
 const plugins = [
