@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { getPostsByCategory, getPostData } from '../../../lib/markdownUtils';
 
-export default async function TravelPosts() {
+export default function TravelPosts() {
   const slugs = getPostsByCategory('travel');
-  const posts = await Promise.all(slugs.map(async (slug) => await getPostData(slug)));
+  const posts = slugs.map(slug => getPostData(slug));
 
   return (
     <div>

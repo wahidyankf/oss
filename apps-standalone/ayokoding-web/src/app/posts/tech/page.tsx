@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { getPostsByCategory, getPostData } from '../../../lib/markdownUtils';
 
-export default async function TechPosts() {
+export default function TechPosts() {
   const slugs = getPostsByCategory('tech');
-  const posts = await Promise.all(slugs.map(async (slug) => await getPostData(slug)));
+  const posts = slugs.map(slug => getPostData(slug));
 
   return (
     <div>

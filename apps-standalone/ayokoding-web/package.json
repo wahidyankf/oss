@@ -1,6 +1,7 @@
 {
   "name": "ayokoding-web",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +11,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "next lint",
-    "test:all": "npm run typecheck && npm run lint && npm run test && npm run build"
+    "test:all": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "build:ts": "tsc",
+    "generate:categories": "node --loader ts-node/esm scripts/generate-category-pages.mts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -25,7 +28,7 @@
     "@testing-library/jest-dom": "^6.3.0",
     "@testing-library/react": "^14.2.1",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20",
+    "@types/node": "^20.17.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^9",
@@ -34,6 +37,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   },
   "volta": {
