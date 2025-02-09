@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prepare": "echo 'Skipping Husky install'",
+    "prepare": "husky install",
     "next-hello:build": "nx build next-hello",
     "next-hello:dev": "nx serve next-hello",
     "next-hello:test": "nx test next-hello",
