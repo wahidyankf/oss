@@ -10,9 +10,9 @@
   "scripts": {
     "prepare": "echo 'Skipping Husky install'",
     "next-hello:build": "nx build next-hello",
-    "next-hello:dev": "npm run dev --workspace=next-hello",
-    "next-hello:test": "npm run test --workspace=next-hello",
-    "next-hello:typecheck": "npm run typecheck --workspace=next-hello",
+    "next-hello:dev": "nx serve next-hello",
+    "next-hello:test": "nx test next-hello",
+    "next-hello:typecheck": "nx typecheck next-hello",
     "ayokoding-web:build": "npm run build --workspace=apps-standalone/ayokoding-web",
     "ayokoding-web:dev": "npm run dev --workspace=apps-standalone/ayokoding-web",
     "ayokoding-web:start": "npm run start --workspace=apps-standalone/ayokoding-web",
