@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # Run tests for affected projects
+npm run test:all:standalone
+
+# Run tests for affected projects
 npx nx affected --target=test
 
 # Typecheck affected projects
@@ -8,6 +11,3 @@ npx nx affected --target=typecheck
 
 # Build affected projects
 npx nx affected --target=build
-
-# Build affected projects
-npm run test:all:standalone
