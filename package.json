@@ -5,11 +5,11 @@
     "apps/*"
   ],
   "scripts": {
+    "prepare": "echo 'Skipping Husky install'",
     "ayokoding-web:build": "npm run build --workspace=ayokoding-web",
     "ayokoding-web:dev": "npm run dev --workspace=ayokoding-web",
     "ayokoding-web:test": "npm run test --workspace=ayokoding-web",
     "ayokoding-web:typecheck": "npm run typecheck --workspace=ayokoding-web",
-    "prepare": "husky install",
     "typecheck": "npx nx run-many --target=typecheck",
     "test:all": "npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build"
   },
