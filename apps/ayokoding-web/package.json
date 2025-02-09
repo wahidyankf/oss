@@ -8,9 +8,9 @@
     "sourceRoot": "apps/ayokoding-web/src"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "nx serve ayokoding-web",
+    "build": "nx build ayokoding-web --prod",
+    "start": "nx serve ayokoding-web",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

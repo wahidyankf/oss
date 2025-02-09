@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npx nx build ayokoding-web --prod",
-  "outputDirectory": "dist/apps/ayokoding-web",
+  "buildCommand": "cd apps/ayokoding-web && npm run build",
+  "outputDirectory": "apps/ayokoding-web/dist",
   "framework": null,
   "routes": [{ "src": "/(.*)", "dest": "/$1" }],
   "git": {
@@ -10,8 +10,8 @@
   },
   "projectSettings": {
     "framework": null,
-    "devCommand": "npx nx serve ayokoding-web",
-    "buildCommand": "npx nx build ayokoding-web --prod",
-    "outputDirectory": "dist/apps/ayokoding-web"
+    "devCommand": "cd apps/ayokoding-web && npm run dev",
+    "buildCommand": "cd apps/ayokoding-web && npm run build",
+    "outputDirectory": "apps/ayokoding-web/dist"
   }
 }
