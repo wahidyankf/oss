@@ -1,16 +1,18 @@
 import { Metadata } from 'next';
 import { getAllPostSlugs, getPostData } from '../../../lib/markdownUtils';
 
-type SlugParams = {
-  slug: string[];
+export type PageProps = {
+  params: {
+    slug: string[];
+  };
 };
 
-export async function generateStaticParams(): Promise<SlugParams[]> {
+export async function generateStaticParams(): Promise<PageProps['params'][]> {
   const paths = getAllPostSlugs();
   return paths.map((slug) => ({ slug: slug.split('/') }));
 }
 
-export async function generateMetadata({ params }: { params: SlugParams }): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = params.slug.join('/');
   const postData = await getPostData(slug);
 
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: { params: SlugParams }): Prom
   };
 }
 
-export default async function Post({ params }: { params: SlugParams }) {
+export default async function Post({ params }: PageProps) {
   const slug = params.slug.join('/');
   const postData = await getPostData(slug);
 
