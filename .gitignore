@@ -62,3 +62,6 @@ test-output
 out
 .vercel
 .env*.local
+
+# ts
+tsconfig.tsbuildinfo
