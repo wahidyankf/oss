@@ -82,26 +82,32 @@ The generated site will be in the `public/` directory.
 
 ### Vercel Deployment
 
-To deploy this subfolder to Vercel:
+#### Deployment Steps
 
-1. **Monorepo Deployment**
+1. Go to Vercel Dashboard
+2. Import the `ayokoding` repository
+3. Configure Project Settings:
+   - **Root Directory**: `apps-standalone/ayokoding-web-v2`
+   - **Build Command**: `./build.sh`
+   - **Output Directory**: `public`
+   - **Install Command**: Leave blank (handled in build script)
 
-   - In Vercel, select the main `ayokoding` repository
-   - Configure a new project
-   - Set the root directory to `apps-standalone/ayokoding-web-v2`
-   - Build Command: `hugo`
-   - Output Directory: `public`
-   - Framework Preset: Hugo
-   - Hugo Version: 0.134.3+extended
+#### Vercel Configuration Details
 
-2. **Alternative: Direct Subfolder Deployment**
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/wahidyankf/ayokoding&directory=apps-standalone/ayokoding-web-v2)
+- Framework: Static Site
+- Build Tool: Custom Build Script
+- Hugo Version: 0.134.3 Extended
 
-**Note:**
+#### Troubleshooting
 
-- Ensure you have a Vercel account
-- The repository must be connected to your GitHub account
-- For monorepo deployment, configure the project settings carefully
+- Ensure Vercel has read access to the repository
+- Check build logs for any specific errors
+- Verify Hugo extended version is installed in build environment
+
+**Important Notes**:
+
+- The custom `build.sh` script handles Hugo installation and site generation
+- Monorepo deployment requires precise root directory configuration
 
 ### Troubleshooting Vercel Deployment
 
@@ -116,10 +122,11 @@ To deploy this subfolder to Vercel:
 
 - [ ] Correct repository selected
 - [ ] Root directory set to `apps-standalone/ayokoding-web-v2`
-- [ ] Build Command: `hugo`
+- [ ] Build Command: `./build.sh`
 - [ ] Output Directory: `public`
-- [ ] Framework: Hugo
-- [ ] Hugo Version: 0.134.3+extended
+- [ ] Framework: Static Site
+- [ ] Build Tool: Custom Build Script
+- [ ] Hugo Version: 0.134.3 Extended
 
 #### Manual Verification
 

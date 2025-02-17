@@ -2,11 +2,9 @@
   "version": 2,
   "builds": [
     {
-      "src": "hugo",
+      "src": "build.sh",
       "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
+      "config": { "distDir": "public" }
     }
   ],
   "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
