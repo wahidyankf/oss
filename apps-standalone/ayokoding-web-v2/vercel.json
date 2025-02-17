@@ -12,5 +12,8 @@
   "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
   "env": {
     "HUGO_VERSION": "0.134.3"
-  }
+  },
+  "framework": "hugo",
+  "buildCommand": "hugo",
+  "outputDirectory": "public"
 }

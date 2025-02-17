@@ -103,6 +103,36 @@ To deploy this subfolder to Vercel:
 - The repository must be connected to your GitHub account
 - For monorepo deployment, configure the project settings carefully
 
+### Troubleshooting Vercel Deployment
+
+#### Common Issues
+
+- **404 Not Found**:
+  1. Ensure the root directory is correctly set
+  2. Verify build settings match the project structure
+  3. Check that Hugo is installed in the Vercel build environment
+
+#### Vercel Configuration Checklist
+
+- [ ] Correct repository selected
+- [ ] Root directory set to `apps-standalone/ayokoding-web-v2`
+- [ ] Build Command: `hugo`
+- [ ] Output Directory: `public`
+- [ ] Framework: Hugo
+- [ ] Hugo Version: 0.134.3+extended
+
+#### Manual Verification
+
+```bash
+# Ensure Hugo builds locally
+hugo
+
+# Check public directory contents
+ls public
+```
+
+**Note:** If deployment fails, check Vercel build logs for specific error messages.
+
 ## Contributing
 
 1. Fork the repository
