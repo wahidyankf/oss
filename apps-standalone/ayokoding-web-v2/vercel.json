@@ -4,14 +4,14 @@
     {
       "src": "build.sh",
       "use": "@vercel/static-build",
-      "config": { "distDir": "public" }
+      "config": {
+        "distDir": "public",
+        "framework": "hugo"
+      }
     }
   ],
   "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
   "env": {
     "HUGO_VERSION": "0.134.3"
-  },
-  "framework": "hugo",
-  "buildCommand": "hugo",
-  "outputDirectory": "public"
+  }
 }

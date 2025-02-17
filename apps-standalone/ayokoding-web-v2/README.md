@@ -109,36 +109,43 @@ The generated site will be in the `public/` directory.
 - The custom `build.sh` script handles Hugo installation and site generation
 - Monorepo deployment requires precise root directory configuration
 
-### Troubleshooting Vercel Deployment
+### Vercel Deployment Troubleshooting
 
-#### Common Issues
+#### Common Deployment Errors
 
-- **404 Not Found**:
-  1. Ensure the root directory is correctly set
-  2. Verify build settings match the project structure
-  3. Check that Hugo is installed in the Vercel build environment
+- **wget/curl not found**:
+  - Ensure build script uses available system commands
+  - Fallback to alternative download methods
+
+#### Debugging Steps
+
+1. Check Vercel Build Logs
+2. Verify Build Script Permissions
+3. Test Build Script Locally
 
 #### Vercel Configuration Checklist
 
-- [ ] Correct repository selected
-- [ ] Root directory set to `apps-standalone/ayokoding-web-v2`
-- [ ] Build Command: `./build.sh`
+- [ ] Root Directory: `apps-standalone/ayokoding-web-v2`
+- [ ] Build Script: Executable and compatible with Vercel environment
+- [ ] Hugo Version: Explicitly specified
 - [ ] Output Directory: `public`
-- [ ] Framework: Static Site
-- [ ] Build Tool: Custom Build Script
-- [ ] Hugo Version: 0.134.3 Extended
 
-#### Manual Verification
+#### Potential Solutions
 
 ```bash
-# Ensure Hugo builds locally
-hugo
+# Verify build script works
+chmod +x build.sh
+./build.sh
 
-# Check public directory contents
-ls public
+# Check Hugo installation
+hugo version
 ```
 
-**Note:** If deployment fails, check Vercel build logs for specific error messages.
+**Troubleshooting Tips**:
+
+- Use `curl` instead of `wget`
+- Ensure build script has proper error handling
+- Check Vercel documentation for platform-specific build requirements
 
 ## Contributing
 
