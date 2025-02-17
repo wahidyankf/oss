@@ -78,6 +78,31 @@ The generated site will be in the `public/` directory.
 - Add content in `content/en/` or `content/id/`
 - Customize CSS in `static/css/custom.css`
 
+## Deployment
+
+### Vercel Deployment
+
+To deploy this subfolder to Vercel:
+
+1. **Monorepo Deployment**
+
+   - In Vercel, select the main `ayokoding` repository
+   - Configure a new project
+   - Set the root directory to `apps-standalone/ayokoding-web-v2`
+   - Build Command: `hugo`
+   - Output Directory: `public`
+   - Framework Preset: Hugo
+   - Hugo Version: 0.134.3+extended
+
+2. **Alternative: Direct Subfolder Deployment**
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/wahidyankf/ayokoding&directory=apps-standalone/ayokoding-web-v2)
+
+**Note:**
+
+- Ensure you have a Vercel account
+- The repository must be connected to your GitHub account
+- For monorepo deployment, configure the project settings carefully
+
 ## Contributing
 
 1. Fork the repository
