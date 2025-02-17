@@ -1,0 +1,10 @@
+/* Force links to open in current tab */
+a[target="_blank"] {
+    target-new: no-new-window;
+    target: _self;
+}
+
+/* Prevent new tab behavior */
+.book-menu a {
+    target-new: no-new-window;
+}

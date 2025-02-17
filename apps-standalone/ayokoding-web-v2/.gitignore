@@ -1,0 +1,12 @@
+# Hugo generated files
+public/
+resources/
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+
+# Hugo lock file
+.hugo_build.lock
