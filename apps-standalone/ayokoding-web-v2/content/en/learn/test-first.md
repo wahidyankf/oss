@@ -26,4 +26,4 @@ func main() {
 }
 ```
 
-Feel free to modify this post or add more content to test different Hugo features!
+Feel free to modify this post or add more content to test different Hugo features.
