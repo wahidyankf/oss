@@ -12,6 +12,7 @@
   ],
   "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
   "env": {
-    "HUGO_VERSION": "0.134.3"
+    "HUGO_VERSION": "0.134.3",
+    "PATH": "$HOME/bin:$PATH"
   }
 }

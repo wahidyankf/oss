@@ -111,6 +111,40 @@ The generated site will be in the `public/` directory.
 
 ### Vercel Deployment Troubleshooting
 
+#### Deployment Environment Challenges
+
+- **No sudo access**: Build scripts must work without root privileges
+- **Limited PATH modifications**: Install tools in user space
+- **Strict security constraints**: Minimal system modifications
+
+#### Debugging Deployment
+
+1. Verify Hugo Installation
+
+   ```bash
+   # Check Hugo version and path
+   which hugo
+   hugo version
+   ```
+
+2. Build Script Validation
+   - Ensure script uses user-space installations
+   - Avoid system-wide modifications
+   - Use `$HOME/bin` for local binaries
+
+#### Common Deployment Pitfalls
+
+- Attempting to use `sudo`
+- Hardcoding system paths
+- Assuming root access
+
+#### Recommended Build Strategy
+
+- Download binaries directly
+- Install in user home directory
+- Modify PATH temporarily
+- Use minimal system interactions
+
 #### Common Deployment Errors
 
 - **wget/curl not found**:
@@ -140,6 +174,13 @@ chmod +x build.sh
 # Check Hugo installation
 hugo version
 ```
+
+**Vercel-Specific Tips**:
+
+- Always test build script locally
+- Simulate Vercel environment
+- Check build logs carefully
+- Minimize external dependencies
 
 **Troubleshooting Tips**:
 
