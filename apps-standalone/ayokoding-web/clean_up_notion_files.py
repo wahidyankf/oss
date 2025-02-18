@@ -1,6 +1,13 @@
 import os
 import re
+import yaml
 from datetime import datetime
+
+
+def sanitize_frontmatter_value(value):
+    """Sanitize values for YAML frontmatter compliance"""
+    sanitized = str(value).replace('"', '\\"')
+    return f'"{sanitized}"'
 
 
 def extract_title_from_markdown(file_path):
@@ -21,9 +28,18 @@ def extract_title_from_markdown(file_path):
                     return line.strip()[2:].strip()
     except Exception as e:
         print(f"Error extracting title from {file_path}: {e}")
-    
+
     # Fallback to filename without extension
     return os.path.splitext(os.path.basename(file_path))[0].replace('-', ' ').title()
+
+
+def validate_frontmatter(content):
+    try:
+        yaml.safe_load(content.split('---\n')[1])
+        return True
+    except Exception as e:
+        print(f"Invalid frontmatter: {str(e)}")
+        return False
 
 
 def add_frontmatter_to_markdown(file_path):
@@ -53,7 +69,7 @@ def add_frontmatter_to_markdown(file_path):
 
         # Create frontmatter
         frontmatter = f"""---
-title: '{title}'
+title: {sanitize_frontmatter_value(title)}
 date: {formatted_time}
 draft: false
 ---
@@ -63,11 +79,14 @@ draft: false
         # Combine frontmatter with existing content
         updated_content = frontmatter + content.lstrip()
 
-        # Write back to the file
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(updated_content)
-        
-        print(f"Added frontmatter to {file_path}")
+        # Validate frontmatter
+        if validate_frontmatter(updated_content):
+            # Write back to the file
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            print(f"Added frontmatter to {file_path}")
+        else:
+            print(f"Skipping invalid frontmatter in {file_path}")
 
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
@@ -201,8 +220,21 @@ def rename_files_and_folders(root_dir):
                     print(f"Error renaming directory {old_path}: {e}")
 
 
+def delete_ds_store_files(root_dir):
+    for root, _, files in os.walk(root_dir):
+        for file in files:
+            if file == '.DS_Store':
+                file_path = os.path.join(root, file)
+                try:
+                    os.remove(file_path)
+                    print(f"Deleted: {file_path}")
+                except Exception as e:
+                    print(f"Error deleting {file_path}: {e}")
+
+
 def main():
-    content_dir = "/Users/wkf/wkf-repos/wahidyankf/ayokoding/apps-standalone/ayokoding-web/content"
+    content_dir = os.path.join(os.getcwd(), 'content')
+    delete_ds_store_files(content_dir)
     rename_files_and_folders(content_dir)
     print("Cleanup process completed.")
 

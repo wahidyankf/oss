@@ -1,10 +1,10 @@
 ---
-title: 'Home'
-date: 2025-02-17T07:03:55+07:00
-draft: false
-weight: 1
-bookFlatSection: false
 bookCollapseSection: false
+bookFlatSection: false
+date: 2025-02-17 07:03:55+07:00
+draft: false
+title: Home
+weight: 1
 ---
 
 ## Content in English

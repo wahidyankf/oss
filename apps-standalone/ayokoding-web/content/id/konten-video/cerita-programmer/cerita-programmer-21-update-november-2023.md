@@ -1,6 +1,6 @@
 ---
 title: 'Cerita Programmer - 21 - Update November 2023'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

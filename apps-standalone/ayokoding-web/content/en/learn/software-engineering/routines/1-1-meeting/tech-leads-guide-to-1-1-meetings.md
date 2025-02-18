@@ -1,6 +1,6 @@
 ---
-title: 'Tech Lead's Guide to 1:1 Meetings'
-date: 2025-02-18T18:23::04
+title: "Tech Lead's Guide to 1:1 Meetings"
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

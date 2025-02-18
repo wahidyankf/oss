@@ -1,6 +1,6 @@
 ---
 title: 'Regulation - Islamic Banking/Financial (Indonesia)'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

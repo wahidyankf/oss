@@ -1,6 +1,6 @@
 ---
 title: 'How to Read TypeScript Code?'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

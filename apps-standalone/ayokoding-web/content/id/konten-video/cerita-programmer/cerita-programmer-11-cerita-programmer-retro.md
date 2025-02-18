@@ -1,6 +1,6 @@
 ---
 title: 'Cerita Programmer - 11 - Cerita Programmer - Retrospeksi - 1'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

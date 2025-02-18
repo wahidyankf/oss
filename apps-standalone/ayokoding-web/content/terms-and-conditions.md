@@ -1,7 +1,7 @@
 ---
-title: 'Terms and Conditions'
-date: 2025-02-18T18:23::04
+date: 2025-02-18 18:23:04+07:00
 draft: false
+title: Terms and Conditions\
 ---
 
 # Terms and Conditions

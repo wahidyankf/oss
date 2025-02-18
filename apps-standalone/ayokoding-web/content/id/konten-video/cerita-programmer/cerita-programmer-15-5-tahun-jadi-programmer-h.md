@@ -1,6 +1,6 @@
 ---
 title: 'Cerita Programmer - 15 - 5 tahun jadi programmer: hal terpenting yang gw pelajari'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

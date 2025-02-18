@@ -1,6 +1,6 @@
 ---
 title: 'Pengen Jadi Programmer - Tips dan Trik Kalo Stuck/Mentok Pas Belajar Programming'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

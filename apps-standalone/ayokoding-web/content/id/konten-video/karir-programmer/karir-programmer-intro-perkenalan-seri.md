@@ -1,6 +1,6 @@
 ---
 title: 'Karir Programmer - Intro (Perkenalan Seri)'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 

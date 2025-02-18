@@ -1,11 +1,11 @@
 ---
-title: 'Long Article Title'
-description: 'This is a long article description.'
-date: 2025-02-17T07:03:55+07:00
-draft: false
-weight: 1
-bookFlatSection: false
 bookCollapseSection: false
+bookFlatSection: false
+date: 2025-02-17 07:03:55+07:00
+description: This is a long article description.
+draft: false
+title: Long Article Title\
+weight: 1
 ---
 
 {{< figure src="/images/template/sd-image.jpeg" width="400" alt="Gravel Calls" class="mx-auto d-block" >}}

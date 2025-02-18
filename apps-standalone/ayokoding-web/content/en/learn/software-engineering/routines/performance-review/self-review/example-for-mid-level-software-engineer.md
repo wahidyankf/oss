@@ -1,6 +1,6 @@
 ---
 title: 'Example for Mid-Level Software Engineer'
-date: 2025-02-18T18:23::04
+date: 2025-02-18T18:40::10
 draft: false
 ---
 
