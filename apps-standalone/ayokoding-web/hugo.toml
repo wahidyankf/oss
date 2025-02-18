@@ -23,8 +23,8 @@ enableGitInfo = false
 disableKinds = ['taxonomy', 'term']
 
 # Languages configuration
-defaultContentLanguage = 'en'
-defaultContentLanguageInSubdir = true
+# defaultContentLanguage = 'en'
+# defaultContentLanguageInSubdir = true
 
 # [languages]
 #   [languages.en]
