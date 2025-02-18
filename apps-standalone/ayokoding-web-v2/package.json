@@ -1,0 +1,12 @@
+{
+  "name": "ayokoding-web-v2",
+  "version": "1.0.0",
+  "description": "Ayokoding Web V2 is a multilingual Hugo-powered website for learning and sharing knowledge in both English and Indonesian.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
