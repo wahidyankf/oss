@@ -2,6 +2,7 @@
 date: 2025-02-18 18:23:04+07:00
 draft: false
 title: Terms and Conditions
+weight: 3
 ---
 
 # Terms and Conditions

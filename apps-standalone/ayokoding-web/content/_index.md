@@ -4,7 +4,7 @@ bookFlatSection: false
 date: 2025-02-17 07:03:55+07:00
 draft: false
 title: Home
-weight: 1
+weight: 2
 ---
 
 ## Content in English
