@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "hugo -D -w",
+    "dev": "hugo -D --verbose",
     "build": "hugo --minify"
   },
   "volta": {

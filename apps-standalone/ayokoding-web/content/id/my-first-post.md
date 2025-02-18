@@ -25,4 +25,22 @@ func main() {
 }
 ```
 
+## Mermaid Diagram Example
+
+Here's a sample Mermaid diagram:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Hugo
+    participant Browser
+    User->>Hugo: Create content
+    Hugo->>Browser: Generate static site
+    Browser-->>User: Display content
+    loop LiveReload
+        Hugo->>Browser: Update changes
+    end
+    Note right of Hugo: Fast and efficient!
+```
+
 Feel free to modify this post or add more content to test different Hugo features!
