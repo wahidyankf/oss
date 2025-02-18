@@ -4,7 +4,7 @@ bookFlatSection: false
 date: 2025-02-17 07:03:55+07:00
 description: This is a long article description.
 draft: false
-title: Long Article Title\
+title: Long Article Title
 weight: 1
 ---
 

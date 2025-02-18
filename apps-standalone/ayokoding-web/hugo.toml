@@ -5,121 +5,106 @@ theme = 'hugo-book'
 
 # (Optional) Set Google Analytics if you use it to track your website.
 # Always put it on the top of the configuration file, otherwise it won't work
-google_analytics = 'UA-XXXXXXXXX-X'
+# googleAnalytics = "UA-XXXXXXXXX-X"
 
 # (Optional) If you provide a Disqus shortname, comments will be enabled on
 # all pages.
-# disqus_shortname = 'my-site'
+# disqusShortname = "my-site"
 
 # (Optional) Set this to true if you use capital letters in file names
-disable_path_to_lower = false
+disablePathToLower = false
 
 # (Optional) Set this to true to enable 'Last Modified by' date and git author
 #  information on 'doc' type pages.
-enable_git_info = true
+enableGitInfo = false
 
 # (Optional) Theme is intended for documentation use, therefore it doesn't render taxonomy.
 # You can remove related files with config below
-disable_kinds = ['taxonomy', 'taxonomyTerm']
+disableKinds = ['taxonomy', 'term']
 
 [params]
 # (Optional, default light) Sets color theme: light, dark or auto.
 # Theme 'auto' switches between dark and light modes based on browser/os preferences
-book_theme = "light"
+BookTheme = 'light'
 
 # (Optional, default true) Controls table of contents visibility on right side of pages.
 # Start and end levels can be controlled with markup.tableOfContents setting.
 # You can also specify this parameter per page in front matter.
-book_toc = true
-book_page_toc = true
-book_toc_level = 3
+BookToC = true
 
 # (Optional, default none) Set the path to a logo for the book. If the logo is
 # /static/logo.png then the path would be 'logo.png'
-book_logo = 'logo.png'
+BookLogo = 'logo.png'
 
-# Specify which sections to include in the menu
-book_section = '*'
-
-# Enable menu tree
-book_menu_bundle = true
+# (Optional, default docs) Specify section of content to render as menu
+# You can also set value to "*" to render all sections to menu
+BookSection = '*'
 
 # Set source repository location.
 # Used for 'Last Modified' and 'Edit this page' links.
-book_repo = 'https://github.com/alex-shpak/hugo-book'
+BookRepo = 'https://github.com/wahidyankf/ayokoding'
 
 # Specifies commit portion of the link to the page's last modified commit hash for 'doc' page
 # type.
 # Required if 'BookRepo' param is set.
 # Value used to construct a URL consisting of BookRepo/BookCommitPath/<commit-hash>
 # Github uses 'commit', Bitbucket uses 'commits'
-book_commit_path = 'commit'
+# BookCommitPath = 'commit'
 
 # Enable 'Edit this page' links for 'doc' page type.
 # Disabled by default. Uncomment to enable. Requires 'BookRepo' param.
 # Path must point to the site directory.
-# book_edit_path = 'edit/master/exampleSite'
+# BookEditPath = 'edit/master/exampleSite'
 
 # (Optional, default January 2, 2006) Configure the date format used on the pages
 # - In git information
 # - In blog posts
-book_date_format = 'Jan 2, 2006'
+BookDateFormat = 'Jan 2, 2006'
 
 # (Optional, default true) Enables search function with flexsearch,
 # Index is built on fly, therefore it might slowdown your website.
 # Configuration for indexing can be adjusted in i18n folder per language.
-book_search = true
-book_search_show_tree = true
+BookSearch = true
 
 # (Optional, default true) Enables comments template on pages
 # By default partials/docs/comments.html includes Disqus template
 # See https://gohugo.io/content-management/comments/#configure-disqus
 # Can be overwritten by same param in page frontmatter
-# book_comments = true
+BookComments = false
 
 # /!\ This is an experimental feature, might be removed or changed at any time
 # (Optional, experimental, default false) Enables portable links and link checks in markdown pages.
 # Portable links meant to work with text editors and let you write markdown without {{< relref >}} shortcode
 # Theme will print warning if page referenced in markdown does not exists.
-book_portable_links = true
+BookPortableLinks = true
 
 # /!\ This is an experimental feature, might be removed or changed at any time
 # (Optional, experimental, default false) Enables service worker that caches visited pages and resources for offline use.
-book_service_worker = true
+BookServiceWorker = true
 
-# Ensure links open in current tab
-book_link_target = "_self" # This forces links to open in the current tab
+# Set type to 'docs' if you want to render page outside of configured section or if you render section other than 'docs'
+type = 'docs'
 
-# Add custom CSS
-custom_css = ["/css/custom.css"]
+# Set page weight to re-arrange items in file-tree menu.
+weight = 10
 
-# Add custom JavaScript
-custom_js = ["/js/link-handler.js"]
+# (Optional) Set to 'true' to mark page as flat section in file-tree menu.
+bookFlatSection = false
 
-[menu]
+# (Optional) Set to hide nested sections or pages at that level. Works only with file-tree menu mode
+bookCollapseSection = true
 
-[[menu.before]]
-name = "English"
-weight = 1
-identifier = "en"
-url = "/en"
+# (Optional) Set true to hide page or section from side menu.
+bookHidden = false
 
-[[menu.before]]
-name = "Learn"
-parent = "en"
-weight = 1
-identifier = "learn"
-url = "/en/learn"
+# (Optional) Set 'false' to hide ToC from page
+bookToC = true
 
-[[menu.before]]
-name = "Indonesia"
-weight = 2
-identifier = "id"
-url = "/id"
+# (Optional) If you have enabled BookComments for the site, you can disable it for specific pages.
+bookComments = true
 
-[[menu.before]]
-name = "Belajar"
-parent = "id"
-weight = 1
-identifier = "belajar"
-url = "/id/belajar"
+# (Optional) Set to 'false' to exclude page from search index.
+bookSearchExclude = true
+
+# (Optional) Set explicit href attribute for this page in a menu.
+bookHref = ''
