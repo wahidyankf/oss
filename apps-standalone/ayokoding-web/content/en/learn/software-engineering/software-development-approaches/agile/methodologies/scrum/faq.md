@@ -1,3 +1,9 @@
+---
+title: 'FAQ'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # FAQ
 
 Scrum is a framework for developing, delivering, and sustaining complex products, and it is designed to help teams work together more effectively. As such, questions may arise as teams implement the Scrum framework. This FAQ section aims to answer some commonly asked questions about Scrum.

@@ -1,3 +1,9 @@
+---
+title: 'Control Structure'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Control Structure
 
 In Java, control structures are fundamental building blocks that govern the flow of execution within a program. They provide the mechanisms that allow you to control how and when different parts of your program are executed based on specified conditions. Control structures are pivotal in developing simple to complex applications, enabling decision-making, looping over code blocks, and the sequential execution of statements.

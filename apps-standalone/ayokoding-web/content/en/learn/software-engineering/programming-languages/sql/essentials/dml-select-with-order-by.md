@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT with ORDER BY'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT with ORDER BY
 
 The `SELECT` statement in SQL is used to select data from a database. The data returned is stored in a result table, sometimes called the result set.

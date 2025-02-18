@@ -1,3 +1,9 @@
+---
+title: 'Regulation - General'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Regulation - General
 
 To effectively learn and understand a regulation, you can adapt the following key questions:

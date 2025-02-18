@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT
 
 SQL, or Structured Query Language, is a standard language for manipulating relational databases. SQL can be subdivided into multiple components, one of which is Data Manipulation Language (DML). DML allows us to modify the database instance by inserting, modifying, and querying data. This document focuses on the `SELECT` statement, a fundamental aspect of DML that allows data retrieval from a database.

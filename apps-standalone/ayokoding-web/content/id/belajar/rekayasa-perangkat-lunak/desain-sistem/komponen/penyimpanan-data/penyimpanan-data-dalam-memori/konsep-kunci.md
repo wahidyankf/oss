@@ -1,3 +1,9 @@
+---
+title: 'Konsep Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Konsep Kunci
 
 Penyimpanan data dalam memori (in-memory data store) adalah database yang menyimpan data di memori utama komputer daripada di disk. Hal ini memungkinkan akses data yang lebih cepat dan pengolahan data yang lebih cepat. Penyimpanan data dalam memori semakin populer karena adanya big data dan kebutuhan akan pengolahan data real-time.

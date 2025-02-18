@@ -1,3 +1,9 @@
+---
+title: 'Files: JSON - Working With'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Files: JSON - Working With
 
 ---

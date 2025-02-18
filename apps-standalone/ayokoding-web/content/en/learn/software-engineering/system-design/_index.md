@@ -1,3 +1,9 @@
+---
+title: 'System Design'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # System Design
 
 [Topics](System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2.md)

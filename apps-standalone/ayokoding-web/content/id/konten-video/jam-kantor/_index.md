@@ -1,3 +1,9 @@
+---
+title: 'Jam Kantor'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Jam Kantor
 
 [Jam Kantor - Apakah bukan lulusan kuliah IT bisa ngelamar jadi programmer kalo udah ada portofolio?](Jam%20Kantor%204b15173c68e24c19bd706f9a33525768/Jam%20Kantor%20-%20Apakah%20bukan%20lulusan%20kuliah%20IT%20bisa%20n%20079402a332ce4168ae621cf66c615035.md)

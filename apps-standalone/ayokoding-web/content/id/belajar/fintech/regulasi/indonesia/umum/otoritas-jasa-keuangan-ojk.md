@@ -1,3 +1,9 @@
+---
+title: 'Otoritas Jasa Keuangan (OJK)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Otoritas Jasa Keuangan (OJK)
 
 <aside>

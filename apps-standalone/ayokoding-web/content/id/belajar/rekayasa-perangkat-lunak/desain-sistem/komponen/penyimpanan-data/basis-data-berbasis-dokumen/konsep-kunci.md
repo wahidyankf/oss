@@ -1,3 +1,9 @@
+---
+title: 'Konsep Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Konsep Kunci
 
 Database berorientasi dokumen adalah jenis database NoSQL yang menyimpan data dalam format dokumen, biasanya menggunakan JSON atau BSON. Berbeda dengan database relasional tradisional, database berorientasi dokumen tidak memerlukan skema yang tetap, memungkinkan lebih fleksibilitas dalam pemodelan data. Berikut adalah beberapa konsep kunci yang perlu dipahami ketika bekerja dengan database berorientasi dokumen:

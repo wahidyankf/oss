@@ -1,3 +1,9 @@
+---
+title: 'Penilaian Kinerja'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Penilaian Kinerja
 
 [Ikhtisar](Penilaian%20Kinerja%203b0b7e8a52404b79a036bf2b7662796e/Ikhtisar%20a774f33ab7434598a26b635400b3c468.md)

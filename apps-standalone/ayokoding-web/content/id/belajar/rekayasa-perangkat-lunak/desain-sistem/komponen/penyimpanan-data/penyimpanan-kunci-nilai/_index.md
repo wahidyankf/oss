@@ -1,3 +1,9 @@
+---
+title: 'Penyimpanan Kunci-Nilai'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Penyimpanan Kunci-Nilai
 
 [Profil](Penyimpanan%20Kunci-Nilai%201417b52ab1a94c98833ecc1479e8c4af/Profil%200c870371ceb24746a7ea446ffcf25eb7.md)

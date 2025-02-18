@@ -1,3 +1,9 @@
+---
+title: 'Regulation - Islamic Banking/Financial (Indonesia)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Regulation - Islamic Banking/Financial (Indonesia)
 
 Here's a set of questions specifically tailored for learning Islamic banking/financial regulation in Indonesia:

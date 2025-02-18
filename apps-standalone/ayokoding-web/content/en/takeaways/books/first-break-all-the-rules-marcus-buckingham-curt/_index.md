@@ -1,3 +1,9 @@
+---
+title: 'First Break All The Rules (Marcus Buckingham, Curt Coffman)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # First Break All The Rules (Marcus Buckingham, Curt Coffman)
 
 ![book_image-first_break_all_the_rules.jpeg](First%20Break%20All%20The%20Rules%20(Marcus%20Buckingham,%20Curt%20eba48e491eb74598a407b94fe730fede/book_image-first_break_all_the_rules.jpeg)

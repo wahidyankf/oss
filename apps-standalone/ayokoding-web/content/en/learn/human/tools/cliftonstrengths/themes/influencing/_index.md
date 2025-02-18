@@ -1,3 +1,9 @@
+---
+title: 'Influencing'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Influencing
 
 [Activator](Influencing%20852a252406414db8ac8108da03f6c3f5/Activator%20a5c44b976613433baebfad538011e4d0.md)

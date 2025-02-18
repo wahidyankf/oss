@@ -1,3 +1,9 @@
+---
+title: 'Transaction Control Language'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Transaction Control Language
 
 Transaksi dalam SQL adalah urutan satu atau lebih pernyataan SQL yang dianggap sebagai satu unit kerja tunggal. Transaksi digunakan untuk memastikan konsistensi dan integritas data dalam database.

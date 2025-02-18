@@ -1,3 +1,9 @@
+---
+title: 'Supervisor Review'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Supervisor Review
 
 [Motivation](Supervisor%20Review%205d15d2e975d24048ae1e9f5fa7f4e6f3/Motivation%205c5679c05c8545188e4eb0d0ef50ed9f.md)

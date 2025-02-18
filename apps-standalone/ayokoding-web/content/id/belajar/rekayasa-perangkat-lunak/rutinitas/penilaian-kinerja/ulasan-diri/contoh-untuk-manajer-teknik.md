@@ -1,3 +1,9 @@
+---
+title: 'Contoh untuk Manajer Teknik'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Contoh untuk Manajer Teknik
 
 ## **Penilaian Terhadap Tujuan**

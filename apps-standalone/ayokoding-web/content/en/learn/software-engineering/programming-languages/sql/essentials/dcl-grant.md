@@ -1,3 +1,9 @@
+---
+title: 'DCL: GRANT'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DCL: GRANT
 
 The `GRANT` statement in SQL grants privileges to a user or role.

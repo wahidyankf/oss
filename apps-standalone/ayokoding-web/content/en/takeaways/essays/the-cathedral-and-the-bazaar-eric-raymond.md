@@ -1,3 +1,9 @@
+---
+title: 'The Cathedral and the Bazaar (Eric Raymond)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # The Cathedral and the Bazaar (Eric Raymond)
 
 Eric Raymond's essay, "The Cathedral and the Bazaar," is a seminal work in the open-source software movement. Raymond contrasts two software development models: the Cathedral and Bazaar models.

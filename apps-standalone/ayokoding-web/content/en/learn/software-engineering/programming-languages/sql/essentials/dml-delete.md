@@ -1,3 +1,9 @@
+---
+title: 'DML: DELETE'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: DELETE
 
 The `DELETE` statement in SQL is used to delete existing records from a table.

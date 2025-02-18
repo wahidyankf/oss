@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT dengan GROUP BY'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT dengan GROUP BY
 
 Pernyataan `GROUP BY` dalam SQL digunakan dengan pernyataan `SELECT` untuk menyusun data yang identik menjadi kelompok. Pernyataan `GROUP BY` muncul setelah setiap pernyataan `WHERE`, tetapi sebelum pernyataan `ORDER BY` atau `HAVING`. Sering digunakan dengan fungsi agregat (`COUNT`, `MAX`, `MIN`, `SUM`, `AVG`) untuk mengelompokkan hasil set oleh satu atau beberapa kolom.

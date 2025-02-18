@@ -1,3 +1,9 @@
+---
+title: 'Prinsip'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Prinsip
 
 [Teorema CAP](Prinsip%2061e0da6790d24c5da64e79a059143d1b/Teorema%20CAP%20be4822e67a8d40888ab5715c7593e4b3.md)

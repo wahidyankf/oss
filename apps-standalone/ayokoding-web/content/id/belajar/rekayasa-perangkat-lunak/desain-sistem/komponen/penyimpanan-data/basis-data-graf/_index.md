@@ -1,3 +1,9 @@
+---
+title: 'Basis Data Graf'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Basis Data Graf
 
 [Profil](Basis%20Data%20Graf%20331446b8507c46ec80b6b3ae97578617/Profil%2034a6d01b4f5a41d2b63ff2d9cb830874.md)

@@ -1,3 +1,9 @@
+---
+title: 'Konsep Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Konsep Kunci
 
 Penyimpanan kunci-nilai adalah jenis database NoSQL yang menyimpan data sebagai kumpulan pasangan kunci-nilai. Di jenis database ini, data diakses dan dimanipulasi menggunakan kunci daripada bahasa query terstruktur (SQL). Penyimpanan kunci-nilai dirancang untuk sangat skalabel dan performa, menjadikannya pilihan populer untuk aplikasi yang membutuhkan akses data yang cepat dan efisien.

@@ -1,3 +1,9 @@
+---
+title: 'Contoh untuk Tech Lead'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Contoh untuk Tech Lead
 
 ## **Evaluasi Tujuan**

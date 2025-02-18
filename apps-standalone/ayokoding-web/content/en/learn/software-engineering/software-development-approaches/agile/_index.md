@@ -1,3 +1,9 @@
+---
+title: 'Agile'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Agile
 
 [Overview](Agile%205517aaf0aa44412c96c4a136c547cc2c/Overview%205f1274ece1824b7d87fbc1fddd733443.md)

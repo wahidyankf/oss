@@ -1,3 +1,9 @@
+---
+title: 'DDL: ALTER'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: ALTER
 
 Perintah SQL `ALTER` adalah pernyataan Bahasa Definisi Data (DDL) yang digunakan untuk memodifikasi struktur objek basis data yang ada seperti tabel, tampilan, indeks, dll. Ini adalah alat yang sangat penting untuk manajemen skema basis data.

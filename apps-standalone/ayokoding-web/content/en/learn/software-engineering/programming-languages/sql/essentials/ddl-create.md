@@ -1,3 +1,9 @@
+---
+title: 'DDL: CREATE'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: CREATE
 
 SQL, or Structured Query Language, is designed to manage data in a relational database management system (RDBMS). SQL includes several types of statements, but we will focus on the Data Definition Language (DDL) subset, particularly the `CREATE` statement.

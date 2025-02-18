@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT dengan LEFT (OUTER) JOIN'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT dengan LEFT (OUTER) JOIN
 
 `LEFT JOIN` atau `LEFT OUTER JOIN` dalam SQL adalah konsep dalam sistem manajemen database relasional (RDBMS) yang memungkinkan kita menggabungkan baris dari dua atau lebih tabel berdasarkan kolom terkait di antara mereka.

@@ -1,3 +1,9 @@
+---
+title: 'DCL: REVOKE'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DCL: REVOKE
 
 The `REVOKE` statement in SQL is used to revoke privileges from a user or role.

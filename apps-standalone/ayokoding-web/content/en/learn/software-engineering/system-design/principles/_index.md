@@ -1,3 +1,9 @@
+---
+title: 'Principles'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Principles
 
 [CAP Theorem](Principles%20ea20535ce1854f5687079d7a36cc885b/CAP%20Theorem%20555c8693b1d14052aa6e3b573e178a10.md)

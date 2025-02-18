@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT dengan ORDER BY'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT dengan ORDER BY
 
 Pernyataan `SELECT` dalam SQL digunakan untuk memilih data dari database. Data yang dikembalikan disimpan dalam tabel hasil, kadang-kadang disebut sebagai result set.

@@ -1,3 +1,9 @@
+---
+title: 'ChatGPT'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # ChatGPT
 
 Ini adalah daftar kemungkinan prompt yang bisa kamu gunakan di ChatGPT. Untuk menggunakannya, kamu bisa mengganti `{{}}` dengan apa yang kamu butuhkan.

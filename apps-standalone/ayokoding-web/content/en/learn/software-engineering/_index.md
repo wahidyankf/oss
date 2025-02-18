@@ -1,3 +1,9 @@
+---
+title: 'Software Engineering'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Software Engineering
 
 [Programming Languages](Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/Programming%20Languages%2087b1cadb005848d28ee7187f6458ff12.md)

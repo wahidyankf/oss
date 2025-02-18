@@ -1,3 +1,9 @@
+---
+title: 'Terms and Conditions'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Terms and Conditions
 
 Welcome to AyoKoding! Please read these terms and conditions carefully before using our website. By accessing and using AyoKoding, you agree to comply with and be bound by these terms and conditions. Please do not use our website if you disagree with these terms and conditions.

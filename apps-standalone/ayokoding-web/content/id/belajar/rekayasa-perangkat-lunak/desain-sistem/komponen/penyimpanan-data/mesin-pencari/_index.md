@@ -1,3 +1,9 @@
+---
+title: 'Mesin Pencari'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Mesin Pencari
 
 [Profil](Mesin%20Pencari%20994689725bd64b1caee58c22b761ddc5/Profil%2019b32c070e1644b9a7a4f712b9f763c2.md)

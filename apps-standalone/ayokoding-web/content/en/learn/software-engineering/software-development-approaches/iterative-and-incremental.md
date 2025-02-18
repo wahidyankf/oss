@@ -1,3 +1,9 @@
+---
+title: 'Iterative and Incremental'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Iterative and Incremental
 
 ## What is Iterative and Incremental Development?

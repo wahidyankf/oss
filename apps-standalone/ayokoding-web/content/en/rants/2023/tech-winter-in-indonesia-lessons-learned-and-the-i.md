@@ -1,3 +1,9 @@
+---
+title: 'Tech Winter in Indonesia: Lessons Learned and the Importance of Stock-Based Compensation'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Tech Winter in Indonesia: Lessons Learned and the Importance of Stock-Based Compensation
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ

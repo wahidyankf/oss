@@ -1,3 +1,9 @@
+---
+title: 'Files: YAML - Working With'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Files: YAML - Working With
 
 ---

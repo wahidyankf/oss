@@ -1,3 +1,9 @@
+---
+title: 'Keterhubungan'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Keterhubungan
 
 ## Pengantar

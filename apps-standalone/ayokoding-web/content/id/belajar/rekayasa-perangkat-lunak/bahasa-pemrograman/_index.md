@@ -1,3 +1,9 @@
+---
+title: 'Bahasa Pemrograman'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Bahasa Pemrograman
 
 [Ikhtisar](Bahasa%20Pemrograman%207d9d603e8cc04ddb83d2c1ac200d7b43/Ikhtisar%209f73336201da4d6d9c55683d7755f8e0.md)

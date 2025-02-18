@@ -1,3 +1,9 @@
+---
+title: 'Motivation'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Motivation
 
 Performance reviews are essential for you and your employer to evaluate your work progress, identify improvement areas, and set future goals. One of the most essential parts of a performance review is the self-review, where you assess your own performance and provide feedback to your manager. But let's be honest; creating a great self-review can be a pain, especially for software engineers who may struggle to explain their contributions. This article discusses why creating a great self-review is essential and how it can benefit you as a software engineer.

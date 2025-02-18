@@ -1,3 +1,9 @@
+---
+title: 'DDL: INDEX'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: INDEX
 
 Dalam SQL, indeks adalah objek database yang digunakan untuk mempercepat pengambilan data dari sebuah tabel. Indeks dibuat pada satu atau lebih kolom dalam tabel, dan berisi daftar nilai yang diurutkan dari kolom-kolom tersebut, beserta dengan pointer ke lokasi data yang sesuai di dalam tabel.

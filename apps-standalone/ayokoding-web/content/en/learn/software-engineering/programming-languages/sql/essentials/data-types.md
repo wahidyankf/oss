@@ -1,3 +1,9 @@
+---
+title: 'Data Types'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Data Types
 
 SQL, or Structured Query Language, is a programming language primarily used for managing and manipulating relational databases. At the heart of these operations are various data types that SQL uses to define the data that can be stored in a particular column in a table.

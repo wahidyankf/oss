@@ -1,3 +1,9 @@
+---
+title: 'Cookbook'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Cookbook
 
 ## Introduction

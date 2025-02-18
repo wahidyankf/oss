@@ -1,3 +1,9 @@
+---
+title: 'Panduan 1:1 Untuk Software Engineer Non Pimpinan Struktural'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Panduan 1:1 Untuk Software Engineer Non Pimpinan Struktural
 
 Komunikasi yang efektif dan pertumbuhan profesional sangat penting dalam dunia rekayasa perangkat lunak yang cepat. Salah satu alat yang sangat berguna dalam meningkatkan kedua aspek tersebut adalah pertemuan 1:1. Meskipun sering dikaitkan dengan manajer dan kepala tim, insinyur perangkat lunak yang bukan pemimpin juga dapat sangat diuntungkan dari pertemuan ini. Artikel ini bertujuan untuk memberikan panduan komprehensif bagi insinyur perangkat lunak non-pemimpin tentang bagaimana memanfaatkan sebaik mungkin pertemuan 1:1 mereka, untuk memajukan perkembangan pribadi dan profesional.

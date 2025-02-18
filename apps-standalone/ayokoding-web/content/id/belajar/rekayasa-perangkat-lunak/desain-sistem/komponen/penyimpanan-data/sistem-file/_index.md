@@ -1,3 +1,9 @@
+---
+title: 'Sistem File'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Sistem File
 
 [Profil](Sistem%20File%2067dc4592562d4fbfb9b1b877742bcf4e/Profil%20eb40fb74e09f44d09c18d60e3e6ed473.md)

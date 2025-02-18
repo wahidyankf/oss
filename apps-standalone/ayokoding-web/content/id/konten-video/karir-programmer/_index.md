@@ -1,3 +1,9 @@
+---
+title: 'Karir Programmer'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Karir Programmer
 
 [Karir Programmer - Tips: gimana cara menghadapi gelombang layoff dan ketidakpastian ekonomi?](Karir%20Programmer%20ae87612168fa4df2ba07a6d22da551c5/Karir%20Programmer%20-%20Tips%20gimana%20cara%20menghadapi%20gel%2060deb9ed0449449dbdac1cb97a7eabcd.md)

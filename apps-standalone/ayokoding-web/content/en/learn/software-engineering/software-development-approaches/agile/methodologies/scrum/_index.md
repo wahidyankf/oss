@@ -1,3 +1,9 @@
+---
+title: 'Scrum'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Scrum
 
 [Overview](Scrum%206e33920f524b4646b9168892e596b2e8/Overview%20a5eaede86c384572aa3547cac242ffec.md)

@@ -1,3 +1,9 @@
+---
+title: 'Berpikir Strategis'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Berpikir Strategis
 
 [Analitis](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Analitis%205d92319465104c5fae01dc1559208233.md)

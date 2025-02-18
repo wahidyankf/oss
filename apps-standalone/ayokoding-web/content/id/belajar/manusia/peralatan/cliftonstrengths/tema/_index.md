@@ -1,3 +1,9 @@
+---
+title: 'Tema'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Tema
 
 [Eksekusi](Tema%2082617eb4f1ca44faa701b077e05fc8b4/Eksekusi%200b875f63a5d74100a03db624ec22f008.md)

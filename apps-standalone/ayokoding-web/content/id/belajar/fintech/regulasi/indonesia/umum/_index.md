@@ -1,3 +1,9 @@
+---
+title: 'Umum'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Umum
 
 [Otoritas Jasa Keuangan (OJK)](<Umum%20165ecfcbaa4780a98d79e8d3144f34d3/Otoritas%20Jasa%20Keuangan%20(OJK)%20165ecfcbaa4780aea43de0a6671c9b12.md>)

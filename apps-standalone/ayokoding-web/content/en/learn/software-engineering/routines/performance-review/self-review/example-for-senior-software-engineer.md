@@ -1,3 +1,9 @@
+---
+title: 'Example for Senior Software Engineer'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Example for Senior Software Engineer
 
 ## **Review of Goals**

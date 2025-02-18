@@ -1,3 +1,9 @@
+---
+title: 'Principles and Values'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Principles and Values
 
 ## **The Agile Manifesto**

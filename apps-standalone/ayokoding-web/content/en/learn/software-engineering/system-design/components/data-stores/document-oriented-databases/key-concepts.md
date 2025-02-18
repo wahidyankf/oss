@@ -1,3 +1,9 @@
+---
+title: 'Key Concepts'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Key Concepts
 
 Document-oriented databases are a type of NoSQL database that store data in a document format, typically using JSON or BSON. Unlike traditional relational databases, document-oriented databases do not require a fixed schema, allowing for more flexibility in data modeling. Here are some key concepts to understand when working with document-oriented databases:

@@ -1,3 +1,9 @@
+---
+title: 'DML: INSERT'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: INSERT
 
 The `INSERT INTO` statement in SQL inserts new records in a table.

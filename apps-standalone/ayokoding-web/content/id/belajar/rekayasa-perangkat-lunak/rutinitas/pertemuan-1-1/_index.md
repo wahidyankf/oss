@@ -1,3 +1,9 @@
+---
+title: 'Pertemuan 1:1'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Pertemuan 1:1
 
 [Ikhtisar](Pertemuan%201%201%20fe468857e8a04c61a453583d168d7608/Ikhtisar%2035420c6410b644838035bacf620ca078.md)

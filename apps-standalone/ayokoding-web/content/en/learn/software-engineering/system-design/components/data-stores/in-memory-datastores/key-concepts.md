@@ -1,3 +1,9 @@
+---
+title: 'Key Concepts'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Key Concepts
 
 In-memory data stores are databases that store data in the main memory of a computer rather than on disk. This allows for faster access to data and quicker processing times. In-memory data stores are becoming increasingly popular due to the rise of big data and the need for real-time data processing.

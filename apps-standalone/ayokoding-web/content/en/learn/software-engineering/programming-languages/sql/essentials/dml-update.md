@@ -1,3 +1,9 @@
+---
+title: 'DML: UPDATE'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: UPDATE
 
 The `UPDATE` statement in SQL is used to modify the existing records in a table.

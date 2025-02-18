@@ -1,3 +1,9 @@
+---
+title: 'Pengaruh'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Pengaruh
 
 [Aktivator](Pengaruh%202a7a3fb722a54589be54327f49920250/Aktivator%20ade81cbe701641cca1311d14020b947d.md)

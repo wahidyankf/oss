@@ -1,3 +1,9 @@
+---
+title: 'Konsep Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Konsep Kunci
 
 Penyimpanan objek adalah jenis arsitektur penyimpanan data yang mengelola data sebagai objek daripada sebagai blok atau file. Dalam penyimpanan objek, data disimpan dalam ruang alamat datar, dan setiap objek diberi pengenal unik yang dapat digunakan untuk mengambilnya. Penyimpanan objek dirancang untuk menangani jumlah data tak terstruktur yang besar, seperti gambar, video, dan dokumen, dan umumnya digunakan dalam lingkungan komputasi awan.

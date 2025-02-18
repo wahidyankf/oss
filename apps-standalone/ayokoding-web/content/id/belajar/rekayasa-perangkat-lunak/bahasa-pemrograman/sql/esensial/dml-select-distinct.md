@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT DISTINCT'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT DISTINCT
 
 `SELECT DISTINCT` adalah perintah dalam SQL yang mengembalikan nilai yang berbeda (unik). Kata kunci `DISTINCT` menghilangkan catatan duplikat dari hasil. Perintah ini sangat berguna saat berurusan dengan set data besar di mana entri duplikat dapat mendistorsi analisis.

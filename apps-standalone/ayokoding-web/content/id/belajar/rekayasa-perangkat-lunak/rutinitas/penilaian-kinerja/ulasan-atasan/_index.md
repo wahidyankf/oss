@@ -1,3 +1,9 @@
+---
+title: 'Ulasan Atasan'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Ulasan Atasan
 
 [Motivasi](Ulasan%20Atasan%204715ed25759a48ecbcfaa23290879dce/Motivasi%20c9c89f02c6254d4280769643fa2f808c.md)

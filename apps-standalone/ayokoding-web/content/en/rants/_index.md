@@ -1,3 +1,9 @@
+---
+title: 'Rants'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Rants
 
 [2023](Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623.md)

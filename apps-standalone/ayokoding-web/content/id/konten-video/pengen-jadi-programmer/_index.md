@@ -1,3 +1,9 @@
+---
+title: 'Pengen Jadi Programmer'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Pengen Jadi Programmer
 
 [Pengen Jadi Programmer - Gimana Caranya biar kita fokus dan konsisten belajar ngoding?](Pengen%20Jadi%20Programmer%206ca0618e87504dbdb810114ece5a9d92/Pengen%20Jadi%20Programmer%20-%20Gimana%20Caranya%20biar%20kita%20%205e9a4204e08042b995ff57d88b4e72d1.md)

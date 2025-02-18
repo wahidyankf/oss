@@ -1,3 +1,9 @@
+---
+title: 'Bekerja dengan Docker'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Bekerja dengan Docker
 
 [Dengan Dockerfile](Bekerja%20dengan%20Docker%2073818969216b46718c37cef52a9d69d8/Dengan%20Dockerfile%20a7ce0befcb24413595d10e6d5938f53b.md)

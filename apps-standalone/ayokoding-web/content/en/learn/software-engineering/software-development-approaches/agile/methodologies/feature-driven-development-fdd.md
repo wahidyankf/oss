@@ -1,3 +1,9 @@
+---
+title: 'Feature Driven Development (FDD)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Feature Driven Development (FDD)
 
 ## What is Feature Driven Development (FDD)?

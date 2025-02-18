@@ -1,3 +1,9 @@
+---
+title: 'DCL: GRANT'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DCL: GRANT
 
 Perintah `GRANT` dalam SQL memberikan hak istimewa kepada pengguna atau peran.

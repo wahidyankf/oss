@@ -1,3 +1,9 @@
+---
+title: 'Database Design, Normalization, and SQL JOINs'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Database Design, Normalization, and SQL JOINs
 
 Database design, normalization, and SQL JOINs are fundamental concepts in managing and manipulating data effectively in relational databases. We will explore these concepts and their relationships with each other.

@@ -1,3 +1,9 @@
+---
+title: 'Key Concepts'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Key Concepts
 
 A file system organizes and stores data on a storage device, such as a hard drive or a network file server. In a distributed system, file systems are used to manage data across multiple nodes in the network. Here are some key concepts of file systems for distributed systems:

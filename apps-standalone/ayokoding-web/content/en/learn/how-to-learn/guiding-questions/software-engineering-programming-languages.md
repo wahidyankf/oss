@@ -1,3 +1,9 @@
+---
+title: 'Software Engineering - Programming Languages'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Software Engineering - Programming Languages
 
 ## Theoretical Approach

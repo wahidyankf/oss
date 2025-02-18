@@ -1,3 +1,9 @@
+---
+title: 'DDL: DROP'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: DROP
 
 SQL DDL atau Data Definition Language terdiri dari perintah SQL yang dapat digunakan untuk mendefinisikan skema database. Ini hanya berurusan dengan deskripsi skema database dan digunakan untuk membuat dan memodifikasi struktur objek database. Salah satu perintah DDL adalah perintah `DROP`.

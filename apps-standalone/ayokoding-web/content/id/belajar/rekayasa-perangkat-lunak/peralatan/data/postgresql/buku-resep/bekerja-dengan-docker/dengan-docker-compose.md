@@ -1,3 +1,9 @@
+---
+title: 'Dengan Docker Compose'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Dengan Docker Compose
 
 ## Pendahuluan

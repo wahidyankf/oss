@@ -1,3 +1,9 @@
+---
+title: 'DDL: Schema'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: Schema
 
 ## Apa itu Skema SQL?

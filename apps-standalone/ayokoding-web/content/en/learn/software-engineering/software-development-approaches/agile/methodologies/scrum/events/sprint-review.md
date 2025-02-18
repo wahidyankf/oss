@@ -1,3 +1,9 @@
+---
+title: 'Sprint Review'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Sprint Review
 
 The sprint review is an actual ceremony in the Scrum framework, which focuses on inspecting the product increment at the end of each sprint. This review allows the Scrum team and stakeholders to evaluate the work completed during the sprint and gather feedback for future iterations. This guide will explore various aspects of the sprint review, including its goals, attendees, duration, preparation, and best practices.

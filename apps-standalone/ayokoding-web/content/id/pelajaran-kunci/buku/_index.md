@@ -1,3 +1,9 @@
+---
+title: 'Buku'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Buku
 
 [First Break All The Rules (Marcus Buckingham, Curt Coffman)](Buku%20cd60acc924b24252857cb0f1401b425a/First%20Break%20All%20The%20Rules%20(Marcus%20Buckingham,%20Curt%20dfed478fa09d4f5aa37bf32a732ae51c.md)

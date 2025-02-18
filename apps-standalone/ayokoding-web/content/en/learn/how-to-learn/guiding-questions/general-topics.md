@@ -1,3 +1,9 @@
+---
+title: 'General Topics'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # General Topics
 
 Here is a scientifically proven list of questions to ask that will help you understand a topic deeply:

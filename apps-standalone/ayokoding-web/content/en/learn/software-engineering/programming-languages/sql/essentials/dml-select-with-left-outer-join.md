@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT with LEFT (OUTER) JOIN'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT with LEFT (OUTER) JOIN
 
 The `LEFT JOIN` or `LEFT OUTER JOIN` in SQL is a concept in relational database management systems (RDBMS) that allows you to combine rows from two or more tables based on a related column between them.

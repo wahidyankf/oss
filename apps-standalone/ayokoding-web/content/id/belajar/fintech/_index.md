@@ -1,3 +1,9 @@
+---
+title: 'Fintech'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Fintech
 
 [Intro](Fintech%20165ecfcbaa4780109d43c53bc9aebff7/Intro%20165ecfcbaa478012b646f06931567f54.md)

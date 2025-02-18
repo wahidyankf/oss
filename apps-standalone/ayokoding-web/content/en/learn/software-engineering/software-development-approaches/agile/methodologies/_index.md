@@ -1,3 +1,9 @@
+---
+title: 'Methodologies'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Methodologies
 
 Agile software development revolutionized the world of software engineering by introducing a set of methodologies that advocate flexibility, collaboration, and responsiveness to change. These methodologies marked a significant departure from traditional waterfall development approaches, which often proved rigid, inefficient, and poorly suited to the rapid pace of changing user requirements.

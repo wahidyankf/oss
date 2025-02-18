@@ -1,3 +1,9 @@
+---
+title: 'Tipe Data'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Tipe Data
 
 SQL, atau Structured Query Language, adalah bahasa pemrograman yang digunakan terutama untuk mengelola dan memanipulasi basis data relasional. Di inti dari operasi ini adalah berbagai jenis data yang digunakan SQL untuk mendefinisikan data yang dapat disimpan dalam kolom tertentu dalam tabel.

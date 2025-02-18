@@ -1,3 +1,9 @@
+---
+title: 'Overview'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Overview
 
 Agile estimation is used in Agile software development methodologies to estimate the size, effort, and duration of work items or user stories. It helps teams plan and prioritize tasks, allocate resources effectively, and deliver high-quality products within a specific timeframe. This comprehensive guide will explore the goals, non-goals, participants, process, do's, and don'ts of Agile estimation.

@@ -1,3 +1,9 @@
+---
+title: 'Eksekusi'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Eksekusi
 
 [Pencapaian](Eksekusi%200b875f63a5d74100a03db624ec22f008/Pencapaian%20b4dfe90131964956b0a236ded09f1e9a.md)

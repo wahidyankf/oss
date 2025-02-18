@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT dengan RIGHT (OUTER) JOIN'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT dengan RIGHT (OUTER) JOIN
 
 `RIGHT JOIN` atau `RIGHT OUTER JOIN` pada SQL adalah konsep dalam sistem manajemen database relasional (RDBMS) yang memungkinkan kita untuk menggabungkan baris dari dua atau lebih tabel berdasarkan kolom terkait di antara mereka.

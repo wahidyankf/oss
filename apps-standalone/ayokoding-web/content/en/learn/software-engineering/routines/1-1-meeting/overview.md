@@ -1,3 +1,9 @@
+---
+title: 'Overview'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Overview
 
 In the dynamic world of software engineering, regular one-on-one (1:1) meetings serve as an effective platform for communication, performance tracking, and improvement suggestions. These meetings foster a positive work environment, allowing managers, tech leads, and team members to align their goals and expectations.

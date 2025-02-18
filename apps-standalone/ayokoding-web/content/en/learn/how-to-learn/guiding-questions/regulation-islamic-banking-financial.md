@@ -1,3 +1,9 @@
+---
+title: 'Regulation - Islamic Banking/Financial'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Regulation - Islamic Banking/Financial
 
 Here's a set of questions specifically tailored for learning Islamic banking or financial regulation:

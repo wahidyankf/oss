@@ -1,3 +1,9 @@
+---
+title: 'Penyimpanan Data'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Penyimpanan Data
 
 [Pertimbangan](Penyimpanan%20Data%2022ac90a53d8a492496e96077de912ea6/Pertimbangan%201bf64cd6826a4c148f29a04de8b954c8.md)

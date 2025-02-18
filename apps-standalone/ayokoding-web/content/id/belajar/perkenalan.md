@@ -1,3 +1,9 @@
+---
+title: 'Perkenalan'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Perkenalan
 
 Selamat datang di dunia pembelajaran yang cepat! Dalam berbagai bidang, dari bisnis hingga produktivitas pribadi, Prinsip Pareto, juga dikenal sebagai aturan 80/20, terbukti membantu memaksimalkan hasil dengan usaha minimal. Di artikel ini, kita mau bahas tentang cara Prinsip Pareto bisa diterapkan dalam pembelajaran dan pengembangan keterampilan. Kita juga mau memperkenalkan Material Pembelajaran, sumber daya khusus yang bisa bantu kamu memaksimalkan prinsip ini untuk pertumbuhan yang dioptimalkan.

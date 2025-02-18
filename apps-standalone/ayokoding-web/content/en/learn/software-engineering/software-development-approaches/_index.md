@@ -1,3 +1,9 @@
+---
+title: 'Software Development Approaches'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Software Development Approaches
 
 [Overview](Software%20Development%20Approaches%2054541c867bbe40f0a0c99c27e50a8cfd/Overview%2074c71652491f4acd840a15bcd7af9f9f.md)

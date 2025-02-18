@@ -1,3 +1,9 @@
+---
+title: 'Key Concepts'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Key Concepts
 
 A graph database is a NoSQL database that uses graph theory to store, map, and query relationships between data. In a graph database, data is represented as nodes (or vertices) and edges, which connect the nodes. Nodes represent entities, such as people, places, or things, while edges represent the relationships between those entities.

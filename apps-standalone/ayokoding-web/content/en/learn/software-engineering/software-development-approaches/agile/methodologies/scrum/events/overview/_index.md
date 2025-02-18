@@ -1,3 +1,9 @@
+---
+title: 'Overview'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Overview
 
 Scrum is an agile framework for managing and completing complex projects. Scrum events are time-boxed events that are used to facilitate the Scrum framework. Five Scrum events occur within a Sprint, a time-boxed iteration of one to four weeks.

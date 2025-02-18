@@ -1,3 +1,9 @@
+---
+title: 'Desain Database, Normalisasi, dan SQL JOIN'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Desain Database, Normalisasi, dan SQL JOIN
 
 Desain database, normalisasi, dan JOIN SQL adalah konsep fundamental dalam mengelola dan memanipulasi data secara efektif dalam database relasional. Kita akan menjelajahi konsep-konsep ini dan hubungan mereka satu sama lain.

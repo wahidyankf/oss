@@ -1,3 +1,9 @@
+---
+title: 'Konsep Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Konsep Kunci
 
 Gudang data adalah repositori data yang besar dan terpusat yang mendukung kegiatan pengambilan keputusan bisnis. Ia dirancang untuk mendukung kueri data dan analisis yang efisien dan biasanya digunakan untuk menyimpan data historis yang diekstraksi dari berbagai sistem operasional.

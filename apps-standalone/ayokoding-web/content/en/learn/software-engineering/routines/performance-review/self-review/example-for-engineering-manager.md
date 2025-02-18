@@ -1,3 +1,9 @@
+---
+title: 'Example for Engineering Manager'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Example for Engineering Manager
 
 ## **Review of Goals**

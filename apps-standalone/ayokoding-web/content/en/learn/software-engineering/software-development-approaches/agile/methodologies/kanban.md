@@ -1,3 +1,9 @@
+---
+title: 'Kanban'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Kanban
 
 ## What is Kanban?

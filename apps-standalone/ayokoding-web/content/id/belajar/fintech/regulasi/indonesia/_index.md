@@ -1,3 +1,9 @@
+---
+title: 'Indonesia'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Indonesia
 
 [Umum](Indonesia%20165ecfcbaa4780a5a033c1ca942c20c6/Umum%20165ecfcbaa4780a98d79e8d3144f34d3.md)

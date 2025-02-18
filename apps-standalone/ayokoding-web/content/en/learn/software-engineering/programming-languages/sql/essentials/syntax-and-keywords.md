@@ -1,3 +1,9 @@
+---
+title: 'Syntax and Keywords'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Syntax and Keywords
 
 SQL (Structured Query Language) is a programming language that manages and manipulates relational databases. It is used to create, modify, and query databases. SQL syntax is the rules defining how SQL statements are written and executed. SQL keywords are the reserved words used in SQL statements to perform specific tasks.

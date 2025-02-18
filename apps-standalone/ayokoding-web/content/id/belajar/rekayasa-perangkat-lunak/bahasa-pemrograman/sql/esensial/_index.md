@@ -1,3 +1,9 @@
+---
+title: 'Esensial'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Esensial
 
 Prinsip Pareto, juga dikenal sebagai aturan 80/20, menyatakan bahwa sekitar 80% dari efek berasal dari 20% penyebab. Prinsip ini dapat membantu memprioritaskan konsep-konsep paling penting untuk dipahami dan dimanfaatkan untuk SQL. Berikut adalah daftar topik, disusun dalam urutan pembelajaran:

@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT dengan Subkueri'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT dengan Subkueri
 
 Subkueri (atau subquery) adalah kueri yang bersarang di dalam kueri lain. Ini dapat digunakan untuk mengambil data yang akan digunakan dalam kueri utama sebagai kondisi untuk membatasi data yang akan diambil lebih lanjut.

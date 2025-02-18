@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT with GROUP BY'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT with GROUP BY
 
 The `GROUP BY` statement in SQL is used with the `SELECT` statement to arrange identical data into groups. The `GROUP BY` statement comes after any `WHERE` statement but before `ORDER BY` or `HAVING`. It is often used with aggregate functions (`COUNT`, `MAX`, `MIN`, `SUM`, `AVG`) to group the result set by one or more columns.

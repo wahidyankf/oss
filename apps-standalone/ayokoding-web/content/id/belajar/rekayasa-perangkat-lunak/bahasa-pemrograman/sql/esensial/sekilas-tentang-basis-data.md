@@ -1,3 +1,9 @@
+---
+title: 'Sekilas Tentang Basis Data'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Sekilas Tentang Basis Data
 
 Sebuah basis data adalah pilar utama hampir setiap aplikasi modern. Mulai dari sistem perbankan hingga platform media sosial, basis data memainkan peran penting dalam mengelola dan menyimpan data. Dengan memahami apa itu basis data, mengapa itu diperlukan, dan jenis-jenisnya, kita dapat lebih mempersiapkan diri untuk membangun aplikasi dan sistem yang efisien.

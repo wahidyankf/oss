@@ -1,3 +1,9 @@
+---
+title: 'Belajar'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Belajar
 
 [Perkenalan](Belajar%20e4f383eabc5e4a86a061494585158ef6/Perkenalan%20963e7481a0ad470b932eb3297d8bef7f.md)

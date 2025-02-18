@@ -1,3 +1,9 @@
+---
+title: 'Key Concepts'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Key Concepts
 
 Search engines are essential tools for finding information on the internet. They work by indexing web pages and other documents allowing users to search through that index to find relevant results. To do this, search engines rely on data stores that can efficiently store and retrieve large amounts of data. Some popular search engine data stores include Elasticsearch, Amazon CloudSearch, and Apache Solr.

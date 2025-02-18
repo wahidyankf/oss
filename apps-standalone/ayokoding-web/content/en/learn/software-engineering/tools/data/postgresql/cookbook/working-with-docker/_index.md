@@ -1,3 +1,9 @@
+---
+title: 'Working with Docker'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Working with Docker
 
 [With Dockerfile](Working%20with%20Docker%203307eadbaee141109ffc18e72ec95a9d/With%20Dockerfile%200ec65d7b2def40b990ba4abca4dd04bc.md)

@@ -1,3 +1,9 @@
+---
+title: 'Strategic Thinking'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Strategic Thinking
 
 [Analytical](Strategic%20Thinking%20464a4c7f923b4d2f98dbc63e821e847c/Analytical%20c8f82e5f4ea74a7aa78b6e2f0ea9d450.md)

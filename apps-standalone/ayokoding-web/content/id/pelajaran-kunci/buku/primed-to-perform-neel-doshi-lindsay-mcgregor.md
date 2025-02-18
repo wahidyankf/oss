@@ -1,3 +1,9 @@
+---
+title: 'Primed to Perform (Neel Doshi, Lindsay McGregor)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Primed to Perform (Neel Doshi, Lindsay McGregor)
 
 ![book_image-primed_to_perform.jpeg](<../../../English%20c3de5d487e334ec28a83fdd686e766b3/Takeaways%20d7e7954996cf45fd877e8a34b423de90/Books%20a6ec6f095bea4f50b9836fa8162e36a4/Primed%20to%20Perform%20(Neel%20Doshi,%20Lindsay%20McGregor)%20440f1d5885b442c4af7b0f6ae804cf95/book_image-primed_to_perform.jpeg>)

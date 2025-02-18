@@ -1,3 +1,9 @@
+---
+title: 'Self-Assurance'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Self-Assurance
 
 ## Introduction

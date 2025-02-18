@@ -1,3 +1,9 @@
+---
+title: 'DML: DELETE'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: DELETE
 
 Perintah `DELETE` dalam SQL digunakan untuk menghapus catatan yang ada dari sebuah tabel.

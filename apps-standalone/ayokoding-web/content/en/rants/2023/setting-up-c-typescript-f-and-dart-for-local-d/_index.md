@@ -1,3 +1,9 @@
+---
+title: 'Setting Up C, TypeScript, F#, and Dart for Local Development in VS Code: My Holiday Experience'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Setting Up C, TypeScript, F#, and Dart for Local Development in VS Code: My Holiday Experience
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ

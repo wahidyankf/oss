@@ -1,3 +1,9 @@
+---
+title: 'Example for Principal Engineer'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Example for Principal Engineer
 
 ## **Review of Goals**

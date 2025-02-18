@@ -1,3 +1,9 @@
+---
+title: 'Essentials'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Essentials
 
 The Pareto Principle, also known as the 80/20 rule, states that roughly 80% of the effects come from 20% of the causes. This principle can help prioritize the most important concepts to understand and utilize for SQL. Here's the list of topics, arranged in an approximate learning order:

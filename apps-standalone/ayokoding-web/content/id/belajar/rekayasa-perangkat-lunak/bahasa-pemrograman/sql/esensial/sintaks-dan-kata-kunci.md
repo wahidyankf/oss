@@ -1,3 +1,9 @@
+---
+title: 'Sintaks dan Kata Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Sintaks dan Kata Kunci
 
 SQL (Structured Query Language) adalah bahasa pemrograman yang mengelola dan memanipulasi basis data relasional. Ini digunakan untuk membuat, memodifikasi, dan meminta basis data. Sintaks SQL adalah aturan yang mendefinisikan bagaimana pernyataan SQL ditulis dan dieksekusi. Kata kunci SQL adalah kata-kata yang dicadangkan yang digunakan dalam pernyataan SQL untuk melakukan tugas-tugas tertentu.

@@ -1,3 +1,9 @@
+---
+title: 'DDL: ALTER'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: ALTER
 
 The SQL `ALTER` command is a Data Definition Language (DDL) statement used to modify the structure of an existing database object like a table, view, index, etc. It's an essential tool for database schema management.

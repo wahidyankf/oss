@@ -1,3 +1,9 @@
+---
+title: 'Example for Tech Lead'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Example for Tech Lead
 
 ## **Review of Goals**

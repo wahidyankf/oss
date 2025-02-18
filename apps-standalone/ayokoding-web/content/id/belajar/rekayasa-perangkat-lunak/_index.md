@@ -1,3 +1,9 @@
+---
+title: 'Rekayasa Perangkat Lunak'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Rekayasa Perangkat Lunak
 
 [Bahasa Pemrograman](Rekayasa%20Perangkat%20Lunak%203f0e94ee34584b90ba15ae8f9bfedaf4/Bahasa%20Pemrograman%207d9d603e8cc04ddb83d2c1ac200d7b43.md)

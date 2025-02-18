@@ -1,3 +1,9 @@
+---
+title: 'DCL: REVOKE'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DCL: REVOKE
 
 Statement `REVOKE` dalam SQL digunakan untuk mencabut hak akses dari sebuah pengguna atau peran.

@@ -1,3 +1,9 @@
+---
+title: 'DDL: DROP'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DDL: DROP
 
 SQL DDL or Data Definition Language comprises the SQL commands that can be used to define the database schema. It simply deals with descriptions of the database schema and is used to create and modify the structure of database objects.

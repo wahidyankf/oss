@@ -1,3 +1,9 @@
+---
+title: 'Rapid Application Development (RAD)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Rapid Application Development (RAD)
 
 ## What is Rapid Application Development?

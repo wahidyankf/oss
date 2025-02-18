@@ -1,3 +1,9 @@
+---
+title: 'Primed to Perform (Neel Doshi, Lindsay McGregor)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Primed to Perform (Neel Doshi, Lindsay McGregor)
 
 ![book_image-primed_to_perform.jpeg](<Primed%20to%20Perform%20(Neel%20Doshi,%20Lindsay%20McGregor)%20440f1d5885b442c4af7b0f6ae804cf95/book_image-primed_to_perform.jpeg>)

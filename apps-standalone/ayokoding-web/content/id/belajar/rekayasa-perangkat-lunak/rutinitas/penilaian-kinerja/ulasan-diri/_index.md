@@ -1,3 +1,9 @@
+---
+title: 'Ulasan Diri'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Ulasan Diri
 
 [Motivasi](Ulasan%20Diri%20bdf5cc3f356948a6a190c3db6aaed8d0/Motivasi%20cbf4af68ad3d461bbc05afb67e78e4b9.md)

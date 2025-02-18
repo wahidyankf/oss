@@ -1,3 +1,9 @@
+---
+title: 'How to Create Great Self-Review'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # How to Create Great Self-Review
 
 A self-review is an essential part of the performance review process. It is an opportunity for employees to reflect on their accomplishments, identify areas for improvement, and communicate their goals and aspirations to their managers. A well-written self-review can help managers better understand their employees' strengths and weaknesses and provide valuable insights into their performance.

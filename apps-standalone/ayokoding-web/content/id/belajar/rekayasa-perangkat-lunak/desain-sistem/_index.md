@@ -1,3 +1,9 @@
+---
+title: 'Desain Sistem'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Desain Sistem
 
 [Topik](Desain%20Sistem%20f0a2d98498e849788f2193201de45057/Topik%203f95dbf745864cd1942df370f4230b7a.md)

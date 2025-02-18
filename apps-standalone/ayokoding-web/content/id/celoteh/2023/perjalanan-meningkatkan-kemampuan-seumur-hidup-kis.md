@@ -1,3 +1,9 @@
+---
+title: 'Perjalanan Meningkatkan Kemampuan Seumur Hidup: Kisah Taman Kanak-Kanak dan Hubungannya dengan Dunia Rekayasa Perangkat Lunak dan AI'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Perjalanan Meningkatkan Kemampuan Seumur Hidup: Kisah Taman Kanak-Kanak dan Hubungannya dengan Dunia Rekayasa Perangkat Lunak dan AI
 
 <aside>

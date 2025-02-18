@@ -1,3 +1,9 @@
+---
+title: '2023'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # 2023
 
 [Menyeimbangkan Menjadi Orang Tua dan Belajar: Memanfaatkan Kekuatan Buku Audio](2023%20d1ccacd08a19489a8df2b17bb44a421e/Menyeimbangkan%20Menjadi%20Orang%20Tua%20dan%20Belajar%20Meman%207eb0212298ae4c21bff316540728c363.md)

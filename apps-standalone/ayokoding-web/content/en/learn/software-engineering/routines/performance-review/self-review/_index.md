@@ -1,3 +1,9 @@
+---
+title: 'Self-Review'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Self-Review
 
 [Motivation](Self-Review%20fbb9359ff2f34db89c39dfda01052ede/Motivation%2021fb83c57fff40e7961e0ae45ce5de2d.md)

@@ -1,3 +1,9 @@
+---
+title: 'Transaction Control Language'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Transaction Control Language
 
 A transaction in SQL is a sequence of one or more SQL statements treated as a single unit of work. Transactions are used to ensure data consistency and integrity in a database.

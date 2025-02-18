@@ -1,3 +1,9 @@
+---
+title: 'Penyimpanan Objek'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Penyimpanan Objek
 
 [Profil](Penyimpanan%20Objek%207698ea0275324f2a96c5dabed71687b7/Profil%20152e9e1c56754475a6b2377049e09ca2.md)

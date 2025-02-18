@@ -1,3 +1,9 @@
+---
+title: 'Cerita Programmer'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Cerita Programmer
 
 [Cerita Programmer - 21 - Update November 2023](Cerita%20Programmer%20682b9e8e2c8947c2b3a9f232a1f41e93/Cerita%20Programmer%20-%2021%20-%20Update%20November%202023%20b4bc7a000b824f28a55e1b514680a8a3.md)

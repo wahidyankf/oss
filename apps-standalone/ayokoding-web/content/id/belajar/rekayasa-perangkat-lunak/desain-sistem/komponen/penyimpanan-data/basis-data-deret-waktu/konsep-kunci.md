@@ -1,3 +1,9 @@
+---
+title: 'Konsep Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Konsep Kunci
 
 Database deret waktu (TSDB) dioptimalkan untuk mengelola data berlabel waktu atau deret waktu. Mereka dirancang untuk menangani volume data yang besar yang dihasilkan dari waktu ke waktu, seperti data sensor, data log, data keuangan, dan jenis data waktu lainnya. Artikel ini akan membahas konsep dasar database deret waktu.

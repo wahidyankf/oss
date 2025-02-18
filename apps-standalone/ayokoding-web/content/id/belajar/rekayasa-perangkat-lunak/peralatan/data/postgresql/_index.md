@@ -1,3 +1,9 @@
+---
+title: 'PostgreSQL'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # PostgreSQL
 
 [Ikhtisar](PostgreSQL%2080855f05784a46e394001bc8f9797b09/Ikhtisar%2095ba1418dd7c484889b5e21df083acee.md)

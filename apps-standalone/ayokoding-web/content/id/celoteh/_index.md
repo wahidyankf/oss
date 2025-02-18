@@ -1,3 +1,9 @@
+---
+title: 'Celoteh'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Celoteh
 
 [2023](Celoteh%20f686403488254c9ca43c238bde8fd3dc/2023%20d1ccacd08a19489a8df2b17bb44a421e.md)

@@ -1,3 +1,9 @@
+---
+title: 'Tech Lead's Guide to 1:1 Meetings'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Tech Lead's Guide to 1:1 Meetings
 
 Effective communication and collaboration are paramount to success in the dynamic world of technology. For tech leads, 1:1 meetings provide a valuable opportunity to connect with team members, managers, peers, and cross-functional colleagues. By leveraging these meetings effectively, tech leads can foster relationships, support growth, and drive collaboration. This article will explore how tech leads can get the most out of 1:1 meetings across various stakeholders.

@@ -1,3 +1,9 @@
+---
+title: 'Leadership is Lonely: A Personal Perspective as an Engineering Manager'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Leadership is Lonely: A Personal Perspective as an Engineering Manager
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ

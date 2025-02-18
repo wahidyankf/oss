@@ -1,3 +1,9 @@
+---
+title: 'How to Read Clojure Code'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # How to Read Clojure Code
 
 Reading Clojure code is similar to reading any other language - you need to understand its basic structure, syntax, and idioms. But as a Lisp dialect, Clojure uses a syntax different from C-like languages. It is based around lists, represented by parentheses, where the first element of the list is usually a function or special operator and the rest are the arguments.

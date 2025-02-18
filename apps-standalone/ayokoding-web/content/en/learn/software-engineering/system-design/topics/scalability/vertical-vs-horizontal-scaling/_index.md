@@ -1,3 +1,9 @@
+---
+title: 'Vertical vs. Horizontal Scaling'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Vertical vs. Horizontal Scaling
 
 ## Introduction

@@ -1,3 +1,9 @@
+---
+title: 'Data Warehouses'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Data Warehouses
 
 [Profile](Data%20Warehouses%2068ff6f7d317b45a59c06a81c22bb7d01/Profile%20d36977157f9c4c19b4d1f44ffacb718f.md)

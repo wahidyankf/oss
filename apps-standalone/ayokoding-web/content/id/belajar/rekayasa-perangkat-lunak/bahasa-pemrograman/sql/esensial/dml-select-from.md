@@ -1,3 +1,9 @@
+---
+title: 'DML: SELECT FROM'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # DML: SELECT FROM
 
 Perintah `SELECT` merupakan salah satu bagian paling kritis dari SQL, dan kata kunci `FROM` adalah bagian penting dari perintah tersebut. Mereka adalah bagian dari Bahasa Manipulasi Data (DML) SQL - sebuah subset dari SQL yang digunakan untuk menambah, memperbarui, dan menghapus data dalam database.

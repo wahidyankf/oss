@@ -1,5 +1,76 @@
 import os
 import re
+from datetime import datetime
+
+
+def extract_title_from_markdown(file_path):
+    """
+    Extract the first H1 title from a markdown file.
+
+    Args:
+        file_path (str): Path to the markdown file
+
+    Returns:
+        str: Title extracted from the first H1, or filename if no H1 found
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                # Look for H1 markdown title
+                if line.strip().startswith('# '):
+                    return line.strip()[2:].strip()
+    except Exception as e:
+        print(f"Error extracting title from {file_path}: {e}")
+    
+    # Fallback to filename without extension
+    return os.path.splitext(os.path.basename(file_path))[0].replace('-', ' ').title()
+
+
+def add_frontmatter_to_markdown(file_path):
+    """
+    Add frontmatter to markdown files if it doesn't exist.
+
+    Args:
+        file_path (str): Path to the markdown file
+    """
+    try:
+        # Read the current content
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Check if frontmatter already exists
+        if content.startswith('---\n') and '---\n' in content[4:]:
+            return
+
+        # Extract title
+        title = extract_title_from_markdown(file_path)
+
+        # Get current datetime in the specified timezone
+        current_time = datetime.now()
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S%z')
+        # Adjust timezone format to match Hugo's requirement
+        formatted_time = formatted_time[:-2] + ':' + formatted_time[-2:]
+
+        # Create frontmatter
+        frontmatter = f"""---
+title: '{title}'
+date: {formatted_time}
+draft: false
+---
+
+"""
+
+        # Combine frontmatter with existing content
+        updated_content = frontmatter + content.lstrip()
+
+        # Write back to the file
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(updated_content)
+        
+        print(f"Added frontmatter to {file_path}")
+
+    except Exception as e:
+        print(f"Error processing {file_path}: {e}")
 
 
 def to_kebab_case(name):
@@ -112,6 +183,10 @@ def rename_files_and_folders(root_dir):
                 except Exception as e:
                     print(f"Error renaming file {old_path}: {e}")
 
+            # Add frontmatter to markdown files
+            if new_name.lower().endswith('.md'):
+                add_frontmatter_to_markdown(new_path)
+
         # Rename directories
         for name in dirs:
             old_path = os.path.join(root, name)
@@ -129,7 +204,7 @@ def rename_files_and_folders(root_dir):
 def main():
     content_dir = "/Users/wkf/wkf-repos/wahidyankf/ayokoding/apps-standalone/ayokoding-web/content"
     rename_files_and_folders(content_dir)
-    print("Renaming process completed.")
+    print("Cleanup process completed.")
 
 
 if __name__ == "__main__":

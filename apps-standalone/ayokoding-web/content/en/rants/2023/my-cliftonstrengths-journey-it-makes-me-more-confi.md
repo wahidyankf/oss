@@ -1,3 +1,9 @@
+---
+title: 'My CliftonStrengths Journey: It makes me more confident to take the engineering management path'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # My CliftonStrengths Journey: It makes me more confident to take the engineering management path
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ

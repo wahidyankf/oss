@@ -1,3 +1,9 @@
+---
+title: 'Gudang Data'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Gudang Data
 
 [Profil](Gudang%20Data%20299f7c32b1a34997b775439159a970cc/Profil%2081e913a07ce744a48423994e037fd5ea.md)

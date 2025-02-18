@@ -1,3 +1,9 @@
+---
+title: 'Pelajaran Kunci'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Pelajaran Kunci
 
 [Buku](Pelajaran%20Kunci%201b2a125e2ac4486ebf42d362c6f489c6/Buku%20cd60acc924b24252857cb0f1401b425a.md)

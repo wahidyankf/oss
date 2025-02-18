@@ -1,3 +1,9 @@
+---
+title: 'Panduan 1:1 Untuk Engineering Manager'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Panduan 1:1 Untuk Engineering Manager
 
 Pertemuan 1:1 merupakan salah satu komponen penting dalam manajemen dan kepemimpinan yang efektif. Pertemuan ini memberikan platform untuk komunikasi terbuka, penyelarasan tujuan, dan pertumbuhan pribadi. Sebagai seorang _engineering manager_, memanfaatkan pertemuan 1:1 dapat memberikan kontribusi besar pada kesuksesan tim kamu, membangun hubungan yang kuat, dan mempromosikan pengembangan profesional. Artikel ini akan memberikan panduan tentang mengoptimalkan pertemuan 1:1 dengan laporan langsung, _manajer dari manajer_, rekan, dan kolega lintas fungsional untuk mencapai manfaat maksimal.

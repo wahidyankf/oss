@@ -1,3 +1,9 @@
+---
+title: 'Time Management Strategies for Software Engineers: Maximizing Productivity and Success'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Time Management Strategies for Software Engineers: Maximizing Productivity and Success
 
 ![sd image.jpeg](Time%20Management%20Strategies%20for%20Software%20Engineers%20%208358776fed37455ea4dc875fc97b0c22/sd_image.jpeg)

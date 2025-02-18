@@ -1,3 +1,9 @@
+---
+title: 'Regulation - Banking/Financial'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Regulation - Banking/Financial
 
 Here's an adapted set of questions specifically tailored for learning a banking or financial regulation:

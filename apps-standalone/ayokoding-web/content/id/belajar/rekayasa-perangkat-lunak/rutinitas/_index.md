@@ -1,3 +1,9 @@
+---
+title: 'Rutinitas'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Rutinitas
 
 [Pertemuan 1:1](Rutinitas%208e811c36fcd64f3cac28c42bf64eb6c7/Pertemuan%201%201%20fe468857e8a04c61a453583d168d7608.md)

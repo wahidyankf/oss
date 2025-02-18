@@ -1,3 +1,9 @@
+---
+title: 'Rework (Jason Fried, David Heinemeier)'
+date: 2025-02-18T18:23::04
+draft: false
+---
+
 # Rework (Jason Fried, David Heinemeier)
 
 ![book_image-rework.jpeg](<Rework%20(Jason%20Fried,%20David%20Heinemeier)%20404a950f635740198ad108948e3d4ff4/book_image-rework.jpeg>)
