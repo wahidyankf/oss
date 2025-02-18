@@ -26,18 +26,18 @@ disableKinds = ['taxonomy', 'term']
 defaultContentLanguage = 'en'
 defaultContentLanguageInSubdir = true
 
-[languages]
-  [languages.en]
-    languageName = 'English'
-    contentDir = 'content/en'
-    weight = 1
-    title = 'AyoKoding'
+# [languages]
+#   [languages.en]
+#     languageName = 'English'
+#     contentDir = 'content/en'
+#     weight = 1
+#     title = 'AyoKoding'
 
-  [languages.id]
-    languageName = 'Bahasa Indonesia'
-    contentDir = 'content/id'
-    weight = 2
-    title = 'AyoKoding'
+#   [languages.id]
+#     languageName = 'Bahasa Indonesia'
+#     contentDir = 'content/id'
+#     weight = 2
+#     title = 'AyoKoding'
 
 [params]
 # (Optional, default light) Sets color theme: light, dark or auto.
