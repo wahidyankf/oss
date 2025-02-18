@@ -10,3 +10,7 @@ bookCollapseSection: false
 # Sumber Belajar
 
 Jelajahi konten belajar di bagian ini.
+
+## Sumber Belajar
+
+- [Tes Pertama](/id/belajar/tes-pertama)

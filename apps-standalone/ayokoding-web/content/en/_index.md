@@ -10,3 +10,8 @@ bookCollapseSection: false
 # English Learning Resources
 
 Browse through the available content in English.
+
+## Articles
+
+- [My First Post](/en/my-first-post)
+- [Test First](/en/learn/test-first)

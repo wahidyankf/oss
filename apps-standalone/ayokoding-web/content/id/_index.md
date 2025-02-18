@@ -10,3 +10,7 @@ bookCollapseSection: false
 # Sumber Belajar dalam Bahasa Indonesia
 
 Jelajahi konten yang tersedia dalam Bahasa Indonesia.
+
+## Artikel
+
+- [My First Post](/id/my-first-post)

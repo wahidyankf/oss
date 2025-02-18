@@ -11,3 +11,11 @@ This is the homepage of my Hugo-powered website.
 ## Recent Posts
 
 Check out my latest blog posts in the [Posts](/posts/) section.
+
+- [English](/en/)
+- [Bahasa](/id/)
+
+## Daftar Artikel
+
+- [My First Post](/id/my-first-post)
+- [My First Post (English)](/en/my-first-post)

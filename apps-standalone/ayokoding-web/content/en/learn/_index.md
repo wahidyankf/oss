@@ -10,3 +10,7 @@ bookCollapseSection: false
 # Learning Resources
 
 Explore the learning content in this section.
+
+## Learning Resources
+
+- [Test First](/en/learn/test-first)
