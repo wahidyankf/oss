@@ -1,206 +1,111 @@
-# Ayokoding Web V2
+# Ayokoding Web
 
 ## Overview
 
-Ayokoding Web V2 is a multilingual Hugo-powered website for learning and sharing knowledge in both English and Indonesian.
+Ayokoding Web is a modern, educational web platform designed to provide coding tutorials, resources, and learning paths for developers of all skill levels. Built with cutting-edge web technologies, this application offers an interactive and engaging learning experience.
 
-## Features
+## Purpose
 
-- 🌐 Multilingual support (English and Indonesian)
-- 📚 Hugo Book theme
-- 🔍 Full-text search functionality
-- 📱 Responsive design
-- 🌓 Light/dark mode support
+The goal of Ayokoding Web is to:
+
+- Provide high-quality, accessible coding tutorials
+- Create learning paths for various programming technologies
+- Share insights and best practices in software development
+- Build a community of learners and developers
 
 ## Prerequisites
 
-- [Hugo](https://gohugo.io/) (Extended version recommended)
-- [Go](https://golang.org/) (for module support)
+- Node.js 20.17.0
+- npm 11.1.0
 
 ## Getting Started
 
 ### Installation
 
-1. Clone the repository
-
 ```bash
-git clone https://github.com/wahidyankf/ayokoding-web-v2.git
-cd ayokoding-web-v2
-```
-
-2. Install Hugo modules
-
-```bash
-hugo mod get
+npm install
 ```
 
 ### Development
 
-Start the local development server:
+Run the development server:
 
 ```bash
-hugo server -D
+npm run dev
 ```
 
-- `-D` flag includes draft content
-- Access the site at `http://localhost:1313`
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-### Building for Production
+### Testing
 
-Generate static files:
+Run tests:
 
 ```bash
-hugo
+npm test
 ```
 
-The generated site will be in the `public/` directory.
+### Build
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Features
+
+- Next.js 15.1.6
+- React 18
+- TypeScript
+- Tailwind CSS
+- ESLint for linting
 
 ## Project Structure
 
-```
-.
-├── content/
-│   ├── en/           # English content
-│   │   └── learn/
-│   └── id/           # Indonesian content
-│       └── belajar/
-├── static/           # Static assets
-│   ├── css/
-│   └── js/
-├── themes/           # Hugo themes
-│   └── hugo-book/
-└── hugo.toml         # Hugo configuration
-```
+- `src/app/`: Main application routes and components
+- `src/app/__tests__/`: Test files
+- `src/lib/`: Utility functions and helper modules
+- `public/`: Static assets
+- `scripts/`: Utility scripts for project management
 
-## Customization
+## Configuration
 
-- Edit `hugo.toml` to modify site settings
-- Add content in `content/en/` or `content/id/`
-- Customize CSS in `static/css/custom.css`
+### Environment Variables
+
+Create a `.env.local` file in the project root and add the following variables:
+
+- `NEXT_PUBLIC_SITE_URL`: Base URL for the application
+- `NEXT_PUBLIC_ANALYTICS_ID`: Analytics tracking ID (optional)
+
+## Scripts
+
+- `dev`: Start development server
+- `build`: Create production build
+- `start`: Start production server
+- `lint`: Run ESLint
+- `typecheck`: Run TypeScript type checking
+- `generate:category-pages`: Generate static category pages
 
 ## Deployment
 
-### Vercel Deployment
+Optimized for static and server-side rendering with Next.js. Recommended deployment platforms:
 
-#### Deployment Steps
-
-1. Go to Vercel Dashboard
-2. Import the `ayokoding` repository
-3. Configure Project Settings:
-   - **Root Directory**: `apps-standalone/ayokoding-web-v2`
-   - **Build Command**: `./build.sh`
-   - **Output Directory**: `public`
-   - **Install Command**: Leave blank (handled in build script)
-
-#### Vercel Configuration Details
-
-- Framework: Static Site
-- Build Tool: Custom Build Script
-- Hugo Version: 0.134.3 Extended
-
-#### Troubleshooting
-
-- Ensure Vercel has read access to the repository
-- Check build logs for any specific errors
-- Verify Hugo extended version is installed in build environment
-
-**Important Notes**:
-
-- The custom `build.sh` script handles Hugo installation and site generation
-- Monorepo deployment requires precise root directory configuration
-
-### Vercel Deployment Troubleshooting
-
-#### Deployment Environment Challenges
-
-- **No sudo access**: Build scripts must work without root privileges
-- **Limited PATH modifications**: Install tools in user space
-- **Strict security constraints**: Minimal system modifications
-
-#### Debugging Deployment
-
-1. Verify Hugo Installation
-
-   ```bash
-   # Check Hugo version and path
-   which hugo
-   hugo version
-   ```
-
-2. Build Script Validation
-   - Ensure script uses user-space installations
-   - Avoid system-wide modifications
-   - Use `$HOME/bin` for local binaries
-
-#### Common Deployment Pitfalls
-
-- Attempting to use `sudo`
-- Hardcoding system paths
-- Assuming root access
-
-#### Recommended Build Strategy
-
-- Download binaries directly
-- Install in user home directory
-- Modify PATH temporarily
-- Use minimal system interactions
-
-#### Common Deployment Errors
-
-- **wget/curl not found**:
-  - Ensure build script uses available system commands
-  - Fallback to alternative download methods
-
-#### Debugging Steps
-
-1. Check Vercel Build Logs
-2. Verify Build Script Permissions
-3. Test Build Script Locally
-
-#### Vercel Configuration Checklist
-
-- [ ] Root Directory: `apps-standalone/ayokoding-web-v2`
-- [ ] Build Script: Executable and compatible with Vercel environment
-- [ ] Hugo Version: Explicitly specified
-- [ ] Output Directory: `public`
-
-#### Potential Solutions
-
-```bash
-# Verify build script works
-chmod +x build.sh
-./build.sh
-
-# Check Hugo installation
-hugo version
-```
-
-**Vercel-Specific Tips**:
-
-- Always test build script locally
-- Simulate Vercel environment
-- Check build logs carefully
-- Minimize external dependencies
-
-**Troubleshooting Tips**:
-
-- Use `curl` instead of `wget`
-- Ensure build script has proper error handling
-- Check Vercel documentation for platform-specific build requirements
+- Vercel
+- Netlify
+- Cloudflare Pages
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create a new branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
 
 ## License
 
-[Add your license information here]
+This project is open-source and available under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Acknowledgments
+## Contact
 
-- [Hugo](https://gohugo.io/)
-- [Hugo Book Theme](https://github.com/alex-shpak/hugo-book)
+For questions or support, please open an issue on GitHub or contact the maintainers.

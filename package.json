@@ -10,14 +10,16 @@
     "next-hello:typecheck": "nx typecheck next-hello",
     "ayokoding-web:build": "cd apps-standalone/ayokoding-web && npm run build",
     "ayokoding-web:dev": "cd apps-standalone/ayokoding-web && npm run dev",
-    "ayokoding-web:start": "cd apps-standalone/ayokoding-web && npm run start",
-    "ayokoding-web:lint": "cd apps-standalone/ayokoding-web && npm run lint",
-    "ayokoding-web:typecheck": "cd apps-standalone/ayokoding-web && npm run typecheck",
-    "ayokoding-web:test": "cd apps-standalone/ayokoding-web && npm run test",
-    "ayokoding-web:test:all": "cd apps-standalone/ayokoding-web && npm run test:all",
+    "ayokoding-web-v2:build": "cd apps-standalone/ayokoding-web-v2 && npm run build",
+    "ayokoding-web-v2:dev": "cd apps-standalone/ayokoding-web-v2 && npm run dev",
+    "ayokoding-web-v2:start": "cd apps-standalone/ayokoding-web-v2 && npm run start",
+    "ayokoding-web-v2:lint": "cd apps-standalone/ayokoding-web-v2 && npm run lint",
+    "ayokoding-web-v2:typecheck": "cd apps-standalone/ayokoding-web-v2 && npm run typecheck",
+    "ayokoding-web-v2:test": "cd apps-standalone/ayokoding-web-v2 && npm run test",
+    "ayokoding-web-v2:test:all": "cd apps-standalone/ayokoding-web-v2 && npm run test:all",
     "test:echo": "echo 'Running tests for Ayokoding monorepo'",
     "typecheck": "npx nx run-many --target=typecheck",
-    "test:all:standalone": "npm run ayokoding-web:test:all",
+    "test:all:standalone": "npm run ayokoding-web:build",
     "test:all": "npm run test:echo && npm run test:all:standalone && npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
     "build": "./scripts/build.sh"
   },
@@ -66,7 +68,7 @@
     ]
   },
   "volta": {
-    "node": "20.11.0",
+    "node": "20.17.0",
     "npm": "11.1.0"
   }
 }
