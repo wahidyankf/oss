@@ -10,7 +10,16 @@
       }
     }
   ],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
+  "routes": [
+    {
+      "src": "/(css|js|fonts|images|svg|favicon.png|manifest.json)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/.*",
+      "dest": "/public/index.html"
+    }
+  ],
   "build": {
     "env": {
       "HUGO_VERSION": "0.135.0"
