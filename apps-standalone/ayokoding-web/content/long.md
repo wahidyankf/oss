@@ -13,6 +13,12 @@ July 14, 2023
 
 During my career till now, I have always strived to stick to effective time management and course correction whenever I deviate. Time management is crucial for any software engineer looking to optimize their career trajectory. Managing your time effectively in the fast-paced world of software development can significantly improve your productivity, efficiency, and overall success. This article will explore the importance of time management skills for software engineers and provide practical tips to help you improve.
 
+{{< youtube Jehv5qXQAD8 >}}
+
+test
+
+{{< gslides "2PACX-1vS9sPx7TKe1U3BlBTX7vQT9MMtQYDWLXUBIrG8aiJXw1ghhp0ImqBW8HxpZJSrccT1Yrx_udowxi19M" >}}
+
 ## Why Time Management Matters for Software Engineers
 
 Time management is a crucial aspect that software engineers should not overlook. Practical time management skills can lead to several benefits that can help you succeed professionally. Here are some of the reasons why time management is essential for software engineers:
