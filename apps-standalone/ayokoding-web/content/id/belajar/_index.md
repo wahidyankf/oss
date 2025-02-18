@@ -7,4 +7,4 @@ bookFlatSection: false
 bookCollapseSection: false
 ---
 
-Konten belajar dalam bahasa Indonesia
+Ini adalah konten belajar dalam bahasa Indonesia

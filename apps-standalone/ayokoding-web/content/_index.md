@@ -9,9 +9,9 @@ bookCollapseSection: false
 
 ## Content in English
 
-[English Learning Resources](/en/)
+[English Learning Resources](./en/)
 
-- Learn
+- [Learn](./en/learn)
   - Introduction
   - How to Learn
     - Guiding Questions
@@ -34,9 +34,9 @@ bookCollapseSection: false
 
 ## Konten dalam Bahasa Indonesia
 
-[Bahasa Indonesia Learning Resources](/id/)
+[Bahasa Indonesia Learning Resources](./id/)
 
-- Belajar
+- [Belajar](./id/belajar/)
   - Rekayasa Perangkat Lunak
     - Bahasa Pemrograman
     - Desain Sistem
