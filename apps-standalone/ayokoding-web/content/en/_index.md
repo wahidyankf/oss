@@ -7,4 +7,8 @@ bookFlatSection: false
 bookCollapseSection: false
 ---
 
-This is english contents
+- [Learn](./learn/)
+- [Cheatsheets](./cheatsheets/)
+- [Rants](./rants/)
+- [Takeaways](./takeaways/)
+- [About AyoKoding](./about-ayokoding/)

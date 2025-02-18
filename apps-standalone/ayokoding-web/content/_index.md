@@ -11,7 +11,7 @@ bookCollapseSection: false
 
 [English Learning Resources](./en/)
 
-- [Learn](./en/learn)
+- [Learn](./en/learn/)
   - Introduction
   - How to Learn
     - Guiding Questions
@@ -21,8 +21,8 @@ bookCollapseSection: false
     - Software Development Approaches
     - Tools
     - Routines
-- Human
-  - Tools
+  - Human
+    - Tools
 - Cheatsheets
 - Rants
 - Takeaways
