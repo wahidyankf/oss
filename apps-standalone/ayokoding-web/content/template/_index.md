@@ -8,7 +8,7 @@ bookFlatSection: false
 bookCollapseSection: false
 ---
 
-{{< figure src="/images/sd-image.jpeg" width="400" alt="Gravel Calls" class="mx-auto d-block" >}}
+{{< figure src="/images/template/sd-image.jpeg" width="400" alt="Gravel Calls" class="mx-auto d-block" >}}
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
@@ -56,6 +56,19 @@ func main() {
 }
 ```
 
+## GoAT diagrams (ASCII)
+
+```goat
+      .               .                .               .--- 1          .-- 1     / 1
+     / \              |                |           .---+            .-+         +
+    /   \         .---+---.         .--+--.        |   '--- 2      |   '-- 2   / \ 2
+   +     +        |       |        |       |    ---+            ---+          +
+  / \   / \     .-+-.   .-+-.     .+.     .+.      |   .--- 3      |   .-- 3   \ / 3
+ /   \ /   \    |   |   |   |    |   |   |   |     '---+            '-+         +
+ 1   2 3   4    1   2   3   4    1   2   3   4         '--- 4          '-- 4     \ 4
+
+```
+
 ## Mermaid Diagram Example
 
 Here's a sample Mermaid diagram:
@@ -73,6 +86,49 @@ sequenceDiagram
     end
     Note right of Hugo: Fast and efficient!
 ```
+
+```mermaid
+graph TD
+  A[Unsorted Array] --> B{Divide};
+  B -- Left --> C{Divide};
+  C -- Left --> D[Element];
+  C -- Right --> E[Element];
+  D --> F[Merge];
+  E --> F;
+  F --> G[Sorted Subarray];
+  B -- Right --> H{Divide};
+  H -- Left --> I[Element];
+  H -- Right --> J[Element];
+  I --> K[Merge];
+  J --> K;
+  K --> L[Sorted Subarray];
+  G --> M[Merge];
+  L --> M;
+  M --> N[Sorted Array];
+
+  style A fill:#f9f,stroke:#333,stroke-width:2px
+  style N fill:#ccf,stroke:#333,stroke-width:2px
+
+  classDef element fill:#ccf,stroke:#333
+  class D element;
+  class E element;
+  class I element;
+  class J element;
+
+  classDef merge fill:#aaf,stroke:#333
+  class F merge;
+  class K merge;
+  class M merge;
+
+  classDef divide fill:#88f,stroke:#333
+  class B divide;
+  class C divide;
+  class H divide;
+```
+
+## See more
+
+See more content management topics [here](https://gohugo.io/content-management/).
 
 ## References
 
