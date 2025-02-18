@@ -1,6 +1,6 @@
 baseURL = '/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'AyoKoding'
 theme = 'hugo-book'
 
 # (Optional) Set Google Analytics if you use it to track your website.
@@ -88,7 +88,7 @@ book_portable_links = true
 book_service_worker = true
 
 # Ensure links open in current tab
-book_link_target = "_self"  # This forces links to open in the current tab
+book_link_target = "_self" # This forces links to open in the current tab
 
 # Add custom CSS
 custom_css = ["/css/custom.css"]

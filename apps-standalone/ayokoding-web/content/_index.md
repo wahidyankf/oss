@@ -1,21 +1,62 @@
 ---
-title: 'Welcome to My Hugo Site'
-date: 2025-02-17T06:53:35+07:00
+title: 'Home'
+date: 2025-02-17T07:03:55+07:00
 draft: false
+weight: 1
+bookFlatSection: false
+bookCollapseSection: false
 ---
 
-# Welcome to My Blog
+## Content in English
 
-This is the homepage of my Hugo-powered website.
+[English Learning Resources](/en/)
 
-## Recent Posts
+- Learn
+  - Introduction
+  - How to Learn
+    - Guiding Questions
+  - Software Engineering
+    - Programming Languages
+    - System Design
+    - Software Development Approaches
+    - Tools
+    - Routines
+- Human
+  - Tools
+- Cheatsheets
+- Rants
+- Takeaways
+  - Books
+  - Essays
+- About AyoKoding
 
-Check out my latest blog posts in the [Posts](/posts/) section.
+---
 
-- [English](/en/)
-- [Bahasa](/id/)
+## Konten dalam Bahasa Indonesia
 
-## Daftar Artikel
+[Bahasa Indonesia Learning Resources](/id/)
 
-- [My First Post](/id/my-first-post)
-- [My First Post (English)](/en/my-first-post)
+- Belajar
+  - Rekayasa Perangkat Lunak
+    - Bahasa Pemrograman
+    - Desain Sistem
+    - Peralatan
+    - Rutinitas
+  - Manusia
+    - Peralatan
+  - Contekan
+- Celoteh
+  - Konten Video
+    - Cerita Programmer
+    - Pengen Jadi Programmer
+    - Karir Programmer
+    - Jam Kantor
+    - Klub Belajar
+- Pelajaran Kunci
+  - Buku
+  - Esai
+- Tentang AyoKoding
+
+---
+
+[Terms and Conditions](/terms-and-conditions)
