@@ -82,6 +82,9 @@ BookPortableLinks = true
 # (Optional, experimental, default false) Enables service worker that caches visited pages and resources for offline use.
 BookServiceWorker = true
 
+# Maximum depth for sidebar menu rendering
+BookMenuLevelMax = 3
+
 # Set type to 'docs' if you want to render page outside of configured section or if you render section other than 'docs'
 type = 'docs'
 
