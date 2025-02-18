@@ -1,6 +1,6 @@
 ---
 title: 'Cerita Programmer - 7 - Transisi Jadi Programmer - Persiapan - Belajar Mengetik 10 Jari'
-date: 2025-02-18T18:40::10
+date: 2025-02-18T18:40:10
 draft: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 'Leadership is Lonely: A Personal Perspective as an Engineering Manager'
-date: 2025-02-18T18:40::10
+date: 2025-02-18T18:40:10
 draft: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 'Menyiapkan C, TypeScript, F#, dan Dart untuk Pengembangan Lokal dalam Kode VS: Pengalaman Liburan Saya'
-date: 2025-02-18T18:40::10
+date: 2025-02-18T18:40:10
 draft: false
 ---
 

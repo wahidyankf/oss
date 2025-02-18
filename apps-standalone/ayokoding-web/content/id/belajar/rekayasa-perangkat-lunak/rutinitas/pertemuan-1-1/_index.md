@@ -1,6 +1,6 @@
 ---
 title: 'Pertemuan 1:1'
-date: 2025-02-18T18:40::10
+date: 2025-02-18T18:40:10
 draft: false
 ---
 

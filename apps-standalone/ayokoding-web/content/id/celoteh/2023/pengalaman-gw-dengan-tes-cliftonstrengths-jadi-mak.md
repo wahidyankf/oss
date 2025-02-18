@@ -1,6 +1,6 @@
 ---
 title: 'Pengalaman Gw dengan Tes CliftonStrengths: Jadi makin yakin di jalur engineering management'
-date: 2025-02-18T18:40::10
+date: 2025-02-18T18:40:10
 draft: false
 ---
 
