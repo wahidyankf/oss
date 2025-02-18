@@ -59,18 +59,43 @@ The generated site will be in the `public/` directory.
 
 ```
 .
-├── content/
-│   ├── en/           # English content
-│   │   └── learn/
-│   └── id/           # Indonesian content
-│       └── belajar/
-├── static/           # Static assets
-│   ├── css/
-│   └── js/
-├── themes/           # Hugo themes
-│   └── hugo-book/
-└── hugo.toml         # Hugo configuration
+├── README.md
+├── archetypes
+│   └── default.md         # Hugo archetypes for content templates
+├── assets
+│   └── custom.scss        # Custom SCSS styles
+├── build.sh               # Build script for the project
+├── content
+│   ├── _index.md          # Main site index
+│   ├── en                 # English content directory
+│   ├── id                 # Indonesian content directory
+│   ├── template           # Template for new content
+│   └── terms-and-conditions.md
+├── go.mod                 # Go module definition
+├── go.sum                 # Go module checksum
+├── hugo.toml              # Hugo configuration file
+├── layouts
+│   ├── _default           # Default layout templates
+│   ├── partials           # Partial layout components
+│   └── shortcodes         # Custom shortcode definitions
+├── package.json           # Node.js project dependencies
+├── static
+│   ├── css                # Static CSS files
+│   ├── images             # Static image assets
+│   └── js                 # Static JavaScript files
+├── themes
+│   └── hugo-book          # Hugo Book theme
+├── vercel.json            # Vercel deployment configuration
 ```
+
+### Directory Descriptions
+
+- `archetypes/`: Contains content templates for Hugo
+- `assets/`: Custom SCSS and asset preprocessing
+- `content/`: All site content, organized by language
+- `layouts/`: Custom layout templates and shortcodes
+- `static/`: Static assets like CSS, JS, and images
+- `themes/`: Hugo theme (currently using hugo-book)
 
 ## Customization
 
