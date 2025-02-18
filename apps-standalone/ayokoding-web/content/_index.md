@@ -7,9 +7,7 @@ title: Home
 weight: 2
 ---
 
-## Content in English
-
-[English Learning Resources](./en/)
+## [Content in English](./en/)
 
 - [Learn](./en/learn/)
   - Introduction
@@ -32,9 +30,7 @@ weight: 2
 
 ---
 
-## Konten dalam Bahasa Indonesia
-
-[Bahasa Indonesia Learning Resources](./id/)
+## [Konten dalam Bahasa Indonesia](./id/)
 
 - [Belajar](./id/belajar/)
   - Rekayasa Perangkat Lunak
