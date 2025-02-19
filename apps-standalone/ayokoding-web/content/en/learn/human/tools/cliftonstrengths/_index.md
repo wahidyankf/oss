@@ -73,7 +73,6 @@ These themes relate to individuals who can think conceptually and see the big pi
 - [Intellection](./themes/strategic-thinking/intellection/): Those who enjoy thinking and reflecting on complex issues.
 - [Learner](./themes/strategic-thinking/learner/): Individuals who are constantly seeking to acquire new knowledge and skills.
 - [Strategic](./themes/strategic-thinking/strategic/): People adept at seeing patterns and connections between ideas.
-- [Arranger](./themes/strategic-thinking/arranger/): Those who like organizing information to understand complex situations better.
 
 ## Links
 

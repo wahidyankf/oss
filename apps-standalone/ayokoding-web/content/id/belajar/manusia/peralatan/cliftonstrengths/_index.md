@@ -47,14 +47,14 @@ Tema-tema ini berkaitan dengan individu yang dapat memimpin dan membujuk orang l
 - [Maksimalisasi](./tema/pengaruh/maksimalisasi/) : Orang yang terampil dalam mengidentifikasi dan mengembangkan kekuatan diri mereka dan orang lain.
 - [Keyakinan Diri](./tema/pengaruh/keyakinan-diri/) : Mereka yang percaya diri dalam kemampuan dan keputusan mereka.
 - [Signifikansi](./tema/pengaruh/signifikansi/) : Individu yang berusaha memengaruhi dunia dan diakui karena prestasi mereka.
-- [Mengajak (Menarik Hati)](./tema/pengaruh/mengajak/) : Orang yang secara alami dapat memenangkan orang lain dan membangun hubungan.
+- [Mengajak (Menarik Hati)](./tema/pengaruh/mengajak-menarik-hati/) : Orang yang secara alami dapat memenangkan orang lain dan membangun hubungan.
 
 ## [Membangun Hubungan](./tema/membangun-hubungan/)
 
 Tema-tema ini berkaitan dengan individu yang secara alami pandai membangun hubungan dan terhubung dengan orang lain.
 
 - [Fleksibilitas](./tema/membangun-hubungan/fleksibilitas/) : Individu yang beradaptasi dengan perubahan situasi dan menyesuaikan perilaku mereka sesuai dengan itu.
-- [Connectedness](./tema/membangun-hubungan/connectedness/) : Orang yang memiliki rasa keterhubungan yang mendalam dan percaya bahwa segala sesuatu di dunia saling terkait.
+- [Keterhubungan](./tema/membangun-hubungan/keterhubungan/) : Orang yang memiliki rasa keterhubungan yang mendalam dan percaya bahwa segala sesuatu di dunia saling terkait.
 - [Pengembang](./tema/membangun-hubungan/pengembang/) : Mereka yang menikmati membantu orang lain tumbuh dan mengembangkan kemampuan mereka.
 - [Empati](./tema/membangun-hubungan/empati/) : Individu yang dapat merasakan dan memahami perasaan orang lain.
 - [Harmoni](./tema/membangun-hubungan/harmoni/) : Orang yang berusaha untuk menghindari konflik dan berusaha untuk mencapai harmoni dalam hubungan mereka.
@@ -75,7 +75,6 @@ Tema-tema ini berkaitan dengan individu yang dapat berpikir konseptual dan melih
 - [Inteleksi](./tema/berpikir-strategis/inteleksi/) : Mereka yang menikmati berpikir dan merenungkan isu-isu kompleks.
 - [Pembelajar](./tema/berpikir-strategis/pembelajar/) : Individu yang selalu mencari untuk memperoleh pengetahuan dan keterampilan baru.
 - [Strategis](./tema/berpikir-strategis/strategis/) : Orang yang terampil dalam melihat pola dan hubungan antara ide-ide.
-- [Pengaturan](./tema/berpikir-strategis/pengaturan/) : Mereka yang suka mengorganisir informasi untuk memahami situasi yang kompleks dengan lebih baik.
 
 ## Tautan
 
