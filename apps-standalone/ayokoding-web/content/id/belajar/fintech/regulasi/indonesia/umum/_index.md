@@ -6,6 +6,6 @@ draft: false
 
 # Umum
 
-[Otoritas Jasa Keuangan (OJK)](./otoritas-jasa-keuangan/)
+[Otoritas Jasa Keuangan (OJK)](./otoritas-jasa-keuangan-ojk/)
 
 [Bank Indonesia (BI)](./bank-indonesia/)
