@@ -8,7 +8,7 @@ draft: false
 
 ## Introduction
 
-The `tryCatch()` function is a useful utility that allows developers to execute code that may potentially throw exceptions safely. It provides a structured and type-safe way to handle exceptions by wrapping the result in a `Result` type (more on `Result` type: [Typing: Result](Typing%20Result%200d2f6a91942d409d949610cebb9d1eb7.md)).
+The `tryCatch()` function is a useful utility that allows developers to execute code that may potentially throw exceptions safely. It provides a structured and type-safe way to handle exceptions by wrapping the result in a `Result` type (more on `Result` type: [Typing: Result](./typing-result/)).
 
 Exception handling is an essential aspect of writing robust and reliable code. However, if not appropriately handled, traditional exception-handling mechanisms, such as `try-catch` blocks, can sometimes lead to unhandled exceptions or unexpected crashes. The `tryCatch()` function addresses this issue by encapsulating the execution of code within a controlled environment.
 

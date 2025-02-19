@@ -36,4 +36,4 @@ So, dive in, explore the recipes, and let the Dart Cookbook be your trusted comp
 
 [Typing: Result](./typing-result/)
 
-[Typing: tryCatch](./typing-try-catch/)
+[Typing: tryCatch](./typing-trycatch/)

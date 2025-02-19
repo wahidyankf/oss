@@ -107,5 +107,5 @@ Examples of relational databases include MySQL, PostgreSQL, and Oracle.
 - "Database Systems: The Complete Book" by Hector Garcia-Molina, Jeffrey D. Ullman, and Jennifer Widom
 - "SQL Performance Explained" by Markus Winand
 - "High Performance MySQL" by Baron Schwartz, Peter Zaitsev, and Vadim Tkachenko
-- [MySQL](../../../../Tools%20265ac557289e4351b63814325543ccf1/Data%20f66525eb9a684640800031d260b54b9e/MySQL%20912df7b51eca482b985203131cdebfb8.md)
-- [PostgreSQL](../../../../Tools%20265ac557289e4351b63814325543ccf1/Data%20f66525eb9a684640800031d260b54b9e/PostgreSQL%20ea92b62f5fc944d183bfb1c3a6e5d3e8.md)
+- [MySQL](../../../../tools/data/mysql/)
+- [PostgreSQL](../../../../tools/data/postgresql/)

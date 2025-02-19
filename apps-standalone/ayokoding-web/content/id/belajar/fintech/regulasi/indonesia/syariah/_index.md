@@ -6,4 +6,4 @@ draft: false
 
 # Syariah
 
-[Majelis Ulama Indonesia (MUI)](./majelis-ulama-indonesia/)
+[Majelis Ulama Indonesia (MUI)](./majelis-ulama-indonesia-mui/)

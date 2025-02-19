@@ -24,6 +24,6 @@ So, dive in, delve into the recipes, and let the TypeScript Cookbook be your tru
 
 ### Up and Running
 
-[How to Read TypeScript Code?](Cookbook%20a71251bf097c4f6d8e0d547da0be4871/How%20to%20Read%20TypeScript%20Code%2075ac48b1b8734b219636c06047116d01.md)
+[How to Read TypeScript Code?](./how-to-read-typescript-code/)
 
-[Hello World](Cookbook%20a71251bf097c4f6d8e0d547da0be4871/Hello%20World%20b30c3b05593941d996fba16ba0ba23f9.md)
+[Hello World](./hello-world/)

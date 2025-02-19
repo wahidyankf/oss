@@ -130,4 +130,4 @@ Regarding database management, several common pitfalls can negatively impact per
 
 - "NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence" by Martin Fowler and Pramod Sadalage
 - "Seven Databases in Seven Weeks: A Guide to Modern Databases and the NoSQL Movement" by Luc Perkins, Jim Wilson, and Eric Redmond
-- [MongoDB](../../../../Tools%20265ac557289e4351b63814325543ccf1/Data%20f66525eb9a684640800031d260b54b9e/MongoDB%20e14ffe4cd424482a9fd424c3706cc3ca.md)
+- [MongoDB](../../../../tools/data/mongodb/)

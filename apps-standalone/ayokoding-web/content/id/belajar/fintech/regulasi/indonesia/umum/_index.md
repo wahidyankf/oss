@@ -8,4 +8,4 @@ draft: false
 
 [Otoritas Jasa Keuangan (OJK)](./otoritas-jasa-keuangan-ojk/)
 
-[Bank Indonesia (BI)](./bank-indonesia/)
+[Bank Indonesia (BI)](./bank-indonesia-bi/)

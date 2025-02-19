@@ -50,9 +50,9 @@ _Example:_ In FDD, a software team might create an initial model of the domain, 
 
 [Lean](./lean/)
 
-[Extreme Programming (XP)](./extreme-programming/)
+[Extreme Programming (XP)](./extreme-programming-xp/)
 
-[Feature Driven Development (FDD)](./feature-driven-development/)
+[Feature Driven Development (FDD)](./feature-driven-development-fdd/)
 
 ## Further Readings
 

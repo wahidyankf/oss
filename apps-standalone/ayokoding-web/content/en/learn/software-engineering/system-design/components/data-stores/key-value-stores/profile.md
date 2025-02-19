@@ -114,4 +114,4 @@ Key-value stores typically use automatic replication to ensure data availability
 
 - "NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence" by Martin Fowler and Pramod Sadalage
 - "Seven Databases in Seven Weeks: A Guide to Modern Databases and the NoSQL Movement" by Luc Perkins, Jim Wilson, and Eric Redmond
-- [Redis](../../../../Tools%20265ac557289e4351b63814325543ccf1/Data%20f66525eb9a684640800031d260b54b9e/Redis%20e05f23824f8d4828bff55fd60df36338.md)
+- [Redis](../../../../tools/data/redis/)

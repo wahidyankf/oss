@@ -6,7 +6,7 @@ draft: false
 
 # Essentials
 
-Assuming that you already know SQL’s [Essentials](../../../Programming%20Languages%2087b1cadb005848d28ee7187f6458ff12/SQL%20e91fd9cadc8a4b8aba3230c66052fec6/Essentials%200a1fc28689a9464c9f0b3966a33cf4b6.md), here are the essential things in PostgreSQL that you need to know.
+Assuming that you already know SQL’s [Essentials](../../../programming-languages/sql/essentials/), here are the essential things in PostgreSQL that you need to know.
 
 ## 1. PostgreSQL Basics
 

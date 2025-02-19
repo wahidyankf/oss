@@ -28,9 +28,9 @@ Prinsip Pareto, juga dikenal sebagai aturan 80/20, menyatakan bahwa sekitar 80% 
 
 [DML: SELECT ALL](./dml-select-all/)
 
-[DML: SELECT dengan WHERE](./dml-select-where/)
+[DML: SELECT dengan WHERE](./dml-select-dengan-where/)
 
-[DML: SELECT dengan ORDER BY](./dml-select-order-by/)
+[DML: SELECT dengan ORDER BY](./dml-select-dengan-order-by/)
 
 [DML: INSERT](./dml-insert/)
 
