@@ -6,12 +6,12 @@ draft: false
 
 # Scrum
 
-[Overview](Scrum%206e33920f524b4646b9168892e596b2e8/Overview%20a5eaede86c384572aa3547cac242ffec.md)
+[Overview](./overview/)
 
-[Roles](Scrum%206e33920f524b4646b9168892e596b2e8/Roles%204f70b227a1fb40a3a523eeedf6292eb6.md)
+[Roles](./roles/)
 
-[Artifacts](Scrum%206e33920f524b4646b9168892e596b2e8/Artifacts%20be8151a39e3a4903a6fd52ff4e587203.md)
+[Artifacts](./artifacts/)
 
-[Events](Scrum%206e33920f524b4646b9168892e596b2e8/Events%203cf39f2500324168ba0d94c1be4f0602.md)
+[Events](./events/)
 
-[FAQ](Scrum%206e33920f524b4646b9168892e596b2e8/FAQ%20482b60dea6f346d793b75baafa522021.md)
+[FAQ](./faq/)

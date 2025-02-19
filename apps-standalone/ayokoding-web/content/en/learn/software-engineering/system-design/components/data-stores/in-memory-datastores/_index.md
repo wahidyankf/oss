@@ -128,6 +128,6 @@ Further Readings
 
 "Redis in Action" by Josiah L. Carlson
 
-[Profile](In-Memory%20Datastores%20d20cca730376464db6502883e3e162c6/Profile%204c6bf204c28c45dbb322b5df0f2c6740.md)
+[Profile](./profile/)
 
-[Key Concepts](In-Memory%20Datastores%20d20cca730376464db6502883e3e162c6/Key%20Concepts%20271a0b537310410aaa85b262e1cacbbc.md)
+[Key Concepts](./key-concepts/)

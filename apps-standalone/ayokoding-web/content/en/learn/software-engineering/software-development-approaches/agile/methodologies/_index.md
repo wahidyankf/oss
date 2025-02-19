@@ -44,15 +44,15 @@ _Example:_ In FDD, a software team might create an initial model of the domain, 
 
 ## Contents
 
-[Scrum](Methodologies%20e96c5da4180c46d1a5612ffe9801c319/Scrum%206e33920f524b4646b9168892e596b2e8.md)
+[Scrum](./scrum/)
 
-[Kanban](Methodologies%20e96c5da4180c46d1a5612ffe9801c319/Kanban%204be371023d924f5d8e334b7f7e1773b5.md)
+[Kanban](./kanban/)
 
-[Lean](Methodologies%20e96c5da4180c46d1a5612ffe9801c319/Lean%203183dfdc409b4f47bb9fc609bcc9c1f8.md)
+[Lean](./lean/)
 
-[Extreme Programming (XP)](<Methodologies%20e96c5da4180c46d1a5612ffe9801c319/Extreme%20Programming%20(XP)%205c4ae70eb4a444009da84eb45e425611.md>)
+[Extreme Programming (XP)](./extreme-programming/)
 
-[Feature Driven Development (FDD)](<Methodologies%20e96c5da4180c46d1a5612ffe9801c319/Feature%20Driven%20Development%20(FDD)%20120c48b0b2ad48ff85b67b70ab5040b5.md>)
+[Feature Driven Development (FDD)](./feature-driven-development/)
 
 ## Further Readings
 

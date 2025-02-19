@@ -7,27 +7,21 @@ weight: 1
 
 # English
 
-[Learn](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688.md)
-
-- [Introduction](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Introduction%20a2fa05bfdb9f44a7a719d0c9c50cc745.md)
-- [How to Learn](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/How%20to%20Learn%20178ecfcbaa478026a9a3d40f8e9403d8.md)
-  - [Guiding Questions](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/How%20to%20Learn%20178ecfcbaa478026a9a3d40f8e9403d8/Guiding%20Questions%20178ecfcbaa4780cc88fbccc5e3897dcb.md)
-- [Software Engineering](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5.md)
-  - [Programming Languages](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/Programming%20Languages%2087b1cadb005848d28ee7187f6458ff12.md)
-  - [System Design](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4.md)
-  - [Software Development Approaches](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/Software%20Development%20Approaches%2054541c867bbe40f0a0c99c27e50a8cfd.md)
-  - [Tools](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/Tools%20265ac557289e4351b63814325543ccf1.md)
-  - [Routines](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/Routines%20d30cc60f7ca44b1880006d626ae569eb.md)
-- [Human](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Human%2004c79c94438c46a99ae6f6fa1ec90829.md)
-  - [Tools](English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Human%2004c79c94438c46a99ae6f6fa1ec90829/Tools%205f0f404d05e94839b61e75e53d392983.md)
-
-[Cheatsheets](English%20c3de5d487e334ec28a83fdd686e766b3/Cheatsheets%2042b0c6c320aa422292ce7b452328e878.md)
-
-[Rants](English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b.md)
-
-[Takeaways](English%20c3de5d487e334ec28a83fdd686e766b3/Takeaways%20d7e7954996cf45fd877e8a34b423de90.md)
-
-- [Books](English%20c3de5d487e334ec28a83fdd686e766b3/Takeaways%20d7e7954996cf45fd877e8a34b423de90/Books%20a6ec6f095bea4f50b9836fa8162e36a4.md)
-- [Essays](English%20c3de5d487e334ec28a83fdd686e766b3/Takeaways%20d7e7954996cf45fd877e8a34b423de90/Essays%20528b77b42bdb4e8ea00c6ae988d66ae7.md)
-
-[About AyoKoding](English%20c3de5d487e334ec28a83fdd686e766b3/About%20AyoKoding%2093a6dda546cc4901890cacc138c2f299.md)
+- [Learn](./learn/)
+  - [Introduction](./learn/introduction/)
+  - [How to Learn](./learn/how-to-learn/)
+    - [Guiding Questions](./learn/how-to-learn/guiding-questions/)
+  - [Software Engineering](./learn/software-engineering/)
+    - [Programming Languages](./learn/software-engineering/programming-languages/)
+    - [System Design](./learn/software-engineering/system-design/)
+    - [Software Development Approaches](./learn/software-engineering/software-development-approaches/)
+    - [Tools](./learn/software-engineering/tools/)
+    - [Routines](./learn/software-engineering/routines/)
+  - [Human](./learn/human/)
+    - [Tools](./learn/human/tools/)
+- [Cheatsheets](./cheatsheets/)
+- [Rants](./rants/)
+- [Takeaways](./takeaways/)
+  - [Books](./takeaways/books/)
+  - [Essays](./takeaways/essays/)
+- [About AyoKoding](./about-ayokoding/)

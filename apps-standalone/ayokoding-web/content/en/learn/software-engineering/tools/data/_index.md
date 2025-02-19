@@ -6,10 +6,10 @@ draft: false
 
 # Data
 
-[PostgreSQL](Data%20f66525eb9a684640800031d260b54b9e/PostgreSQL%20ea92b62f5fc944d183bfb1c3a6e5d3e8.md)
+[PostgreSQL](./postgresql/)
 
-[MySQL](Data%20f66525eb9a684640800031d260b54b9e/MySQL%20912df7b51eca482b985203131cdebfb8.md)
+[MySQL](./mysql/)
 
-[MongoDB](Data%20f66525eb9a684640800031d260b54b9e/MongoDB%20e14ffe4cd424482a9fd424c3706cc3ca.md)
+[MongoDB](./mongodb/)
 
-[Redis](Data%20f66525eb9a684640800031d260b54b9e/Redis%20e05f23824f8d4828bff55fd60df36338.md)
+[Redis](./redis/)
