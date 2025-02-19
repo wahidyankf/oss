@@ -6,4 +6,4 @@ draft: false
 
 # Klub Belajar - Online Course: Frontend Masters - Intermediate TypeScript (Mike North)
 
-[https://youtu.be/rmN8RoMvcZ8](https://youtu.be/rmN8RoMvcZ8)
+{{< youtube rmN8RoMvcZ8 >}}

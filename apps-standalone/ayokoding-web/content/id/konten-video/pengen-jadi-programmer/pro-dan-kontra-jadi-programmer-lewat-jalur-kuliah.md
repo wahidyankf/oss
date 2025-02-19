@@ -6,6 +6,4 @@ draft: false
 
 # Pengen Jadi Programmer - Pro dan kontra jadi programmer lewat jalur kuliah
 
-[https://youtu.be/hwK4JkTg4_0](https://youtu.be/hwK4JkTg4_0)
-
-https://youtu.be/jsp90vZI4E0?si=b_E_KFMQKyrpaVsX
+{{< youtube jsp90vZI4E0 >}}
