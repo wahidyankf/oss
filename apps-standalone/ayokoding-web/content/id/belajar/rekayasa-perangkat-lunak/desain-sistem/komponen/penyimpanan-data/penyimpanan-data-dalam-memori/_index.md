@@ -128,6 +128,6 @@ Further Readings
 
 "Redis in Action" by Josiah L. Carlson
 
-[Profil](Penyimpanan%20Data%20Dalam%20Memori%20002014a6603b48cd9886118b89bf1956/Profil%205db816dcecec4318819e42dca115176b.md)
+[Profil](./profil/)
 
-[Konsep Kunci](Penyimpanan%20Data%20Dalam%20Memori%20002014a6603b48cd9886118b89bf1956/Konsep%20Kunci%204e426d7114a54bbe9a8ec6ba636dad7b.md)
+[Konsep Kunci](./konsep-kunci/)

@@ -6,18 +6,18 @@ draft: false
 
 # Berpikir Strategis
 
-[Analitis](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Analitis%205d92319465104c5fae01dc1559208233.md)
+[Analitis](./analitis/)
 
-[Konteks](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Konteks%20e4195c4cfc3a40ad9538b3fbe6e7990f.md)
+[Konteks](./konteks/)
 
-[Futuristik](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Futuristik%203df845d3c40a4f9cae8a881ec86e1a99.md)
+[Futuristik](./futuristik/)
 
-[Ideasi](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Ideasi%203113676cd1fb4ce58360a3643b918cba.md)
+[Ideasi](./ideasi/)
 
-[Input](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Input%20c11071ee22e4469c900a32b280f76b36.md)
+[Input](./input/)
 
-[Inteleksi](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Inteleksi%20bc47bd7dc96447e6b649b2b74556ffaf.md)
+[Inteleksi](./inteleksi/)
 
-[Pembelajar](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Pembelajar%207b567a0280fa49159ef6a63af0e4106b.md)
+[Pembelajar](./pembelajar/)
 
-[Strategis](Berpikir%20Strategis%208b3cc79f8c6f42b1bf52ab5bde3f64b3/Strategis%202c49a47b13a44e8db1a8c2cdd2bc28ce.md)
+[Strategis](./strategis/)

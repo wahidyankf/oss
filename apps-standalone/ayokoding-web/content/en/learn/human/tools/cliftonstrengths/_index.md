@@ -22,58 +22,58 @@ Overall, the CliftonStrengths assessment and philosophy are intended to help ind
 
 The 34 themes in the CliftonStrengths assessment can be grouped into four main categories: Executing, Influencing, Relationship Building, and Strategic Thinking.
 
-### [Executing](./executing/)
+### [Executing](./themes/executing/)
 
 These themes relate to action-oriented individuals who can get things done.
 
-- [Achiever](./executing/achiever/): Individuals with a strong work ethic are driven to accomplish their goals.
-- [Arranger](./executing/arranger/): People adept at organizing and coordinating resources to achieve a desired outcome.
-- [Belief](./executing/belief/): Core values or principles guide those with a strong sense of purpose.
-- [Consistency](./executing/consistency/): Individuals who strive to treat everyone fairly and equally.
-- [Deliberative](./executing/deliberative/): People who are careful and thorough in their decision-making processes.
-- [Discipline](./executing/discipline/): Those who are highly organized and thrive on routine and structure.
-- [Focus](./executing/focus/): Individuals who can concentrate on a task and see it through to completion.
-- [Responsibility](./executing/responsibility/): People who take personal accountability for their actions and the outcomes they produce.
-- [Restorative](./executing/restorative/): Individuals who are adept at identifying and solving problems.
+- [Achiever](./themes/executing/achiever/): Individuals with a strong work ethic are driven to accomplish their goals.
+- [Arranger](./themes/executing/arranger/): People adept at organizing and coordinating resources to achieve a desired outcome.
+- [Belief](./themes/executing/belief/): Core values or principles guide those with a strong sense of purpose.
+- [Consistency](./themes/executing/consistency/): Individuals who strive to treat everyone fairly and equally.
+- [Deliberative](./themes/executing/deliberative/): People who are careful and thorough in their decision-making processes.
+- [Discipline](./themes/executing/discipline/): Those who are highly organized and thrive on routine and structure.
+- [Focus](./themes/executing/focus/): Individuals who can concentrate on a task and see it through to completion.
+- [Responsibility](./themes/executing/responsibility/): People who take personal accountability for their actions and the outcomes they produce.
+- [Restorative](./themes/executing/restorative/): Individuals who are adept at identifying and solving problems.
 
-## [Influencing](./influencing/)
+## [Influencing](./themes/influencing/)
 
 These themes relate to individuals who can lead and persuade others.
 
-- [Activator](./influencing/activator/): Individuals who are quick to take action and help others get started on a task.
-- [Command](./influencing/command/): People who can take charge and decisively make decisions.
-- [Communication](./influencing/communication/): Those who are adept at compellingly articulating their thoughts and ideas.
-- [Competition](./influencing/competition/): Individuals who are motivated by competition and enjoy measuring their performance against others.
-- [Maximizer](./influencing/maximizer/): People who are adept at identifying and developing the strengths of themselves and others.
-- [Self-Assurance](./influencing/self-assurance/): Those who are confident in their abilities and decisions.
-- [Significance](./influencing/significance/): Individuals who strive to impact the world and be recognized for their achievements significantly.
-- [Woo (Winning Others Over)](./influencing/woo-winning-others-over/): People who naturally can win others over and build relationships.
+- [Activator](./themes/influencing/activator/): Individuals who are quick to take action and help others get started on a task.
+- [Command](./themes/influencing/command/): People who can take charge and decisively make decisions.
+- [Communication](./themes/influencing/communication/): Those who are adept at compellingly articulating their thoughts and ideas.
+- [Competition](./themes/influencing/competition/): Individuals who are motivated by competition and enjoy measuring their performance against others.
+- [Maximizer](./themes/influencing/maximizer/): People who are adept at identifying and developing the strengths of themselves and others.
+- [Self-Assurance](./themes/influencing/self-assurance/): Those who are confident in their abilities and decisions.
+- [Significance](./themes/influencing/significance/): Individuals who strive to impact the world and be recognized for their achievements significantly.
+- [Woo (Winning Others Over)](./themes/influencing/woo-winning-others-over/): People who naturally can win others over and build relationships.
 
-## [Relationship Building](./relationship-building/)
+## [Relationship Building](./themes/relationship-building/)
 
-- [Adaptability](./relationship-building/adaptability/): Individuals who adapt to changing circumstances and adjust their behavior accordingly.
-- [Connectedness](./relationship-building/connectedness/): People who have a deep sense of interconnectedness and believe that everything in the world is interrelated.
-- [Developer](./relationship-building/developer/): Those who enjoy helping others grow and develop their abilities.
-- [Empathy](./relationship-building/empathy/): Individuals who can sense and understand the feelings of others.
-- [Harmony](./relationship-building/harmony/): People who seek to avoid conflict and strive for harmony in their relationships.
-- [Includer](./relationship-building/includer/): Those who are naturally accepting of others and seek to include them in social situations.
-- [Individualization](./relationship-building/individualization/): Individuals are adept at recognizing and appreciating the unique qualities of each person.
-- [Positivity](./relationship-building/positivity/): People who have a contagious enthusiasm and optimism about life.
-- [Relator](./relationship-building/relator/): Those who prefer close, one-on-one relationships with a few people.
+- [Adaptability](./themes/relationship-building/adaptability/): Individuals who adapt to changing circumstances and adjust their behavior accordingly.
+- [Connectedness](./themes/relationship-building/connectedness/): People who have a deep sense of interconnectedness and believe that everything in the world is interrelated.
+- [Developer](./themes/relationship-building/developer/): Those who enjoy helping others grow and develop their abilities.
+- [Empathy](./themes/relationship-building/empathy/): Individuals who can sense and understand the feelings of others.
+- [Harmony](./themes/relationship-building/harmony/): People who seek to avoid conflict and strive for harmony in their relationships.
+- [Includer](./themes/relationship-building/includer/): Those who are naturally accepting of others and seek to include them in social situations.
+- [Individualization](./themes/relationship-building/individualization/): Individuals are adept at recognizing and appreciating the unique qualities of each person.
+- [Positivity](./themes/relationship-building/positivity/): People who have a contagious enthusiasm and optimism about life.
+- [Relator](./themes/relationship-building/relator/): Those who prefer close, one-on-one relationships with a few people.
 
-## [Strategic Thinking](./strategic-thinking/)
+## [Strategic Thinking](./themes/strategic-thinking/)
 
 These themes relate to individuals who can think conceptually and see the big picture.
 
-- [Analytical](./strategic-thinking/analytical/): Individuals enjoy analyzing data and information to understand complex problems better.
-- [Context](./strategic-thinking/context/): People who can understand the historical and cultural context in which they work.
-- [Futuristic](./strategic-thinking/futuristic/): Those who can envision the possibilities of the future.
-- [Ideation](./strategic-thinking/ideation/): Individuals who can generate creative ideas.
-- [Input](./strategic-thinking/input/): People who enjoy gathering information and are continually learning.
-- [Intellection](./strategic-thinking/intellection/): Those who enjoy thinking and reflecting on complex issues.
-- [Learner](./strategic-thinking/learner/): Individuals who are constantly seeking to acquire new knowledge and skills.
-- [Strategic](./strategic-thinking/strategic/): People adept at seeing patterns and connections between ideas.
-- [Arranger](./strategic-thinking/arranger/): Those who like organizing information to understand complex situations better.
+- [Analytical](./themes/strategic-thinking/analytical/): Individuals enjoy analyzing data and information to understand complex problems better.
+- [Context](./themes/strategic-thinking/context/): People who can understand the historical and cultural context in which they work.
+- [Futuristic](./themes/strategic-thinking/futuristic/): Those who can envision the possibilities of the future.
+- [Ideation](./themes/strategic-thinking/ideation/): Individuals who can generate creative ideas.
+- [Input](./themes/strategic-thinking/input/): People who enjoy gathering information and are continually learning.
+- [Intellection](./themes/strategic-thinking/intellection/): Those who enjoy thinking and reflecting on complex issues.
+- [Learner](./themes/strategic-thinking/learner/): Individuals who are constantly seeking to acquire new knowledge and skills.
+- [Strategic](./themes/strategic-thinking/strategic/): People adept at seeing patterns and connections between ideas.
+- [Arranger](./themes/strategic-thinking/arranger/): Those who like organizing information to understand complex situations better.
 
 ## Links
 

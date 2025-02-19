@@ -8,60 +8,58 @@ draft: false
 
 Prinsip Pareto, juga dikenal sebagai aturan 80/20, menyatakan bahwa sekitar 80% dari efek berasal dari 20% penyebab. Prinsip ini dapat membantu memprioritaskan konsep-konsep paling penting untuk dipahami dan dimanfaatkan untuk SQL. Berikut adalah daftar topik, disusun dalam urutan pembelajaran:
 
-[Sekilas Tentang Basis Data](Esensial%20678f51b4f61f43c881425189f607d4b8/Sekilas%20Tentang%20Basis%20Data%20a4108fc96e9242679d9e77e3577bd8bd.md)
+[Sekilas Tentang Basis Data](./sekilas-tentang-basis-data/)
 
-[Sintaks dan Kata Kunci](Esensial%20678f51b4f61f43c881425189f607d4b8/Sintaks%20dan%20Kata%20Kunci%2067ae565f2ffd4999b588e6fa9b0bf5b1.md)
+[Sintaks dan Kata Kunci](./sintaks-dan-kata-kunci/)
 
-[DDL: CREATE](Esensial%20678f51b4f61f43c881425189f607d4b8/DDL%20CREATE%2092fc18c4142147b8bc5cffe955d607f8.md)
+[DDL: CREATE](./ddl-create/)
 
-[Tipe Data](Esensial%20678f51b4f61f43c881425189f607d4b8/Tipe%20Data%208e05934570c049728083a22e1c473a52.md)
+[Tipe Data](./tipe-data/)
 
-[DDL: ALTER](Esensial%20678f51b4f61f43c881425189f607d4b8/DDL%20ALTER%203656325998e845f293c3887bcda2ddf5.md)
+[DDL: DROP](./ddl-drop/)
 
-[DDL: DROP](Esensial%20678f51b4f61f43c881425189f607d4b8/DDL%20DROP%2003bf2ba673db46509aa78a94f557adf3.md)
+[DDL: Schema](./ddl-schema/)
 
-[DDL: Schema](Esensial%20678f51b4f61f43c881425189f607d4b8/DDL%20Schema%20ab7fd99b9aec4cfe895c9eb71fed83f8.md)
+[DML: SELECT](./dml-select/)
 
-[DML: SELECT](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20e824dfe643a4449793424ff7b44ecb0b.md)
+[DML: SELECT FROM](./dml-select-from/)
 
-[DML: SELECT FROM](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20FROM%2040150ce0183e42869fad8b1768960cea.md)
+[DML: SELECT DISTINCT](./dml-select-distinct/)
 
-[DML: SELECT DISTINCT](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20DISTINCT%200e1321a944d94eb394958afc9af300d2.md)
+[DML: SELECT ALL](./dml-select-all/)
 
-[DML: SELECT ALL](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20ALL%206345cbd002f6449e822b73443b36057b.md)
+[DML: SELECT dengan WHERE](./dml-select-where/)
 
-[DML: SELECT dengan WHERE](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20WHERE%20fe87e53a14a64b278435592186f7a5ae.md)
+[DML: SELECT dengan ORDER BY](./dml-select-order-by/)
 
-[DML: SELECT dengan ORDER BY](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20ORDER%20BY%20cd3ef4c02a244189824dcb0f356f93e7.md)
+[DML: INSERT](./dml-insert/)
 
-[DML: INSERT](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20INSERT%20a04290c833a5432a98aebac4920f267f.md)
+[DML: UPDATE](./dml-update/)
 
-[DML: UPDATE](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20UPDATE%200a8c968cd0ab496c9dee0587bb459b5d.md)
+[DML: DELETE](./dml-delete/)
 
-[DML: DELETE](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20DELETE%205222cf75145c470ea577f45443481e08.md)
+[Desain Database, Normalisasi, dan SQL JOIN](./desain-database-normalisasi-dan-sql-join/)
 
-[Desain Database, Normalisasi, dan SQL JOIN](Esensial%20678f51b4f61f43c881425189f607d4b8/Desain%20Database,%20Normalisasi,%20dan%20SQL%20JOIN%209e7a15e734434e32b0e587a1ed88e418.md)
+[DML: SELECT dengan INNER JOIN](./dml-select-dengan-inner-join/)
 
-[DML: SELECT dengan INNER JOIN](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20INNER%20JOIN%2084e7b476e8274c4ca044e7593c1f03e4.md)
+[DML: SELECT dengan LEFT (OUTER) JOIN](./dml-select-dengan-left-outer-join/)
 
-[DML: SELECT dengan LEFT (OUTER) JOIN](<Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20LEFT%20(OUTER)%20JOIN%2049658a356ad84726824fddefd26fea6b.md>)
+[DML: SELECT dengan RIGHT (OUTER) JOIN](./dml-select-dengan-right-outer-join/)
 
-[DML: SELECT dengan RIGHT (OUTER) JOIN](<Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20RIGHT%20(OUTER)%20JOIN%2072ee208f94274881b5aa5574b9a1df15.md>)
+[DML: SELECT dengan FULL (OUTER) JOIN](./dml-select-dengan-full-outer-join/)
 
-[DML: SELECT dengan FULL (OUTER) JOIN](<Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20FULL%20(OUTER)%20JOIN%20a308bfb77b6249a88ad458ec41da5142.md>)
+[DML: SELECT dengan GROUP BY](./dml-select-dengan-group-by/)
 
-[DML: SELECT dengan GROUP BY](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20GROUP%20BY%2047ce9fec15cc4840a337c57ebd12cc8b.md)
+[Fungsi Agregat SQL](./fungsi-agregat-sql/)
 
-[Fungsi Agregat SQL](Esensial%20678f51b4f61f43c881425189f607d4b8/Fungsi%20Agregat%20SQL%205bec68b349474454befa849ed8a2cfc1.md)
+[DML: SELECT dengan Subkueri](./dml-select-dengan-subkueri/)
 
-[DML: SELECT dengan Subkueri](Esensial%20678f51b4f61f43c881425189f607d4b8/DML%20SELECT%20dengan%20Subkueri%20445c823d691845689bf0b3b2f359bcef.md)
+[JOIN vs. Subkueri](./join-vs-subkueri/)
 
-[JOIN vs. Subkueri](Esensial%20678f51b4f61f43c881425189f607d4b8/JOIN%20vs%20Subkueri%20e3d173feb0dc416e979d72af301f3934.md)
+[Transaction Control Language](./transaction-control-language/)
 
-[Transaction Control Language](Esensial%20678f51b4f61f43c881425189f607d4b8/Transaction%20Control%20Language%208085e514be5640a9b8d9b2b7b12b374e.md)
+[DDL: INDEX](./ddl-index/)
 
-[DDL: INDEX](Esensial%20678f51b4f61f43c881425189f607d4b8/DDL%20INDEX%205db0d2fecd9a483b881207ab70c31e47.md)
+[DCL: GRANT](./dcl-grant/)
 
-[DCL: GRANT](Esensial%20678f51b4f61f43c881425189f607d4b8/DCL%20GRANT%2061534a08cbfc4b3dbcca0a1f9ea459a4.md)
-
-[DCL: REVOKE](Esensial%20678f51b4f61f43c881425189f607d4b8/DCL%20REVOKE%2025f8b9837c4e43dda049353ade94e7b7.md)
+[DCL: REVOKE](./dcl-revoke/)
