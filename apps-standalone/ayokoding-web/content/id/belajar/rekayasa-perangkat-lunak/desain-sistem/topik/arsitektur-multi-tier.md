@@ -36,7 +36,7 @@ Munculnya arsitektur 1-Tier terutama disebabkan oleh kesimpulannya dan kebutuhan
 
 Arsitektur 1-Tier, juga dikenal sebagai arsitektur satu lapis atau monolitik, adalah jenis arsitektur perangkat lunak di mana semua komponen aplikasi - antarmuka pengguna, logika bisnis, dan penyimpanan data - berada di dalam sistem atau platform yang sama.
 
-Berikut adalah diagram Mermaid sederhana untuk mengilustrasikan alur:
+Berikut adalah diagram sederhana untuk mengilustrasikan alur:
 
 ```mermaid
 graph TD
@@ -45,10 +45,6 @@ graph TD
     C -- Response --> B
     B -- Processed Output --> A
 ```
-
-Dan inilah diagram yang dihasilkan:
-
-![Screenshot 2023-06-15 at 07.35.12.png](../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2/Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.35.12.png)
 
 Antarmuka pengguna mengirimkan masukan ke lapisan logika bisnis dalam arsitektur ini. Lapisan logika bisnis memproses data, berinteraksi dengan lapisan penyimpanan, dan mengembalikan data yang telah diproses ke antarmuka pengguna.
 
@@ -83,17 +79,13 @@ Arsitektur 2-Tier muncul sebagai solusi terhadap keterbatasan arsitektur 1-Tier.
 
 Arsitektur 2-Tier, atau arsitektur klien-server, membagi aplikasi menjadi dua bagian utama: klien, yang biasanya merupakan antarmuka pengguna, dan server, yang mencakup lapisan logika bisnis dan penyimpanan data.
 
-Di bawah ini adalah diagram Mermaid untuk menggambarkan alur:
+Di bawah ini adalah diagram untuk menggambarkan alur:
 
 ```mermaid
 graph TD
     A[Client - User Interface] -- Request --> B[Server - Business Logic & Data Storage]
     B -- Response --> A
 ```
-
-Dan berikut adalah diagram yang dihasilkan:
-
-![Screenshot 2023-06-15 at 07.34.26.png](../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2/Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.34.26.png)
 
 Dalam model ini, klien mengirim permintaan ke server, di mana logika bisnis memproses permintaan dan berinteraksi dengan penyimpanan data. Kemudian server mengirimkan respons kembali ke klien.
 
@@ -127,7 +119,7 @@ Arsitektur 3-Tier muncul karena kebutuhan untuk struktur aplikasi yang lebih fle
 
 Arsitektur 3-Tier adalah jenis arsitektur perangkat lunak yang memisahkan aplikasi menjadi tiga tier logis: layer presentasi (klien), layer aplikasi (logika bisnis), dan layer data (penyimpanan dan akses data).
 
-Berikut adalah diagram Mermaid yang mewakili aliran:
+Berikut adalah diagram yang mewakili aliran:
 
 ```mermaid
 graph TD
@@ -135,10 +127,6 @@ graph TD
     B -- Data Request/Response --> C[Data Layer - Data Storage]
     B -- Response --> A
 ```
-
-Dan inilah diagram yang dihasilkan:
-
-![Screenshot 2023-06-15 at 07.40.30.png](../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2/Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.40.30.png)
 
 Dalam arsitektur ini, klien mengirim permintaan ke lapisan aplikasi, yang memproses permintaan, berinteraksi dengan lapisan data, dan mengirimkan respons kembali ke klien.
 
@@ -172,7 +160,7 @@ Arsitektur N-Tier muncul sebagai respons terhadap kompleksitas dan keragaman pro
 
 Arsitektur N-Tier adalah model arsitektur perangkat lunak yang mengorganisir aplikasi menjadi beberapa lapisan atau tingkat logis dan fisik. "N" menunjukkan bahwa tingkat dapat digunakan, dengan setiap tingkat menangani peran tertentu dalam aplikasi.
 
-Berikut adalah diagram Mermaid yang disederhanakan untuk mewakili aliran:
+Berikut adalah diagram yang disederhanakan untuk mewakili aliran:
 
 ```mermaid
 graph TD
@@ -184,10 +172,6 @@ graph TD
     C -- Response --> B
     B -- Response --> A
 ```
-
-Dan inilah diagram yang dihasilkan:
-
-![Screenshot 2023-06-15 at 07.41.17.png](../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2/Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.41.17.png)
 
 Client mengirim permintaan ke lapisan aplikasi pertama, yang dapat memproses permintaan dan meneruskannya ke lapisan aplikasi berikutnya. Proses ini terus berlanjut melalui lapisan aplikasi yang diperlukan hingga mencapai lapisan data. Respons kemudian dikembalikan melalui rantai yang sama.
 

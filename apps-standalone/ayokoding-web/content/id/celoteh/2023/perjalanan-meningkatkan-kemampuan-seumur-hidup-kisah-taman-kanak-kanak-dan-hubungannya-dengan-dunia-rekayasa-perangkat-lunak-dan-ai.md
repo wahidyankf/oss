@@ -6,10 +6,7 @@ draft: false
 
 # Perjalanan Meningkatkan Kemampuan Seumur Hidup: Kisah Taman Kanak-Kanak dan Hubungannya dengan Dunia Rekayasa Perangkat Lunak dan AI
 
-<aside>
-💡 Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan  nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [The Journey of Lifelong Improvement: Unpacking the Story of a Kindergarten and its Echoes in the World of Software Engineering and AI](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/The%20Journey%20of%20Lifelong%20Improvement%20Unpacking%20the%20%20610bfaa8720e4599a08c9c77a2ce1042.md)
-
-</aside>
+> _Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [The Journey of Lifelong Improvement: Unpacking the Story of a Kindergarten and its Echoes in the World of Software Engineering and AI](../../../en/rants/2023/the-journey-of-lifelong-improvement-unpacking-the-story-of-a-kindergarten-and-its-echoes-in-the-world-of-software-engineering-and-ai/)_
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 

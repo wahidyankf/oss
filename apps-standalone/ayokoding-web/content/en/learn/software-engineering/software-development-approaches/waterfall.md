@@ -12,16 +12,6 @@ Imagine that you're building a Lego tower. With the waterfall model, we follow a
 
 Steps in the Waterfall Model:
 
-1. **Requirements**: We decide what our Lego tower should look like. For software, we list everything the program should do.
-2. **Design**: We sketch our Lego tower. For software, we plan how we're going to build the program.
-3. **Implementation**: We start building our Lego tower. For software, this is when we write the code.
-4. **Verification**: We check our Lego tower against our sketch. For software, we test our program to see if it works correctly.
-5. **Maintenance**: We take care of our Lego tower and fix any parts that might have broken. We change the program for software if there are any problems or need to add something new.
-
-## Process Flow Chart
-
-Here is the mermaid representation of the Waterfall software development flowchart:
-
 ```mermaid
 graph LR
 A[Requirements] --> B[Design]
@@ -30,7 +20,11 @@ C --> D[Testing]
 D --> E[Deployment]
 ```
 
-![Screenshot 2023-06-11 at 18.50.26.png](Waterfall%200448ddfc212b4a9aa7cb58f34f50a044/Screenshot_2023-06-11_at_18.50.26.png)
+1. **Requirements**: We decide what our Lego tower should look like. For software, we list everything the program should do.
+2. **Design**: We sketch our Lego tower. For software, we plan how we're going to build the program.
+3. **Implementation**: We start building our Lego tower. For software, this is when we write the code.
+4. **Verification**: We check our Lego tower against our sketch. For software, we test our program to see if it works correctly.
+5. **Maintenance**: We take care of our Lego tower and fix any parts that might have broken. We change the program for software if there are any problems or need to add something new.
 
 ## Benefits and Downsides of the Waterfall Model
 

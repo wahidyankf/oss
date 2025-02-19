@@ -18,8 +18,6 @@ The V model makes software (those fun games you play or the apps mom and dad use
 
 ## Process Flow Chart
 
-Here is the mermaid representation of the Waterfall software development flowchart:
-
 ```mermaid
 graph LR
 A[Requirements Gathering] --> B[System Design]

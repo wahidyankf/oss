@@ -6,12 +6,7 @@ draft: false
 
 # Menyeimbangkan Menjadi Orang Tua dan Belajar: Memanfaatkan Kekuatan Buku Audio
 
-<aside>
-💡 Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan  nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Balancing Parenthood and Learning: Harnessing the Power of Audiobooks](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Balancing%20Parenthood%20and%20Learning%20Harnessing%20the%20P%2041e0c994f870467cabad3c1d5d87a4ba.md)
-
-</aside>
-
-![sd image.jpeg](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Balancing%20Parenthood%20and%20Learning%20Harnessing%20the%20P%2041e0c994f870467cabad3c1d5d87a4ba/sd_image.jpeg)
+> _Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Balancing Parenthood and Learning: Harnessing the Power of Audiobooks](../../../en/rants/2023/balancing-parenthood-and-learning-harnessing-the-power-of-audiobooks/)_
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 

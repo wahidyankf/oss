@@ -50,15 +50,6 @@ Before conducting a t-shirt sizing session, it is essential to have the followin
 
 The t-shirt sizing estimation process typically involves the following steps:
 
-1. **Introduction:** The facilitator explains the purpose and rules of t-shirt sizing estimation to the participants. This is a crucial step in laying the foundation for the estimation process. The facilitator may also provide examples of similar projects to help the participants understand the process better.
-2. **Review User Stories or Tasks:** The facilitator presents each user story or task to the participants. The details of the item are discussed to ensure everyone understands the requirements. This step ensures everyone is on the same page and clearly understands what needs to be done.
-3. **Comparative Estimation:** The participants compare each user story or task with the reference items and individually select an estimation card that represents the perceived size or effort required. The reference items could be anything from a previous project to a well-known industry standard. This step helps to ensure that the estimations are consistent and comparable.
-4. **Reveal and Discuss:** After everyone has selected their estimation cards, they are revealed simultaneously. If there is a significant difference in estimations, the participants discuss their reasoning and try to reach a consensus. This step encourages communication and collaboration, allowing the team to understand each other's perspectives and reach a mutual agreement.
-5. **Repeat Estimation:** If needed, the estimation process is repeated for any unresolved items until a collective agreement is reached. This step ensures that all items are estimated accurately, and no item is left behind.
-6. **Finalize Estimations:** The agreed-upon estimations are recorded, and the items are prioritized based on the assigned sizes. This step helps the team to prioritize their work and allocate resources based on the estimated effort required for each item.
-
-Here is the mermaid representation of it:
-
 ```mermaid
 graph TD
   A[Introduction] --> B[Review User Stories or Tasks]
@@ -69,7 +60,12 @@ graph TD
   D --> F[Finalize Estimations]
 ```
 
-![Screenshot 2023-06-11 at 18.43.34.png](T-Shirt%20Sizing%20bc71bf59b5534abdad41d2723751411b/Screenshot_2023-06-11_at_18.43.34.png)
+1. **Introduction:** The facilitator explains the purpose and rules of t-shirt sizing estimation to the participants. This is a crucial step in laying the foundation for the estimation process. The facilitator may also provide examples of similar projects to help the participants understand the process better.
+2. **Review User Stories or Tasks:** The facilitator presents each user story or task to the participants. The details of the item are discussed to ensure everyone understands the requirements. This step ensures everyone is on the same page and clearly understands what needs to be done.
+3. **Comparative Estimation:** The participants compare each user story or task with the reference items and individually select an estimation card that represents the perceived size or effort required. The reference items could be anything from a previous project to a well-known industry standard. This step helps to ensure that the estimations are consistent and comparable.
+4. **Reveal and Discuss:** After everyone has selected their estimation cards, they are revealed simultaneously. If there is a significant difference in estimations, the participants discuss their reasoning and try to reach a consensus. This step encourages communication and collaboration, allowing the team to understand each other's perspectives and reach a mutual agreement.
+5. **Repeat Estimation:** If needed, the estimation process is repeated for any unresolved items until a collective agreement is reached. This step ensures that all items are estimated accurately, and no item is left behind.
+6. **Finalize Estimations:** The agreed-upon estimations are recorded, and the items are prioritized based on the assigned sizes. This step helps the team to prioritize their work and allocate resources based on the estimated effort required for each item.
 
 ## Benefits
 

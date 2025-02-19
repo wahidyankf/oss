@@ -6,10 +6,7 @@ draft: false
 
 # Kepemimpinan itu Sepi: Perspektif Pribadi sebagai Engineering Manager
 
-<aside>
-💡 Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan  nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Leadership is Lonely: A Personal Perspective as an Engineering Manager](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Leadership%20is%20Lonely%20A%20Personal%20Perspective%20as%20an%20%207f65a76a1ec24d2ab6125e9d78d0be2f.md)
-
-</aside>
+> _Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Leadership is Lonely: A Personal Perspective as an Engineering Manager](../../../en/rants/2023/leadership-is-lonely-a-personal-perspective-as-an-engineering-manager/)_
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 

@@ -6,12 +6,7 @@ draft: false
 
 # Strategi Manajemen Waktu untuk Insinyur Perangkat Lunak: Memaksimalkan Produktivitas dan Kesuksesan
 
-<aside>
-💡 Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan  nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Time Management Strategies for Software Engineers: Maximizing Productivity and Success](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Time%20Management%20Strategies%20for%20Software%20Engineers%20%208358776fed37455ea4dc875fc97b0c22.md)
-
-</aside>
-
-![sd image.jpeg](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Time%20Management%20Strategies%20for%20Software%20Engineers%20%208358776fed37455ea4dc875fc97b0c22/sd_image.jpeg)
+> _Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Time Management Strategies for Software Engineers: Maximizing Productivity and Success](../../../en/rants/2023/time-management-strategies-for-software-engineers-maximizing-productivity-and-success/)_
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 

@@ -62,9 +62,9 @@ In addition, Backlog Refinement is an opportunity for the Scrum Team to collabor
 
 Overall, Backlog Refinement is a critical aspect of the Scrum framework, and it is essential to ensure that the Product Backlog is well-prepared for the next Sprint Planning. The Scrum Team can deliver a high-quality product that meets the customer's needs and expectations by collaborating, refining, and continuously improving the Product Backlog Items.
 
-## The Scrum Flow in Mermaid Format
+## The Scrum Flow
 
-Here is the Scrum flow in Mermaid format:
+Here is the Scrum flow diagram:
 
 ```mermaid
 graph TD;
@@ -78,12 +78,6 @@ graph TD;
   F --> G[Sprint Retrospective];
   G --> B;
 ```
-
-And here is the resulting flow chart:
-
-![Scrum Flow](Overview%20ea1760a0fb7d4891837f9c43731d5c65/Scrum_-_Flow.png)
-
-Scrum Flow
 
 This flowchart visually represents the Scrum framework and how the events fit together to support iterative and incremental development.
 

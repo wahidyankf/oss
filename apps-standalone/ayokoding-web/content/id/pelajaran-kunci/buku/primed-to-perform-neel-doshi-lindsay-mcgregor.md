@@ -6,7 +6,7 @@ draft: false
 
 # Primed to Perform (Neel Doshi, Lindsay McGregor)
 
-![book_image-primed_to_perform.jpeg](<../../../English%20c3de5d487e334ec28a83fdd686e766b3/Takeaways%20d7e7954996cf45fd877e8a34b423de90/Books%20a6ec6f095bea4f50b9836fa8162e36a4/Primed%20to%20Perform%20(Neel%20Doshi,%20Lindsay%20McGregor)%20440f1d5885b442c4af7b0f6ae804cf95/book_image-primed_to_perform.jpeg>)
+{{< figure src="/images/en/takeaways/books/primed-to-perform-neel-doshi-lindsay-mcgregor/book-image.jpeg" width="200" alt="Book image of Primed to Perform" class="mx-auto d-block" >}}
 
 "Primed to Perform" oleh Neel Doshi dan Lindsay McGregor adalah sebuah buku yang menjelajahi ilmu di balik budaya kinerja tinggi di dalam organisasi. Para penulis berpendapat bahwa metode tradisional untuk memotivasi karyawan, seperti penghargaan dan hukuman, tidak efektif dalam jangka panjang. Sebagai gantinya, mereka mengusulkan pendekatan baru untuk motivasi, yang didasarkan pada ilmu perilaku manusia, yang berfokus pada memenuhi kebutuhan mendasar karyawan.
 

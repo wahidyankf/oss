@@ -6,8 +6,6 @@ draft: false
 
 # Please don't do it! 1 Story Point is not 1 Engineering Hour!
 
-![sd image.jpeg](Please%20don't%20do%20it!%201%20Story%20Point%20is%20not%201%20Enginee%2045b4674e231e4538b4de210a6ef30732/sd_image.jpeg)
-
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
 In the name of Allah, The Most Gracious and The Most Merciful

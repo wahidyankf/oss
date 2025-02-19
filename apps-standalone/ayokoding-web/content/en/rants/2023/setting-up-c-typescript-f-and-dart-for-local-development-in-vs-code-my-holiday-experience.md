@@ -10,8 +10,6 @@ draft: false
 
 In the name of Allah, The Most Gracious and The Most Merciful
 
-![sd image.jpeg](Setting%20Up%20C,%20TypeScript,%20F#,%20and%20Dart%20for%20Local%20D%2014f2b04bec364a68934778a60992fcd7/sd_image.jpeg)
-
 ## Introduction
 
 During the Eid al Adha holiday, I took the opportunity to dive into setting up various programming languages in Visual Studio Code (VS Code). As a software engineer, it's crucial to stay updated with the latest tools and technologies, and this holiday provided the perfect opportunity to explore new programming languages and enhance my development skills.

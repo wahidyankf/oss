@@ -6,12 +6,7 @@ draft: false
 
 # Tolong jangan lakukan itu! 1 Story Point bukanlah 1 Engineering Hour!
 
-<aside>
-💡 Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan  nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Please don't do it! 1 Story Point is not 1 Engineering Hour!](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Please%20don't%20do%20it!%201%20Story%20Point%20is%20not%201%20Enginee%2045b4674e231e4538b4de210a6ef30732.md)
-
-</aside>
-
-![sd image.jpeg](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Please%20don't%20do%20it!%201%20Story%20Point%20is%20not%201%20Enginee%2045b4674e231e4538b4de210a6ef30732/sd_image.jpeg)
+> _Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Please don't do it! 1 Story Point is not 1 Engineering Hour!](../../../en/rants/2023/please-dont-do-it-1-story-point-is-not-1-engineering-hour/)_
 
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 

@@ -6,7 +6,7 @@ draft: false
 
 # Primed to Perform (Neel Doshi, Lindsay McGregor)
 
-![book_image-primed_to_perform.jpeg](<Primed%20to%20Perform%20(Neel%20Doshi,%20Lindsay%20McGregor)%20440f1d5885b442c4af7b0f6ae804cf95/book_image-primed_to_perform.jpeg>)
+{{< figure src="/images/en/takeaways/books/primed-to-perform-neel-doshi-lindsay-mcgregor/book-image.jpeg" width="200" alt="Book image of Primed to Perform" class="mx-auto d-block" >}}
 
 "Primed to Perform" by Neel Doshi and Lindsay McGregor is a book that explores the science behind high-performance cultures in organizations. The authors argue that traditional methods of motivating employees, such as rewards and punishment, are ineffective in the long run. Instead, they propose a new approach to motivation, based on the science of human behavior, that focuses on meeting employees' fundamental needs.
 

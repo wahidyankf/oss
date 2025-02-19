@@ -77,12 +77,6 @@ Prinsip-prinsip ACID adalah dasar untuk merancang sistem database yang dapat dia
 
 Mari kita pertimbangkan contoh transfer dana antara dua pengguna bank untuk menggambarkan pentingnya prinsip-prinsip ACID. Berikut adalah alur transaksi:
 
-![ACID transaction in fund transfer between users.](../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Principles%20ea20535ce1854f5687079d7a36cc885b/ACID%20da350c1126e8496aadca0fda47e7e589/Screenshot_2023-06-14_at_07.08.15.png)
-
-ACID transaction in fund transfer between users.
-
-Dan ini adalah representasi mermaid-nya:
-
 ```mermaid
 graph TD
 A[Start]
@@ -110,6 +104,8 @@ D -- No --> J
 J --> K
 K --> I
 ```
+
+ACID transaction untuk kasus fund transfer antara pengguna.
 
 Penjelasan tentang Alur:
 

@@ -81,12 +81,6 @@ ACID principles are foundational to designing reliable and robust database syste
 
 Let's consider an example of a fund transfer between two bank users to illustrate the importance of ACID principles. Here's the flow of the transaction:
 
-![ACID transaction in fund transfer between users.](ACID%20da350c1126e8496aadca0fda47e7e589/Screenshot_2023-06-14_at_07.08.15.png)
-
-ACID transaction in fund transfer between users.
-
-And here is the mermaid representation of it:
-
 ```mermaid
 graph TD
 A[Start]
@@ -114,6 +108,8 @@ D -- No --> J
 J --> K
 K --> I
 ```
+
+ACID transaction in fund transfer between users.
 
 Explanation of the flow:
 

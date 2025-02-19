@@ -6,8 +6,6 @@ draft: false
 
 # Balancing Parenthood and Learning: Harnessing the Power of Audiobooks
 
-![sd image.jpeg](Balancing%20Parenthood%20and%20Learning%20Harnessing%20the%20P%2041e0c994f870467cabad3c1d5d87a4ba/sd_image.jpeg)
-
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
 In the name of Allah, The Most Gracious and The Most Merciful

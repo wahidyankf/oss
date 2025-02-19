@@ -14,8 +14,6 @@ As businesses and organizations expand, they often encounter challenges accommod
 
 Vertical scaling, also known as scaling up, involves increasing an existing machine's resources (CPU, RAM, storage). This approach focuses on optimizing a single machine's capabilities rather than adding additional machines to the infrastructure. Vertical scaling is often achieved by upgrading hardware components or migrating to more powerful machines.
 
-Here is the Mermaid representation of this approach:
-
 ```mermaid
 graph LR
   Traffic[Incoming Traffic]-->LoadBalancer[Load Balancer]
@@ -24,10 +22,6 @@ graph LR
   end
   LoadBalancer-->A
 ```
-
-And here is the resulting diagram:
-
-![Screenshot 2023-06-16 at 03.36.30.png](Vertical%20vs%20Horizontal%20Scaling%20ba4a8db31f2545cd86d89686cfd7dd44/Screenshot_2023-06-16_at_03.36.30.png)
 
 In the above representation, the "Traffic" represents the incoming requests or workload directed toward the system. The "Load Balancer" distributes the workload among the server nodes.
 
@@ -49,8 +43,6 @@ In the case of vertical scaling, a single server node is represented as a "Node.
 
 Horizontal scaling, or scaling out, involves adding more machines or nodes to distribute the workload. Instead of increasing the resources on a single machine, horizontal scaling focuses on expanding the system horizontally by adding more identical machines to the existing infrastructure. This allows for increased capacity, improved performance, and enhanced fault tolerance.
 
-Here is the Mermaid representation of this approach:
-
 ```mermaid
 graph LR
   Traffic[Incoming Traffic]-->LoadBalancer[Load Balancer]
@@ -67,10 +59,6 @@ graph LR
   LoadBalancer-->D
   LoadBalancer-->E
 ```
-
-And here is the resulting diagram:
-
-![Screenshot 2023-06-16 at 03.37.16.png](Vertical%20vs%20Horizontal%20Scaling%20ba4a8db31f2545cd86d89686cfd7dd44/Screenshot_2023-06-16_at_03.37.16.png)
 
 In the above representation, the "Traffic" represents the incoming requests or workload directed toward the system. The "Load Balancer" distributes the workload among the server nodes.
 

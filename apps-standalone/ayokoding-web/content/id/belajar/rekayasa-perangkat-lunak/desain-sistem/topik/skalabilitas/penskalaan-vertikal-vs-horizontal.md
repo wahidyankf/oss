@@ -14,8 +14,6 @@ Ketika bisnis dan organisasi berkembang, mereka sering menghadapi tantangan dala
 
 Penskalaan vertikal, juga dikenal sebagai penskalaan naik, melibatkan peningkatan sumber daya mesin yang ada (CPU, RAM, penyimpanan). Pendekatan ini berfokus pada mengoptimalkan kemampuan satu mesin daripada menambah mesin tambahan ke infrastruktur. Penskalaan vertikal sering dicapai dengan meningkatkan komponen perangkat keras atau beralih ke mesin yang lebih kuat.
 
-Berikut adalah representasi Mermaid dari pendekatan ini:
-
 ```mermaid
 graph LR
   Traffic[Incoming Traffic]-->LoadBalancer[Load Balancer]
@@ -24,10 +22,6 @@ graph LR
   end
   LoadBalancer-->A
 ```
-
-Dan ini adalah diagram yang dihasilkan:
-
-![Screenshot 2023-06-16 at 03.36.30.png](../../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2/Scalability%20cb0a56a6dda4429a8547f6d3319b60d1/Vertical%20vs%20Horizontal%20Scaling%20ba4a8db31f2545cd86d89686cfd7dd44/Screenshot_2023-06-16_at_03.36.30.png)
 
 Dalam representasi di atas, "Traffic" mewakili permintaan atau beban kerja yang masuk ke sistem. "Load Balancer" mendistribusikan beban kerja di antara node-server.
 
@@ -49,8 +43,6 @@ Dalam kasus penskalaan vertikal, satu node-server direpresentasikan sebagai "Nod
 
 Penskalaan horizontal, atau scaling out, melibatkan penambahan mesin atau node untuk mendistribusikan beban kerja. Alih-alih meningkatkan sumber daya pada satu mesin, penskalaan horizontal berfokus pada memperluas sistem secara horizontal dengan menambahkan mesin-mesin identik ke infrastruktur yang sudah ada. Hal ini memungkinkan peningkatan kapasitas, kinerja yang lebih baik, dan peningkatan toleransi kesalahan.
 
-Berikut adalah representasi Mermaid dari pendekatan ini:
-
 ```mermaid
 graph LR
   Traffic[Incoming Traffic]-->LoadBalancer[Load Balancer]
@@ -67,10 +59,6 @@ graph LR
   LoadBalancer-->D
   LoadBalancer-->E
 ```
-
-Dan ini adalah diagram yang dihasilkan:
-
-![Screenshot 2023-06-16 at 03.37.16.png](../../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Topics%20a13ec63e20b449e68ecb72b6620ac2d2/Scalability%20cb0a56a6dda4429a8547f6d3319b60d1/Vertical%20vs%20Horizontal%20Scaling%20ba4a8db31f2545cd86d89686cfd7dd44/Screenshot_2023-06-16_at_03.37.16.png)
 
 Dalam representasi di atas, "Traffic" mewakili permintaan masuk atau beban kerja yang diarahkan ke sistem. "Load Balancer" mendistribusikan beban kerja di antara node server.
 

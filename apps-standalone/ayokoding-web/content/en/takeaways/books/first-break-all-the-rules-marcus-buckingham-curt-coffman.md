@@ -6,7 +6,7 @@ draft: false
 
 # First Break All The Rules (Marcus Buckingham, Curt Coffman)
 
-![book_image-first_break_all_the_rules.jpeg](First%20Break%20All%20The%20Rules%20(Marcus%20Buckingham,%20Curt%20eba48e491eb74598a407b94fe730fede/book_image-first_break_all_the_rules.jpeg)
+{{< figure src="/images/en/takeaways/books/first-break-all-the-rules-marcus-buckingham-curt-coffman/book-image.jpeg" width="200" alt="Book image of First Break All The Rules" class="mx-auto d-block" >}}
 
 **Summary**
 

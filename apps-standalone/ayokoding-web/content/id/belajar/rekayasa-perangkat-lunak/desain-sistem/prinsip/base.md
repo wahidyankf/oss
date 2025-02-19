@@ -50,7 +50,7 @@ Secara keseluruhan, meskipun konsistensi akhir mungkin tidak menyediakan konsist
 
 ## Ilustrasi sistem BASE
 
-Sistem BASE memberikan prioritas pada ketersediaan dan konsistensi akhir dibandingkan dengan konsistensi yang kuat. Berikut adalah representasi Mermaid yang disederhanakan dari sistem BASE:
+Sistem BASE memberikan prioritas pada ketersediaan dan konsistensi akhir dibandingkan dengan konsistensi yang kuat.
 
 ```mermaid
 graph LR
@@ -68,11 +68,7 @@ G --> I
 H --> I
 ```
 
-Dan inilah alur hasilnya:
-
-![Screenshot 2023-06-14 at 20.56.21.png](../../../../../English%20c3de5d487e334ec28a83fdd686e766b3/Learn%2003d2ad3fc6464b7e9daa164af77e7688/Software%20Engineering%2026450615983f4716b5a5f76045eb59a5/System%20Design%2001693a6544794a7faf54d2ee02a361e4/Principles%20ea20535ce1854f5687079d7a36cc885b/BASE%20b8a5eb3db0fe4eba930683877304d2b2/Screenshot_2023-06-14_at_20.56.21.png)
-
-Penjelasan representasi:
+Penjelasan:
 
 - Klien (A) berinteraksi dengan beberapa node layanan (B, C, D) dalam sistem BASE.
 - Setiap node layanan berkomunikasi dengan penyimpanan data bersama (E).

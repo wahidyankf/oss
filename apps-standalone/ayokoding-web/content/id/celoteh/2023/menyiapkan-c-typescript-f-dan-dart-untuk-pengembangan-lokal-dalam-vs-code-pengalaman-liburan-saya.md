@@ -6,12 +6,7 @@ draft: false
 
 # Menyiapkan C, TypeScript, F#, dan Dart untuk Pengembangan Lokal dalam VS Code: Pengalaman Liburan Saya
 
-<aside>
-💡 Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan  nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Setting Up C, TypeScript, F#, and Dart for Local Development in VS Code: My Holiday Experience](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Setting%20Up%20C,%20TypeScript,%20F#,%20and%20Dart%20for%20Local%20D%2014f2b04bec364a68934778a60992fcd7.md)
-
-</aside>
-
-![sd image.jpeg](../../../English%20c3de5d487e334ec28a83fdd686e766b3/Rants%20cf123f8bd0ed4b78a1fc7b164d52da1b/2023%204f9fc9b463b442a9900aed3f6f9d7623/Setting%20Up%20C,%20TypeScript,%20F#,%20and%20Dart%20for%20Local%20D%2014f2b04bec364a68934778a60992fcd7/sd_image.jpeg)
+> _Artikel ini adalah hasil terjemahan dengan bantuan mesin. Karenanya akan ada pergeseran nuansa dari artikel aslinya. Untuk mendapatkan pesan dan nuansa asli dari artikel ini, silakan kunjungi artikel yang asli di: [Setting Up C, TypeScript, F#, and Dart for Local Development in VS Code: My Holiday Experience](../../../en/rants/2023/setting-up-c-typescript-f-and-dart-for-local-development-in-vs-code-my-holiday-experience/)_
 
 ## Pendahuluan
 

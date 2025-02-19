@@ -36,7 +36,7 @@ The emergence of 1-Tier architecture is primarily due to its simplicity and the 
 
 1-Tier architecture, also known as single-layer or monolithic architecture, is a type of software architecture where all the components of an application— user interface, business logic, and data storage— reside in the same system or platform.
 
-Here's a simple Mermaid diagram to illustrate the flow:
+Here's a simple diagram to illustrate the flow:
 
 ```mermaid
 graph TD
@@ -45,10 +45,6 @@ graph TD
     C -- Response --> B
     B -- Processed Output --> A
 ```
-
-And here is the resulting diagram:
-
-![Screenshot 2023-06-15 at 07.35.12.png](Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.35.12.png)
 
 The user interface sends input to the business logic layer in this architecture. The business logic layer processes the data, interacts with the storage layer, and returns the processed data to the user interface.
 
@@ -83,17 +79,13 @@ The 2-Tier architecture emerged as a solution to the limitations of the 1-Tier a
 
 2-Tier architecture, or client-server architecture, divides an application into two main parts: a client, typically the user interface, and a server, encompassing the business logic and data storage layers.
 
-Below is a Mermaid diagram to illustrate the flow:
+Below is a diagram to illustrate the flow:
 
 ```mermaid
 graph TD
     A[Client - User Interface] -- Request --> B[Server - Business Logic & Data Storage]
     B -- Response --> A
 ```
-
-And here is the resulting diagram:
-
-![Screenshot 2023-06-15 at 07.34.26.png](Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.34.26.png)
 
 In this model, the client sends requests to the server, where the business logic processes the request and interacts with the data storage. The server then sends the response back to the client.
 
@@ -127,7 +119,7 @@ The 2-Tier architecture is suitable for applications where separate user interfa
 
 The 3-Tier architecture is a type of software architecture that separates an application into three logical tiers: the presentation layer (client), the application layer (business logic), and the data layer (data storage and access).
 
-Here's a Mermaid diagram representing the flow:
+Here's a diagram representing the flow:
 
 ```mermaid
 graph TD
@@ -135,10 +127,6 @@ graph TD
     B -- Data Request/Response --> C[Data Layer - Data Storage]
     B -- Response --> A
 ```
-
-And here is the resulting diagram:
-
-![Screenshot 2023-06-15 at 07.40.30.png](Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.40.30.png)
 
 In this architecture, the client sends a request to the application layer, which processes the request, interacts with the data layer, and sends the response back to the client.
 
@@ -172,7 +160,7 @@ N-Tier architecture emerged as a response to the growing complexity and diversit
 
 N-Tier architecture is a software architectural model that organizes applications into multiple logical and physical tiers or layers. The "N" denotes that tiers can be used, with each tier handling a specific role within the application.
 
-Here's a simplified Mermaid diagram to represent the flow:
+Here's a simplified diagram to represent the flow:
 
 ```mermaid
 graph TD
@@ -184,10 +172,6 @@ graph TD
     C -- Response --> B
     B -- Response --> A
 ```
-
-And here is the resulting diagram:
-
-![Screenshot 2023-06-15 at 07.41.17.png](Multi-tier%20Architecture%20cdf95f0cfd354b5d959f2cbb636c4b03/Screenshot_2023-06-15_at_07.41.17.png)
 
 The client sends a request to the first application layer, which may process the request and pass it to the next application layer. This process continues through the application layers as necessary until reaching the data layer. The response is then returned along the same chain.
 

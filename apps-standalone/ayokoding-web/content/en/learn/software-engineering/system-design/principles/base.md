@@ -50,7 +50,7 @@ Overall, while eventual consistency may not provide immediate consistency, it ca
 
 ## Illustration of a BASE system
 
-BASE systems prioritize availability and eventual consistency over strong consistency. Here's a simplified Mermaid representation of a BASE system:
+BASE systems prioritize availability and eventual consistency over strong consistency. Here's a simplified flow of it:
 
 ```mermaid
 graph LR
@@ -67,10 +67,6 @@ F --> I[Eventual Consistency]
 G --> I
 H --> I
 ```
-
-And here is the resulting flow of it:
-
-![Screenshot 2023-06-14 at 20.56.21.png](BASE%20b8a5eb3db0fe4eba930683877304d2b2/Screenshot_2023-06-14_at_20.56.21.png)
 
 Explanation of the representation:
 

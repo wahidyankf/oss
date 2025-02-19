@@ -51,17 +51,6 @@ Overall, careful preparation is the key to a successful Planning Poker session. 
 
 The Planning Poker process is a detailed one that involves six steps. These steps are outlined below:
 
-1. **Introduction**: At the beginning of the Planning Poker game, the facilitator explains the purpose of the game and the rules to all participants. This ensures that everyone is on the same page and understands what is expected of them.
-2. **User Story Review**: The product owner presents a user story and provides any necessary clarification to the team. The team can ask questions to ensure that they fully understand the user story.
-3. **Individual Estimation**: Each team member privately selects a Planning Poker card to represent their estimate for the user story. This is an essential step, allowing each team member to provide their input and estimate.
-4. **Reveal and Discussion**: All team members reveal their chosen cards simultaneously. If there is a significant difference in estimates, team members engage in a discussion to understand the underlying reasons for their choices. This step is crucial because it allows the team to discuss their perspectives and reach a consensus.
-5. **Consensus Building**: Participants repeat the estimation process (steps 3 and 4) until a consensus is reached or until further discussion doesn't significantly change the estimates. This step is critical because it ensures all team members agree with the estimate.
-6. **Final Estimate**: The team's final estimate is recorded and repeated for the next user story or task. This step ensures the estimate is documented and can be used for future reference.
-
-It is essential to follow these steps to ensure that the Planning Poker game is effective and that all team members agree on the estimates. The team can collaborate effectively and produce high-quality work by following these steps.
-
-Here is the mermaid representation of it:
-
 ```mermaid
 graph LR
 A[Introduction] --> B[User Story Review]
@@ -72,7 +61,16 @@ E --> F[Final Estimate]
 F --> B
 ```
 
-![Screenshot 2023-06-11 at 18.45.30.png](Planning%20Poker%20de9867c0c9944b339138f9c7253deaf3/Screenshot_2023-06-11_at_18.45.30.png)
+1. **Introduction**: At the beginning of the Planning Poker game, the facilitator explains the purpose of the game and the rules to all participants. This ensures that everyone is on the same page and understands what is expected of them.
+2. **User Story Review**: The product owner presents a user story and provides any necessary clarification to the team. The team can ask questions to ensure that they fully understand the user story.
+3. **Individual Estimation**: Each team member privately selects a Planning Poker card to represent their estimate for the user story. This is an essential step, allowing each team member to provide their input and estimate.
+4. **Reveal and Discussion**: All team members reveal their chosen cards simultaneously. If there is a significant difference in estimates, team members engage in a discussion to understand the underlying reasons for their choices. This step is crucial because it allows the team to discuss their perspectives and reach a consensus.
+5. **Consensus Building**: Participants repeat the estimation process (steps 3 and 4) until a consensus is reached or until further discussion doesn't significantly change the estimates. This step is critical because it ensures all team members agree with the estimate.
+6. **Final Estimate**: The team's final estimate is recorded and repeated for the next user story or task. This step ensures the estimate is documented and can be used for future reference.
+
+It is essential to follow these steps to ensure that the Planning Poker game is effective and that all team members agree on the estimates. The team can collaborate effectively and produce high-quality work by following these steps.
+
+Here is the mermaid representation of it:
 
 ## Benefits
 
