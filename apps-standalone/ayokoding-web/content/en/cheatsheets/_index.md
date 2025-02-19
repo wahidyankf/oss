@@ -6,6 +6,5 @@ draft: false
 
 # Cheatsheets
 
-[Programming Languages](./programming-languages/)
-
-[General](./general/)
+- [Programming Languages](./programming-languages/)
+- [General](./general/)

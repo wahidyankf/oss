@@ -43,19 +43,35 @@ Systematically working through these questions can develop a comprehensive and n
 ## Citations
 
 [1] [https://instructionalmoves.gse.harvard.edu/asking-questions-probe-deeper-understanding](https://instructionalmoves.gse.harvard.edu/asking-questions-probe-deeper-understanding)
+
 [2] [https://sunyempire.edu/online-writing-support/resources/academic-writing/process/prewriting-developing-ideas/asking-questions-about-a-subject/](https://sunyempire.edu/online-writing-support/resources/academic-writing/process/prewriting-developing-ideas/asking-questions-about-a-subject/)
+
 [3] [https://cambridge-community.org.uk/professional-development/gsweq/index.html](https://cambridge-community.org.uk/professional-development/gsweq/index.html)
+
 [4] [https://www.kpu.ca/sites/default/files/Learning Centres/Question_4Levels_LA.pdf](https://www.kpu.ca/sites/default/files/Learning%20Centres/Question_4Levels_LA.pdf)
+
 [5] [https://www.indeed.com/career-advice/career-development/probing-questions](https://www.indeed.com/career-advice/career-development/probing-questions)
+
 [6] [https://teaching.cornell.edu/teaching-resources/engaging-students/using-effective-questions-engage-students](https://teaching.cornell.edu/teaching-resources/engaging-students/using-effective-questions-engage-students)
+
 [7] [https://study.com/academy/lesson/how-to-evaluate-scientific-questions.html](https://study.com/academy/lesson/how-to-evaluate-scientific-questions.html)
+
 [8] [https://blog.polleverywhere.com/types-of-questions-in-teaching](https://blog.polleverywhere.com/types-of-questions-in-teaching)
+
 [9] [https://www.highspeedtraining.co.uk/hub/what-is-effective-questioning/](https://www.highspeedtraining.co.uk/hub/what-is-effective-questioning/)
+
 [10] [https://masteringbusinessanalysis.com/lightning-cast-powerful-questions/](https://masteringbusinessanalysis.com/lightning-cast-powerful-questions/)
+
 [11] [https://www.uopeople.edu/blog/the-big-scientific-questions/](https://www.uopeople.edu/blog/the-big-scientific-questions/)
+
 [12] [https://www.youtube.com/watch?v=LESPUxWljko](https://www.youtube.com/watch?v=LESPUxWljko)
+
 [13] [https://thirdspacelearning.com/blog/9-effective-questioning-strategies-improve-pupils-understanding-key-concepts-maths/](https://thirdspacelearning.com/blog/9-effective-questioning-strategies-improve-pupils-understanding-key-concepts-maths/)
+
 [14] [https://edu.rsc.org/ideas/10-effective-questioning-techniques/4011025.article](https://edu.rsc.org/ideas/10-effective-questioning-techniques/4011025.article)
+
 [15] [https://blog.irisconnect.com/hubfs/BLOG-Questioning-in-the-classroom.jpg?sa=X&ved=2ahUKEwiNrpixle2KAxXjj4kEHS7YKmkQ_B16BAgJEAI](https://blog.irisconnect.com/hubfs/BLOG-Questioning-in-the-classroom.jpg?sa=X&ved=2ahUKEwiNrpixle2KAxXjj4kEHS7YKmkQ_B16BAgJEAI)
+
 [16] [https://blog.mindantix.com/2018/09/asking-meaningful-questions-in-science/](https://blog.mindantix.com/2018/09/asking-meaningful-questions-in-science/)
+
 [17] [https://www.liberty.k12.ga.us/pdf/TandL/Effective_Questioning_Talk.pdf](https://www.liberty.k12.ga.us/pdf/TandL/Effective_Questioning_Talk.pdf)

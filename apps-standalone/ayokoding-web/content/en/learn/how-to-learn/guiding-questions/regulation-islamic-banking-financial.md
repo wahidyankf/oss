@@ -60,14 +60,25 @@ By systematically addressing these questions, you can develop a comprehensive un
 ## Citations:
 
 [1] [https://e-journal.unair.ac.id/JHPR/article/download/16928/9130/61898](https://e-journal.unair.ac.id/JHPR/article/download/16928/9130/61898)
+
 [2] [http://www.flevin.com/id/lgso/translations/Laws/Law No. 21 of 2008 on Sharia (Islamic) Banking (BI).pdf](<http://www.flevin.com/id/lgso/translations/Laws/Law%20No.%2021%20of%202008%20on%20Sharia%20(Islamic)%20Banking%20(BI).pdf>)
+
 [3] [https://gfmag.com/features/who-makes-rules-and-regulations-islamic-finance/](https://gfmag.com/features/who-makes-rules-and-regulations-islamic-finance/)
+
 [4] [https://www.shariaknowledgecentre.id/id/.galleries/pdf/research-publication/imf-2018-the-core-principles-for-islamic-finance-regulations-and-assessment-methodology.pdf](https://www.shariaknowledgecentre.id/id/.galleries/pdf/research-publication/imf-2018-the-core-principles-for-islamic-finance-regulations-and-assessment-methodology.pdf)
+
 [5] [https://www.investopedia.com/terms/i/islamicbanking.asp](https://www.investopedia.com/terms/i/islamicbanking.asp)
+
 [6] [https://www.elibrary.imf.org/downloadpdf/journals/026/2015/002/article-A003-en.pdf](https://www.elibrary.imf.org/downloadpdf/journals/026/2015/002/article-A003-en.pdf)
+
 [7] [https://documents1.worldbank.org/curated/en/672751528515184661/REVISED-Board-CPIFR-May-30-2018-06042018.docx](https://documents1.worldbank.org/curated/en/672751528515184661/REVISED-Board-CPIFR-May-30-2018-06042018.docx)
+
 [8] [https://www.sbp.org.pk/IB/FAQ.asp](https://www.sbp.org.pk/IB/FAQ.asp)
+
 [9] [https://www.imf.org/external/pubs/ft/wp/2014/wp14219.pdf](https://www.imf.org/external/pubs/ft/wp/2014/wp14219.pdf)
+
 [10] [https://media.neliti.com/media/publications/329590-understanding-the-islamic-banking-system-8d1e9acb.pdf](https://media.neliti.com/media/publications/329590-understanding-the-islamic-banking-system-8d1e9acb.pdf)
+
 [11] [https://www.elibrary.imf.org/view/journals/026/2015/002/article-A003-en.xml](https://www.elibrary.imf.org/view/journals/026/2015/002/article-A003-en.xml)
+
 [12] [https://www.researchgate.net/topic/Islamic-Banking](https://www.researchgate.net/topic/Islamic-Banking)

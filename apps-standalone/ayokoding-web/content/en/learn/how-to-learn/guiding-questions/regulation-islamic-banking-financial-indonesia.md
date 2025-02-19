@@ -60,20 +60,37 @@ By systematically addressing these questions, you can develop a comprehensive un
 ## Citations
 
 [1] [https://injole.joln.org/index.php/ijle/article/download/40/50/123](https://injole.joln.org/index.php/ijle/article/download/40/50/123)
+
 [2] [https://ejournal.stebisigm.ac.id/index.php/isbank/article/download/1120/488](https://ejournal.stebisigm.ac.id/index.php/isbank/article/download/1120/488)
+
 [3] [https://jurnalfebi.iainkediri.ac.id/index.php/proceedings/article/download/260/199/3132](https://jurnalfebi.iainkediri.ac.id/index.php/proceedings/article/download/260/199/3132)
+
 [4] [https://seminar.uad.ac.id/index.php/adicols/article/download/9482/2272](https://seminar.uad.ac.id/index.php/adicols/article/download/9482/2272)
+
 [5] [https://jurnal.umj.ac.id/index.php/baskara/article/download/24311/11312](https://jurnal.umj.ac.id/index.php/baskara/article/download/24311/11312)
+
 [6] [http://www.flevin.com/id/lgso/translations/Laws/Law No. 21 of 2008 on Sharia (Islamic) Banking (BI).pdf](<http://www.flevin.com/id/lgso/translations/Laws/Law%20No.%2021%20of%202008%20on%20Sharia%20(Islamic)%20Banking%20(BI).pdf>)
+
 [7] [https://www.e-journal.citakonsultindo.or.id/index.php/IJEVSS/article/view/653](https://www.e-journal.citakonsultindo.or.id/index.php/IJEVSS/article/view/653)
+
 [8] [https://e-journal.unair.ac.id/JHPR/article/download/16928/9130/61898](https://e-journal.unair.ac.id/JHPR/article/download/16928/9130/61898)
+
 [9] [https://ojk.go.id/en/berita-dan-kegiatan/info-terkini/Pages/Roadmap-for-the-Development-and-Strengthening-of-Indonesian-Islamic-Banking-2023-2027.aspx](https://ojk.go.id/en/berita-dan-kegiatan/info-terkini/Pages/Roadmap-for-the-Development-and-Strengthening-of-Indonesian-Islamic-Banking-2023-2027.aspx)
+
 [10] [https://ejournal.stebisigm.ac.id/index.php/isbank/article/download/790/355](https://ejournal.stebisigm.ac.id/index.php/isbank/article/download/790/355)
+
 [11] [https://ejournal.uinfasbengkulu.ac.id/index.php/mizani/article/view/2794](https://ejournal.uinfasbengkulu.ac.id/index.php/mizani/article/view/2794)
+
 [12] [https://journal.umy.ac.id/index.php/jmh/article/view/22485](https://journal.umy.ac.id/index.php/jmh/article/view/22485)
+
 [13] [https://ejournal.uin-suka.ac.id/febi/JBMIB/article/download/2112/1161/5339](https://ejournal.uin-suka.ac.id/febi/JBMIB/article/download/2112/1161/5339)
+
 [14] [https://journal.perbanas.ac.id/index.php/tiar/article/view/1919/1736](https://journal.perbanas.ac.id/index.php/tiar/article/view/1919/1736)
+
 [15] [https://www.routledge.com/The-Future-of-Islamic-Banking-and-Finance-in-Indonesia-Performance-Risk-and-Regulation/AdetioSetiawan/p/book/9781032494777](https://www.routledge.com/The-Future-of-Islamic-Banking-and-Finance-in-Indonesia-Performance-Risk-and-Regulation/AdetioSetiawan/p/book/9781032494777)
+
 [16] [https://injole.joln.org/index.php/ijle/article/download/40/50/123](https://injole.joln.org/index.php/ijle/article/download/40/50/123)
+
 [17] [https://journalkeberlanjutan.com/index.php/ijesss/article/view/571](https://journalkeberlanjutan.com/index.php/ijesss/article/view/571)
+
 [18] [https://jurnal.umj.ac.id/index.php/baskara/article/download/24311/11312](https://jurnal.umj.ac.id/index.php/baskara/article/download/24311/11312)
