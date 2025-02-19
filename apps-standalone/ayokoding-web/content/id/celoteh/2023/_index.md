@@ -12,7 +12,7 @@ draft: false
 
 [Tolong jangan lakukan itu! 1 Story Point bukanlah 1 Engineering Hour!](./tolong-jangan-lakukan-itu-1-story-point-bukanlah-1-engineering-hour/)
 
-[Menyiapkan C, TypeScript, F#, dan Dart untuk Pengembangan Lokal dalam VS Code: Pengalaman Liburan Saya](./menyiapkan-c-type-script-f-dan-dart-untuk-pengembangan-lokal-dalam-vs-code-pengalaman-liburan-saya/)
+[Menyiapkan C, TypeScript, F#, dan Dart untuk Pengembangan Lokal dalam VS Code: Pengalaman Liburan Saya](./menyiapkan-c-typescript-f-dan-dart-untuk-pengembangan-lokal-dalam-vs-code-pengalaman-liburan-saya/)
 
 [Kepemimpinan itu Sepi: Perspektif Pribadi sebagai Engineering Manager](./kepemimpinan-itu-sepi-perspektif-pribadi-sebagai-engineering-manager/)
 
@@ -22,6 +22,6 @@ draft: false
 
 [Tech Winter di Indonesia: Pelajaran yang Gw Ambil dan Pentingnya Stock-Based Compensation](./tech-winter-di-indonesia-pelajaran-yang-gw-ambil-dan-pentingnya-stock-based-compensation/)
 
-[Perjalanan Gw dengan ChatGPT Plus: Kenapa Layak Diinvestasikan](./perjalanan-gw-dengan-chatgpt-plus-kenapa-layak-diiinvestasikan/)
+[Perjalanan Gw dengan ChatGPT Plus: Kenapa Layak Diinvestasikan](./perjalanan-gw-dengan-chatgpt-plus-kenapa-layak-diinvestasikan/)
 
 [Pengalaman Gw dengan Tes CliftonStrengths: Jadi makin yakin di jalur engineering management](./pengalaman-gw-dengan-tes-cliftonstrengths-jadi-makin-yakin-di-jalur-engineering-management/)
