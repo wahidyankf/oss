@@ -24,16 +24,16 @@ So, dive in, explore the recipes, and let the Dart Cookbook be your trusted comp
 
 ### Up and Running
 
-[How to Read Dart Code?](Cookbook%20c9bd6174922c49ecae1a6930a9bac8e6/How%20to%20Read%20Dart%20Code%20542d0687d3694e94bf2447cf60ff0ce5.md)
+[How to Read Dart Code?](./how-to-read-dart-code/)
 
-[Hello World](Cookbook%20c9bd6174922c49ecae1a6930a9bac8e6/Hello%20World%2090724f81f3204e2ebac0065c0f0e5a01.md)
+[Hello World](./hello-world/)
 
 ### Extra Miles
 
-[Typing: Sealed Class](Cookbook%20c9bd6174922c49ecae1a6930a9bac8e6/Typing%20Sealed%20Class%208257bf0bd48748448a2c8687230a68cc.md)
+[Typing: Sealed Class](./typing-sealed-class/)
 
-[Typing: Option](Cookbook%20c9bd6174922c49ecae1a6930a9bac8e6/Typing%20Option%2075de41ee5e0b49c3b566398d2563beba.md)
+[Typing: Option](./typing-option/)
 
-[Typing: Result](Cookbook%20c9bd6174922c49ecae1a6930a9bac8e6/Typing%20Result%200d2f6a91942d409d949610cebb9d1eb7.md)
+[Typing: Result](./typing-result/)
 
-[Typing: tryCatch](Cookbook%20c9bd6174922c49ecae1a6930a9bac8e6/Typing%20tryCatch%20f0da16a29a824b69ae8d3bc55f932b28.md)
+[Typing: tryCatch](./typing-try-catch/)

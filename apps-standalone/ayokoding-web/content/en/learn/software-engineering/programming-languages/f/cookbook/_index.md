@@ -24,6 +24,6 @@ So, dive in, explore the recipes, and let the F# Cookbook be your trusted compan
 
 ### Up and Running
 
-[How to Read F# Code?](Cookbook%20e3ef774803784e8ea8600ab530346186/How%20to%20Read%20F#%20Code%20122cd5b0f8244ac08510591b99cd84ae.md)
+[How to Read F# Code?](./how-to-read-f-code/)
 
-[Hello World](Cookbook%20e3ef774803784e8ea8600ab530346186/Hello%20World%203d5786b345734b12a3a66f7858642cad.md)
+[Hello World](./hello-world/)

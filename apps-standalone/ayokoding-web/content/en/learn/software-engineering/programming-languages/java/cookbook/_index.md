@@ -24,26 +24,26 @@ So, dive in, explore the recipes, and let the Java Cookbook be your trusted comp
 
 ### Up and Running
 
-[How to Read Java Code](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/How%20to%20Read%20Java%20Code%20dd249ef862194bd78e0bf9a38603adcb.md)
+[How to Read Java Code](./how-to-read-java-code/)
 
-[Hello World](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Hello%20World%2085b5d3ea51d8425b9aac9a860d136ef0.md)
+[Hello World](./hello-world/)
 
 ### Essentials
 
-[Data Types in Java](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Data%20Types%20in%20Java%207b4cc9f0f5fc49599ec04434bf255d2f.md)
+[Data Types in Java](./data-types-in-java/)
 
-[Data Types: Primitive](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Data%20Types%20Primitive%207fce2be02c484c28a6623e24aae26887.md)
+[Data Types: Primitive](./data-types-primitive/)
 
-[Reference Types](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Reference%20Types%201e9b2375c3bf4dfcba746ccfbdd8c227.md)
+[Reference Types](./reference-types/)
 
-[Class: Basics](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Class%20Basics%20942f3b379f384b50a21647f1b8a65cb7.md)
+[Class: Basics](./class-basics/)
 
-[Control Structure](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Control%20Structure%20db6126aea0da4ae9b39c190669633fe8.md)
+[Control Structure](./control-structure/)
 
-[Methods: Basics](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Methods%20Basics%207b60b23c663e400398c653deca63a90f.md)
+[Methods: Basics](./methods-basics/)
 
-[Class: Intermediate](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Class%20Intermediate%204b7a96c097024c729530c311f7d80f37.md)
+[Class: Intermediate](./class-intermediate/)
 
 ### Extra Miles
 
-[Package Managers](Cookbook%20463d4e4ad60a49ed9248d95875f373fa/Package%20Managers%203a14bf62facf49709315f7fb82e469a2.md)
+[Package Managers](./package-managers/)

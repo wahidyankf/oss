@@ -24,6 +24,5 @@ So, dive in, explore the recipes, and let the C Cookbook be your trusted compani
 
 ### Up and Running
 
-[How to Read C Code?](Cookbook%209f95a39c79534533a99c70cb0b7596dd/How%20to%20Read%20C%20Code%2090568dd79f4c495ba1b6be1795ec9112.md)
-
-[Hello World](Cookbook%209f95a39c79534533a99c70cb0b7596dd/Hello%20World%205db42879aaa24385b71e3b174861fec0.md)
+- [How to Read C Code?](./how-to-read-c-code/)
+- [Hello World](./hello-world/)
