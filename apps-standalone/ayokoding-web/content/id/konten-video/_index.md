@@ -8,15 +8,15 @@ draft: false
 
 ## Seri
 
-[Cerita Programmer](Konten%20Video%2008f039b9b4fa4e34a6e4aff69e81e17a/Cerita%20Programmer%20682b9e8e2c8947c2b3a9f232a1f41e93.md)
+[Cerita Programmer](./cerita-programmer/)
 
-[Pengen Jadi Programmer](Konten%20Video%2008f039b9b4fa4e34a6e4aff69e81e17a/Pengen%20Jadi%20Programmer%206ca0618e87504dbdb810114ece5a9d92.md)
+[Pengen Jadi Programmer](./pengen-jadi-programmer/)
 
-[Karir Programmer](Konten%20Video%2008f039b9b4fa4e34a6e4aff69e81e17a/Karir%20Programmer%20ae87612168fa4df2ba07a6d22da551c5.md)
+[Karir Programmer](./karir-programmer/)
 
-[Jam Kantor](Konten%20Video%2008f039b9b4fa4e34a6e4aff69e81e17a/Jam%20Kantor%204b15173c68e24c19bd706f9a33525768.md)
+[Jam Kantor](./jam-kantor/)
 
-[Klub Belajar](Konten%20Video%2008f039b9b4fa4e34a6e4aff69e81e17a/Klub%20Belajar%209b1158d9f36a44108d114687f3209854.md)
+[Klub Belajar](./klub-belajar/)
 
 ## Tautan
 

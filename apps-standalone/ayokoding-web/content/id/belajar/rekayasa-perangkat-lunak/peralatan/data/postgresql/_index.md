@@ -6,6 +6,6 @@ draft: false
 
 # PostgreSQL
 
-[Ikhtisar](PostgreSQL%2080855f05784a46e394001bc8f9797b09/Ikhtisar%2095ba1418dd7c484889b5e21df083acee.md)
+[Ikhtisar](./ikhtisar/)
 
-[Buku Resep](PostgreSQL%2080855f05784a46e394001bc8f9797b09/Buku%20Resep%2027745665711c48b597c9d48793b4ba48.md)
+[Buku Resep](./buku-resep/)

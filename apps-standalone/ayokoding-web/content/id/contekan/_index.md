@@ -6,4 +6,4 @@ draft: false
 
 # Contekan
 
-[Umum](Contekan%20fc686d3e6fa04512a062bb6237d66404/Umum%20514b18014c2a45b4828232922cf84f4a.md)
+[Umum](./umum/)
