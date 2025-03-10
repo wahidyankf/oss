@@ -1,3 +1,6 @@
 public/
 resources/
 node_modules/
+# Ignore Hugo templates which Prettier can't handle properly
+layouts/**/*.html
+themes/**/*.html

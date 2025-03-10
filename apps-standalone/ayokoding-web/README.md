@@ -11,6 +11,7 @@ Ayokoding Web V2 is a multilingual Hugo-powered website for learning and sharing
 - 🔍 Full-text search functionality
 - 📱 Responsive design
 - 🌓 Light/dark mode support
+- 🧭 Breadcrumb navigation for enhanced user experience
 
 ## Prerequisites
 
@@ -98,6 +99,25 @@ The generated site will be in the `public/` directory.
 - `themes/`: Hugo theme (currently using hugo-book)
 
 ## Customization
+
+### Theme
+
+The site uses the [Hugo Book theme](https://github.com/alex-shpak/hugo-book) with several customizations:
+
+- Custom SCSS styles in `assets/custom.scss`
+- Layout overrides in `layouts/` directory
+- Menu configuration in `hugo.toml`
+
+### Breadcrumb Navigation
+
+The site includes breadcrumb navigation to improve user experience and site navigation:
+
+- **Implementation**: Custom partial template in `layouts/partials/docs/breadcrumb.html`
+- **Layout Override**: Added to the main layout via `layouts/_default/baseof.html`
+- **Styling**: Breadcrumb styles defined in `assets/custom.scss`
+- **Format**: Shows the full navigation path (e.g., `Home > en > learn > topic > subtopic`)
+
+### Content Structure
 
 - Edit `hugo.toml` to modify site settings
 - Add content in `content/en/` or `content/id/`

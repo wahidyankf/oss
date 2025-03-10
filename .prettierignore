@@ -3,3 +3,11 @@
 /coverage
 /.nx/cache
 /.nx/workspace-data
+
+# Hugo template files
+**/layouts/**/*.html
+**/themes/**/*.html
+
+# Hugo-specific directories
+**/public/
+**/resources/

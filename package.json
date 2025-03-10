@@ -63,7 +63,7 @@
     "next": "^15.1.6"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,md,mdx,yaml,mjs,json,html}": [
+    "*.{js,jsx,ts,tsx,md,mdx,yaml,mjs,json}": [
       "prettier --write"
     ]
   },
