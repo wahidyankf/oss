@@ -13,6 +13,52 @@
     text-align: center;
   }
 
+  /* Go Up One Level button */
+  .go-up-level {
+    display: block;
+    margin: 2rem auto;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--gray-100);
+    color: var(--body-font-color);
+    text-align: center;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid var(--gray-200);
+    transition: background-color 0.3s, border-color 0.3s;
+    cursor: pointer;
+    max-width: 400px; /* Increased max-width to accommodate longer text */
+    white-space: normal; /* Allow text wrapping if needed */
+  }
+
+  .go-up-level:hover {
+    background-color: var(--gray-200);
+    border-color: var(--gray-300);
+    text-decoration: none;
+  }
+
+  .go-up-level svg {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* Dark mode adjustments for go-up-level */
+  [data-dark-mode] .go-up-level {
+    background-color: var(--gray-800);
+    border-color: var(--gray-700);
+    color: var(--body-font-color);
+  }
+  
+  [data-dark-mode] .go-up-level:hover {
+    background-color: var(--gray-700);
+    border-color: var(--gray-600);
+  }
+
+  /* Hide when there's no parent level (e.g., on home or top-level pages) */
+  .go-up-level.hidden {
+    display: none;
+  }
+
   /* Scroll to top button */
   .scroll-to-top {
     position: fixed;
