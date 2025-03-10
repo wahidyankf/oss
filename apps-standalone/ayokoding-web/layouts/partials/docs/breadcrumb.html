@@ -1,12 +1,16 @@
-{{ $url := .RelPermalink }} {{ $segments := split (trim $url "/") "/" }} {{ if
-gt (len $segments) 0 }}
+{{ $url := .RelPermalink }}
+{{ if ne $url "/" }}
+{{ $segments := split (trim $url "/") "/" }}
+{{ if gt (len $segments) 0 }}
 <nav class="breadcrumb-nav" aria-label="breadcrumb">
   <a href="/">Home</a>
-  {{ $path := "" }} {{ range $index, $segment := $segments }} {{ $path = printf
-  "%s/%s" $path $segment }}
+  {{ $path := "" }}
+  {{ range $index, $segment := $segments }}
+  {{ $path = printf "%s/%s" $path $segment }}
   <span class="separator">&gt;</span>
   <a href="{{ $path }}/">{{ $segment }}</a>
   {{ end }}
 </nav>
 <br />
+{{ end }}
 {{ end }}
