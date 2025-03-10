@@ -8,7 +8,20 @@
   {{ range $index, $segment := $segments }}
   {{ $path = printf "%s/%s" $path $segment }}
   <span class="separator">&gt;</span>
-  <a href="{{ $path }}/">{{ $segment }}</a>
+  <a href="{{ $path }}/">
+    {{ $words := split $segment "-" }}
+    {{ range $wordIndex, $word := $words }}
+      {{ if eq $wordIndex 0 }}
+        {{ title $word }}
+      {{ else }}
+        {{ if or (eq $word "to") (eq $word "of") (eq $word "in") (eq $word "on") (eq $word "and") (eq $word "the") (eq $word "a") (eq $word "an") }}
+          {{ $word }}
+        {{ else }}
+          {{ title $word }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  </a>
   {{ end }}
 </nav>
 <br />
