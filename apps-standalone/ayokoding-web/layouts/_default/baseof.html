@@ -105,8 +105,20 @@
           const parentPathSegments = pathSegments.slice(0, -1);
           const parentUrl = '/' + parentPathSegments.join('/') + '/';
           
+          // Check language code (first segment of the path)
+          const languageCode = pathSegments[0];
+          
+          // Set button text based on language
+          let buttonText = '';
+          if (languageCode === 'id') {
+            buttonText = `Naik Satu Tingkat Ke: ${formattedParentName}`;
+          } else {
+            // Default to English for any other language code
+            buttonText = `Go Up One Level to: ${formattedParentName}`;
+          }
+          
           // Update button text and href
-          goUpLevelText.textContent = `Go Up One Level to: ${formattedParentName}`;
+          goUpLevelText.textContent = buttonText;
           goUpLevelButton.href = parentUrl;
           goUpLevelButton.classList.remove('hidden');
         } else {
