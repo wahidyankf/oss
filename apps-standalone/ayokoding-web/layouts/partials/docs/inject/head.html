@@ -13,6 +13,47 @@
     text-align: center;
   }
 
+  /* Scroll to top button */
+  .scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--gray-200);
+    color: var(--body-font-color);
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+    transition: opacity 0.3s, background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scroll-to-top:hover {
+    background-color: var(--gray-300);
+  }
+
+  .scroll-to-top.show {
+    opacity: 1;
+  }
+
+  /* Dark mode adjustments */
+  [data-dark-mode] .scroll-to-top {
+    background-color: var(--gray-700);
+    color: var(--body-font-color);
+  }
+  
+  [data-dark-mode] .scroll-to-top:hover {
+    background-color: var(--gray-600);
+  }
+
   /* Sticky navigation styles - FIXED */
   .book-menu {
     position: sticky;

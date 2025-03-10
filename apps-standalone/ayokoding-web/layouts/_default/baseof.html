@@ -45,20 +45,45 @@
     {{ end }}
   </main>
 
+  <!-- Scroll to Top Button -->
+  <div class="scroll-to-top" id="scrollToTop" title="Scroll to Top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </div>
+
   {{ partial "docs/inject/body" . }}
   <script>
     // Add scroll shadow effect to sticky breadcrumb
     document.addEventListener('DOMContentLoaded', function() {
       const stickyBreadcrumb = document.querySelector('.sticky-breadcrumb');
-      if (stickyBreadcrumb) {
-        window.addEventListener('scroll', function() {
+      const scrollToTopButton = document.getElementById('scrollToTop');
+      
+      // Show/hide scroll to top button based on scroll position
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 200) {
+          scrollToTopButton.classList.add('show');
+        } else {
+          scrollToTopButton.classList.remove('show');
+        }
+        
+        // Add shadow to breadcrumb when scrolled
+        if (stickyBreadcrumb) {
           if (window.scrollY > 10) {
             stickyBreadcrumb.classList.add('scrolled');
           } else {
             stickyBreadcrumb.classList.remove('scrolled');
           }
+        }
+      });
+      
+      // Scroll to top when the button is clicked
+      scrollToTopButton.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
         });
-      }
+      });
     });
   </script>
 </body>
