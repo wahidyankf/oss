@@ -1,0 +1,102 @@
+<!-- Custom styles for Ayokoding website -->
+<style>
+  /* Custom image styles */
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  /* Sticky navigation styles - FIXED */
+  .book-menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .book-header {
+    position: sticky;
+    top: 0;
+    z-index: 11; /* Increased to be above other elements */
+    background-color: var(--body-background);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0.5rem 0;
+  }
+  
+  /* Fixed sticky breadcrumb */
+  .sticky-breadcrumb {
+    position: sticky;
+    white-space: normal;
+    overflow: visible;
+    top: 0;
+    z-index: 9;
+    background-color: var(--body-background);
+    transition: box-shadow 0.3s ease;
+    width: 100%; /* Ensure full width */
+    overflow: hidden; /* Prevent content from spilling out */
+    white-space: nowrap; /* Keep content on one line */
+    text-overflow: ellipsis; /* Show ellipsis for overflow */
+    padding: 1rem 0 1rem 0;
+  }
+  
+  /* On small screens, allow wrapping */
+  @media (max-width: 768px) {
+    .sticky-breadcrumb {
+    position: sticky;
+    white-space: normal;
+    overflow: visible;
+    top: 2.5rem;
+    padding: 0.25rem 0 0.25rem 0;
+    }
+  }
+  
+  .sticky-breadcrumb.scrolled {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Breadcrumb styles */
+  .breadcrumb-nav {
+    margin-bottom: 1rem;
+    display: flex; /* Use flexbox for better layout control */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    align-items: center;
+    gap: 0.25rem; /* Add space between items */
+  }
+
+  .breadcrumb-nav a {
+    color: #0066cc;
+    text-decoration: none;
+    display: inline-block; /* Better control over spacing */
+    max-width: 200px; /* Limit width of each segment */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .breadcrumb-nav a:hover {
+    text-decoration: underline;
+  }
+
+  .separator {
+    color: #000;
+    margin: 0 2px; /* Reduced margins */
+  }
+
+  @media (max-width: 768px) {
+    .breadcrumb-nav {
+      font-size: 12px;
+    }
+    
+    .breadcrumb-nav a {
+      max-width: 150px; /* Smaller max-width on mobile */
+    }
+  }
+</style>

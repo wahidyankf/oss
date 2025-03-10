@@ -123,6 +123,35 @@ The site includes breadcrumb navigation to improve user experience and site navi
 - Add content in `content/en/` or `content/id/`
 - Customize CSS in `static/css/custom.css`
 
+### Layout Overrides
+
+Hugo Book theme supports layout overrides, which we use throughout this project:
+
+- `/layouts/_default/baseof.html` - Main layout override to add breadcrumb navigation
+- `/layouts/partials/docs/breadcrumb.html` - Custom breadcrumb navigation template
+- `/layouts/partials/docs/inject/head.html` - Custom styles injection
+
+### Styling
+
+Custom styles are implemented through Hugo's partial injection system:
+
+- Custom styles are added in `/layouts/partials/docs/inject/head.html`
+- This approach avoids potential SCSS compilation issues
+- Styles include breadcrumb formatting, sticky navigation, and image alignment
+
+### Breadcrumb Navigation
+
+- Displays the current page hierarchy in a user-friendly format
+- Auto-capitalizes URL segments for better readability (e.g., "how-to-learn" becomes "How To Learn")
+- Does not display "Home >" when on the home page
+- Implemented as a sticky navigation element that remains visible when scrolling
+
+### Mobile Responsiveness
+
+- Responsive design for various screen sizes
+- Font size adjustments for smaller screens
+- Navigation elements adapt to mobile view
+
 ## Deployment
 
 ### Vercel Deployment

@@ -20,7 +20,9 @@
       </header>
 
       {{ partial "docs/inject/content-before" . }}
-      {{ partial "docs/breadcrumb" . }} <!-- Breadcrumb navigation -->
+      <div class="sticky-breadcrumb">
+        {{ partial "docs/breadcrumb" . }} <!-- Breadcrumb navigation -->
+      </div>
       {{ template "main" . }} <!-- Page Content -->
       {{ partial "docs/inject/content-after" . }}
 
@@ -44,6 +46,21 @@
   </main>
 
   {{ partial "docs/inject/body" . }}
+  <script>
+    // Add scroll shadow effect to sticky breadcrumb
+    document.addEventListener('DOMContentLoaded', function() {
+      const stickyBreadcrumb = document.querySelector('.sticky-breadcrumb');
+      if (stickyBreadcrumb) {
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > 10) {
+            stickyBreadcrumb.classList.add('scrolled');
+          } else {
+            stickyBreadcrumb.classList.remove('scrolled');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
 

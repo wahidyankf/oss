@@ -1,5 +1,7 @@
-// Custom SCSS for image centering
+// Custom styles for Ayokoding website
+// This file is automatically imported by the Hugo Book theme
 
+// Custom image styles
 img {
   display: block;
   margin-left: auto;
@@ -10,6 +12,37 @@ img {
 
 .center {
   text-align: center;
+}
+
+// Sticky navigation styles
+.book-menu {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+}
+
+.book-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  background-color: var(--body-background) !important;
+  border-bottom: 1px solid var(--gray-200) !important;
+  padding: 0.5rem 0 !important;
+}
+
+.sticky-breadcrumb {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9 !important;
+  background-color: var(--body-background) !important;
+  padding: 0.5rem 0 !important;
+  transition: box-shadow 0.3s ease !important;
+  
+  &.scrolled {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1) !important;
+  }
 }
 
 // Breadcrumb styles
