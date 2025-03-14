@@ -22,6 +22,12 @@ enableGitInfo = false
 # You can remove related files with config below
 disableKinds = ['taxonomy', 'term']
 
+# Allow raw HTML in markdown
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
+
 # Languages configuration
 # defaultContentLanguage = 'en'
 # defaultContentLanguageInSubdir = true
@@ -128,3 +134,5 @@ bookSearchExclude = true
 
 # (Optional) Set explicit href attribute for this page in a menu.
 bookHref = ''
+
+ignoreLogs = ['warning-goldmark-raw-html']
