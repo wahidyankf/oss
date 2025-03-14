@@ -16,15 +16,19 @@ Ayokoding Web V2 is a multilingual Hugo-powered website for learning and sharing
 ## Prerequisites
 
 - **Hugo**: Install using Homebrew or manually as described:
+
   ```bash
   brew install hugo
   ```
 
 - **Volta**: Install Volta for managing JavaScript tools:
+
   ```bash
   curl https://get.volta.sh | bash
   ```
+
   Verify the installation:
+
   ```bash
   volta --version
   ```
@@ -46,6 +50,14 @@ cd ayokoding-web-v2
 
 ```bash
 hugo mod get
+```
+
+### Git Submodule Initialization
+
+To ensure that all submodules are initialized and updated, run the following command:
+
+```bash
+git submodule update --init --recursive
 ```
 
 ### Development
