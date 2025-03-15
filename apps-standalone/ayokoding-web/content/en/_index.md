@@ -17,6 +17,7 @@ weight: 1
     - [Software Development Approaches](./learn/software-engineering/software-development-approaches/)
     - [Tools](./learn/software-engineering/tools/)
     - [Routines](./learn/software-engineering/routines/)
+    - [Interview Focused Learning](./learn/software-engineering/interview-focused-learning/)
   - [Human](./learn/human/)
     - [Tools](./learn/human/tools/)
 - [Cheatsheets](./cheatsheets/)
