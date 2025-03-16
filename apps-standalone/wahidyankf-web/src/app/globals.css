@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+.light-theme {
+  --foreground-rgb: 30, 30, 30; /* VS Light foreground */
+  --background-start-rgb: 255, 255, 255; /* VS Light background */
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+}
+
+/* Light theme styles */
+.light-theme body {
+  @apply text-light-foreground bg-light-background;
+}
+
+.light-theme .text-green-400 {
+  @apply text-light-green;
+}
+
+.light-theme .text-yellow-400 {
+  @apply text-light-yellow;
+}
+
+.light-theme .border-green-400 {
+  @apply border-light-primary;
+}
+
+.light-theme .bg-gray-900 {
+  @apply bg-light-background;
+}
+
+.light-theme .bg-gray-800 {
+  @apply bg-light-soft;
+}
+
+/* Increase contrast for links and interactive elements */
+.light-theme a:hover,
+.light-theme button:hover {
+  @apply text-light-accent;
+}
+
+/* Ensure form inputs have sufficient contrast */
+.light-theme input,
+.light-theme textarea,
+.light-theme select {
+  @apply border-light-muted text-light-foreground bg-white;
+}
+
+/* Ensure all text elements use the correct color in light mode */
+.light-theme p,
+.light-theme span,
+.light-theme div,
+.light-theme h1,
+.light-theme h2,
+.light-theme h3,
+.light-theme h4,
+.light-theme h5,
+.light-theme h6,
+.light-theme ul,
+.light-theme ol,
+.light-theme li,
+.light-theme .duration,
+.light-theme [class*="duration"],
+.light-theme time {
+  @apply text-light-foreground;
+}
+
+/* Add more light theme overrides as needed */
+.light-theme a {
+  @apply text-light-primary font-semibold underline decoration-2 underline-offset-2 hover:text-light-accent hover:decoration-light-accent;
+}
+
+.light-theme code {
+  @apply bg-light-soft text-light-keyword px-1 rounded;
+}
+
+.light-theme pre {
+  @apply bg-light-soft p-4 rounded;
+}
+
+.light-theme blockquote {
+  @apply border-l-4 border-light-muted pl-4 italic;
+}
+
+/* VS Light specific syntax highlighting */
+.light-theme .comment {
+  @apply text-light-comment;
+}
+
+.light-theme .string {
+  @apply text-light-string;
+}
+
+.light-theme .keyword {
+  @apply text-light-keyword;
+}
+
+/* Add this new style for the About Me section links */
+.light-theme .content-link {
+  @apply text-light-primary font-semibold underline decoration-2 underline-offset-2 hover:text-light-accent hover:decoration-light-accent;
+}
+
+/* Existing dark theme styles */
+a {
+  @apply text-yellow-400 hover:text-green-400 transition-colors duration-200;
+}
+
+/* Replace .about-me-link with .content-link for dark mode */
+.content-link {
+  @apply text-yellow-400 font-semibold underline decoration-2 underline-offset-2 hover:text-green-400 hover:decoration-green-400 transition-colors duration-200;
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+}

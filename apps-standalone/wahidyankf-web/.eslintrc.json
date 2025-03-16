@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:vitest-globals/recommended"
+  ],
+  "plugins": ["vitest-globals"],
+  "env": {
+    "vitest-globals/env": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "env": {
+        "vitest-globals/env": true
+      }
+    }
+  ]
+}
