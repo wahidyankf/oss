@@ -22,17 +22,21 @@ ayokoding/
 ### Folder Descriptions
 
 #### Apps
+
 - `next-hello`: The primary web application integrated into the monorepo
 - `web-e2e`: End-to-end testing suite for the web application
 
 #### Apps-Standalone
+
 The `apps-standalone` folder is used for applications that are:
+
 - Difficult to integrate into the monorepo
 - Experimental projects
 - Not yet ready for full monorepo integration
 - Maintained separately from the main monorepo workflow
 
 #### Libs
+
 Shared libraries and components that can be used across different applications in the monorepo.
 
 ## Tech Stack
@@ -50,6 +54,7 @@ Shared libraries and components that can be used across different applications i
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (version 20.x or later)
 - npm (version 9.x or later)
 - Nx CLI
@@ -57,6 +62,7 @@ Shared libraries and components that can be used across different applications i
 ### Installation
 
 1. Clone the repository
+
    ```bash
    git clone https://github.com/wahidyankf/ayokoding.git
    cd ayokoding
@@ -72,6 +78,7 @@ Shared libraries and components that can be used across different applications i
 #### Monorepo Applications
 
 - Start the main application:
+
   ```bash
   npx nx serve next-hello
   ```
@@ -84,6 +91,7 @@ Shared libraries and components that can be used across different applications i
 #### Standalone Applications
 
 - Start the standalone web application:
+
   ```bash
   npm run ayokoding-web:dev
   ```
@@ -96,6 +104,7 @@ Shared libraries and components that can be used across different applications i
 ### Testing
 
 - Run all tests (including standalone and monorepo applications):
+
   ```bash
   npm run test:all
   ```
@@ -116,6 +125,7 @@ Shared libraries and components that can be used across different applications i
 ## Git Hooks
 
 The project uses Husky for Git hooks:
+
 - `pre-push`: Runs tests and builds affected projects before pushing
 
 ## License
