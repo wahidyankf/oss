@@ -208,4 +208,39 @@
       max-width: 150px; /* Smaller max-width on mobile */
     }
   }
+
+  /* Hide scrollbars everywhere */
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  /* Target specifically the book menu content */
+  .book-menu-content {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+
+  .book-menu-content::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .book-menu {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+
+  .book-menu::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
 </style>

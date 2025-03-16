@@ -162,7 +162,16 @@ Custom styles are implemented through Hugo's partial injection system:
 
 - Custom styles are added in `/layouts/partials/docs/inject/head.html`
 - This approach avoids potential SCSS compilation issues
-- Styles include breadcrumb formatting, sticky navigation, and image alignment
+- Styles include breadcrumb formatting, sticky navigation, image alignment, and hidden scrollbars
+
+#### Hidden Scrollbars
+
+The site implements hidden scrollbars for a cleaner UI experience:
+
+- Scrollbars are completely hidden using CSS while maintaining scroll functionality
+- Implementation added directly in `/layouts/partials/docs/inject/head.html` with `!important` flags
+- Compatible with all major browsers (Chrome/Safari using webkit-scrollbar, Firefox using scrollbar-width)
+- Affects all scrollable elements including the sidebar navigation
 
 ### Breadcrumb Navigation
 
