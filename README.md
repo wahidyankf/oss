@@ -12,7 +12,9 @@ ayokoding/
 │   ├── next-hello/   # Main Next.js web application integrated into the monorepo
 │   └── web-e2e/      # End-to-end tests for the web application
 ├── apps-standalone/  # Apps that are hard/not yet integrated to the monorepo
-│   └── ayokoding-web/  # Standalone version of the web application
+│   ├── ayokoding-web/  # Standalone version of the web application
+│   ├── wahidyankf-e2e/  # End-to-end testing environment
+│   └── wahidyankf-web/  # Personal web application
 ├── libs/             # Shared libraries and components
 │   └── ...           # Reusable code and shared utilities
 ├── scripts/          # Utility scripts for project management
@@ -34,6 +36,12 @@ The `apps-standalone` folder is used for applications that are:
 - Experimental projects
 - Not yet ready for full monorepo integration
 - Maintained separately from the main monorepo workflow
+
+Current standalone applications:
+
+- `ayokoding-web`: Standalone version of the web application
+- `wahidyankf-e2e`: End-to-end testing environment
+- `wahidyankf-web`: Personal web application
 
 #### Libs
 
