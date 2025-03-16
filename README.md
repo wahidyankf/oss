@@ -1,4 +1,4 @@
-# Ayokoding Monorepo
+# OSS Monorepo
 
 ## Overview
 
@@ -7,7 +7,7 @@ This monorepo is a comprehensive development workspace that includes multiple ap
 ## Project Structure
 
 ```
-ayokoding/
+oss/
 ├── apps/
 │   ├── next-hello/   # Main Next.js web application integrated into the monorepo
 │   └── web-e2e/      # End-to-end tests for the web application
