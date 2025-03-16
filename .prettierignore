@@ -11,3 +11,4 @@
 # Hugo-specific directories
 **/public/
 **/resources/
+**/hugo-book/

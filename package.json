@@ -1,5 +1,5 @@
 {
-  "name": "ayokoding",
+  "name": "oss",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,18 +10,14 @@
     "next-hello:typecheck": "nx typecheck next-hello",
     "ayokoding-web:build": "cd apps-standalone/ayokoding-web && npm run build",
     "ayokoding-web:dev": "cd apps-standalone/ayokoding-web && npm run dev",
-    "ayokoding-web-v2:build": "cd apps-standalone/ayokoding-web-v2 && npm run build",
-    "ayokoding-web-v2:dev": "cd apps-standalone/ayokoding-web-v2 && npm run dev",
-    "ayokoding-web-v2:start": "cd apps-standalone/ayokoding-web-v2 && npm run start",
-    "ayokoding-web-v2:lint": "cd apps-standalone/ayokoding-web-v2 && npm run lint",
-    "ayokoding-web-v2:typecheck": "cd apps-standalone/ayokoding-web-v2 && npm run typecheck",
-    "ayokoding-web-v2:test": "cd apps-standalone/ayokoding-web-v2 && npm run test",
-    "ayokoding-web-v2:test:all": "cd apps-standalone/ayokoding-web-v2 && npm run test:all",
+    "wahidyankf-web:build": "cd apps-standalone/wahidyankf-web && npm run build",
+    "wahidyankf-web:dev": "cd apps-standalone/wahidyankf-web && npm run dev",
     "test:echo": "echo 'Running tests for Ayokoding monorepo'",
     "typecheck": "npx nx run-many --target=typecheck",
-    "test:all:standalone": "npm run ayokoding-web:build",
+    "test:all:standalone": "npm run build:standalone",
     "test:all": "npm run test:echo && npm run test:all:standalone && npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
-    "build": "./scripts/build.sh"
+    "build": "./scripts/build.sh",
+    "build:standalone": "npm run ayokoding-web:build && npm run wahidyankf-web:build"
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",
