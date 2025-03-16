@@ -8,3 +8,5 @@ draft: false
 
 - [Introduction](./introduction.md)
 - [By Tech Stacks](./tech-stacks/)
+  - [Programming Languages](./tech-stacks/languages/)
+    - [Python](./tech-stacks/languages/python.md)

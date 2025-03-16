@@ -6,4 +6,5 @@ draft: false
 
 # Tech Stacks
 
-- [Python](./python.md)
+- [Programming Languages](./languages/)
+  - [Python](./languages/python.md)
