@@ -6,14 +6,9 @@ draft: false
 
 # Software Engineering
 
-[Programming Languages](./programming-languages/)
-
-[System Design](./system-design/)
-
-[Software Development Approaches](./software-development-approaches/)
-
-[Routines](./routines/)
-
-[Tools](./tools/)
-
-[Interview Focused Learning](./interview-focused-learning/)
+- [Programming Languages](./programming-languages/)
+- [System Design](./system-design/)
+- [Software Development Approaches](./software-development-approaches/)
+- [Routines](./routines/)
+- [Tools](./tools/)
+- [Interview Focused Learning](./interview-focused-learning/)
