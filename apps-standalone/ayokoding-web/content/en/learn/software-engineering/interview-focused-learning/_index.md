@@ -10,4 +10,6 @@ draft: false
 - [By Tech Stacks](./tech-stacks/)
   - [Programming Languages](./tech-stacks/languages/)
     - [Python](./tech-stacks/languages/python.md)
-- [Data Structures and Algorithms](./data-structures-and-algorithms.md)
+- [Data Structures and Algorithms](./data-structures-and-algorithms/)
+  - [Concepts](./data-structures-and-algorithms/concepts.md)
+  - [Mini Projects](./data-structures-and-algorithms/mini-projects.md)
