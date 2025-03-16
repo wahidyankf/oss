@@ -10,8 +10,8 @@ Ayokoding Web V2 is a multilingual Hugo-powered website for learning and sharing
 - 📚 Hugo Book theme
 - 🔍 Full-text search functionality
 - 📱 Responsive design
-- 🌓 Light/dark mode support
 - 🧭 Breadcrumb navigation for enhanced user experience
+- 📝 Last updated section
 
 ## Prerequisites
 
