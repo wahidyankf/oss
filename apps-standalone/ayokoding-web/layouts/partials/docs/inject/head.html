@@ -13,6 +13,28 @@
     text-align: center;
   }
 
+  /* Last updated info */
+  .last-updated {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin: 1rem 0;
+    font-style: italic;
+  }
+
+  [data-dark-mode] .last-updated {
+    color: var(--gray-400);
+  }
+
+  .last-updated-divider {
+    border: 0;
+    border-top: 1px solid var(--gray-200);
+    margin: 1rem 0;
+  }
+
+  [data-dark-mode] .last-updated-divider {
+    border-color: var(--gray-700);
+  }
+
   /* Go Up One Level button */
   .go-up-level {
     display: block;

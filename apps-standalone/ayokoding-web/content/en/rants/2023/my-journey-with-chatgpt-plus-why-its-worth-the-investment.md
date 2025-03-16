@@ -1,6 +1,6 @@
 ---
 title: "My Journey with ChatGPT Plus: Why It's Worth the Investment"
-date: 2025-02-18T18:40:10
+date: 2025-03-16T07:32:38+07:00
 draft: false
 ---
 
