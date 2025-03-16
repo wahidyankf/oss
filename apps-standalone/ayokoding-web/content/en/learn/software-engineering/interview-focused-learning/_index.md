@@ -7,4 +7,4 @@ draft: false
 # Interview Focused Learning
 
 - [Introduction](./introduction.md)
-- [Coding Interview](./coding-interview)
+- [By Tech Stacks](./tech-stacks/)

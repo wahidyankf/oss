@@ -1,9 +1,9 @@
 ---
-title: 'Coding Interview'
+title: 'Tech Stacks'
 date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Coding Interview
+# Tech Stacks
 
 - [Python](./python.md)
