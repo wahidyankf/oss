@@ -1,6 +1,6 @@
 ---
 title: 'Cerita Programmer - 20 - Ngomongin OpenAI dan ChatGPT Kerjaan programmer terancam oleh AI?'
-date: 2025-02-18T18:40:10
+date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 

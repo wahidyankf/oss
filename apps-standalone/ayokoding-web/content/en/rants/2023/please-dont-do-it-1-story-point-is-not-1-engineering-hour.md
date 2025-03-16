@@ -1,6 +1,6 @@
 ---
 title: "Please don't do it! 1 Story Point is not 1 Engineering Hour!"
-date: 2025-03-16T07:32:38+07:00
+date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
