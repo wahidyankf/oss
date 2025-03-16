@@ -1,6 +1,6 @@
 ---
 title: 'Cerita Programmer - 17 - Ngomongin Tentang Layoff/PHK Massal'
-date: 2025-02-18T18:40:10
+date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 

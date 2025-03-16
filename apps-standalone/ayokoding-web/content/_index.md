@@ -1,7 +1,7 @@
 ---
 bookCollapseSection: false
 bookFlatSection: false
-date: 2025-02-17 07:03:55+07:00
+date: 2025-03-16T07:20:00+07:00
 draft: false
 title: Home
 weight: 2
@@ -19,6 +19,7 @@ weight: 2
     - [Software Development Approaches](./en/learn/software-engineering/software-development-approaches/)
     - [Tools](./en/learn/software-engineering/tools/)
     - [Routines](./en/learn/software-engineering/routines/)
+    - [Interview Focused Learning](./en/learn/software-engineering/interview-focused-learning/)
   - [Human](./en/learn/human/)
     - [Tools](./en/learn/human/tools/)
 - [Cheatsheets](./en/cheatsheets/)

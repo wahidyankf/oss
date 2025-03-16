@@ -1,6 +1,6 @@
 ---
 title: 'Perjalanan Meningkatkan Kemampuan Seumur Hidup: Kisah Taman Kanak-Kanak dan Hubungannya dengan Dunia Rekayasa Perangkat Lunak dan AI'
-date: 2025-02-18T18:40:10
+date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 

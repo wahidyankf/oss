@@ -1,6 +1,6 @@
 ---
 title: 'Software Engineering'
-date: 2025-02-18T18:40:10
+date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
@@ -15,3 +15,5 @@ draft: false
 [Routines](./routines/)
 
 [Tools](./tools/)
+
+[Interview Focused Learning](./interview-focused-learning/)

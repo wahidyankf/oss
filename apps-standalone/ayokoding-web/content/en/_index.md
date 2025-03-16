@@ -1,6 +1,6 @@
 ---
 title: 'English'
-date: 2025-02-18T18:40:10
+date: 2025-03-16T07:20:00+07:00
 draft: false
 weight: 1
 ---
@@ -17,6 +17,7 @@ weight: 1
     - [Software Development Approaches](./learn/software-engineering/software-development-approaches/)
     - [Tools](./learn/software-engineering/tools/)
     - [Routines](./learn/software-engineering/routines/)
+    - [Interview Focused Learning](./learn/software-engineering/interview-focused-learning/)
   - [Human](./learn/human/)
     - [Tools](./learn/human/tools/)
 - [Cheatsheets](./cheatsheets/)
