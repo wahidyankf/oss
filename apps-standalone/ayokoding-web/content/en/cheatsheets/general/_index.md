@@ -6,4 +6,4 @@ draft: false
 
 # General
 
-- [ChatGPT](./ai-prompting/)
+- [AI Prompting](./ai-prompting/)
