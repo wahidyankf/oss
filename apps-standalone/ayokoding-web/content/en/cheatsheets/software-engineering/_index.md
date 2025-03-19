@@ -8,3 +8,4 @@ draft: false
 
 - [Programming Languages](./programming-languages/)
   - [Clojure](./programming-languages/clojure/)
+  - [Python](./programming-languages/python/)

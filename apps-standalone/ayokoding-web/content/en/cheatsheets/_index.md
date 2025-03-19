@@ -9,5 +9,6 @@ draft: false
 - [Software Engineering](./software-engineering/)
   - [Programming Languages](./software-engineering/programming-languages/)
     - [Clojure](./software-engineering/programming-languages/clojure/)
+    - [Python](./software-engineering/programming-languages/python/)
 - [General](./general/)
   - [AI Prompting](./general/ai-prompting/)

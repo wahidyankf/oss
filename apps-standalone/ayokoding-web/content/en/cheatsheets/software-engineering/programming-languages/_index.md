@@ -7,3 +7,4 @@ draft: false
 # Programming Languages
 
 - [Clojure](./clojure/)
+- [Python](./python/)
