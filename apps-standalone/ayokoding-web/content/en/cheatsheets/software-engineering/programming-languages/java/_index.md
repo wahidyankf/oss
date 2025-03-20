@@ -8,7 +8,7 @@ draft: false
 
 - [Getting Started with Java](./getting-started/)
 
-## 1. Getting Started with Java
+## 1. [Getting Started with Java](./getting-started/)
 
 - **Basic Syntax**
   - Comments (single-line, multi-line, documentation)
