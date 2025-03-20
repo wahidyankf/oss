@@ -97,10 +97,10 @@ int a = 1, b = 2;
 
 **Naming Conventions:**
 
-- Variables: camelCase (start with lowercase)
-- Constants: UPPER_SNAKE_CASE
-- Classes: PascalCase (start with uppercase)
-- Packages: all lowercase, use dots for hierarchy (com.example.project)
+- Variables: `camelCase` (start with lowercase)
+- Constants: `UPPER_SNAKE_CASE`
+- Classes: `PascalCase` (start with uppercase)
+- Packages: all `lowercase`, use dots for hierarchy (com.example.project)
 
 **Example:**
 
@@ -131,14 +131,14 @@ public class NamingExample {
 
 | Primitive Type | Size    | Range                                      | Wrapper Class |
 | -------------- | ------- | ------------------------------------------ | ------------- |
-| byte           | 8 bits  | -128 to 127                                | Byte          |
-| short          | 16 bits | -32,768 to 32,767                          | Short         |
-| int            | 32 bits | -2^31 to 2^31-1                            | Integer       |
-| long           | 64 bits | -2^63 to 2^63-1                            | Long          |
-| float          | 32 bits | ~±3.4e38 (6-7 decimal digits precision)    | Float         |
-| double         | 64 bits | ~±1.8e308 (15-16 decimal digits precision) | Double        |
-| char           | 16 bits | 0 to 65,535 (Unicode characters)           | Character     |
-| boolean        | 1 bit   | true or false                              | Boolean       |
+| `byte`         | 8 bits  | -128 to 127                                | `Byte`        |
+| `short`        | 16 bits | -32,768 to 32,767                          | `Short`       |
+| `int`          | 32 bits | -2^31 to 2^31-1                            | `Integer`     |
+| `long`         | 64 bits | -2^63 to 2^63-1                            | `Long`        |
+| `float`        | 32 bits | ~±3.4e38 (6-7 decimal digits precision)    | `Float`       |
+| `double`       | 64 bits | ~±1.8e308 (15-16 decimal digits precision) | `Double`      |
+| `char`         | 16 bits | 0 to 65,535 (Unicode characters)           | `Character`   |
+| `boolean`      | 1 bit   | true or false                              | `Boolean`     |
 
 **Example:**
 
@@ -3006,7 +3006,7 @@ public class StreamTypesExample {
 | Working with text files (.txt, .csv, .xml, etc.) | Working with binary files (images, audio, video, etc.)         |
 | Need to handle different text encodings          | Need exact byte-level control over data                        |
 | Processing human-readable content                | Processing raw/binary data                                     |
-| Need text-specific operations like readLine()    | Maximum performance is critical                                |
+| Need text-specific operations like `readLine()`  | Maximum performance is critical                                |
 | Working with multi-language text (Unicode)       | Creating or reading file formats with specific byte structures |
 | Parsing or generating structured text            | Implementing network protocols                                 |
 | Need character-level processing                  | Working with encrypted or compressed data                      |
@@ -3015,7 +3015,7 @@ public class StreamTypesExample {
 
 The `InputStreamReader` and `OutputStreamWriter` classes are bridges between byte and character streams. They convert:
 
-- Bytes to characters (InputStreamReader)
-- Characters to bytes (OutputStreamWriter)
+- Bytes to characters (`InputStreamReader`)
+- Characters to bytes (`OutputStreamWriter`)
 
 This allows you to specify explicit character encodings when reading or writing text data, ensuring correct handling of international characters across different systems.
