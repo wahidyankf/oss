@@ -4,33 +4,11 @@ date: 2025-03-20T07:16:00+07:00
 draft: false
 ---
 
-# Comprehensive Java Programming Topics
+# Java Programming Cheatsheets
 
-## 1. Java Development Environment
+- [Getting Started with Java](./getting-started/)
 
-- **Java Execution Model**
-  - Compilation process (source to bytecode)
-  - Java Virtual Machine (JVM) architecture
-  - Interpretation vs Just-In-Time (JIT) compilation
-  - Class loading mechanism
-  - Memory management (heap, stack, method area)
-  - Garbage collection algorithms and tuning
-  - JVM flags and optimization options
-- **Command-Line Tools**
-  - Compilation with javac (syntax, options, classpath)
-  - Running programs with java (syntax, JVM arguments)
-  - Creating and using JAR files (jar command)
-  - Generating documentation (javadoc)
-  - Bytecode analysis (javap)
-  - Troubleshooting tools (jps, jstat, jmap, jstack, jconsole)
-- **Essential Build Tools**
-  - Maven fundamentals (pom.xml structure, dependencies)
-  - Maven lifecycles and plugins
-  - Gradle basics (build.gradle, Groovy DSL)
-  - Dependency management best practices
-  - Build automation and profiles
-
-## 2. Language Fundamentals
+## 1. Getting Started with Java
 
 - **Basic Syntax**
   - Comments (single-line, multi-line, documentation)
@@ -53,18 +31,20 @@ draft: false
   - Method overloading rules
   - Varargs parameters
   - Static and instance methods
-- **Error Handling**
-  - Exception hierarchy (checked vs unchecked)
-  - try-catch-finally blocks
-  - Multi-catch and union catch
-  - try-with-resources for automatic resource management
-  - Throwing and propagating exceptions
-  - Creating custom exception classes
-  - Exception handling best practices
-  - Error vs Exception vs RuntimeException
-  - Advanced exception handling patterns
+- **Arrays and Basic Collections**
+  - Array creation and initialization
+  - Multidimensional arrays
+  - Array utility methods
+  - ArrayList and basic operations
+  - Converting between arrays and collections
+- **Input and Output Basics**
+  - Console input with Scanner
+  - System.out and System.err
+  - Basic file reading and writing
+  - Buffered I/O for performance
+  - Character vs byte streams
 
-## 3. Object-Oriented Programming
+## 2. Object-Oriented Programming Fundamentals
 
 - **Classes and Objects**
   - Class definition syntax
@@ -80,6 +60,57 @@ draft: false
   - Non-access modifiers (static, final, abstract, transient, volatile)
   - Interface and class visibility
   - Package organization and visibility
+- **String Handling**
+  - String class core methods
+  - String immutability and string pool
+  - StringBuilder and StringBuffer
+  - String formatting and interpolation
+  - Regular expressions with String
+  - String performance considerations
+- **Error Handling**
+  - Exception hierarchy (checked vs unchecked)
+  - try-catch-finally blocks
+  - Multi-catch and union catch
+  - try-with-resources for automatic resource management
+  - Throwing and propagating exceptions
+  - Creating custom exception classes
+  - Exception handling best practices
+  - Error vs Exception vs RuntimeException
+
+## 3. Java Development Environment
+
+- **Java Execution Model**
+  - Compilation process (source to bytecode)
+  - Java Virtual Machine (JVM) architecture
+  - Interpretation vs Just-In-Time (JIT) compilation
+  - Class loading mechanism
+  - Memory management (heap, stack, method area)
+  - Garbage collection algorithms and tuning
+  - JVM flags and optimization options
+- **Command-Line Tools**
+  - Compilation with javac (syntax, options, classpath)
+  - Running programs with java (syntax, JVM arguments)
+  - Creating and using JAR files (jar command)
+  - Generating documentation (javadoc)
+  - Bytecode analysis (javap)
+  - Troubleshooting tools (jps, jstat, jmap, jstack, jconsole)
+- **Essential Build Tools**
+  - Maven fundamentals (pom.xml structure, dependencies)
+  - Maven lifecycles and plugins
+  - Gradle basics (build.gradle, Groovy DSL)
+  - Dependency management best practices
+  - Build automation and profiles
+- **Testing with Standard Library**
+  - Assertions with the assert keyword
+  - Enabling assertions at runtime
+  - Writing effective assertion messages
+  - Designing testable code
+  - Command-line test execution
+  - Creating simple test harnesses
+  - System.out vs dedicated test reporting
+
+## 4. Advanced Object-Oriented Programming
+
 - **Inheritance and Polymorphism**
   - Extending classes with inheritance
   - Method overriding rules
@@ -109,37 +140,7 @@ draft: false
   - Pattern matching for instanceof (Java 16+)
   - Text blocks for multiline strings (Java 15+)
 
-## 4. Core Java Standard Library
-
-- **String Handling**
-  - String class core methods
-  - String immutability and string pool
-  - StringBuilder and StringBuffer
-  - String formatting and interpolation
-  - Regular expressions with String
-  - String performance considerations
-- **Arrays and Basic Collections**
-  - Array creation and initialization
-  - Multidimensional arrays
-  - Array utility methods
-  - ArrayList and basic operations
-  - Converting between arrays and collections
-- **Input and Output Basics**
-  - Console input with Scanner
-  - System.out and System.err
-  - Basic file reading and writing
-  - Buffered I/O for performance
-  - Character vs byte streams
-- **Testing with Standard Library**
-  - Assertions with the assert keyword
-  - Enabling assertions at runtime
-  - Writing effective assertion messages
-  - Designing testable code
-  - Command-line test execution
-  - Creating simple test harnesses
-  - System.out vs dedicated test reporting
-
-## 5. Advanced Standard Library
+## 5. Java Standard Library
 
 - **Collections Framework**
   - Collection interface hierarchy
@@ -177,22 +178,14 @@ draft: false
   - Base64 encoding/decoding
   - UUID generation and parsing
 
-## 6. Advanced Language Features
+## 6. Functional Programming in Java
 
-- **Generics**
-  - Generic classes and interfaces
-  - Type parameters and naming conventions
-  - Bounded type parameters (extends, super)
-  - Wildcards (? extends, ? super)
-  - Generic methods and constructors
-  - Type erasure and its implications
-  - Raw types and backward compatibility
-  - Reifiable vs non-reifiable types
-- **Functional Programming**
+- **Lambda Expressions**
   - Lambda expressions syntax and scoping
   - Method references (static, instance, constructor)
   - Functional interfaces in java.util.function
   - Higher-order functions
+- **Functional Programming Concepts**
   - Pure functions and side effects
   - Function composition
   - Currying and partial application
@@ -207,16 +200,42 @@ draft: false
   - Stream pipeline optimization
   - Custom collectors
   - Infinite streams
-- **Modular Programming**
-  - Package structure and naming conventions
-  - Java Module System (JPMS) fundamentals
-  - module-info.java syntax
-  - Exports, requires, uses, and provides
-  - Service Provider Interface (SPI) pattern
-  - Migration from classpath to modules
-  - Multi-release JARs
 
-## 7. Concurrent and Parallel Programming
+## 7. Advanced Java Features
+
+- **Generics**
+  - Generic classes and interfaces
+  - Type parameters and naming conventions
+  - Bounded type parameters (extends, super)
+  - Wildcards (? extends, ? super)
+  - Generic methods and constructors
+  - Type erasure and its implications
+  - Raw types and backward compatibility
+  - Reifiable vs non-reifiable types
+- **Reflection API**
+  - Class<?> and Class.forName()
+  - Inspecting fields, methods, and constructors
+  - Accessing and modifying fields
+  - Invoking methods
+  - Creating new instances
+  - Array reflection
+  - Reflection performance considerations
+- **Annotations**
+  - Built-in annotations (@Override, @Deprecated, etc.)
+  - Creating custom annotations
+  - Retention policies and targets
+  - Annotation processors
+  - Type annotations
+  - Repeatable annotations
+  - Reflection with annotations
+- **Dynamic Proxies**
+  - Creating proxy instances
+  - InvocationHandler implementation
+  - Common proxy use cases
+  - Limitations of dynamic proxies
+  - Bytecode manipulation libraries overview
+
+## 8. Concurrent Programming
 
 - **Thread Basics**
   - Thread creation (extending Thread, implementing Runnable)
@@ -255,6 +274,16 @@ draft: false
   - Platform vs. virtual thread comparison
   - Use cases and best practices
   - Limitations and considerations
+- **Concurrency Design Patterns**
+  - Producer-consumer pattern
+  - Master-worker pattern
+  - Read-write lock pattern
+  - Double-checked locking
+  - Immutable objects for thread safety
+  - Thread-confinement pattern
+
+## 9. Parallel Programming
+
 - **Parallel Programming Fundamentals**
   - Task parallelism vs. data parallelism
   - Amdahl's Law and scalability considerations
@@ -270,42 +299,22 @@ draft: false
   - Parallel algorithms in Collections
   - Parallel array operations
   - Numerical computation optimization
-- **Concurrency and Parallelism Design Patterns**
-  - Producer-consumer pattern
-  - Master-worker pattern
-  - Read-write lock pattern
-  - Double-checked locking
-  - Immutable objects for thread safety
-  - Thread-confinement pattern
+- **Parallel Design Patterns**
+  - Map-reduce pattern
   - Sideshow pattern for parallel event processing
+  - Pipeline parallelism
+  - Data parallelism techniques
 
-## 8. Reflection and Metaprogramming
+## 10. Modern Java Development
 
-- **Reflection API**
-  - Class<?> and Class.forName()
-  - Inspecting fields, methods, and constructors
-  - Accessing and modifying fields
-  - Invoking methods
-  - Creating new instances
-  - Array reflection
-  - Reflection performance considerations
-- **Annotations**
-  - Built-in annotations (@Override, @Deprecated, etc.)
-  - Creating custom annotations
-  - Retention policies and targets
-  - Annotation processors
-  - Type annotations
-  - Repeatable annotations
-  - Reflection with annotations
-- **Dynamic Proxies**
-  - Creating proxy instances
-  - InvocationHandler implementation
-  - Common proxy use cases
-  - Limitations of dynamic proxies
-  - Bytecode manipulation libraries overview
-
-## 9. Modern Java Development Practices
-
+- **Modular Programming**
+  - Package structure and naming conventions
+  - Java Module System (JPMS) fundamentals
+  - module-info.java syntax
+  - Exports, requires, uses, and provides
+  - Service Provider Interface (SPI) pattern
+  - Migration from classpath to modules
+  - Multi-release JARs
 - **Containerization with Docker**
   - Creating Java-specific Dockerfiles
   - Multi-stage builds for Java applications
