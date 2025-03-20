@@ -7,5 +7,6 @@ draft: false
 # Software Engineering
 
 - [Programming Languages](./programming-languages/)
-  - [Clojure](./programming-languages/clojure/)
   - [Python](./programming-languages/python/)
+  - [Java](./programming-languages/java/)
+  - [Clojure](./programming-languages/clojure/)

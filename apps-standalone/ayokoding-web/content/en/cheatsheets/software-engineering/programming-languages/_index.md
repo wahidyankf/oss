@@ -6,5 +6,6 @@ draft: false
 
 # Programming Languages
 
-- [Clojure](./clojure/)
 - [Python](./python/)
+- [Java](./java/)
+- [Clojure](./clojure/)
