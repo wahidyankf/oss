@@ -29,6 +29,7 @@ if ! command -v hugo &>/dev/null; then
     # Move Hugo to a directory in PATH
     mkdir -p $HOME/bin
     mv hugo $HOME/bin/hugo
+    export PATH=$PATH:$HOME/bin
 
     # Cleanup
     rm hugo.tar.gz
