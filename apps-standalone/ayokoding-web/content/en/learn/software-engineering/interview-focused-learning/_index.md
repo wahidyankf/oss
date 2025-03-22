@@ -5,9 +5,10 @@ draft: false
 ---
 
 - [Introduction](./introduction.md)
-- [By Tech Stacks](./tech-stacks/)
-  - [Programming Languages](./tech-stacks/languages/)
-    - [Python](./tech-stacks/languages/python.md)
+- [Languages](./languages/)
+  - [Python](./languages/python.md)
+- [Frameworks](./frameworks/)
+  - [React Native](./frameworks/react-native/)
 - [Data Structures and Algorithms](./data-structures-and-algorithms/)
   - [Concepts](./data-structures-and-algorithms/concepts.md)
   - [Mini Projects](./data-structures-and-algorithms/mini-projects.md)
