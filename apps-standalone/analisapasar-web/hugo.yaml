@@ -1,5 +1,5 @@
 # Hugo configuration file
-title: My Site
+title: Analisa Pasar
 
 # import hextra as module
 module:
@@ -18,14 +18,14 @@ markup:
 
 menu:
   main:
-    - name: Docs
-      pageRef: /docs
+    - name: English
+      pageRef: /en
       weight: 1
-    - name: About
-      pageRef: /about
+    - name: Bahasa
+      pageRef: /id
       weight: 2
     - name: Contact ↗
-      url: 'https://github.com/imfing'
+      url: 'https://github.com/wahidyankf'
       weight: 3
     - name: Search
       weight: 4
@@ -33,12 +33,12 @@ menu:
         type: search
     - name: GitHub
       weight: 5
-      url: 'https://github.com/imfing/hextra-starter-template'
+      url: 'https://github.com/wahidyankf/oss/'
       params:
         icon: github
-    - name: Twitter
+    - name: Threads
       weight: 6
-      url: 'https://twitter.com/'
+      url: 'https://www.threads.net/@wahidyankf'
       params:
         icon: x-twitter
 
