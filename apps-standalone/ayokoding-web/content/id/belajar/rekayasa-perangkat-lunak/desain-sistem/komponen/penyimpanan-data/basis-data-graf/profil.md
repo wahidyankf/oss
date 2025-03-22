@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengantar**
 
 Database graf adalah jenis database NoSQL yang menyimpan data dalam node dan edge, merepresentasikan hubungan kompleks antara titik data. Database ini dirancang untuk menangani jumlah data yang besar dan saling terhubung, dan sering digunakan di jejaring sosial, mesin rekomendasi, dan aplikasi lain yang memerlukan kueri dan analisis yang kompleks.

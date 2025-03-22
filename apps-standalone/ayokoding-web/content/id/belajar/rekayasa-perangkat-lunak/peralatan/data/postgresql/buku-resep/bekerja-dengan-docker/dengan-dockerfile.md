@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Dengan Dockerfile
-
-# Pengantar
-
 Docker memungkinkan containerisasi aplikasi dengan mudah, dan dengan Dockerfile, Anda dapat menentukan langkah-langkah untuk membangun sebuah gambar. Artikel ini akan memandu Anda dalam membangun gambar Docker PostgreSQL dengan data persisten menggunakan Dockerfile. Kami akan membahas struktur file, instruksi setup, dan eksekusi skrip inisialisasi selama pembuatan kontainer.
 
 ## Struktur File

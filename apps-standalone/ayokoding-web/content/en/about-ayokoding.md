@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# About AyoKoding
-
 In the name of Allah, the Most Gracious, the Most Merciful.
 
 Welcome to AyoKoding! I'm Yoka, the passionate software engineer and creator of this platform. AyoKoding was born from "learning in public," emphasizing the importance of sharing knowledge, ideas, and experiences with the world as we continuously learn and grow. By doing so, we can receive others' feedback, support, and constructive criticism, propelling our improvement and development as software engineers.

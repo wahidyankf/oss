@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Ikhtisar
-
 ## Pendahuluan
 
 Bahasa pemrograman adalah tulang punggung dari teknologi modern, memungkinkan kita untuk berkomunikasi dengan komputer dan memberi instruksi pada mereka untuk melakukan tugas-tugas tertentu. Dari situs web yang kita jelajahi hingga aplikasi yang kita gunakan di smartphone, bahasa pemrograman adalah kekuatan penggerak di balik perangkat lunak yang kita interaksikan setiap hari. Artikel ini akan menyelami dunia yang menarik dari bahasa pemrograman, menjelajahi apa itu, bagaimana cara kerjanya, dan pentingnya dalam membentuk lanskap digital kita.

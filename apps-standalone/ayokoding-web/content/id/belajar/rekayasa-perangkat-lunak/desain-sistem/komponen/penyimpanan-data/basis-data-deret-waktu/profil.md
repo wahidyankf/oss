@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Database time-series dirancang untuk menangani jumlah data yang besar yang memiliki cap waktu. Mereka dioptimalkan untuk menyimpan dan mengambil data cap waktu, yang membuat mereka ideal untuk digunakan dalam kasus seperti IoT, data keuangan, dan data log.

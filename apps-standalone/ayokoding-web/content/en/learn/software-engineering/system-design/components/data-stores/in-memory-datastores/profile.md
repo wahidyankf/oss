@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 In-memory data stores are databases that store data in memory rather than on disk. This allows for faster access to data and higher performance than traditional disk-based databases. In-memory data stores, such as real-time analytics, caching, and session management, are often used in applications that require high performance and low latency.

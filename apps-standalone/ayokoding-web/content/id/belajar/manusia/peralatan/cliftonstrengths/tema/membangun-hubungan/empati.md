@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Empati
-
 ## Pengenalan
 
 Empati adalah tema CliftonStrengths yang menggambarkan individu yang memiliki kemampuan alami untuk memahami dan terhubung dengan emosi orang lain. Mereka dapat memasuki posisi orang lain dan melihat hal-hal dari perspektif mereka.

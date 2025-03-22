@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Responsibility
-
 ## Introduction
 
 People with the Clifton Strengths theme of Responsibility take ownership of their actions and are committed to fulfilling their obligations. They are dependable and reliable, and they take their commitments seriously.

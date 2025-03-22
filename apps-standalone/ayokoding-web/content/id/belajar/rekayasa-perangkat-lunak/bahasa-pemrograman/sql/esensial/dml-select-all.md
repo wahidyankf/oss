@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT ALL
-
 ## Ikhtisar
 
 SQL, atau Structured Query Language, adalah bahasa standar untuk mengelola data dalam basis data relasional. DML, atau Data Manipulation Language, adalah subset dari SQL dan mencakup perintah yang memungkinkan kita untuk memanipulasi data dalam basis data. Ini biasanya mencakup operasi seperti insert, delete, update, dan select.

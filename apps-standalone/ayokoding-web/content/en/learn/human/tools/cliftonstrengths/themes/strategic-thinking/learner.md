@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Learner
-
 ## Introduction
 
 The learner is a CliftonStrengths theme that describes individuals who naturally desire to learn and grow. They enjoy acquiring new knowledge and skills and are often highly motivated to improve themselves.

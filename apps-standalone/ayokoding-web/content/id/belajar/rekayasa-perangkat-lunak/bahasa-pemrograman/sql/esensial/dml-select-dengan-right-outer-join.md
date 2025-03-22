@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan RIGHT (OUTER) JOIN
-
 `RIGHT JOIN` atau `RIGHT OUTER JOIN` pada SQL adalah konsep dalam sistem manajemen database relasional (RDBMS) yang memungkinkan kita untuk menggabungkan baris dari dua atau lebih tabel berdasarkan kolom terkait di antara mereka.
 
 Kata kunci `RIGHT JOIN` mengembalikan semua catatan dari tabel kanan (table2), dan catatan yang cocok dari tabel kiri (table1). Hasilnya adalah NULL pada sisi kiri ketika tidak ada padanan.
@@ -143,8 +141,6 @@ Hasil kueri:
 | Sally   | 0                |
 
 Kueri ini mengelompokkan pesanan berdasarkan nama pelanggan dan menghitung jumlah pesanan yang dilakukan oleh setiap pelanggan. Sally belum membuat pesanan apa pun, sehingga NumberOfOrders adalah 0.
-
-# Bacaan Lanjutan
 
 1. [SQL RIGHT JOIN Keyword](https://www.w3schools.com/sql/sql_join_right.asp) - W3Schools
 2. [RIGHT OUTER JOIN in SQL Server](https://docs.microsoft.com/en-us/sql/t-sql/queries/from-transact-sql?view=sql-server-ver15#right-outer-join) - Dokumen Microsoft

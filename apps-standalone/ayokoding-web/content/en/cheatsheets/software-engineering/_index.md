@@ -4,8 +4,6 @@ date: 2025-03-18T07:49:00+07:00
 draft: false
 ---
 
-# Software Engineering
-
 - [Programming Languages](./programming-languages/)
   - [Python](./programming-languages/python/)
   - [Java](./programming-languages/java/)

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan LEFT (OUTER) JOIN
-
 `LEFT JOIN` atau `LEFT OUTER JOIN` dalam SQL adalah konsep dalam sistem manajemen database relasional (RDBMS) yang memungkinkan kita menggabungkan baris dari dua atau lebih tabel berdasarkan kolom terkait di antara mereka.
 
 Kata kunci `LEFT JOIN` mengembalikan semua catatan dari tabel kiri (table1), dan catatan yang cocok dari tabel kanan (table2). Hasilnya adalah NULL pada sisi kanan ketika tidak ada yang cocok.
@@ -142,8 +140,6 @@ Hasilnya:
 | Sally   | 0                |
 
 Kueri ini mengelompokkan pesanan berdasarkan nama pelanggan, dan menghitung jumlah pesanan yang dibuat setiap pelanggan. Sally tidak membuat pesanan apa pun, sehingga NumberOfOrders adalah 0.
-
-# Bacaan Lanjutan
 
 1. [SQL LEFT JOIN Keyword](https://www.w3schools.com/sql/sql_join_left.asp) - W3Schools
 2. [The SQL LEFT JOIN syntax](https://www.sqltutorial.org/sql-left-join/) - SQL Tutorial

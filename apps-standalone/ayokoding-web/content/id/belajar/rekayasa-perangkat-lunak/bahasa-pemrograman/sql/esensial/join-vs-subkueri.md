@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# JOIN vs. Subkueri
-
 Ketika kita bekerja dengan basis data relasional, seringkali kita perlu menggabungkan data dari beberapa tabel. SQL menyediakan dua cara utama untuk mencapainya: menggunakan JOIN atau subkueri. Kedua metode memiliki kelebihan dan kekurangan, dan pilihannya tergantung pada kasus penggunaan yang spesifik.
 
 ## SQL JOIN

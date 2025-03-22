@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Karir Programmer
-
 [Karir Programmer - Tips: gimana cara menghadapi gelombang layoff dan ketidakpastian ekonomi?](./tips-gimana-cara-menghadapi-gelombang-layoff-dan-ketidakpastian-ekonomi)
 
 [Karir Programmer - Fokus di impact kalo pengen cepet naek gaji dan hidup lebih tenang](./fokus-di-impact-kalo-pengen-cepet-naek-gaji-dan-hidup-lebih-tenang)

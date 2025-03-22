@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Belief
-
 ## Introduction
 
 Belief is one of the 34 CliftonStrengths themes, which is all about having core values that guide your decisions and actions. People with this strength have a strong sense of right and wrong and are committed to living their lives by their beliefs.

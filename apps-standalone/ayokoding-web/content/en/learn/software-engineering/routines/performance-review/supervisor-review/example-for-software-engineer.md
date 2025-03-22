@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Example for Software Engineer
-
 ## **Job Description**
 
 John is responsible for developing and maintaining software applications for our company. He works closely with the product team to understand requirements and deliver high-quality software solutions. His responsibilities include:

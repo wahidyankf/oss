@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Cara Membuat Ulasan Rekan yang Oke
-
 Penilaian dari rekan kerja merupakan bagian penting dalam ulasan kinerja. Penilaian ini memberikan umpan balik berharga kepada karyawan dan membantu manajer membuat keputusan yang berdasarkan informasi untuk promosi, kenaikan gaji, dan peluang pengembangan karir lainnya. Namun, membuat penilaian dari rekan kerja yang baik dapat menjadi tantangan. Artikel ini akan membahas tips untuk membuat penilaian dari rekan kerja yang efektif untuk membantu anggota tim Anda tumbuh dan berkembang.
 
 ### **1. Jadilah Spesifik**

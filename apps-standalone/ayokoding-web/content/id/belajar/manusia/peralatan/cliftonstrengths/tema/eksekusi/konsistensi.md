@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsistensi
-
 ## Pengenalan
 
 Konsistensi adalah tema CliftonStrengths yang menggambarkan individu yang menghargai keadilan dan kesetaraan. Mereka berusaha memperlakukan semua orang dengan sama dan percaya bahwa semua orang harus dihargai dengan standar yang sama. Mereka dapat diandalkan dan dapat dipercaya, dan mereka berusaha menciptakan rasa stabilitas dan prediktabilitas di lingkungan mereka.

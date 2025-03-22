@@ -1,0 +1,11 @@
+---
+title: 'Basis Data Berbasis Dokumen'
+date: 2025-03-16T07:20:00+07:00
+draft: false
+---
+
+# Basis Data Berbasis Dokumen
+
+[Profil](./profil/)
+
+[Konsep Kunci](./konsep-kunci/)

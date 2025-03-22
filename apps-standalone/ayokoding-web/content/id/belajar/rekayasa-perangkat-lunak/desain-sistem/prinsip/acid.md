@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# ACID
-
 ## Perkenalan
 
 Dalam dunia desain sistem dan database, menjaga integritas data merupakan salah satu hal penting untuk dilakukan. ACID, singkatan dari Atomicity, Consistency, Isolation, dan Durability, memberikan seperangkat prinsip yang memastikan pemrosesan transaksi yang dapat diandalkan dalam sistem database. Dalam artikel ini, kita akan menjelajahi pentingnya ACID dan hubungannya dengan desain sistem dan database, menyoroti dampaknya pada konsistensi data, integritas transaksional, dan keandalan sistem secara keseluruhan.

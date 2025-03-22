@@ -5,8 +5,6 @@ draft: false
 weight: 1
 ---
 
-# Python Comprehensive Cheat Sheet
-
 This comprehensive guide covers Python's core concepts, standard library features, and concurrency models (threading, multiprocessing, and asynchronous programming).
 
 ## Python Fundamentals
@@ -1438,7 +1436,6 @@ Python's execution model follows several key steps when running code:
 - **Interpretation**: The Python virtual machine (PVM) executes the bytecode
 
 ```python
-# Simple example to illustrate Python's execution flow
 def greet(name):
     """Greet a person by name"""
     message = f"Hello, {name}!"
@@ -1447,10 +1444,6 @@ def greet(name):
 result = greet("Alice")
 print(result)  # Output: Hello, Alice!
 
-# What happens behind the scenes:
-# 1. Python parses the code and creates an Abstract Syntax Tree (AST)
-# 2. The AST is compiled into bytecode
-# 3. Python's virtual machine (PVM) executes the bytecode instructions
 ```
 
 **Key Concepts:**
@@ -1481,18 +1474,14 @@ Python manages memory automatically through its built-in garbage collection mech
 2. **Cycle Detection**: To handle circular references, Python uses a cycle detector to find and collect unreachable objects periodically.
 
 ```python
-# Reference counting example
 import sys
 
-# Create an object and check its reference count
 a = "hello"
 print(sys.getrefcount(a) - 1)  # Subtract 1 because getrefcount() creates another reference
 
-# Create another reference to the same object
 b = a
 print(sys.getrefcount(a) - 1)  # Count increases
 
-# Remove one reference
 b = None
 print(sys.getrefcount(a) - 1)  # Count decreases
 ```
@@ -1508,15 +1497,11 @@ print(sys.getrefcount(a) - 1)  # Count decreases
 ```python
 import gc
 
-# Force garbage collection
 gc.collect()
 
-# Get count of objects being tracked
 print(gc.get_count())
 
-# Disable/enable automatic garbage collection
 gc.disable()
-# ... code that creates many temporary objects
 gc.enable()
 ```
 
@@ -1536,7 +1521,6 @@ The GIL is a mutex (lock) that allows only one thread to execute Python bytecode
    - Use C extensions that release the GIL for CPU-intensive operations
 
 ```python
-# Demonstrating GIL limitation with CPU-bound task
 import threading
 import time
 
@@ -1547,14 +1531,12 @@ def cpu_bound_task(n):
         count += i
     return count
 
-# Sequential execution
 start = time.time()
 cpu_bound_task(10000000)
 cpu_bound_task(10000000)
 end = time.time()
 print(f"Sequential time: {end - start:.2f} seconds")
 
-# Threaded execution (will not be much faster due to GIL)
 start = time.time()
 t1 = threading.Thread(target=cpu_bound_task, args=(10000000,))
 t2 = threading.Thread(target=cpu_bound_task, args=(10000000,))
@@ -1565,7 +1547,6 @@ t2.join()
 end = time.time()
 print(f"Threaded time: {end - start:.2f} seconds")
 
-# For true parallelism, use multiprocessing instead
 import multiprocessing as mp
 
 start = time.time()

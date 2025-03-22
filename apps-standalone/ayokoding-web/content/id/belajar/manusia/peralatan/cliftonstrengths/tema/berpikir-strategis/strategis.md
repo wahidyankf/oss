@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Strategis
-
 ## Pengenalan
 
 Strategis adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk berpikir ke depan dan merencanakan masa depan. Mereka menikmati menganalisis informasi dan mengembangkan strategi untuk mencapai tujuan mereka.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with RIGHT (OUTER) JOIN
-
 The `RIGHT JOIN` or `RIGHT OUTER JOIN` in SQL is a concept in relational database management systems (RDBMS) that allows you to combine rows from two or more tables based on a related column between them.
 
 The `RIGHT JOIN` keyword returns all records from the right table (table2), and the matched records from the left table (table1). The result is NULL on the left side when there is no match.
@@ -143,8 +141,6 @@ Result-set:
 | Sally   | 0                |
 
 This query groups the orders by customer names and counts the number of orders each customer has made. Sally has not made any orders, so the NumberOfOrders is 0.
-
-# Further Readings
 
 1. [SQL RIGHT JOIN Keyword](https://www.w3schools.com/sql/sql_join_right.asp) - W3Schools
 2. [RIGHT OUTER JOIN in SQL Server](https://docs.microsoft.com/en-us/sql/t-sql/queries/from-transact-sql?view=sql-server-ver15#right-outer-join) - Microsoft Docs

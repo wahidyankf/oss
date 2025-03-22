@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# BASE
-
 ## Introduction
 
 BASE (Basically Available, Soft state, Eventually consistent) principles were introduced as an alternative approach to system design. Coined by Dan Pritchett in 2008, the term "BASE" gained prominence and sparked discussions around relaxing consistency for the sake of scalability and availability. By relaxing consistency guarantees, BASE systems prioritize availability, allow mutable data states, and achieve eventual consistency over time.

@@ -4,8 +4,6 @@ date: 2025-03-16T17:43:00+07:00
 draft: false
 ---
 
-# DSA Mini Projects
-
 ## Introduction
 
 This comprehensive guide presents carefully curated mini-projects designed to help software engineers master algorithms and data structures for technical interviews. Following research-backed interview-focused learning principles, these projects build both technical proficiency and the critical thinking skills employers value.

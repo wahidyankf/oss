@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Non-Leading Software Engineer's Guide to 1:1 Meetings
-
 Effective communication and professional growth are essential in the fast-paced software engineering world. One powerful tool that can significantly contribute to these aspects is the 1:1 meeting. While often associated with managers and team leads, non-leading software engineers can also benefit tremendously from these meetings. This article aims to provide a comprehensive guide for non-leading software engineers on how to make the most of their 1:1 meetings, fostering personal and professional development.
 
 ## Preparing for the Meeting

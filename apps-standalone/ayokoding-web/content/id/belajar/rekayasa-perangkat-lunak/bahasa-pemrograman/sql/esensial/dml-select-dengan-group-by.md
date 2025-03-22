@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan GROUP BY
-
 Pernyataan `GROUP BY` dalam SQL digunakan dengan pernyataan `SELECT` untuk menyusun data yang identik menjadi kelompok. Pernyataan `GROUP BY` muncul setelah setiap pernyataan `WHERE`, tetapi sebelum pernyataan `ORDER BY` atau `HAVING`. Sering digunakan dengan fungsi agregat (`COUNT`, `MAX`, `MIN`, `SUM`, `AVG`) untuk mengelompokkan hasil set oleh satu atau beberapa kolom.
 
 ## Sintaks Dasar
@@ -126,8 +124,6 @@ Hasil-set:
 | Cherry       | 1              | 2.00        |
 
 Hasil-set menunjukkan harga total untuk setiap produk yang dijual berdasarkan jumlah pesanan.
-
-# Bacaan Lebih Lanjut
 
 1. [SQL GROUP BY Statement](https://www.w3schools.com/sql/sql_groupby.asp) - W3Schools
 2. [The GROUP BY Statement in SQL](https://www.sqltutorial.org/sql-group-by/) - SQL Tutorial

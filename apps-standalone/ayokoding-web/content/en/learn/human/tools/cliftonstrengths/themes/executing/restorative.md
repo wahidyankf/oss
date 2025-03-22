@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Restorative
-
 ## Introduction
 
 Restorative is one of the 34 CliftonStrengths themes, part of the StrengthsFinder assessment. People with Restorative as their dominant strength have a natural ability to solve problems and find solutions to issues. They are adept at identifying and figuring out how to fix what is wrong.

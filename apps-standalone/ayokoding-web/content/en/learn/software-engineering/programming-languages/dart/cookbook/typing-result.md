@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Typing: Result
-
 ## Introduction
 
 The `Result` type, known as `Result` in Rust, OCaml, and F#, and `Either` in Haskell, is a powerful programming construct that handles the outcome of an operation, representing either success or error. It provides a structured and type-safe way to handle different outcomes or states. The `Result` class in the Dart code includes methods like `isOk()` and `isError()` to determine if the result is a success or an error. This eliminates the need for manual type checks or null checks, making the code more robust and less error-prone.

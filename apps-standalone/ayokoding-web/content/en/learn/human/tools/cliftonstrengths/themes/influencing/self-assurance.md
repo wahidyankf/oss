@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Self-Assurance
-
 ## Introduction
 
 Self-assurance is one of the 34 CliftonStrengths themes, which is defined as a strong belief in one's abilities, judgments, and ideas. People with this strength have a deep sense of confidence in themselves and their decisions, which allows them to take risks and pursue their goals with conviction.

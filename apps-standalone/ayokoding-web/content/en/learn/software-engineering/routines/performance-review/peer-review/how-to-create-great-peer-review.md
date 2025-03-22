@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# How to Create Great Peer Review
-
 Peer reviews are an essential part of performance reviews. They provide valuable feedback to employees and help managers make informed decisions about promotions, raises, and other career development opportunities. However, creating great peer reviews can be challenging. This article will discuss tips for creating effective peer reviews to help your team members grow and develop.
 
 ### **1. Be Specific**

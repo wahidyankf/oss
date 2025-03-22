@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Key Concepts
-
 A data warehouse is a large, centralized data repository that supports business decision-making activities. It is designed to support efficient data querying and analysis and is typically used to store historical data extracted from various operational systems.
 
 The following are some of the critical concepts of data warehouses data store:

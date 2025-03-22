@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Communication
-
 ## Introduction
 
 Communication is one of the 34 CliftonStrengths themes, defined as the ability to articulate thoughts clearly and effectively. People with this strength are skilled at expressing themselves in both written and verbal forms and are often persuasive and engaging communicators.

@@ -1,5 +1,5 @@
-module github.com/wahidyankf/ayokoding/apps-standalone/ayokoding-web-v2
+module github.com/imfing/hextra-starter-template
 
-go 1.21.4
+go 1.21
 
-require github.com/alex-shpak/hugo-book v0.0.0-20250203221943-645c868cec13 // indirect
+require github.com/imfing/hextra v0.9.5 // indirect

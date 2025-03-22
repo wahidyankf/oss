@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Arsitektur Klien-Server
-
 Arsitektur klien-server adalah pola desain yang banyak digunakan dalam rekayasa perangkat lunak yang memungkinkan komunikasi yang efisien dan pemisahan tanggung jawab antara komponen sistem yang berbeda. Ini membagi sistem menjadi dua bagian utama: klien dan server.
 
 ## Apa itu Arsitektur Klien-Server?

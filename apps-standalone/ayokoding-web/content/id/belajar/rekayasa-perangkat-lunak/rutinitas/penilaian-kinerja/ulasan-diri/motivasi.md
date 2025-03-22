@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Motivasi
-
 Evaluasi kinerja sangat penting bagi kita dan atasan kita untuk mengevaluasi kemajuan kerja kita, mengidentifikasi area perbaikan, dan menetapkan tujuan di masa depan. Salah satu bagian yang paling penting dari evaluasi kinerja adalah evaluasi diri, di mana kita menilai kinerja kita sendiri dan memberikan umpan balik kepada manajer kita. Namun, jujurlah; membuat evaluasi diri yang bagus bisa merepotkan, terutama bagi insinyur perangkat lunak yang mungkin kesulitan menjelaskan kontribusi mereka. Artikel ini membahas mengapa membuat evaluasi diri yang bagus sangat penting dan bagaimana hal itu dapat memberikan manfaat bagi kita sebagai seorang insinyur perangkat lunak.
 
 ## **Mengapa Evaluasi Diri yang Bagus Penting**

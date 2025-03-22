@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 Graph databases are a type of NoSQL database that stores data in nodes and edges, representing complex relationships between data points. These databases are designed to handle large amounts of interconnected data and are often used in social networks, recommendation engines, and other applications that require complex querying and analysis.

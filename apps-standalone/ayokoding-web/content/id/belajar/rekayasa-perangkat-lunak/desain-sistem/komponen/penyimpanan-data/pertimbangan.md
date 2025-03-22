@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pertimbangan
-
 ## **Ringkasan**
 
 Salah satu pertimbangan terpenting dalam merancang sistem adalah jenis penyimpanan data yang digunakan. Banyak jenis penyimpanan data yang tersedia, masing-masing dengan karakteristik dan kompromi yang unik. Memahami karakteristik kunci dari penyimpanan data yang berbeda sangat penting untuk membuat keputusan yang tepat dalam merancang sistem.

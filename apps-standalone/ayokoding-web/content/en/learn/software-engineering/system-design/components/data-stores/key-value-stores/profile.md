@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 Key-value stores are a type of NoSQL database that stores data as a collection of key-value pairs. These databases are designed to handle large amounts of unstructured or semi-structured data. They are often used in web applications, caching systems, and other applications that require high scalability and performance.

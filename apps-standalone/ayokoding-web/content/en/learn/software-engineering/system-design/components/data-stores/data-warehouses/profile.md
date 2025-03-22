@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 A data warehouse is a data store used to store and analyze large amounts of data from multiple sources. It is designed to support business intelligence and decision-making processes.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Bagaimana Cara Membuat Ulasan Diri yang Oke
-
 Sebuah evaluasi diri merupakan bagian penting dari proses penilaian kinerja. Ini adalah kesempatan bagi karyawan untuk merenungkan pencapaian mereka, mengidentifikasi area yang perlu diperbaiki, dan menyampaikan tujuan serta aspirasi mereka kepada manajer. Evaluasi diri yang ditulis dengan baik dapat membantu manajer memahami kelebihan dan kelemahan karyawan dengan lebih baik dan memberikan wawasan berharga tentang kinerja mereka.
 
 Berikut adalah beberapa tips tentang bagaimana membuat evaluasi diri yang sangat baik untuk penilaian kinerja Anda:

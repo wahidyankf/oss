@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Control Structure
-
 In Java, control structures are fundamental building blocks that govern the flow of execution within a program. They provide the mechanisms that allow you to control how and when different parts of your program are executed based on specified conditions. Control structures are pivotal in developing simple to complex applications, enabling decision-making, looping over code blocks, and the sequential execution of statements.
 
 Java control structures are classified into three categories: sequential, selection, and looping. Sequential control is the most straightforward, where code is executed line by line in the order it appears in the program. Selection control structures like `if`, `if-else`, `else-if`, and `switch` allows decision-making based on conditions. Looping control structures such as `for`, `while`, `do-while`, and `for-each` can repeatedly execute a code block. These control structures' careful and clever use is the key to creating efficient and effective Java programs.

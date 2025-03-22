@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# With Docker Compose
-
 ## Introduction
 
 Docker Compose simplifies the process of setting up and managing multi-container applications. This article will guide you through building a PostgreSQL Docker image with persistent data using Docker Compose. We'll cover the file structure, setup instructions, and execution of an initialization script during container creation.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview
-
 ## Scalability and System Design in Simple Terms
 
 Imagine a lemonade stand serving 10 customers per hour, which works fine for your current customers. But one day, your neighborhood starts to overgrow, and soon enough, you have 100 customers per hour. More than your lemonade stands may be needed, and customers must wait a long time to get their lemonade, which could lead to unhappy customers or loss of business.

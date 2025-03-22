@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Please don't do it! 1 Story Point is not 1 Engineering Hour!
-
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
 In the name of Allah, The Most Gracious and The Most Merciful

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Includer
-
 ## Introduction
 
 Includer is a CliftonStrengths theme that describes individuals with a natural ability to include others and make them feel welcome. They strive to create a sense of belonging and acceptance among all people.

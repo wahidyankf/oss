@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 Time-series databases are designed to handle large amounts of data that are time-stamped. They are optimized for storing and querying time-series data, which makes them ideal for use cases such as IoT, financial data, and log data.

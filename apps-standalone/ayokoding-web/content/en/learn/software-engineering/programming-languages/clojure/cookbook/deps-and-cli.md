@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Deps and CLI
-
 Clojure is a robust language within the functional programming landscape, and it runs on the Java Virtual Machine (JVM). In addition to its innovative language features, Clojure boasts advanced tooling that significantly improves developer workflow. This article guides you through two essential tools within the Clojure ecosystem: `deps.edn` and the Clojure CLI (Command Line Interface).
 
 ## The Cornerstone of Dependency Management: `deps.edn`

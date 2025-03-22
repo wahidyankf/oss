@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Contoh untuk Insinyur Perangkat Lunak Tingkat Menengah
-
 ## **Peninjauan Tujuan**
 
 Pada awal periode penilaian kinerja, saya menetapkan tujuan-tujuan berikut untuk diri saya sendiri:

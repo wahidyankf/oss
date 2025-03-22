@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Ikhtisar
-
 Di dunia yang dinamis dalam rekayasa perangkat lunak, pertemuan satu lawan satu (1:1) secara teratur menjadi platform yang efektif untuk komunikasi, pelacakan kinerja, dan saran perbaikan. Pertemuan ini membantu menciptakan lingkungan kerja yang positif, memungkinkan manajer, kepala teknologi, dan anggota tim untuk menyelaraskan tujuan dan harapan.
 
 ## Pentingnya dan Manfaat Pertemuan 1:1

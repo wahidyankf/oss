@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with FULL (OUTER) JOIN
-
 The `FULL JOIN` or `FULL OUTER JOIN` in SQL is a concept in relational database management systems (RDBMS) that allows you to combine rows from two or more tables based on a related column between them.
 
 The `FULL JOIN` keyword returns all records when there is a match in either the left (table1) or the right (table2) table records. The result is NULL on either side when there is no match.
@@ -149,8 +147,6 @@ Result-set:
 | NULL    | 1                |
 
 This query groups the orders by customer names, and counts the number of orders each customer has made. Sally has not made any orders, so the NumberOfOrders is 0. The NULL represents the order that doesn't have a matching customer.
-
-# Further Readings
 
 1. [SQL FULL OUTER JOIN Keyword](https://www.w3schools.com/sql/sql_join_full.asp) - W3Schools
 2. [The SQL FULL OUTER JOIN syntax](https://www.sqltutorial.org/sql-full-outer-join/) - SQL Tutorial

@@ -4,9 +4,7 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Rework (Jason Fried, David Heinemeier)
-
-{{< figure src="/images/en/takeaways/books/rework-jason-fried-david-heinemeier/book-image.jpeg" width="200" alt="Book image of Rework" class="mx-auto d-block" >}}
+{{< figure src="/images/en/takeaways/books/rework-jason-fried-david-heinemeier/book-image.jpeg" width="300" alt="Book image of Rework" class="mx-auto d-block" >}}
 
 "Rework" is a business book by Jason Fried and David Heinemeier Hansson, co-founders of the software company Basecamp (formerly 37signals). The book challenges conventional wisdom about starting and running a business, offering practical advice and insights in a concise, easily digestible format. It is divided into several sections, each containing short chapters focusing on different business aspects.
 

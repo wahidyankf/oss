@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Penskalaan Vertikal vs. Horizontal
-
 ## Pengantar
 
 Ketika bisnis dan organisasi berkembang, mereka sering menghadapi tantangan dalam mengakomodasi peningkatan lalu lintas, daya pemrosesan, dan kebutuhan penyimpanan. Skalabilitas menjadi sangat penting dalam skenario seperti ini, dan dua pendekatan umum untuk mengatasinya adalah penskalaan horizontal dan penskalaan vertikal. Artikel ini akan menjelajahi perbedaan antara kedua teknik penskalaan ini dan membahas kelebihan dan kekurangannya, membantu kita memutuskan pendekatan mana yang cocok untuk kebutuhan pertumbuhan sistem kita.

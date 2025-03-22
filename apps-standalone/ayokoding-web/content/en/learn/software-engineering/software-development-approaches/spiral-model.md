@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Spiral Model
-
 ## What is the Spiral Model?
 
 When building a giant tower of blocks, you don't stack them all at once. You start by building a small tower first, then make it more significant and prominent in rounds, each time adding more blocks. That's like how the Spiral Model creates software like a computer game or tool. The Spiral Model is like a playtime routine for building software. Like our block tower, it has several steps or "rounds" of play. Here they are:

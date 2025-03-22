@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pengalaman Gw dengan Tes CliftonStrengths: Jadi makin yakin di jalur engineering management
-
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
 Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.

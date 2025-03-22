@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsep Kunci
-
 ## **Protokol Pesan**
 
 Protokol pesan menentukan aturan dan standar untuk pertukaran pesan antara aplikasi. Broker pesan menggunakan berbagai protokol pesan untuk mengirimkan pesan antara aplikasi. Beberapa protokol pesan populer adalah:

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Backlog Refinement
-
 Scrum's refinement, or backlog grooming, is a crucial activity in the Scrum framework that focuses on preparing and organizing the product backlog. It clarifies and prioritizes backlog items to ensure a shared understanding and facilitate effective sprint planning. In this process, the development team and the Product Owner collaborate to refine the backlog, estimate effort, and identify dependencies and technical debt.
 
 This comprehensive guide will explore the goals and non-goals of backlog refinement, the expected output, the attendees and their roles, the facilitation process, the typical duration, and the necessary preparations. We will also discuss tackling technical debt during the refinement process and provide a set of do's and don'ts to ensure successful backlog refinement. So let's dive in and understand how backlog refinement contributes to a well-prepared and prioritized backlog, enabling the Scrum team to deliver valuable increments of work consistently.

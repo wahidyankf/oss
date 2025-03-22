@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Mengajak (Menarik Hati)
-
 ## Pengenalan
 
 Mengajak (Menarik Hati) adalah tema kekuatan Clifton yang menggambarkan individu yang terampil dalam membangun hubungan dan memenangkan hati orang lain. Mereka ekstrovert, ramah, dan senang bertemu dengan orang baru.

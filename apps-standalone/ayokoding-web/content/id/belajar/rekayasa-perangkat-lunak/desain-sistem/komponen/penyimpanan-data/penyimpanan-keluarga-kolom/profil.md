@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Penyimpanan keluarga kolom adalah jenis basis data NoSQL yang menyimpan data dalam kolom daripada baris. Pangkalan data ini direka untuk mengendalikan jumlah data berstruktur yang besar. Ia sering digunakan dalam aplikasi data besar, sistem pengurusan kandungan, dan aplikasi lain yang memerlukan skalabiliti dan prestasi tinggi.

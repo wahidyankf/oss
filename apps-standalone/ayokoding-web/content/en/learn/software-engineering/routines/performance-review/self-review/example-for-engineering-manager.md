@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Example for Engineering Manager
-
 ## **Review of Goals**
 
 At the beginning of the performance period, I set the following goals for myself:

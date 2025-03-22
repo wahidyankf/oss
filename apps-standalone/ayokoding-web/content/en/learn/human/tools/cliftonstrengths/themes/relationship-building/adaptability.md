@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Adaptability
-
 ## Introduction
 
 Adaptability is a Clifton Strengths theme that describes individuals who are flexible and can easily adjust to changing circumstances. They are quick to adapt to new situations and can thrive in environments that are constantly changing.

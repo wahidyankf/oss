@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with GROUP BY
-
 The `GROUP BY` statement in SQL is used with the `SELECT` statement to arrange identical data into groups. The `GROUP BY` statement comes after any `WHERE` statement but before `ORDER BY` or `HAVING`. It is often used with aggregate functions (`COUNT`, `MAX`, `MIN`, `SUM`, `AVG`) to group the result set by one or more columns.
 
 ## Basic Syntax
@@ -126,8 +124,6 @@ Result-set:
 | Cherry       | 1                | 2.00        |
 
 The result set shows the total price for each product sold based on the number of orders.
-
-# Further Readings
 
 1. [SQL GROUP BY Statement](https://www.w3schools.com/sql/sql_groupby.asp) - W3Schools
 2. [The GROUP BY Statement in SQL](https://www.sqltutorial.org/sql-group-by/) - SQL Tutorial

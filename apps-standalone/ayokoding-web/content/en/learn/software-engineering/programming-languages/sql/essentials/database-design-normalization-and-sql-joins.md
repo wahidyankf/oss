@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Database Design, Normalization, and SQL JOINs
-
 Database design, normalization, and SQL JOINs are fundamental concepts in managing and manipulating data effectively in relational databases. We will explore these concepts and their relationships with each other.
 
 ## Database Design
@@ -97,8 +95,6 @@ WHERE borrower.name = 'Borrower 1';
 ```
 
 The SQL statement returns a combined result from the 'book' and 'transaction' tables where the 'book_id' matches.
-
-# Further Readings
 
 1. [Database Design - W3Schools](https://www.w3schools.com/sql/sql_intro.asp)
 2. [Normalization - GeeksforGeeks](https://www.geeksforgeeks.org/introduction-of-database-normalization/)

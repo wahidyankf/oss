@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## Pengenalan
 
 Penyimpanan data dalam memori adalah database yang menyimpan data di memori daripada di disk. Hal ini memungkinkan akses data lebih cepat dan kinerja yang lebih tinggi daripada database berbasis disk tradisional. Penyimpanan data dalam memori, seperti analitik real-time, caching, dan manajemen sesi, sering digunakan dalam aplikasi yang memerlukan kinerja tinggi dan laten rendah.

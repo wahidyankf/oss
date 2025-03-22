@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Arsitektur Multi-Tier
-
 ## Pengantar
 
 Di awal perkembangan komputasi, konsep arsitektur 1-tier masih banyak digunakan, di mana aplikasi berjalan pada satu mesin yang terintegrasi dengan semua lapisan sistem secara ketat. Namun, seiring kompleksitas sistem perangkat lunak yang semakin bertambah dan tuntutan pengguna yang semakin meningkat, keterbatasan arsitektur 1-tier mulai terlihat. Hal ini membawa pada evolusi arsitektur multi-tier, pendekatan yang lebih fleksibel dan skalabel. Artikel ini menjelaskan transisi dari arsitektur 1-tier ke arsitektur multi-tier, dengan fokus pada arsitektur 2-tier, 3-tier, dan n-tier serta keuntungan yang membawa pada desain sistem modern.

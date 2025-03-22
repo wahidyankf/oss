@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DCL: GRANT
-
 Perintah `GRANT` dalam SQL memberikan hak istimewa kepada pengguna atau peran.
 
 ## Sintaks Dasar

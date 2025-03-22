@@ -4,8 +4,6 @@ date: 2025-03-20T07:16:00+07:00
 draft: false
 ---
 
-# Java Programming Cheatsheets
-
 - [Getting Started with Java](./getting-started/)
 
 ## 1. [Getting Started with Java](./getting-started/)

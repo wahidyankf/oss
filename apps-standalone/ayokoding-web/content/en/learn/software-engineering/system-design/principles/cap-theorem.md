@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# CAP Theorem
-
-# Introduction
-
 Have you ever wondered why every system can't be perfect? Why we can't have a distributed system that is always available, provides only the latest data, and tolerates network failures? This is where the CAP theorem, also known as Brewer's theorem, comes into play. Coined by computer scientist Eric Brewer in 2000, the CAP theorem is a cornerstone concept in distributed computing. It argues that a distributed data system can't simultaneously provide all three of these guarantees:
 
 1. **Consistency:** Every read receives the most recent write or an error. So if you update some data, any subsequent access will return that updated data.

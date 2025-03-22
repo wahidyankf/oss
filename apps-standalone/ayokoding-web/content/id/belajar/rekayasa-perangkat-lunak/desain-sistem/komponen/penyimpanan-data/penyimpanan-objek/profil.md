@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Penyimpanan objek adalah jenis arsitektur penyimpanan data yang mengelola data sebagai objek daripada sebagai blok atau file. Objek-objek ini disimpan dalam sebuah ruang alamat datar dan dapat diakses melalui pengidentifikasi unik. Penyimpanan objek dirancang untuk menangani jumlah data yang besar dan tidak terstruktur. Sering digunakan dalam aplikasi berbasis cloud, sistem cadangan dan arsip, dan aplikasi lain yang membutuhkan skalabilitas dan daya tahan yang tinggi.

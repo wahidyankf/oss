@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT DISTINCT
-
 `SELECT DISTINCT` is a statement in SQL that returns only distinct (different) values. The `DISTINCT` keyword eliminates duplicate records from the results. This command is particularly useful when dealing with large datasets where duplicate entries can distort the analysis.
 
 ## Syntax

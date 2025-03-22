@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Planning Poker
-
 ## Overview
 
 Planning Poker is an Agile estimation technique developed teams use to estimate the effort or relative size of user stories or tasks in a project. It is a collaborative approach that leverages team members’ collective knowledge and expertise to achieve more accurate estimates. Planning Poker is a popular method within Agile methodologies like Scrum, where accurate estimations are crucial for effective planning and prioritization.

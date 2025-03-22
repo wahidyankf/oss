@@ -1,314 +1,82 @@
-# Ayokoding Web V2
+# Hextra Starter Template
 
-## Overview
+[![Deploy Hugo site to Pages](https://github.com/imfing/hextra-starter-template/actions/workflows/pages.yaml/badge.svg)](https://github.com/imfing/hextra-starter-template/actions/workflows/pages.yaml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6e83fd88-5ffe-4808-9689-c0f3b100bfe3/deploy-status)](https://app.netlify.com/sites/hextra-starter-template/deploys)
+![Vercel Deployment Status](https://img.shields.io/github/deployments/imfing/hextra-starter-template/production?logo=vercel&logoColor=white&label=vercel&labelColor=black&link=https%3A%2F%2Fhextra-starter-template.vercel.app%2F)
 
-Ayokoding Web V2 is a multilingual Hugo-powered website for learning and sharing knowledge in both English and Indonesian.
+🐣 Minimal template for getting started with [Hextra](https://github.com/imfing/hextra)
 
-## Features
+![hextra-template](https://github.com/imfing/hextra-starter-template/assets/5097752/c403b9a9-a76c-47a6-8466-513d772ef0b7)
 
-- 🌐 Multilingual support (English and Indonesian)
-- 📚 Hugo Book theme
-- 🔍 Full-text search functionality
-- 📱 Responsive design
-- 🧭 Breadcrumb navigation for enhanced user experience
-- 📝 Last updated section
+[🌐 Demo ↗](https://imfing.github.io/hextra-starter-template/)
 
-## Prerequisites
+## Quick Start
 
-- **Hugo**: Install using Homebrew or manually as described:
+Use this template to create your own repository:
 
-  ```bash
-  brew install hugo
-  ```
+<img src="https://docs.github.com/assets/cb-77734/mw-1440/images/help/repository/use-this-template-button.webp" width=400 />
 
-- **Volta**: Install Volta for managing JavaScript tools:
+You can also quickly start developing using the following online development environment:
 
-  ```bash
-  curl https://get.volta.sh | bash
-  ```
+- [GitHub Codespaces](https://github.com/codespaces)
 
-  Verify the installation:
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/imfing/hextra-starter-template)
 
-  ```bash
-  volta --version
-  ```
+  Create a new codespace and follow the [Local Development](#local-development) to launch the preview
 
-- [Go](https://golang.org/) (for module support)
+- [Gitpod](https://gitpod.io)
 
-## Getting Started
-
-### Installation
-
-1. Clone the repository
-
-```bash
-git clone https://github.com/wahidyankf/ayokoding-web-v2.git
-cd ayokoding-web-v2
-```
-
-2. Install Hugo modules
-
-```bash
-hugo mod get
-```
-
-### Git Submodule Initialization
-
-To ensure that all submodules are initialized and updated, run the following command:
-
-```bash
-git submodule update --init --recursive
-```
-
-### Development
-
-Start the local development server:
-
-```bash
-hugo server -D
-```
-
-- `-D` flag includes draft content
-- Access the site at `http://localhost:1313`
-
-### Building for Production
-
-Generate static files:
-
-```bash
-hugo
-```
-
-The generated site will be in the `public/` directory.
-
-## Project Structure
-
-```
-.
-├── README.md
-├── archetypes
-│   └── default.md         # Hugo archetypes for content templates
-├── assets
-│   └── custom.scss        # Custom SCSS styles
-├── build.sh               # Build script for the project
-├── content
-│   ├── _index.md          # Main site index
-│   ├── en                 # English content directory
-│   ├── id                 # Indonesian content directory
-│   ├── template           # Template for new content
-│   └── terms-and-conditions.md
-├── go.mod                 # Go module definition
-├── go.sum                 # Go module checksum
-├── hugo.toml              # Hugo configuration file
-├── layouts
-│   ├── _default           # Default layout templates
-│   ├── partials           # Partial layout components
-│   └── shortcodes         # Custom shortcode definitions
-├── package.json           # Node.js project dependencies
-├── static
-│   ├── css                # Static CSS files
-│   ├── images             # Static image assets
-│   └── js                 # Static JavaScript files
-├── themes
-│   └── hugo-book          # Hugo Book theme
-├── vercel.json            # Vercel deployment configuration
-```
-
-### Directory Descriptions
-
-- `archetypes/`: Contains content templates for Hugo
-- `assets/`: Custom SCSS and asset preprocessing
-- `content/`: All site content, organized by language
-- `layouts/`: Custom layout templates and shortcodes
-- `static/`: Static assets like CSS, JS, and images
-- `themes/`: Hugo theme (currently using hugo-book)
-
-## Customization
-
-### Theme
-
-The site uses the [Hugo Book theme](https://github.com/alex-shpak/hugo-book) with several customizations:
-
-- Custom SCSS styles in `assets/custom.scss`
-- Layout overrides in `layouts/` directory
-- Menu configuration in `hugo.toml`
-
-### Breadcrumb Navigation
-
-The site includes breadcrumb navigation to improve user experience and site navigation:
-
-- **Implementation**: Custom partial template in `layouts/partials/docs/breadcrumb.html`
-- **Layout Override**: Added to the main layout via `layouts/_default/baseof.html`
-- **Styling**: Breadcrumb styles defined in `assets/custom.scss`
-- **Format**: Shows the full navigation path (e.g., `Home > en > learn > topic > subtopic`)
-
-### Content Structure
-
-- Edit `hugo.toml` to modify site settings
-- Add content in `content/en/` or `content/id/`
-- Customize CSS in `static/css/custom.css`
-
-### Layout Overrides
-
-Hugo Book theme supports layout overrides, which we use throughout this project:
-
-- `/layouts/_default/baseof.html` - Main layout override to add breadcrumb navigation
-- `/layouts/partials/docs/breadcrumb.html` - Custom breadcrumb navigation template
-- `/layouts/partials/docs/inject/head.html` - Custom styles injection
-
-### Styling
-
-Custom styles are implemented through Hugo's partial injection system:
-
-- Custom styles are added in `/layouts/partials/docs/inject/head.html`
-- This approach avoids potential SCSS compilation issues
-- Styles include breadcrumb formatting, sticky navigation, image alignment, and hidden scrollbars
-
-#### Hidden Scrollbars
-
-The site implements hidden scrollbars for a cleaner UI experience:
-
-- Scrollbars are completely hidden using CSS while maintaining scroll functionality
-- Implementation added directly in `/layouts/partials/docs/inject/head.html` with `!important` flags
-- Compatible with all major browsers (Chrome/Safari using webkit-scrollbar, Firefox using scrollbar-width)
-- Affects all scrollable elements including the sidebar navigation
-
-### Breadcrumb Navigation
-
-- Displays the current page hierarchy in a user-friendly format
-- Auto-capitalizes URL segments for better readability (e.g., "how-to-learn" becomes "How To Learn")
-- Does not display "Home >" when on the home page
-- Implemented as a sticky navigation element that remains visible when scrolling
-
-### Mobile Responsiveness
-
-- Responsive design for various screen sizes
-- Font size adjustments for smaller screens
-- Navigation elements adapt to mobile view
+  [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/imfing/hextra-starter-template)
 
 ## Deployment
 
-### Vercel Deployment
+### GitHub Pages
 
-#### Deployment Steps
+A GitHub Actions workflow is provided in [`.github/workflows/pages.yaml`](./.github/workflows/pages.yaml) to [publish to GitHub Pages](https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/) for free.
 
-1. Go to Vercel Dashboard
-2. Import the `ayokoding` repository
-3. Configure Project Settings:
-   - **Root Directory**: `apps-standalone/ayokoding-web-v2`
-   - **Build Command**: `./build.sh`
-   - **Output Directory**: `public`
-   - **Install Command**: Leave blank (handled in build script)
+For details, see [Publishing with a custom GitHub Actions workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow).
 
-#### Vercel Configuration Details
+Note: in the settings, make sure to set the Pages deployment source to **GitHub Actions**:
 
-- Framework: Static Site
-- Build Tool: Custom Build Script
-- Hugo Version: 0.134.3 Extended
+<img src="https://github.com/imfing/hextra-starter-template/assets/5097752/99676430-884e-42ab-b901-f6534a0d6eee" width=600 />
 
-#### Troubleshooting
+[Run the workflow manually](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow) if it's not triggered automatically.
 
-- Ensure Vercel has read access to the repository
-- Check build logs for any specific errors
-- Verify Hugo extended version is installed in build environment
+### Netlify
 
-**Important Notes**:
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/imfing/hextra-starter-template)
 
-- The custom `build.sh` script handles Hugo installation and site generation
-- Monorepo deployment requires precise root directory configuration
+### Vercel
 
-### Vercel Deployment Troubleshooting
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fimfing%2Fhextra-starter-template&env=HUGO_VERSION)
 
-#### Deployment Environment Challenges
+Override the configuration:
 
-- **No sudo access**: Build scripts must work without root privileges
-- **Limited PATH modifications**: Install tools in user space
-- **Strict security constraints**: Minimal system modifications
+<img src="https://github.com/imfing/hextra-starter-template/assets/5097752/e2e3cecd-c884-47ec-b064-14f896fee08d" width=600 />
 
-#### Debugging Deployment
+## Local Development
 
-1. Verify Hugo Installation
+Pre-requisites: [Hugo](https://gohugo.io/getting-started/installing/), [Go](https://golang.org/doc/install) and [Git](https://git-scm.com)
 
-   ```bash
-   # Check Hugo version and path
-   which hugo
-   hugo version
-   ```
+```shell
+# Clone the repo
+git clone https://github.com/imfing/hextra-starter-template.git
 
-2. Build Script Validation
-   - Ensure script uses user-space installations
-   - Avoid system-wide modifications
-   - Use `$HOME/bin` for local binaries
+# Change directory
+cd hextra-starter-template
 
-#### Common Deployment Pitfalls
-
-- Attempting to use `sudo`
-- Hardcoding system paths
-- Assuming root access
-
-#### Recommended Build Strategy
-
-- Download binaries directly
-- Install in user home directory
-- Modify PATH temporarily
-- Use minimal system interactions
-
-#### Common Deployment Errors
-
-- **wget/curl not found**:
-  - Ensure build script uses available system commands
-  - Fallback to alternative download methods
-
-#### Debugging Steps
-
-1. Check Vercel Build Logs
-2. Verify Build Script Permissions
-3. Test Build Script Locally
-
-#### Vercel Configuration Checklist
-
-- [ ] Root Directory: `apps-standalone/ayokoding-web-v2`
-- [ ] Build Script: Executable and compatible with Vercel environment
-- [ ] Hugo Version: Explicitly specified
-- [ ] Output Directory: `public`
-
-#### Potential Solutions
-
-```bash
-# Verify build script works
-chmod +x build.sh
-./build.sh
-
-# Check Hugo installation
-hugo version
+# Start the server
+hugo mod tidy
+hugo server --logLevel debug --disableFastRender -p 1313
 ```
 
-**Vercel-Specific Tips**:
+### Update theme
 
-- Always test build script locally
-- Simulate Vercel environment
-- Check build logs carefully
-- Minimize external dependencies
+```shell
+hugo mod get -u
+hugo mod tidy
+```
 
-**Troubleshooting Tips**:
+See [Update modules](https://gohugo.io/hugo-modules/use-modules/#update-modules) for more details.
 
-- Use `curl` instead of `wget`
-- Ensure build script has proper error handling
-- Check Vercel documentation for platform-specific build requirements
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-[Add your license information here]
-
-## Acknowledgments
-
-- [Hugo](https://gohugo.io/)
-- [Hugo Book Theme](https://github.com/alex-shpak/hugo-book)
+---

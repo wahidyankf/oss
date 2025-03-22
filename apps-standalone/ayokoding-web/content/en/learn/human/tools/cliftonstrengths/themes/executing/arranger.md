@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Arranger
-
 ## Introduction
 
 Arranger is one of the 34 CliftonStrengths themes, which is all about organizing people and resources to achieve a goal. People with this strength have a natural talent for orchestrating tasks, people, and resources to achieve a specific objective. They are excellent at identifying the best way to get things done and are always looking for ways to improve efficiency.

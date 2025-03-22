@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Lean
-
 ## What is Lean Software Development?
 
 Lean software development is a way of making software that's a lot like building with Lego blocks. You start with a tiny piece and then add another piece, then another piece, until you've made something cool like a castle or a spaceship. The idea is not to make the whole castle at once but to make it a bit at a time and always check if the part you just added looks good and fits the other parts.

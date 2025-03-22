@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pembelajar
-
 ## Pengantar
 
 Pembelajar adalah tema CliftonStrengths yang menggambarkan individu yang secara alami ingin belajar dan berkembang. Mereka menikmati memperoleh pengetahuan dan keterampilan baru dan seringkali sangat termotivasi untuk meningkatkan diri.

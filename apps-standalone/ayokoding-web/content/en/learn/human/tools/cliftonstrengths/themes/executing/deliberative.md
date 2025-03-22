@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Deliberative
-
 ## Introduction
 
 Deliberative is one of the 34 CliftonStrengths themes, defined as a person's ability to consider all possible risks and consequences before deciding. People with this strength are cautious and careful, and they tend to be very thorough in their approach to problem-solving.

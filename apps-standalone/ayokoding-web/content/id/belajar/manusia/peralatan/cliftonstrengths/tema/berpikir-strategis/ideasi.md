@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Ideasi
-
 ## Pengantar
 
 Ideasi adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk menghasilkan ide-ide baru dan inovatif. Mereka menikmati brainstorming dan berpikir di luar kotak untuk menciptakan solusi kreatif untuk masalah.

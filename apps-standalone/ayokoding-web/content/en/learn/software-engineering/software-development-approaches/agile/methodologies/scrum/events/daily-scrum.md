@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Daily Scrum
-
 The Daily Scrum is a critical event in the Scrum framework, an iterative and incremental agile software development methodology. It is a time-boxed daily meeting that helps the Scrum Team synchronize activities and progress towards the sprint goal. In this article, we will explore the various aspects of the Daily Scrum, including its goals, non-goals, output, participants, facilitator, duration, preparation, process, dos, and don'ts.
 
 ## Goals

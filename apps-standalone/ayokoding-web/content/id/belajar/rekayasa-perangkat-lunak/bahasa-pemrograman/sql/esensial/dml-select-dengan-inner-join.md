@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan INNER JOIN
-
 Keyword `INNER JOIN` dalam SQL menggabungkan catatan dari dua atau lebih tabel berdasarkan kolom terkait. Kata kunci `INNER JOIN` memilih catatan yang memiliki nilai yang cocok di kedua tabel.
 
 ## Sintaks

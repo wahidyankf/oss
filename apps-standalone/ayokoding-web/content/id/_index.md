@@ -5,8 +5,6 @@ draft: false
 weight: 2
 ---
 
-# Konten dalam Bahasa Indonesia
-
 - [Belajar](./belajar/)
   - [Perkenalan](./belajar/perkenalan/)
   - [Rekayasa Perangkat Lunak](./belajar/rekayasa-perangkat-lunak/)

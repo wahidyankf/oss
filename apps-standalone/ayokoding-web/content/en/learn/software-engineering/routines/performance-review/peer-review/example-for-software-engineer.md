@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Example for Software Engineer
-
 ## **Strengths**
 
 John consistently demonstrates strong technical skills and attention to detail in his work. He profoundly understands the codebase and is always willing to help his team members when they have questions or need assistance.

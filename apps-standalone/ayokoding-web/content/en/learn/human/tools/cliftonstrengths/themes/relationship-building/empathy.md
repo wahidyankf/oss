@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Empathy
-
 ## Introduction
 
 Empathy is a CliftonStrengths theme that describes individuals who have a natural ability to understand and connect with the emotions of others. They are able to put themselves in other people's shoes and see things from their perspective.

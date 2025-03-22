@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Futuristic
-
 ## Introduction
 
 Futuristic is a CliftonStrengths theme that describes individuals who can envision the future and imagine possibilities. They enjoy thinking about what could be and are often excited by new ideas and innovations.

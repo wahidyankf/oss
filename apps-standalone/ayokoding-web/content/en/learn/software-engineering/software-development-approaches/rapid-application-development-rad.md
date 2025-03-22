@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Rapid Application Development (RAD)
-
 ## What is Rapid Application Development?
 
 Imagine you want to build a Lego tower. Instead of planning the whole tower from the start, you might build one part of the tower first, like the base. Once you finish the base, show it to your friends and ask what they think. They might give you some ideas, like adding more blocks or changing the color. You then use these ideas to make your base even better.

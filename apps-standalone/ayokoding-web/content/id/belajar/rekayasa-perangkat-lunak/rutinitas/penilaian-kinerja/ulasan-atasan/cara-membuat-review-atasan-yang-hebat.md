@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Cara Membuat Review Atasan yang Hebat
-
 ## **Membuat Supervisor Review yang Baik untuk Ulasan Kinerja**
 
 Supervisor review atau ulasan dari seorang atasan adalah bagian penting dari proses ulasan kinerja. Ini memberikan kesempatan bagi manajer untuk mengevaluasi kinerja karyawan mereka, memberikan umpan balik, dan menetapkan tujuan untuk masa depan. Supervisor review yang ditulis dengan baik dapat membantu karyawan memahami kelebihan dan kelemahan mereka, mengidentifikasi area yang perlu diperbaiki, dan mengembangkan rencana pertumbuhan profesional. Artikel ini akan membahas cara membuat supervisor review yang baik untuk ulasan kinerja.

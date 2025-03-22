@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsep Kunci
-
 Search engine adalah alat penting untuk menemukan informasi di internet. Mereka bekerja dengan mengindeks halaman web dan dokumen lain yang memungkinkan pengguna untuk mencari melalui indeks tersebut dan menemukan hasil yang relevan. Untuk melakukannya, mesin pencari bergantung pada toko data yang dapat menyimpan dan mengambil data dalam jumlah besar secara efisien. Beberapa toko data mesin pencari populer termasuk Elasticsearch, Amazon CloudSearch, dan Apache Solr.
 
 ## **Elasticsearch**

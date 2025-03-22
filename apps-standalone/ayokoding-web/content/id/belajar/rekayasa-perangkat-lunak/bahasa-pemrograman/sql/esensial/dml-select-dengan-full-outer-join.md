@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan FULL (OUTER) JOIN
-
 `FULL JOIN` atau `FULL OUTER JOIN` dalam SQL adalah konsep dalam sistem manajemen basis data relasional (RDBMS) yang memungkinkan kita menggabungkan baris dari dua atau lebih tabel berdasarkan kolom terkait di antara mereka.
 
 Kata kunci `FULL JOIN` mengembalikan semua catatan ketika ada kecocokan di antara catatan tabel kiri (table1) atau kanan (table2). Hasilnya adalah NULL di kedua sisi ketika tidak ada kecocokan.
@@ -147,8 +145,6 @@ Set hasil:
 | NULL    | 1                |
 
 Kueri ini mengelompokkan pesanan berdasarkan nama pelanggan, dan menghitung jumlah pesanan yang dibuat oleh setiap pelanggan. Sally tidak membuat pesanan apa pun, sehingga NumberOfOrders adalah 0. NULL mewakili pesanan yang tidak memiliki pelanggan yang cocok.
-
-# Bacaan Lebih Lanjut
 
 1. [SQL FULL OUTER JOIN Keyword](https://www.w3schools.com/sql/sql_join_full.asp) - W3Schools
 2. [The SQL FULL OUTER JOIN syntax](https://www.sqltutorial.org/sql-full-outer-join/) - SQL Tutorial

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Fungsi Agregat SQL
-
 Fungsi-fungsi Agregat SQL digunakan untuk menghitung serangkaian nilai dan mengembalikan satu nilai. Fungsi-fungsi ini sering digunakan dengan pernyataan `SELECT` dalam SQL. Berikut adalah beberapa contoh fungsi agregat dalam SQL:
 
 ## Contoh

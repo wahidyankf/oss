@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Panduan 1:1 Untuk Tech Lead
-
 Komunikasi dan kolaborasi yang efektif adalah kunci kesuksesan dalam dunia teknologi yang dinamis. Bagi _tech lead_, pertemuan satu lawan satu (1:1) memberikan kesempatan berharga untuk terhubung dengan anggota tim, manajer, rekan sejawat, dan kolega lintas fungsional. Dengan memanfaatkan pertemuan ini secara efektif, _tech lead_ dapat membangun hubungan, mendukung pertumbuhan, dan mendorong kolaborasi. Artikel ini akan menjelajahi bagaimana _tech lead_ dapat memperoleh manfaat maksimal dari pertemuan 1:1 dengan berbagai pihak terkait.
 
 ## Pertemuan 1:1 dengan Anggota Tim

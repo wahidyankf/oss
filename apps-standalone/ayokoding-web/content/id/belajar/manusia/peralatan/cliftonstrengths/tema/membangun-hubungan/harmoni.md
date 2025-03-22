@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Harmoni
-
 ## Pengenalan
 
 Harmoni adalah tema CliftonStrengths yang menggambarkan individu yang memiliki kemampuan alami untuk menciptakan perdamaian dan harmoni di lingkungan sekitar mereka. Mereka berusaha untuk menghindari konflik dan menciptakan rasa keseimbangan dan kerja sama di antara orang lain.

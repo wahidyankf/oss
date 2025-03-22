@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Vertical vs. Horizontal Scaling
-
 ## Introduction
 
 As businesses and organizations expand, they often encounter challenges accommodating increased traffic, processing power, and storage requirements. Scalability becomes crucial in such scenarios, and two common approaches to address this are horizontal scaling and vertical scaling. This article will explore the differences between these two scaling techniques and discuss their pros and cons, helping you decide which approach suits your system's growth requirements.

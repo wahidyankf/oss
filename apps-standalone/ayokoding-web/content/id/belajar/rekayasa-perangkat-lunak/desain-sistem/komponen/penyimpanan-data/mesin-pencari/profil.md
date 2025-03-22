@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Mesin pencari adalah penyimpanan data yang dirancang untuk mengindeks dan mencari sejumlah besar data. Ini digunakan untuk mengambil informasi dari database dengan cepat dan efisien.

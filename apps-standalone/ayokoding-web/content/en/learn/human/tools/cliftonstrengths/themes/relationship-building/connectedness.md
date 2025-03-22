@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Connectedness
-
 ## Introduction
 
 Connectedness is a CliftonStrengths theme that describes individuals who believe that everything in the world is interconnected. They have a deep sense of purpose and meaning in their lives, and they strive to find connections between people, events, and ideas.

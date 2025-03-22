@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Cookbook
-
 ## Introduction
 
 Welcome to the Java Cookbook! This section is your go-to resource for practical solutions and hands-on examples in Java programming. Whether you are a beginner exploring the world of object-oriented programming or an experienced developer looking for efficient solutions to common problems, this cookbook will provide you with a wide range of recipes to enhance your Java skills.

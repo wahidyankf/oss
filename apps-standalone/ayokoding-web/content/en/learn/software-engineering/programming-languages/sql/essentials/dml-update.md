@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: UPDATE
-
 The `UPDATE` statement in SQL is used to modify the existing records in a table.
 
 ## Basic Syntax
@@ -79,8 +77,6 @@ SET price = price * 1.1;
 ```
 
 This will increase the price of all products by 10%.
-
-# Further Readings
 
 1. [SQL UPDATE Statement](https://www.w3schools.com/sql/sql_update.asp) - W3Schools
 2. [The SQL UPDATE Statement](https://www.sqltutorial.org/sql-update/) - SQL Tutorial

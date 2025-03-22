@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# How to Create Great Supervisor Review
-
 A supervisor review is an essential part of the performance review process. It provides an opportunity for managers to evaluate their employees' performance, provide feedback, and set goals for the future. A well-written supervisor review can help employees understand their strengths and weaknesses, identify areas for improvement, and develop a plan for professional growth. This article will discuss creating an excellent supervisor review for performance review.
 
 ### **1. Start with the basics**

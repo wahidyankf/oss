@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview
-
-# Introduction to Clojure
-
 Clojure is a modern, dynamic, and functional programming language that runs on the Java Virtual Machine (JVM) and provides seamless integration with Java. It combines Lisp's expressive power with the JVM ecosystem's robustness, offering a unique approach to software development. Here's an introduction to Clojure:
 
 ## Key Features and Advantages

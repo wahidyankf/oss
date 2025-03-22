@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Keyakinan
-
 ## Pengantar
 
 Keyakinan adalah salah satu tema 34 CliftonStrengths, yang berkaitan dengan memiliki nilai-nilai inti yang membimbing keputusan dan tindakan Anda. Orang dengan kekuatan ini memiliki rasa benar dan salah yang kuat dan berkomitmen untuk menjalani hidup mereka dengan keyakinan mereka.

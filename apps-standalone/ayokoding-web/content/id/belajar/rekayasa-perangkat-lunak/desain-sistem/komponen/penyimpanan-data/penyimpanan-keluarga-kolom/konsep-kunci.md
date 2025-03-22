@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsep Kunci
-
 Database tipe column-family store adalah jenis database NoSQL yang menyimpan data dengan cara yang dioptimalkan untuk beban kerja yang lebih banyak pada pembacaan data. Mereka dirancang untuk menangani jumlah data terstruktur dan semi-terstruktur yang besar dan sering digunakan dalam aplikasi big data.
 
 Berikut adalah beberapa konsep kunci yang perlu dipahami tentang column-family store:

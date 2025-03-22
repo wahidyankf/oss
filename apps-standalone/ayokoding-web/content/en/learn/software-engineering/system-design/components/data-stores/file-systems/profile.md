@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 A file system is a data store used to organize and store files on a computer or network. It provides a hierarchical structure for storing and accessing files.

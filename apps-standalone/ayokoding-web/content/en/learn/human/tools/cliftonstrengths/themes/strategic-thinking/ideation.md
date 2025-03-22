@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Ideation
-
 ## Introduction
 
 Ideation is a CliftonStrengths theme that describes individuals with a natural ability to generate new and innovative ideas. They enjoy brainstorming and thinking outside the box to create creative solutions to problems.

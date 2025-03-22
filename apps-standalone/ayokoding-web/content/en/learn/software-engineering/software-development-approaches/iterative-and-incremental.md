@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Iterative and Incremental
-
 ## What is Iterative and Incremental Development?
 
 Imagine if you're making a vast Lego castle. It's so big; you can't build it all at once. So, what do you do? You build it step-by-step, part by part. Iterative and Incremental Development is just like that.

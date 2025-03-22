@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 Message brokers are a type of middleware that enables communication between distributed systems by facilitating the exchange of messages between applications. These messages can transmit data, commands, or events between systems. Message brokers are designed to handle high volumes of messages and are often used in microservices architectures, event-driven systems, and other applications that require asynchronous communication.

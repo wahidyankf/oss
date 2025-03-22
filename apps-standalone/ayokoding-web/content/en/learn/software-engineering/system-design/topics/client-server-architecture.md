@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Client-Server Architecture
-
 Client-server architecture is a widely used design pattern in software engineering that enables efficient communication and separation of concerns between different system components. It divides the system into two main parts: the client and the server.
 
 ## What is Client-Server Architecture?
