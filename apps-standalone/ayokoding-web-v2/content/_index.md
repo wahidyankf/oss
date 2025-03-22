@@ -32,8 +32,6 @@ weight: 2
   - [Essays](./en/takeaways/essays/)
 - [About AyoKoding](./en/about-ayokoding/)
 
----
-
 ## [Konten dalam Bahasa Indonesia](./id/)
 
 - [Belajar](./id/belajar/)
@@ -56,6 +54,6 @@ weight: 2
   - [Esai](./id/pelajaran-kunci/esai/)
 - [Tentang AyoKoding](./id/tentang-ayokoding/)
 
----
+## Terms and Conditions
 
 [Terms and Conditions](/terms-and-conditions)
