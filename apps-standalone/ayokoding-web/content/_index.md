@@ -3,11 +3,13 @@ bookCollapseSection: false
 bookFlatSection: false
 date: 2025-03-16T07:20:00+07:00
 draft: false
-title: Home
-weight: 2
+title: AyoKoding
+weight: 1
 ---
 
-## [Content in English](./en/)
+## Content in English
+
+[English](./en/)
 
 - [Learn](./en/learn/)
   - [Introduction](./en/learn/introduction/)
@@ -32,7 +34,9 @@ weight: 2
   - [Essays](./en/takeaways/essays/)
 - [About AyoKoding](./en/about-ayokoding/)
 
-## [Konten dalam Bahasa Indonesia](./id/)
+## Konten dalam Bahasa Indonesia
+
+[Bahasa](./id/)
 
 - [Belajar](./id/belajar/)
   - [Rekayasa Perangkat Lunak](./id/belajar/rekayasa-perangkat-lunak/)
@@ -53,7 +57,3 @@ weight: 2
   - [Buku](./id/pelajaran-kunci/buku/)
   - [Esai](./id/pelajaran-kunci/esai/)
 - [Tentang AyoKoding](./id/tentang-ayokoding/)
-
-## Terms and Conditions
-
-[Terms and Conditions](/terms-and-conditions)
