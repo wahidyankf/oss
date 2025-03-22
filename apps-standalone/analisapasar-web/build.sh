@@ -4,6 +4,14 @@ set -e
 # Ensure we're in the correct directory
 cd "$(dirname "$0")"
 
+# Install Go if not already installed
+if ! command -v go &> /dev/null; then
+  echo "Installing Go..."
+  curl -OL https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
+  sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+  export PATH=$PATH:/usr/local/go/bin
+fi
+
 # Check if Hugo is already installed
 if ! command -v hugo &>/dev/null; then
     echo "Hugo not found, installing..."
