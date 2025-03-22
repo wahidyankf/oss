@@ -1,5 +1,5 @@
 ---
-title: 'Mastering Python for Software Engineering Interviews'
+title: 'Python'
 date: 2025-03-16T15:40:00+07:00
 draft: false
 ---

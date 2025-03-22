@@ -1,7 +1,8 @@
 ---
-title: 'The Interview-Focused Learning Approach: Elevating Software Engineering Skills'
+title: 'Introduction'
 date: 2025-03-16T14:57:00+07:00
 draft: false
+weight: 1
 ---
 
 ## Introduction
