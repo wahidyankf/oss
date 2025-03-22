@@ -12,11 +12,11 @@
   ],
   "routes": [
     {
-      "src": "/(css|js|fonts|images|svg|favicon.png|manifest.json)/(.*)",
-      "dest": "/public/$1/$2"
+      "src": "/(.*)",
+      "dest": "/public/$1"
     },
     {
-      "src": "/.*",
+      "src": "/",
       "dest": "/public/index.html"
     }
   ],
