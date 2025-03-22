@@ -8,8 +8,8 @@ cd "$(dirname "$0")"
 if ! command -v go &> /dev/null; then
   echo "Installing Go..."
   curl -OL https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
-  sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
-  export PATH=$PATH:/usr/local/go/bin
+  tar -C $HOME -xzf go1.22.1.linux-amd64.tar.gz
+  export PATH=$PATH:$HOME/go/bin
 fi
 
 # Check if Hugo is already installed
@@ -27,7 +27,8 @@ if ! command -v hugo &>/dev/null; then
     tar -xzf hugo.tar.gz
 
     # Move Hugo to a directory in PATH
-    mv hugo /usr/local/bin/hugo
+    mkdir -p $HOME/bin
+    mv hugo $HOME/bin/hugo
 
     # Cleanup
     rm hugo.tar.gz
