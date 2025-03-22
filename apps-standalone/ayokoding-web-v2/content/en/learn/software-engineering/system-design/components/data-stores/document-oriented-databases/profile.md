@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 Document-oriented databases are a type of NoSQL database that store data in a document format, typically using JSON or BSON. These databases are becoming increasingly popular due to their flexible data models and ability to handle unstructured or semi-structured data. This contrasts traditional relational databases, which require a predefined schema and are less flexible.

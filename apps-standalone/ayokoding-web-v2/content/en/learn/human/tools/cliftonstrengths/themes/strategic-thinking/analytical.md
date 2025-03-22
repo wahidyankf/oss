@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Analytical
-
 ## Introduction
 
 Analytical is a CliftonStrengths theme that describes individuals with a natural ability to analyze information and make sense of complex data. They enjoy breaking down problems and finding solutions through logical reasoning.

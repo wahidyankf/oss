@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Analitis
-
 ## Pengenalan
 
 Analitis adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk menganalisis informasi dan membuat kesimpulan dari data kompleks. Mereka menikmati memecahkan masalah dan menemukan solusi melalui penalaran logis.

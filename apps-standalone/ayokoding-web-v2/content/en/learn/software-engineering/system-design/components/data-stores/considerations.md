@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Considerations
-
 ## **Overview**
 
 One of the most important considerations when designing a system is the type of data store used. Many different types of data stores are available, each with unique characteristics and trade-offs. Understanding the key characteristics of different data stores is essential for making informed decisions about system design.

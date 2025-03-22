@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Key Concepts
-
 ## **Messaging Protocols**
 
 Messaging protocols define the rules and standards for exchanging messages between applications. Message brokers use different messaging protocols to transmit messages between applications. Some of the popular messaging protocols are:

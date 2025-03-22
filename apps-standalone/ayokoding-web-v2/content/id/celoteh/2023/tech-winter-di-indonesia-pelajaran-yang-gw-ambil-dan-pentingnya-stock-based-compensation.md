@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Tech Winter di Indonesia: Pelajaran yang Gw Ambil dan Pentingnya Stock-Based Compensation
-
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
 Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# T-Shirt Sizing
-
 ## Overview
 
 T-shirt sizing is a commonly used estimation technique within the Agile framework. It provides a simple and quick way to estimate the relative size of user stories or tasks without going into detailed hour-based estimations. In this method, sizes are represented using t-shirt sizes, such as small, medium, large, and extra-large. This markdown document will provide an overview of t-shirt sizing in Agile estimation, including its process, participants, benefits, downsides, do's, and don'ts.

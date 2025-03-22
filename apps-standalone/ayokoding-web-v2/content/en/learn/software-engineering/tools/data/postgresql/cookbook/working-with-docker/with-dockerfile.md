@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# With Dockerfile
-
-# Introduction
-
 Docker allows for easy containerization of applications, and with Dockerfiles, you can define the steps to build an image. This article will guide you through building a PostgreSQL Docker image with persistent data using a Dockerfile. We'll cover the file structure, setup instructions, and execution of an initialization script during container creation.
 
 ## File Structure

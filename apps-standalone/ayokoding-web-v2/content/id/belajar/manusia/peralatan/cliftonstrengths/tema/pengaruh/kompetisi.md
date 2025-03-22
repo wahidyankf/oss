@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Kompetisi
-
 ## Pengantar
 
 Kompetisi adalah salah satu tema CliftonStrengths yang terdiri dari 34 tema, yang didefinisikan sebagai keinginan seseorang untuk bersaing dan mengukur performa mereka dengan orang lain. Individu yang memiliki kekuatan ini didorong oleh kebutuhan untuk menang dan menjadi yang terbaik di bidang mereka.

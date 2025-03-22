@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Database berbasis dokumen adalah jenis database NoSQL yang menyimpan data dalam format dokumen, biasanya menggunakan JSON atau BSON. Database ini dirancang untuk mengelola data yang tidak terstruktur atau semi-terstruktur dan sering digunakan dalam aplikasi web, sistem manajemen konten, dan aplikasi lain yang memerlukan model data yang fleksibel.

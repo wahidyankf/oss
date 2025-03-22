@@ -5,8 +5,6 @@ title: Terms and Conditions
 weight: 3
 ---
 
-# Terms and Conditions
-
 Welcome to AyoKoding! Please read these terms and conditions carefully before using our website. By accessing and using AyoKoding, you agree to comply with and be bound by these terms and conditions. Please do not use our website if you disagree with these terms and conditions.
 
 ## **Use of Content**

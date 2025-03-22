@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Harmony
-
 ## Introduction
 
 Harmony is a CliftonStrengths theme that describes individuals who have a natural ability to create peace and harmony in their environment. They strive to avoid conflict and create a sense of balance and cooperation among others.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Maximizer
-
 ## Introduction
 
 Maximizer is one of the 34 CliftonStrengths themes, which is all about taking something that is already good and making it great. People with this strength have a natural ability to identify and develop the strengths of themselves and others, and they are always looking for ways to improve and optimize everything they do.

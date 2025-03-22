@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Relator
-
 ## Introduction
 
 Relator is a CliftonStrengths theme that describes individuals who have a natural ability to form deep and meaningful relationships with others. They enjoy connecting with others on a personal level and building strong bonds.

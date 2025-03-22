@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Inteleksi
-
 ## Pendahuluan
 
 Inteleksi adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk berpikir mendalam dan merenungkan ide-ide kompleks. Mereka menikmati menjelajahi konsep-konsep abstrak dan seringkali sangat reflektif.

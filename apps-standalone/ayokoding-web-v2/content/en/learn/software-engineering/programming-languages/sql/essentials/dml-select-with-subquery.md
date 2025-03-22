@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with Subquery
-
 A subquery is a query that is nested inside another query. It can be used to retrieve data that will be used in the main query as a condition to restrict the data further to be retrieved.
 
 ## Basic Syntax

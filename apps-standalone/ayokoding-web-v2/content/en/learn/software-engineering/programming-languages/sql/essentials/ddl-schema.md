@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DDL: Schema
-
 A SQL schema is a logical container for database objects such as tables, views, indexes, and procedures. It is a way to organize and group database objects together, making managing and maintaining the database easier. A schema can be considered a namespace or a container for database objects.
 
 ## What is a SQL Schema?

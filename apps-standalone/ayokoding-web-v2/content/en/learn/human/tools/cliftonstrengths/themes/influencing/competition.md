@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Competition
-
 ## Introduction
 
 Competition is one of the 34 CliftonStrengths themes, which is defined as a person's desire to compete and measure their performance against others. Individuals with this strength are driven by the need to win and be the best in their field.

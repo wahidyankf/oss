@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Strategic
-
 ## Introduction
 
 Strategic is a CliftonStrengths theme that describes individuals with a natural ability to think ahead and plan for the future. They enjoy analyzing information and developing strategies to achieve their goals.

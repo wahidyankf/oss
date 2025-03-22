@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with a WHERE clause
-
 ## Basic Introduction
 
 The `SELECT` statement is one of the fundamental elements of SQL (Structured Query Language). It allows you to retrieve data from a database. However, if you want to retrieve specific records from one or more tables in a database, the `WHERE` clause is what you use. The `WHERE` clause describes the condition for a record to be selected.

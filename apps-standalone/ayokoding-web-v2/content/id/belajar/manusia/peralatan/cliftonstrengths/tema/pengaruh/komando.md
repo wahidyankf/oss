@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Komando
-
 ## Pengantar
 
 CliftonStrengths adalah alat penilaian kepribadian yang mengidentifikasi lima kekuatan teratas dari 34 tema. Tema Komando adalah salah satu dari 34 tema dan ditandai oleh individu yang memiliki kemampuan alami untuk mengambil alih dan memimpin orang lain.

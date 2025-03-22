@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Guiding Questions
-
 - [General Topics](./general-topics/)
 - [Regulation - General](./regulation-general/)
 - [Regulation - Banking/Financial](./regulation-banking-financial/)

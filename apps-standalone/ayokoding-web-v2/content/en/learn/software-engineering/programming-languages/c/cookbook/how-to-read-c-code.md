@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# How to Read C Code?
-
 ## Reading C Code
 
 Reading C code is essential for understanding and analyzing existing codebases, learning from open-source projects, and debugging your own programs. While it may seem daunting initially, you can effectively read and comprehend C code with some practice and a systematic approach. This article will explore some strategies and techniques to help you confidently read C code.

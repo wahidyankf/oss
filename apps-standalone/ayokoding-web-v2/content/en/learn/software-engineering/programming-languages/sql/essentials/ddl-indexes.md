@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DDL: Indexes
-
 In SQL, an index is a database object used to speed up data retrieval from a table. An index is created on one or more columns of a table, and it contains a sorted list of values from those columns, along with a pointer to the location of the corresponding data in the table.
 
 ## Types of Indexes

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Files: EDN - Overview
-
 EDN (Extensible Data Notation) is a versatile data format utilized within the Clojure programming language. It offers a textual representation of data that can be read by both humans and machines, making it very easy to analyze and interpret. The simplicity and efficiency of EDN make it a popular alternative to other data interchange formats, such as JSON or XML.
 
 Developers appreciate the flexibility of EDN, as it allows for creating custom data types for specific applications. This makes working with complex data structures easier, as developers can easily convert them to EDN format. Additionally, EDN has been praised for its compactness and ease of use, particularly in comparison to the more verbose XML format.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Keterhubungan
-
 ## Pengantar
 
 Keterhubungan adalah tema CliftonStrengths yang menggambarkan individu yang percaya bahwa segala sesuatu di dunia saling terhubung. Mereka memiliki rasa tujuan dan makna yang dalam dalam hidup mereka, dan mereka berusaha untuk menemukan hubungan antara orang, acara, dan ide.

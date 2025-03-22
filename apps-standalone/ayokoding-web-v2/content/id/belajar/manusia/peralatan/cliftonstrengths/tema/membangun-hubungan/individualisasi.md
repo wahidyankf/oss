@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Individualisasi
-
 ## Pengantar
 
 Individualisasi adalah tema CliftonStrengths yang menggambarkan individu yang memiliki kemampuan alami untuk mengenali dan menghargai kualitas unik setiap orang. Mereka berusaha memahami apa yang membuat setiap orang berbeda dan unik.

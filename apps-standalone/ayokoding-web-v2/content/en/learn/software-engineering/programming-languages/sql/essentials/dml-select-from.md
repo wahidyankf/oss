@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT FROM
-
 The `SELECT` statement is one of the most critical parts of SQL, and the `FROM` keyword is an essential part of it. They are part of SQL's Data Manipulation Language (DML) - a subset of SQL used for adding, updating, and deleting data in a database.
 
 ## The SELECT Statement

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# 1:1 Meeting
-
 [Overview](./overview/)
 
 [Engineering Manager's Guide to 1:1 Meetings](./engineering-managers-guide-to-1-1-meetings/)

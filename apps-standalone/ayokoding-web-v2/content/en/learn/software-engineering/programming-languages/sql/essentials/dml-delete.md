@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: DELETE
-
 The `DELETE` statement in SQL is used to delete existing records from a table.
 
 ## Basic Syntax

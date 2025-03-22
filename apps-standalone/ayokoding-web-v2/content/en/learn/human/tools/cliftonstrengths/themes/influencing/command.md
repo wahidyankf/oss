@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Command
-
 ## Introduction
 
 CliftonStrengths is a personality assessment tool that identifies an individual's top five strengths out of 34 themes. The Command theme is one of the 34 themes and is characterized by individuals who have a natural ability to take charge and lead others.

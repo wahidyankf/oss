@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Context
-
 ## Introduction
 
 Context is a CliftonStrengths theme that describes individuals with a natural ability to understand the historical and cultural significance of events and ideas. They enjoy learning about the past and using that knowledge to inform their decisions in the present.

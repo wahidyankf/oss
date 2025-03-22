@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Regulation - General
-
 To effectively learn and understand a regulation, you can adapt the following key questions:
 
 ## Understanding the Basics

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with ORDER BY
-
 The `SELECT` statement in SQL is used to select data from a database. The data returned is stored in a result table, sometimes called the result set.
 
 The `ORDER BY` keyword is used to sort the result-set in ascending or descending order according to some column(s).
@@ -86,8 +84,6 @@ The result set will look like this:
 | 2          | Banana       | Fruit     | 0.50  |
 | 5          | Eggplant     | Vegetable | 1.50  |
 | 3          | Carrot       | Vegetable | 0.80  |
-
-# Further Readings
 
 1. [SQL ORDER BY Keyword](https://www.w3schools.com/sql/sql_orderby.asp) - W3Schools
 2. [The SQL ORDER BY statement](https://www.sqltutorial.org/sql-order-by/) - SQL Tutorial

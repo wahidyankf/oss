@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Key Concepts
-
 Time series databases (TSDBs) are optimized for handling time-stamped or time-series data. They are designed to handle large volumes of data generated over time, such as sensor data, log data, financial data, and other time-dependent data types. This article will discuss the fundamental concepts of time series databases.
 
 ## **Time Series Data**

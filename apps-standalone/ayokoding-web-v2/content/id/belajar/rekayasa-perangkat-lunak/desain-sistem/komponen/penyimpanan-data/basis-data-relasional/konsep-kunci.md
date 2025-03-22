@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsep Kunci
-
 Basis data relasional adalah sistem manajemen basis data (DBMS) yang mengorganisir data ke dalam satu atau lebih tabel dengan kunci unik yang mengidentifikasi setiap baris. Tabel-tabel saling terkait melalui kunci asing, yang memungkinkan penggabungan data dari beberapa tabel. Berikut adalah beberapa konsep kunci untuk dipahami saat bekerja dengan basis data relasional:
 
 ## **Tabel**

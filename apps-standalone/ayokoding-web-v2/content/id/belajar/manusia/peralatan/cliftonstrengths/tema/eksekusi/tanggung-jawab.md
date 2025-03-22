@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Tanggung Jawab
-
 ## Pengenalan
 
 Orang dengan tema Kekuatan Tanggung Jawab Clifton mengambil tanggung jawab atas tindakan mereka dan berkomitmen untuk memenuhi kewajiban mereka. Mereka dapat diandalkan dan dapat dipercaya, dan mereka sangat serius dalam memenuhi janji mereka.

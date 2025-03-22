@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Consistency
-
 ## Introduction
 
 Consistency is a CliftonStrengths theme that describes individuals who value fairness and equality. They strive to treat everyone equally and believe everyone should be held to the same standards. They are reliable and dependable, and they seek to create a sense of stability and predictability in their environment.

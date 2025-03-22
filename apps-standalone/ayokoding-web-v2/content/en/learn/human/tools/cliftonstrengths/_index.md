@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# CliftonStrengths
-
 ## Introduction
 
 CliftonStrengths is a personal development tool created by the Gallup organization based on the idea that focusing on your natural talents and strengths can lead to more tremendous personal and professional success. The CliftonStrengths assessment helps individuals identify and better understand their unique talents and abilities based on 34 different themes.

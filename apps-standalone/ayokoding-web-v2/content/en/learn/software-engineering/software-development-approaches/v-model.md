@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# V Model
-
 ## What is V Model?
 
 Imagine you are building a castle with your toy blocks. You don't just pile up blocks randomly, do you? Instead, plan how the castle will look and place each block carefully. If a block doesn't fit, you find out why and fix the problem. Once the castle is finished, you look at it carefully to see if it's how you planned. This process is like the V model in software development.

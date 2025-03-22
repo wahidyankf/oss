@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Key Concepts
-
 Column-family stores are a type of NoSQL database that stores data in a way that is optimized for read-heavy workloads. They are designed to handle large amounts of structured and semi-structured data and are often used in big data applications.
 
 Here are some key concepts to understand about column-family stores:

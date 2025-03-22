@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Keyakinan Diri
-
 ## Pengenalan
 
 Keyakinan diri adalah salah satu tema dari 34 kekuatan CliftonStrengths, yang didefinisikan sebagai kepercayaan kuat pada kemampuan, penilaian, dan ide seseorang. Orang dengan kekuatan ini memiliki rasa percaya diri yang mendalam pada diri dan keputusan mereka, yang memungkinkan mereka mengambil risiko dan mengejar tujuan mereka dengan keyakinan.

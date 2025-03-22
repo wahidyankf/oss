@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Motivation
-
 Performance reviews are essential for you and your colleagues to evaluate work progress, identify improvement areas, and set future goals. While self-reviews are important, peer reviews can also be valuable for assessing your colleagues' performance. In this article, we'll talk about why peer reviews matter and how they can benefit your colleagues as software engineers and your company's success.
 
 ## **Why Peer Reviews Matter**

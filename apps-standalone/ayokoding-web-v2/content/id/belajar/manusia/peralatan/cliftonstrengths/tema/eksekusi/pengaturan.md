@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pengaturan
-
 ## Pengantar
 
 Pengaturan adalah salah satu tema CliftonStrengths dari 34 tema, yang fokus pada mengorganisir orang dan sumber daya untuk mencapai tujuan. Orang yang memiliki kekuatan ini memiliki bakat alami dalam mengatur tugas, orang, dan sumber daya untuk mencapai tujuan tertentu. Mereka sangat baik dalam mengidentifikasi cara terbaik untuk menyelesaikan tugas dan selalu mencari cara untuk meningkatkan efisiensi.

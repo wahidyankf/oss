@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Futuristik
-
 ## Pengenalan
 
 Futuristik adalah tema CliftonStrengths yang menggambarkan individu yang dapat membayangkan masa depan dan membayangkan kemungkinan-kemungkinan. Mereka menikmati berpikir tentang apa yang bisa terjadi dan sering kali terkesan oleh ide-ide baru dan inovasi.

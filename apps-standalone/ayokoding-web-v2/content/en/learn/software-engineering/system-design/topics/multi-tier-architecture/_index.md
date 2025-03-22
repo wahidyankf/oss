@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Multi-tier Architecture
-
 ## Introduction
 
 In the early days of computing, the concept of 1-tier architecture prevailed, where applications ran on a single machine, tightly integrating all system layers. However, as software systems grew in complexity and user demands escalated, the limitations of 1-tier architecture became apparent. This led to the evolution of multi-tier architecture, a more flexible and scalable approach. This article explores the transition from 1-tier to multi-tier architecture, explicitly focusing on 2-tier, 3-tier, and n-tier architectures and the advantages they bring to modern system design.

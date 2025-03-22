@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Focus
-
 ## Introduction
 
 CliftonStrengths is a personality assessment tool that identifies an individual's top five strengths out of 34 themes. One of these themes is Focus, which refers to the ability to concentrate on a task and avoid distractions.

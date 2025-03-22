@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Contoh untuk Insinyur Perangkat Lunak
-
 ## **Kelebihan**
 
 John secara konsisten menunjukkan kemampuan teknis yang kuat dan perhatian terhadap detail dalam pekerjaannya. Dia sangat memahami kode sumber dan selalu bersedia membantu anggota timnya ketika mereka memiliki pertanyaan atau membutuhkan bantuan.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Waterfall
-
 ## What is Waterfall Model?
 
 Imagine that you're building a Lego tower. With the waterfall model, we follow a precise sequence of steps. We need to know exactly what we want to build before we start. We can't just decide to change our Lego tower to a Lego car halfway through. This is how software is developed using the waterfall model.

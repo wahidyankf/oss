@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## Pengenalan
 
 Gudang data adalah penyimpanan data yang digunakan untuk menyimpan dan menganalisis sejumlah besar data dari beberapa sumber. Ini dirancang untuk mendukung kecerdasan bisnis dan proses pengambilan keputusan.

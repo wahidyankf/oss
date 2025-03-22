@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DDL: CREATE
-
 SQL, atau Structured Query Language, dirancang untuk mengelola data dalam sistem manajemen basis data relasional (RDBMS). SQL mencakup beberapa jenis pernyataan, tetapi kita akan berfokus pada subset Bahasa Definisi Data (DDL), khususnya pernyataan `CREATE`.
 
 ## Ikhtisar

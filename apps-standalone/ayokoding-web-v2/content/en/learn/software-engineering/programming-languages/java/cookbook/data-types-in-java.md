@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Data Types in Java
-
 ---
 
 Java is a strongly-typed language, meaning every variable and expression has a type known at compile time. Java has two main categories of data types: primitive and non-primitive data types (also known as reference types).

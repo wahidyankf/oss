@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Individualization
-
 ## Introduction
 
 Individualization is a CliftonStrengths theme that describes individuals who have a natural ability to recognize and appreciate the unique qualities of each person. They strive to understand what makes each person different and unique.

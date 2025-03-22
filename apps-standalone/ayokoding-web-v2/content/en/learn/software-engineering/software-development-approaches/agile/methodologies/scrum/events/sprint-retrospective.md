@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Sprint Retrospective
-
 A sprint retrospective is an important event in the Scrum framework, which follows the completion of a sprint cycle. It allows the Scrum team to reflect on their performance and identify areas for improvement. In this guide, we will explore the various aspects of the sprint retrospective, including its goals, participants, output, duration, and best practices.
 
 ## Goals

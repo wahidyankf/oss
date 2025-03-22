@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Cookbook
-
 ## Introduction
 
 Welcome to the TypeScript Cookbook! This section is your reliable guide for practical solutions and hands-on examples in TypeScript programming. Whether you are a novice venturing into static types or an experienced developer seeking practical solutions to regular challenges, this cookbook offers you a comprehensive assortment of recipes to boost your TypeScript prowess.

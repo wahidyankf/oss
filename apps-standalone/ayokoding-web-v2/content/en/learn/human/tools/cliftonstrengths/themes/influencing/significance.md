@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Significance
-
 ## Introduction
 
 Significance is a CliftonStrengths theme that describes individuals who have a deep desire to make an impact in the world. They strive to be recognized for their achievements and want to be seen as important and valuable.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Contoh untuk Insinyur Utama (Principal Engineer)
-
 ## **Review Tujuan**
 
 Pada awal periode penilaian kinerja ini, saya menetapkan tujuan-tujuan berikut untuk diri saya sendiri:

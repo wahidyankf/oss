@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# CliftonStrengths
-
 ## Pengantar
 
 CliftonStrengths adalah alat pengembangan pribadi yang dibuat oleh organisasi Gallup berdasarkan ide bahwa fokus pada bakat dan kekuatan alami Anda dapat mengarah pada keberhasilan pribadi dan profesional yang lebih besar. Penilaian CliftonStrengths membantu individu mengidentifikasi dan memahami bakat dan kemampuan unik mereka berdasarkan 34 tema yang berbeda.

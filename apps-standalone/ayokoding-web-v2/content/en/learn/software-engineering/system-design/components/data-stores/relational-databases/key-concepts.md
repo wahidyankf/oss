@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Key Concepts
-
 Relational databases are database management system (DBMS) that organizes data into one or more tables with a unique key identifying each row. The tables are related to each other through foreign keys, which allow data to be combined from multiple tables. Here are some key concepts to understand when working with relational databases:
 
 ## **Tables**

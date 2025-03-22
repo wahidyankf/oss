@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Control Structure
-
 Clojure, a modern functional language on the Java platform, has a distinct approach to control structures, primarily influenced by its Lisp roots. It encourages a functional programming style, leaning heavily on recursion, immutability, and higher-order functions for managing program flow. Despite this, it also provides a suite of control structures familiar to those from imperative or procedural languages. Fundamental control structures in Clojure include **`if`**, **`when`**, **`cond`**, **`case`**, and **`loop`** coupled with **`recur`** for more efficient looping. Macros like **`if-let`** and **`when-let`** provide conditional bindings and help reduce verbosity in handling potential **`nil`** values.
 
 ## Code

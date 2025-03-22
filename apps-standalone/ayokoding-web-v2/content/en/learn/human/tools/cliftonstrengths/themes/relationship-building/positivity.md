@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Positivity
-
 ## Introduction
 
 Positivity is a CliftonStrengths theme that describes individuals who have a natural ability to see the bright side of things and bring positive energy to their environment. They strive to spread joy and optimism to those around them.

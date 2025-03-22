@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Input
-
 ## Introduction
 
 Input is a CliftonStrengths theme that describes individuals with a natural ability to collect and gather information. They enjoy learning and are often highly knowledgeable about various topics.

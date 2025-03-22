@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Maksimalisasi
-
 ## Pengenalan
 
 Maksimalisasi adalah salah satu dari 34 tema CliftonStrengths, yang mengenai mengambil sesuatu yang sudah baik dan menjadikannya luar biasa. Orang yang memiliki kekuatan ini memiliki kemampuan alami untuk mengidentifikasi dan mengembangkan kekuatan diri dan orang lain, dan selalu mencari cara untuk meningkatkan dan mengoptimalkan segala hal yang mereka lakukan.

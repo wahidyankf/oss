@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# The Cathedral and the Bazaar (Eric Raymond)
-
 ## Pelajaran Utama
 
 Esai Eric Raymond, "The Cathedral and the Bazaar," merupakan karya penting dalam gerakan perangkat lunak sumber terbuka (open-source software). Raymond membandingkan dua model pengembangan perangkat lunak yang berbeda: model Katedral dan model Bazaar.

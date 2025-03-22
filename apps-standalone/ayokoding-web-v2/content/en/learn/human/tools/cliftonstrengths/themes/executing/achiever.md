@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Achiever
-
 ## Introduction
 
 Achiever is one of the 34 CliftonStrengths themes, which is all about striving for excellence and constantly working towards achieving goals. People with this theme have a solid drive to accomplish things and are highly motivated to succeed.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Desain Database, Normalisasi, dan SQL JOIN
-
 Desain database, normalisasi, dan JOIN SQL adalah konsep fundamental dalam mengelola dan memanipulasi data secara efektif dalam database relasional. Kita akan menjelajahi konsep-konsep ini dan hubungan mereka satu sama lain.
 
 ## Desain Database
@@ -97,8 +95,6 @@ WHERE borrower.name = 'Borrower 1';
 ```
 
 Pernyataan SQL mengembalikan hasil gabungan dari tabel 'book' dan 'transaction' di mana 'book_id' cocok.
-
-# Bacaan Lanjutan
 
 1. [Desain Database - W3Schools](https://www.w3schools.com/sql/sql_intro.asp)
 2. [Normalisasi - GeeksforGeeks](https://www.geeksforgeeks.org/introduction-of-database-normalization/)

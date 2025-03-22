@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: INSERT
-
 Pernyataan `INSERT INTO` pada SQL akan memasukkan data baru ke dalam tabel.
 
 ## Sintaks Dasar
@@ -83,8 +81,6 @@ Tabel "product" akan terlihat seperti ini:
 | 4          | Dates        | 3.00  |
 
 Di sini, `product_id` diasumsikan akan diincrement otomatis oleh database itu sendiri, sehingga kita tidak perlu memasukkannya.
-
-# Bacaan Selanjutnya
 
 1. [SQL INSERT INTO Statement](https://www.w3schools.com/sql/sql_insert.asp) - W3Schools
 2. [Inserting rows into a table](https://learn.microsoft.com/en-us/sql/t-sql/statements/insert-transact-sql?view=sql-server-ver15) - Microsoft Docs

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Typing: Option
-
 ## Introduction
 
 The `Option` type is a valuable programming construct designed to represent an optional value. It is usually used in functional programming languages and libraries to handle situations where a value may or may not be present. This type is called by different names based on the programming language; for example, `Option` in Rust, OCaml, F#, or `Maybe` in Haskell.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Regulation - Banking/Financial
-
 Here's an adapted set of questions specifically tailored for learning a banking or financial regulation:
 
 ## Regulatory Basics

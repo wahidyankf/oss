@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Developer
-
 ## Introduction
 
 Developer is a CliftonStrengths theme that describes individuals who enjoy helping others grow and develop. They have a natural talent for recognizing the potential in others and enjoy helping them reach their full potential.

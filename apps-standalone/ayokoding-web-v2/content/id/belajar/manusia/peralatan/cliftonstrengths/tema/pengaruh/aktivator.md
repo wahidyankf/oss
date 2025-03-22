@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Aktivator
-
 ## Pengenalan
 
 Aktivator adalah salah satu dari 34 tema CliftonStrengths, yang berfokus pada mengambil tindakan dan membuat sesuatu terjadi. Orang-orang dengan tema ini dikenal sebagai mereka yang mewujudkan ide menjadi kenyataan dan memulai sesuatu. Mereka sering dianggap sebagai katalis perubahan dan didorong oleh kebutuhan untuk melihat kemajuan dan momentum.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Intro
-
 ## Apa Itu Fintech?
 
 Fintech (Financial Technology) adalah inovasi teknologi dalam layanan keuangan yang bertujuan untuk membuat transaksi keuangan lebih efisien, mudah diakses, dan nyaman bagi pengguna.

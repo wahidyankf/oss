@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Example for Junior Software Engineer
-
 ## **Review of Goals**
 
 At the beginning of the performance period, my goals were to become proficient in Python and contribute to developing two significant projects. I am happy to report that I have met both of these goals. I have become comfortable with Python and contributed to developing both projects.

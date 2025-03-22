@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Discipline
-
 ## Introduction
 
 People with the Clifton Strengths theme of Discipline are known for their ability to create structure and routine in their lives. They are highly organized and have a strong sense of responsibility, which makes them reliable and dependable.

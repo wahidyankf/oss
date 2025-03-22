@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Kanban
-
 ## What is Kanban?
 
 Imagine you're playing a game. You have a bunch of tasks, or let's say toys, and you need to play with one after another. You have a big toy box and three smaller boxes. The first small box is for the toys you're going to play with now, the second one is for the toys you're playing with now, and the third is for toys you have already played with.

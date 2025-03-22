@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT ALL
-
 ## Overview
 
 SQL, or Structured Query Language, is a standard language for managing data in relational databases. DML, or Data Manipulation Language, is a subset of SQL and includes commands that allow you to manipulate data in a database. This typically includes operations like insert, delete, update, and select.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: UPDATE
-
 Statement `UPDATE` dalam SQL digunakan untuk memodifikasi catatan yang ada dalam sebuah tabel.
 
 ## Sintaks Dasar
@@ -79,8 +77,6 @@ SET price = price * 1.1;
 ```
 
 Ini akan meningkatkan harga semua produk sebesar 10%.
-
-# Bacaan Lebih Lanjut
 
 1. [SQL UPDATE Statement](https://www.w3schools.com/sql/sql_update.asp) - W3Schools
 2. [The SQL UPDATE Statement](https://www.sqltutorial.org/sql-update/) - SQL Tutorial

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview
-
 ## What is Scrum?
 
 Imagine you're building a Lego castle. It's a big project. It might be overwhelming if you tried to build it all at once.

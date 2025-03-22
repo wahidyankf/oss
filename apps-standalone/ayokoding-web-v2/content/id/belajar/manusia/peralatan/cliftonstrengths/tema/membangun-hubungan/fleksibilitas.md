@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Fleksibilitas
-
 ## Pengantar
 
 Fleksibilitas adalah tema Kekuatan Clifton yang menggambarkan individu yang fleksibel dan dapat dengan mudah menyesuaikan diri dengan perubahan situasi. Mereka cepat beradaptasi dengan situasi baru dan dapat berkembang di lingkungan yang selalu berubah.

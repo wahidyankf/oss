@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Roles
-
-# Scrum Roles
-
 Scrum is a framework for agile software development that emphasizes teamwork, collaboration, and iterative progress toward a well-defined goal. Scrum roles are the responsibilities and duties that each team member is expected to fulfill. There are three primary Scrum roles: the Product Owner, the Scrum Master, and the Development Team.
 
 ## Product Owner

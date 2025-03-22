@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## Pengenalan
 
 Basis data relasional adalah jenis basis data yang digunakan untuk menyimpan dan mengorganisir data dalam bentuk tabel dan kolom. Basis data ini didasarkan pada model relasional yang menggunakan serangkaian tabel untuk merepresentasikan data dan hubungan antara data tersebut.

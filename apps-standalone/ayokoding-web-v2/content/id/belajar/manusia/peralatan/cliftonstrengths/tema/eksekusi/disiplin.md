@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Disiplin
-
 ## Pendahuluan
 
 Orang yang memiliki tema Kekuatan Clifton dari Disiplin dikenal karena kemampuan mereka untuk menciptakan struktur dan rutinitas dalam hidup mereka. Mereka sangat terorganisir dan memiliki rasa tanggung jawab yang kuat, yang membuat mereka dapat diandalkan.

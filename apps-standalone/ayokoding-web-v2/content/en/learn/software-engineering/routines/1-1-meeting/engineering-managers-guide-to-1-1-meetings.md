@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Engineering Manager's Guide to 1:1 Meetings
-
 1:1 meetings are a crucial component of effective management and leadership. They provide a platform for open communication, goal alignment, and personal growth. As an engineering manager, leveraging 1:1 meetings can significantly contribute to your team's success, foster strong relationships, and promote professional development. This article presents a comprehensive guide on optimizing 1:1 meetings with direct reports, managers of managers, peers, and cross-functional colleagues to achieve maximum benefits.
 
 ## 1:1 Meetings with Direct Reports

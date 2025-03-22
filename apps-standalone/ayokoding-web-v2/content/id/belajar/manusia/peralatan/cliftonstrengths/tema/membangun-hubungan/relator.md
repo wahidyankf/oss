@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Relator
-
 ## Pengantar
 
 Relator adalah tema CliftonStrengths yang menggambarkan individu yang memiliki kemampuan alami untuk membentuk hubungan yang dalam dan bermakna dengan orang lain. Mereka menikmati menghubungkan diri dengan orang lain secara pribadi dan membangun ikatan yang kuat.

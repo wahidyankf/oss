@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Hello World
-
 <aside>
 🗒️ You can find the code [here](https://github.com/organiclever/ayokoding/blob/main/contents/typescript-cookbook/typescript-cookbook-primary/hello_world/hello_world.ts).
 

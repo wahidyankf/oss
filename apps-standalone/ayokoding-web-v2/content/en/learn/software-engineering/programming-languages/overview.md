@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview
-
 ## Introduction
 
 Programming languages are the backbone of modern technology, enabling us to communicate with computers and instruct them to perform specific tasks. From the websites we browse to the apps we use on smartphones, programming languages are the driving force behind the software we interact with daily. This article will delve into the fascinating world of programming languages, exploring what they are, how they work, and their importance in shaping our digital landscape.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsep Kunci
-
 Sebuah sistem file mengatur dan menyimpan data pada perangkat penyimpanan, seperti hard drive atau server file jaringan. Dalam sistem terdistribusi, sistem file digunakan untuk mengelola data di beberapa node dalam jaringan. Berikut adalah beberapa konsep kunci sistem file untuk sistem terdistribusi:
 
 ## **Distributed File System (DFS)**

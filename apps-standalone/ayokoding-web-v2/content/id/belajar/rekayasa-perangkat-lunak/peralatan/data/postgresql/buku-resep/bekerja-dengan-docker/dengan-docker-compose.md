@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Dengan Docker Compose
-
 ## Pendahuluan
 
 Docker Compose mempermudah proses pengaturan dan manajemen aplikasi multi-container. Artikel ini akan memandu Anda dalam membangun gambar Docker PostgreSQL dengan data persisten menggunakan Docker Compose. Kami akan membahas struktur file, instruksi pengaturan, dan eksekusi skrip inisialisasi selama pembuatan kontainer.

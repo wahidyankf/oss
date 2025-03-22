@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Artifacts
-
-# Scrum Artifacts
-
 Scrum is an agile framework that helps teams to deliver high-quality products. Scrum has three leading roles: Product Owner, Scrum Master, and Development Team. In addition to these roles, Scrum has four artifacts to ensure transparency and progress toward the project goal. These artifacts are Product Backlog, Sprint Backlog, Increment, and Burn-Down Chart.
 
 ## Product Backlog

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Input
-
 ## Pengenalan
 
 Input adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk mengumpulkan dan mengumpulkan informasi. Mereka menikmati belajar dan sering memiliki pengetahuan yang tinggi tentang berbagai topik.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Intellection
-
 ## Introduction
 
 Intellection is a CliftonStrengths theme that describes individuals with a natural ability to think profoundly and reflects on complex ideas. They enjoy exploring abstract concepts and are often highly reflective.

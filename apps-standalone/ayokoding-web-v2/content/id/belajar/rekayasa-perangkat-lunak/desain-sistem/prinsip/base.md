@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# BASE
-
 ## Pengantar
 
 Prinsip BASE (Basically Available, Soft state, Eventually consistent) diperkenalkan sebagai pendekatan alternatif dalam desain sistem. Dipopulerkan oleh Dan Pritchett pada tahun 2008, istilah "BASE" menjadi terkenal dan memicu diskusi seputar relaksasi konsistensi demi skalabilitas dan ketersediaan. Dengan merelaksasi jaminan konsistensi, sistem BASE memprioritaskan ketersediaan, memungkinkan keadaan data yang dapat berubah, dan mencapai konsistensi akhir dari waktu ke waktu.

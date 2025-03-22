@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Regulation - Islamic Banking/Financial
-
 Here's a set of questions specifically tailored for learning Islamic banking or financial regulation:
 
 ## Regulatory Basics

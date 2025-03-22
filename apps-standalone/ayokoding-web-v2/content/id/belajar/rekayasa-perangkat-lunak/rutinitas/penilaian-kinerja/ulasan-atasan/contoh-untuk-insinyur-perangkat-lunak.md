@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Contoh untuk Insinyur Perangkat Lunak
-
 ## **Deskripsi Pekerjaan**
 
 John bertanggung jawab untuk mengembangkan dan memelihara aplikasi perangkat lunak untuk perusahaan kami. Dia bekerja erat dengan tim produk untuk memahami kebutuhan dan memberikan solusi perangkat lunak berkualitas tinggi. Tanggung jawabnya meliputi:

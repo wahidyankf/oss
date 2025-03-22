@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Komunikasi
-
 ## Pengenalan
 
 Komunikasi adalah salah satu tema CliftonStrengths dari 34 tema, yang didefinisikan sebagai kemampuan untuk mengartikulasikan pikiran dengan jelas dan efektif. Orang yang memiliki kekuatan ini terampil dalam mengekspresikan diri baik secara tertulis maupun verbal dan sering menjadi komunikator yang persuasif dan menarik.

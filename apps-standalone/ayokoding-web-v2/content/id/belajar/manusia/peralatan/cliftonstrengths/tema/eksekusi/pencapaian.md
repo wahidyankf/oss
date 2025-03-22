@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pencapaian
-
 Pencapaian adalah salah satu dari 34 tema CliftonStrengths, yang memiliki arti mencapai keunggulan dan terus bekerja menuju mencapai tujuan. Orang-orang dengan tema ini memiliki dorongan yang kuat untuk mencapai hal-hal dan sangat termotivasi untuk berhasil.
 
 ## Pengantar

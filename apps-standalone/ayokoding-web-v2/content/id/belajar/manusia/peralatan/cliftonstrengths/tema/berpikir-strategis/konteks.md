@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konteks
-
 ## Pengantar
 
 Konteks adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk memahami makna historis dan budaya dari peristiwa dan ide. Mereka menikmati belajar tentang masa lalu dan menggunakan pengetahuan itu untuk membentuk keputusan di masa sekarang.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Activator
-
 ## Introduction
 
 Activator is one of the 34 CliftonStrengths themes, which is all about taking action and making things happen. People with this theme are known for turning ideas into reality and getting things started. They are often seen as catalysts for change and are driven by a need to see progress and momentum.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Signifikansi
-
 ## Pendahuluan
 
 Signifikansi adalah tema CliftonStrengths yang menggambarkan individu yang memiliki keinginan yang mendalam untuk memberikan dampak di dunia. Mereka berusaha untuk diakui atas prestasi mereka dan ingin dilihat sebagai individu yang penting dan berharga.

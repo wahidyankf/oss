@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pengembang
-
 ## Pengantar
 
 Pengembang adalah tema CliftonStrengths yang menggambarkan individu yang senang membantu orang lain tumbuh dan berkembang. Mereka memiliki bakat alami untuk mengenali potensi pada orang lain dan senang membantu mereka mencapai potensi penuh.

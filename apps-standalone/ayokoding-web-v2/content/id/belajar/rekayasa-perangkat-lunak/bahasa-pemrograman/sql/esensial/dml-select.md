@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT
-
 SQL, atau Structured Query Language, adalah bahasa standar untuk memanipulasi basis data relasional. SQL dapat dibagi menjadi beberapa komponen, salah satunya adalah Data Manipulation Language (DML). DML memungkinkan kita untuk memodifikasi instansi basis data dengan memasukkan, mengubah, dan melakukan query terhadap data. Dokumen ini berfokus pada pernyataan `SELECT`, aspek fundamental dari DML yang memungkinkan pengambilan data dari basis data.
 
 ## Dasar-dasar SELECT

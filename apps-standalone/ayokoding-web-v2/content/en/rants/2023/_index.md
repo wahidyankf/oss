@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# 2023
-
 [Balancing Parenthood and Learning: Harnessing the Power of Audiobooks](./balancing-parenthood-and-learning-harnessing-the-power-of-audiobooks/)
 
 [Time Management Strategies for Software Engineers: Maximizing Productivity and Success](./time-management-strategies-for-software-engineers-maximizing-productivity-and-success/)

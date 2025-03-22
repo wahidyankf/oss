@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan WHERE
-
 ## Pengenalan Dasar
 
 Pernyataan `SELECT` adalah salah satu elemen dasar dari SQL (Structured Query Language). Ini memungkinkan kita untuk mengambil data dari database. Namun, jika kita ingin mengambil catatan tertentu dari satu atau lebih tabel dalam database, maka klausa `WHERE` adalah yang kita gunakan. Klausa `WHERE` menjelaskan kondisi untuk catatan yang akan dipilih.

@@ -4,8 +4,6 @@ date: 2025-03-18T07:36:00+07:00
 draft: false
 ---
 
-# AI Prompting
-
 ## Core Prompting Principles
 
 ### Clarity & Specificity

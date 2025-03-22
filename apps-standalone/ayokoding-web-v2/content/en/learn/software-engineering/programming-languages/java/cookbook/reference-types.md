@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Reference Types
-
 ---
 
 Java is an object-oriented programming language that uses reference types to handle objects and their interactions. Understanding reference types is crucial for Java developers as they play a fundamental role in memory management and object manipulation. This article will explore Java reference types and how they are used in practice.

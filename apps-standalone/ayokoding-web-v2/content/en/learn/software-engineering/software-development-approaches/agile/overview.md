@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview
-
 Embarking on a journey to learn about Agile software development can be exciting and overwhelming due to the extensive resources available. This guide provides a clear, concise, comprehensive roadmap for the most important topics you should master.
 
 ## Principles and Values
@@ -47,8 +45,6 @@ Retrospectives allow teams to reflect on their process and make necessary adjust
 ## Agile Leadership
 
 Agile Leadership is about creating an environment where Agile thrives. It involves servant leadership, decentralizing decision-making, and fostering self-organizing teams. Mastering Agile leadership can significantly enhance an Agile team's effectiveness.
-
-# Further Reading
 
 1. [Manifesto for Agile Software Development](https://agilemanifesto.org/)
 2. [What is Agile?](https://www.atlassian.com/agile)

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Ulasan Diri
-
 [Motivasi](./motivasi/)
 
 [Bagaimana Cara Membuat Ulasan Diri yang Oke](./bagaimana-cara-membuat-ulasan-diri-yang-oke/)

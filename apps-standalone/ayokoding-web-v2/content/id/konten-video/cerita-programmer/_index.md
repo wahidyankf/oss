@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Cerita Programmer
-
 [Cerita Programmer - 0000021 - Update November 2023](./cerita-programmer-0000021-update-november-2023/)
 
 [Cerita Programmer - 0000020 - Ngomongin OpenAI dan ChatGPT Kerjaan programmer terancam oleh AI?](./cerita-programmer-0000020-ngomongin-openai-dan-chatgpt-kerjaan-programmer-terancam-oleh-ai/)

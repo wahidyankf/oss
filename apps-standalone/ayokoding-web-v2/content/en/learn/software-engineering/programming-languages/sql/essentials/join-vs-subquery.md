@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# JOIN vs. Subquery
-
 When working with relational databases, it is common to need to combine data from multiple tables. SQL provides two main ways to achieve this: using JOINs or subqueries. Both methods have advantages and disadvantages, and their choice depends on the specific use case.
 
 ## SQL JOIN

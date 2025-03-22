@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Pertemuan 1:1
-
 [Ikhtisar](./ikhtisar/)
 
 [Panduan 1:1 Untuk Engineering Manager](./panduan-1-1-untuk-engineering-manager/)

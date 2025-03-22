@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Fokus
-
 ## Pengantar
 
 CliftonStrengths adalah alat penilaian kepribadian yang mengidentifikasi lima kekuatan teratas individu dari 34 tema. Salah satu tema tersebut adalah Fokus, yang mengacu pada kemampuan untuk berkonsentrasi pada tugas dan menghindari gangguan.

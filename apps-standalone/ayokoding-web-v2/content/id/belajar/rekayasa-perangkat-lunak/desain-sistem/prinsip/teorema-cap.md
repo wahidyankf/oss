@@ -4,10 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Teorema CAP
-
-# Pengantar
-
 Pernahkah kamu bertanya-tanya mengapa setiap sistem tidak dapat sempurna? Mengapa kita tidak dapat memiliki sistem terdistribusi yang selalu tersedia, hanya memberikan data terbaru, dan toleran terhadap kegagalan jaringan? Inilah yang disebut sebagai teorema CAP, juga dikenal sebagai teorema Brewer. Ditemukan oleh ilmuwan komputer Eric Brewer pada tahun 2000, teorema CAP adalah konsep dasar dalam komputasi terdistribusi. Teorema ini berargumen bahwa sistem data terdistribusi tidak dapat memberikan ketiga jaminan berikut secara bersamaan:
 
 1. **Konsistensi:** Setiap pembacaan menerima tulisan terbaru atau sebuah error. Jadi jika kita memperbarui beberapa data, akses berikutnya akan mengembalikan data yang diperbarui tersebut.

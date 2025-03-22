@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview of Databases
-
 A database is the cornerstone of almost every modern application. From banking systems to social media platforms, databases play a pivotal role in managing and storing data. By understanding what a database is, why it's necessary, and its different types, we can better equip ourselves to build efficient applications and systems.
 
 ## What is a Database?

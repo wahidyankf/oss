@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Key-value store adalah jenis basis data NoSQL yang menyimpan data sebagai kumpulan pasangan kunci-nilai. Basis data ini dirancang untuk menangani jumlah data yang besar dan tidak terstruktur atau semi-terstruktur. Mereka sering digunakan dalam aplikasi web, sistem cache, dan aplikasi lain yang memerlukan skalabilitas dan kinerja tinggi.

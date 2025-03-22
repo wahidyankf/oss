@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Overview
-
 ## What is Software Development Approaches?
 
 Building software is like building a Lego castle. We can do it in many ways, each with its steps and rules. Let's learn about these methods:
@@ -37,8 +35,6 @@ With the Iterative and Incremental methods, we build our castle wall or room by 
 ### V-Model
 
 In the V-Model, imagine planning each part of your castle twice. First, you plan it in your head (Design) and then build it with Legos (Implementation). You check if the part you built matches what you planned (Testing).
-
-# Further Readings
 
 If you want to know more, here are some books you can read when you're a bit older or ask your grown-up friends to read for you:
 

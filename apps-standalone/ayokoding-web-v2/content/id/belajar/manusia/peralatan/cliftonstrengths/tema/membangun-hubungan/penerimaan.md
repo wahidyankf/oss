@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Penerimaan
-
 ## Pendahuluan
 
 Penerimaan adalah tema CliftonStrengths yang menggambarkan individu dengan kemampuan alami untuk menyertakan orang lain dan membuat mereka merasa welcome. Mereka berusaha menciptakan rasa memiliki dan penerimaan di antara semua orang.

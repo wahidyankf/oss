@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Restoratif
-
 ## Pengantar
 
 Restoratif adalah salah satu dari 34 tema CliftonStrengths, bagian dari asesmen StrengthsFinder. Orang-orang yang memiliki kekuatan Restorative sebagai kekuatan dominan mereka memiliki kemampuan alami untuk menyelesaikan masalah dan menemukan solusi atas masalah. Mereka terampil dalam mengidentifikasi dan memperbaiki apa yang salah.

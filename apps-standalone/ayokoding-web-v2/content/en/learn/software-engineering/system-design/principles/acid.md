@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# ACID
-
 ## Introduction
 
 In the realm of database and system design, maintaining data integrity is of paramount importance. ACID, an acronym for Atomicity, Consistency, Isolation, and Durability, provides a set of principles that ensure the reliable processing of transactions in database systems. In this article, we will explore the significance of ACID and its relationship to database and system design, highlighting its impact on data consistency, transactional integrity, and overall system reliability.

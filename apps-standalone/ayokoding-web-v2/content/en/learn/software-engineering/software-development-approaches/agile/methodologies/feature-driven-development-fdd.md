@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Feature Driven Development (FDD)
-
 ## What is Feature Driven Development (FDD)?
 
 Feature Driven Development, or FDD, is like building a LEGO castle! Think of every LEGO brick as a "feature" or a small thing your software can do. In FDD, instead of building the whole castle at once, you build it brick by brick or feature by feature. You could start by building a tower, a bridge, a gate, and so on until you have a complete castle.

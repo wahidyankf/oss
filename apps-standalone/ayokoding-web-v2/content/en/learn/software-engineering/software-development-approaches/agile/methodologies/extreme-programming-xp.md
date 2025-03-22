@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Extreme Programming (XP)
-
 ## What is Extreme Programming?
 
 Imagine that you have a big box of Lego pieces. You want to build a big Lego house. It can be tough to start building without knowing what the house will look like. Plus, you want to keep playing with the Lego house while it's still being built.

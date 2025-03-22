@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Ikhtisar
-
 ## Skalabilitas dan Desain Sistem dalam Istilah Sederhana
 
 Bayangkan sebuah stan jus lemon yang melayani 10 pelanggan per jam, yang berjalan dengan baik untuk pelanggan saat ini. Tetapi suatu hari, lingkungan sekitar Anda mulai berkembang pesat, dan segera Anda memiliki 100 pelanggan per jam. Lebih dari sekadar stan jus lemon mungkin diperlukan, dan pelanggan harus menunggu lama untuk mendapatkan jus lemon mereka, yang bisa menyebabkan pelanggan tidak puas atau kehilangan bisnis.

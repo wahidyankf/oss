@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Maven
-
 Maven is a build automation tool used primarily for Java projects. It is designed to simplify the build process and manage dependencies. Maven uses a declarative approach to build configuration, meaning developers only need to specify what they want to build, and Maven takes care of the rest.
 
 ## Key Concepts

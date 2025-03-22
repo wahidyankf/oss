@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# SQL Aggregate Functions
-
 SQL Aggregate Functions are used to calculate a set of values and return a single value. These functions are often used with the `SELECT` statement in SQL. These are several examples of aggregate functions in SQL:
 
 ## Examples

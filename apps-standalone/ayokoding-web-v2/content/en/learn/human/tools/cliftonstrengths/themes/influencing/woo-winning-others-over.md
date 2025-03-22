@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Woo (Winning Others Over)
-
 ## Introduction
 
 WOO stands for Winning Others Over, which is a Clifton Strengths theme that describes individuals who are skilled at building relationships and winning people over. They are outgoing, friendly, and enjoy meeting new people.

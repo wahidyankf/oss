@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 A search engine is a data store designed to index and search large amounts of data. It is used to retrieve information from a database quickly and efficiently.

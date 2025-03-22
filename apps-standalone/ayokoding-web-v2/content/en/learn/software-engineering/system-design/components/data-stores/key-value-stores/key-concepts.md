@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Key Concepts
-
 Key-value stores are a type of NoSQL database that stores data as a collection of key-value pairs. In this type of database, data is accessed and manipulated using keys rather than a structured query language (SQL). Key-value stores are designed to be highly scalable and performant, making them a popular choice for applications that require fast and efficient data access.
 
 ## **Keys**

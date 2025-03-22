@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 Object storage is a type of data storage architecture that manages data as objects rather than as blocks or files. These objects are stored in a flat address space and can be accessed through a unique identifier. Object storage is designed to handle large amounts of unstructured data. It is often used in cloud-based applications, backup and archiving systems, and other applications that require high scalability and durability.

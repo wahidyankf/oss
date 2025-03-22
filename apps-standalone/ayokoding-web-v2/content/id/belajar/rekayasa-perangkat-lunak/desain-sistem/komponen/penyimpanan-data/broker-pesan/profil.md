@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profil
-
 ## **Pengenalan**
 
 Broker pesan adalah jenis middleware yang memungkinkan komunikasi antara sistem terdistribusi dengan memfasilitasi pertukaran pesan antara aplikasi. Pesan-pesan ini dapat mengirimkan data, perintah, atau peristiwa antara sistem. Broker pesan dirancang untuk menangani volume pesan yang tinggi dan sering digunakan dalam arsitektur layanan mikro, sistem berbasis peristiwa, dan aplikasi lain yang memerlukan komunikasi asinkron.

@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Motivation
-
 Performance reviews are essential for you and your teammates to evaluate work progress, identify improvement areas, and set future goals. One of the most essential parts of a performance review is the supervisor review, where you assess your teammates' performance and provide feedback. In this article, we'll talk about why supervisor reviews matter and how they can benefit your teammates as software engineers and your success as a supervisor.
 
 ## **Why Supervisor Reviews Matter**

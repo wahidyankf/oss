@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Konsep Kunci
-
 Basis data graf adalah basis data NoSQL yang menggunakan teori graf untuk menyimpan, memetakan, dan mengambil hubungan antara data. Dalam basis data graf, data direpresentasikan sebagai simpul (atau verteks) dan tepi, yang menghubungkan simpul-simpul tersebut. Simpul merepresentasikan entitas, seperti orang, tempat, atau benda, sedangkan tepi merepresentasikan hubungan antara entitas-entitas tersebut.
 
 ## **Simpul**

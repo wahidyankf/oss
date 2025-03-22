@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DDL: Schema
-
 ## Apa itu Skema SQL?
 
 Sebuah skema adalah koleksi objek basis data, termasuk tabel, tampilan (view), indeks, dan prosedur. Ini adalah cara untuk mengorganisir dan mengelompokkan objek basis data bersama-sama, sehingga mempermudah pengelolaan dan pemeliharaan basis data. Sebuah skema dapat dianggap sebagai ruang nama atau wadah untuk objek basis data.

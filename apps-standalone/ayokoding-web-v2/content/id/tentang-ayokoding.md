@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Tentang AyoKoding
-
 Bismillahirrahmanirrahim.
 
 Halo! Selamat datang di AyoKoding, situs yang gw buat untuk berbagi informasi seputar software engineering dan kehidupan programmer. Salam kenal, gw Wahidyan Kresna Fridayoka atau biasa dipanggil Yoka.

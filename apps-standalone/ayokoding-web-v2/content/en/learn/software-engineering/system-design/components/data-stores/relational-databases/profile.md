@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Profile
-
 ## **Introduction**
 
 A relational database is a type of database that stores and organizes data in tables and columns. It is based on the relational model, which uses a set of tables to represent both data and the relationships among those data.

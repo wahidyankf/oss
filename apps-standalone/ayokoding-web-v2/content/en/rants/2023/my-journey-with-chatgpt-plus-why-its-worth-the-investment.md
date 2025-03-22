@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# My Journey with ChatGPT Plus: Why It's Worth the Investment
-
 بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ
 
 In the name of Allah, The Most Gracious and The Most Merciful

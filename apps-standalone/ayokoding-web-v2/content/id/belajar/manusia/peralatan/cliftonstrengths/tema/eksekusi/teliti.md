@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Teliti
-
 ## Pengenalan
 
 Teliti adalah salah satu tema kekuatan CliftonStrengths yang terdiri dari kemampuan seseorang untuk mempertimbangkan semua risiko dan konsekuensi secara menyeluruh sebelum membuat keputusan. Orang-orang dengan kekuatan ini sangat hati-hati dan cermat, dan mereka cenderung sangat teliti dalam pendekatan mereka dalam memecahkan masalah.

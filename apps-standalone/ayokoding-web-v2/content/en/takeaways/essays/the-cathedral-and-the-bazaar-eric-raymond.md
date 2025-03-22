@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# The Cathedral and the Bazaar (Eric Raymond)
-
 Eric Raymond's essay, "The Cathedral and the Bazaar," is a seminal work in the open-source software movement. Raymond contrasts two software development models: the Cathedral and Bazaar models.
 
 1. **Cathedral Model**: This model represents the traditional, closed-source software development approach, where a small group of developers works on a project in a highly centralized and coordinated manner. A hierarchical structure, strict planning, and extended-release cycles characterize it.

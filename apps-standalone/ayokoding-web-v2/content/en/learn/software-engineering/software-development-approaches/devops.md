@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DevOps
-
 ## What is DevOps?
 
 Imagine you are playing with your toy blocks. You have an idea of the beautiful castle you want to build. But building this castle alone is difficult and takes a lot of time.

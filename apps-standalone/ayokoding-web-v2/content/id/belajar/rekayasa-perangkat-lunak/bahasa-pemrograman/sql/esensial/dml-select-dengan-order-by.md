@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT dengan ORDER BY
-
 Pernyataan `SELECT` dalam SQL digunakan untuk memilih data dari database. Data yang dikembalikan disimpan dalam tabel hasil, kadang-kadang disebut sebagai result set.
 
 Kata kunci `ORDER BY` digunakan untuk mengurutkan hasil set dalam urutan menaik atau menurun sesuai dengan beberapa kolom.
@@ -86,8 +84,6 @@ Hasilnya akan terlihat seperti ini:
 | 2         | Pisang      | Buah     | 0,50  |
 | 5         | Terong      | Sayuran  | 1,50  |
 | 3         | Wortel      | Sayuran  | 0,80  |
-
-# Bacaan Lebih Lanjut
 
 1. [SQL ORDER BY Keyword](https://www.w3schools.com/sql/sql_orderby.asp) - W3Schools
 2. [The SQL ORDER BY statement](https://www.sqltutorial.org/sql-order-by/) - SQL Tutorial

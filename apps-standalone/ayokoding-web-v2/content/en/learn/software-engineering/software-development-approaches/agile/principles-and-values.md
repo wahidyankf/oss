@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Principles and Values
-
 ## **The Agile Manifesto**
 
 Established in 2001 by a consortium of software development luminaries, the Agile Manifesto is the bedrock of Agile software development. The manifesto proclaims:

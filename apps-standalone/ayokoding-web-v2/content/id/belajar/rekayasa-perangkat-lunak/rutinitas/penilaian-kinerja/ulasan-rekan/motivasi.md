@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Motivasi
-
 Ulasan kinerja sangat penting bagi Anda dan rekan kerja Anda untuk mengevaluasi kemajuan kerja, mengidentifikasi area perbaikan, dan menetapkan tujuan masa depan. Sementara penilaian diri penting, penilaian dari rekan kerja juga berharga untuk menilai kinerja rekan kerja Anda. Dalam artikel ini, kami akan membahas mengapa penilaian dari rekan kerja penting dan bagaimana hal tersebut dapat bermanfaat bagi rekan kerja Anda sebagai insinyur perangkat lunak dan kesuksesan perusahaan Anda.
 
 ## **Mengapa Penilaian dari Rekan Kerja Penting**

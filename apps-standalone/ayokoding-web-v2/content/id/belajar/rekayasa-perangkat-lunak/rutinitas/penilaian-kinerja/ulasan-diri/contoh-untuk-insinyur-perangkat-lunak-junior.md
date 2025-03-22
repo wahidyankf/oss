@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Contoh untuk Insinyur Perangkat Lunak Junior
-
 ## **Peninjauan Tujuan**
 
 Pada awal periode penilaian kinerja, tujuan saya adalah menjadi mahir dalam bahasa pemrograman Python dan berkontribusi dalam pengembangan dua proyek penting. Saya senang melaporkan bahwa saya telah mencapai kedua tujuan tersebut. Saya telah menjadi nyaman dengan Python dan berkontribusi dalam pengembangan kedua proyek tersebut.

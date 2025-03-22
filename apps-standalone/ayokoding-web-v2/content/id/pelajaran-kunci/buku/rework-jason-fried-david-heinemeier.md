@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Rework (Jason Fried, David Heinemeier)
-
 {{< figure src="/images/en/takeaways/books/rework-jason-fried-david-heinemeier/book-image.jpeg" width="200" alt="Book image of Rework" class="mx-auto d-block" >}}
 
 "Rework" adalah buku bisnis karya Jason Fried dan David Heinemeier Hansson, pendiri bersama perusahaan perangkat lunak Basecamp (dahulu 37signals). Buku ini menantang kebijaksanaan konvensional tentang memulai dan menjalankan bisnis, menawarkan nasihat praktis dan wawasan dalam format yang ringkas dan mudah dicerna. Buku ini dibagi menjadi beberapa bagian, masing-masing berisi bab-bab pendek yang berfokus pada aspek bisnis yang berbeda.

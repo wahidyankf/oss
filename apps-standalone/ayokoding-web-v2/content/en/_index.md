@@ -5,8 +5,6 @@ draft: false
 weight: 1
 ---
 
-# English
-
 - [Learn](./learn/)
   - [Introduction](./learn/introduction/)
   - [How to Learn](./learn/how-to-learn/)

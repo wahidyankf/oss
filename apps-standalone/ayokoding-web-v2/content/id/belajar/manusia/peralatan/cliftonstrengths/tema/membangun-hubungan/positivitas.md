@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# Positivitas
-
 ## Pengantar
 
 Positivitas adalah tema CliftonStrengths yang menggambarkan individu yang memiliki kemampuan alami untuk melihat sisi cerah dari segala hal dan membawa energi positif ke lingkungannya. Mereka berusaha untuk menyebarkan kegembiraan dan optimisme kepada orang-orang di sekitarnya.

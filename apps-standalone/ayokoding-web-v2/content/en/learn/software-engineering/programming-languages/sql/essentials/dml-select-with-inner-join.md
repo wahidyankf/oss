@@ -4,8 +4,6 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-# DML: SELECT with INNER JOIN
-
 The `INNER JOIN` keyword in SQL combines records from two or more tables based on a related column. The `INNER JOIN` keyword selects records that have matching values in both tables.
 
 ## Syntax
