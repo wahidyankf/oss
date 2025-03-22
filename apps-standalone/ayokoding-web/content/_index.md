@@ -4,7 +4,10 @@ bookFlatSection: false
 date: 2025-03-16T07:20:00+07:00
 draft: false
 title: AyoKoding
-weight: 1
+weight: 2
+cascade:
+  type: docs
+breadcrumbs: false
 ---
 
 ## Content in English
