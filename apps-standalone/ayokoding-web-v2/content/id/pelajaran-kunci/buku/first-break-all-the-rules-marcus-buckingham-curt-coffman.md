@@ -4,7 +4,7 @@ date: 2025-03-16T07:20:00+07:00
 draft: false
 ---
 
-{{< figure src="/images/en/takeaways/books/first-break-all-the-rules-marcus-buckingham-curt-coffman/book-image.jpeg" width="200" alt="Book image of First Break All The Rules" class="mx-auto d-block" >}}
+{{< figure src="/images/en/takeaways/books/first-break-all-the-rules-marcus-buckingham-curt-coffman/book-image.jpeg" width="300" alt="Book image of First Break All The Rules" class="mx-auto d-block" >}}
 
 ## Ringkasan
 
