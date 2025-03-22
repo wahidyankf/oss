@@ -16,10 +16,6 @@
       "dest": "/public/$1/$2"
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    },
-    {
       "src": "/",
       "dest": "/public/index.html"
     }
