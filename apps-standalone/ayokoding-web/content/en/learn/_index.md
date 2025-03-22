@@ -7,5 +7,6 @@ weight: 1
 
 - [Introduction](./introduction/)
 - [How to Learn](./how-to-learn/)
+- [Interviews](./interviews/)
 - [Software Engineering](./software-engineering/)
 - [Human](./human/)
