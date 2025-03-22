@@ -10,6 +10,8 @@
     "next-hello:typecheck": "nx typecheck next-hello",
     "ayokoding-web:build": "cd apps-standalone/ayokoding-web && npm run build",
     "ayokoding-web:dev": "cd apps-standalone/ayokoding-web && npm run dev",
+    "analisapasar-web:build": "cd apps-standalone/analisapasar-web && npm run build",
+    "analisapasar-web:dev": "cd apps-standalone/analisapasar-web && npm run dev",
     "wahidyankf-web:build": "cd apps-standalone/wahidyankf-web && npm run build",
     "wahidyankf-web:dev": "cd apps-standalone/wahidyankf-web && npm run dev",
     "test:echo": "echo 'Running tests for Ayokoding monorepo'",
@@ -17,7 +19,7 @@
     "test:all:standalone": "npm run build:standalone",
     "test:all": "npm run test:echo && npm run test:all:standalone && npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
     "build": "./scripts/build.sh",
-    "build:standalone": "npm run ayokoding-web:build && npm run wahidyankf-web:build"
+    "build:standalone": "npm run ayokoding-web:build && npm run analisapasar-web:build && npm run wahidyankf-web:build"
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",
