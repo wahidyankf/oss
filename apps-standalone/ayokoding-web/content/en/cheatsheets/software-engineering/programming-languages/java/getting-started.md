@@ -2,6 +2,7 @@
 title: 'Java'
 date: 2025-03-20T07:16:00+07:00
 draft: false
+weight: 2
 ---
 
 ## Basic Syntax

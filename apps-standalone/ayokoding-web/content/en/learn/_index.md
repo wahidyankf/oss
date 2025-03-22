@@ -5,12 +5,7 @@ draft: false
 weight: 1
 ---
 
-[Introduction](./introduction/)
-
-[How to Learn](./how-to-learn/)
-
-[Software Engineering](./software-engineering/)
-
-[Business and Economics](./business-and-economics/)
-
-[Human](./human/)
+- [Introduction](./introduction/)
+- [How to Learn](./how-to-learn/)
+- [Software Engineering](./software-engineering/)
+- [Human](./human/)

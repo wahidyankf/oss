@@ -2,6 +2,7 @@
 title: 'AI Prompting'
 date: 2025-03-18T07:36:00+07:00
 draft: false
+weight: 2
 ---
 
 ## Core Prompting Principles

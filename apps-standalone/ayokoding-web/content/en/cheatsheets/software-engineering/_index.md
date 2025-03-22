@@ -2,6 +2,7 @@
 title: 'Software Engineering'
 date: 2025-03-18T07:49:00+07:00
 draft: false
+weight: 1
 ---
 
 - [Programming Languages](./programming-languages/)
