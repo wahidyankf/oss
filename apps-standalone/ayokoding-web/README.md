@@ -4,7 +4,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6e83fd88-5ffe-4808-9689-c0f3b100bfe3/deploy-status)](https://app.netlify.com/sites/hextra-starter-template/deploys)
 ![Vercel Deployment Status](https://img.shields.io/github/deployments/imfing/hextra-starter-template/production?logo=vercel&logoColor=white&label=vercel&labelColor=black&link=https%3A%2F%2Fhextra-starter-template.vercel.app%2F)
 
-🐣 Minimal template for getting started with [Hextra](https://github.com/imfing/hextra)
+🐣 Minimal template for getting started with the Ayokoding Web application
 
 ![hextra-template](https://github.com/imfing/hextra-starter-template/assets/5097752/c403b9a9-a76c-47a6-8466-513d772ef0b7)
 
@@ -56,7 +56,7 @@ Override the configuration:
 
 ## Local Development
 
-Pre-requisites: [Hugo](https://gohugo.io/getting-started/installing/), [Go](https://golang.org/doc/install) and [Git](https://git-scm.com)
+Pre-requisites: [Hugo](https://gohugo.io/getting-started/installing/) and [Git](https://git-scm.com)
 
 ```shell
 # Clone the repo
@@ -66,7 +66,6 @@ git clone https://github.com/imfing/hextra-starter-template.git
 cd hextra-starter-template
 
 # Start the server
-hugo mod tidy
 hugo server --logLevel debug --disableFastRender -p 1313
 ```
 
