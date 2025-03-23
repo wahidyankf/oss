@@ -8,5 +8,6 @@ weight: 4
 - [Programming Languages](./programming-languages/)
 - [System Design](./system-design/)
 - [Software Development Approaches](./software-development-approaches/)
-- [Routines](./routines/)
 - [Tools](./tools/)
+- [Routines](./routines/)
+- [Career](./career/)
