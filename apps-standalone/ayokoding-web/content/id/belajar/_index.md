@@ -5,10 +5,7 @@ draft: false
 weight: 1
 ---
 
-[Perkenalan](./perkenalan/)
-
-[Rekayasa Perangkat Lunak](./rekayasa-perangkat-lunak/)
-
-[Manusia](./manusia/)
-
-[Fintech](./fintech/)
+- [Rekayasa Perangkat Lunak](./rekayasa-perangkat-lunak/)
+- [Manusia](./manusia/)
+- [Contekan](./contekan/)
+- [Pelajaran Kunci](./pelajaran-kunci/)

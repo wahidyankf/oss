@@ -7,15 +7,11 @@ weight: 5
 
 ## Seri
 
-[Cerita Programmer](./cerita-programmer/)
-
-[Pengen Jadi Programmer](./pengen-jadi-programmer/)
-
-[Karir Programmer](./karir-programmer/)
-
-[Jam Kantor](./jam-kantor/)
-
-[Klub Belajar](./klub-belajar/)
+- [Cerita Programmer](./cerita-programmer/)
+- [Pengen Jadi Programmer](./pengen-jadi-programmer/)
+- [Karir Programmer](./karir-programmer/)
+- [Jam Kantor](./jam-kantor/)
+- [Klub Belajar](./klub-belajar/)
 
 ## Tautan
 
