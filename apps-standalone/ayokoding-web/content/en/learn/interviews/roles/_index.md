@@ -6,4 +6,5 @@ weight: 2
 ---
 
 - [Frontend Engineer](./frontend-engineer/)
+- [Backend Engineer](./backend-engineer/)
 - [Software Engineering Manager](./software-engineering-manager/)
