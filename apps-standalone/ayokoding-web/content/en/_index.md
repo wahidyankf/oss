@@ -6,7 +6,6 @@ weight: 1
 ---
 
 - [Learn](./learn/)
-  - [Introduction](./learn/introduction/)
   - [How to Learn](./learn/how-to-learn/)
     - [Guiding Questions](./learn/how-to-learn/guiding-questions/)
   - [Interviews](./learn/interviews/)
