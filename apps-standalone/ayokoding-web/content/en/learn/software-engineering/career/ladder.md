@@ -145,24 +145,15 @@ In the end, career fulfillment comes not just from climbing the ladder, but from
 
 ## References
 
-[1] Validation of Engineering Career Ladders in Tech Companies. (2024).
+- [1] Validation of Engineering Career Ladders in Tech Companies. (2024).
+- [2] GitHub. (2023). Engineering Ladder Framework. https://github.com/glitchdotcom/engineering-ladder
+- [3] Shore, J. (2024). Update on Software Engineering Career Ladder. https://www.jamesshore.com/v2/blog/2024/update-on-software-engineering-career-ladder
+- [4] Nourzadeh, M. (2023). Software Engineering Career Ladders: Why They Matter & How They Work. LinkedIn Pulse. https://www.linkedin.com/pulse/software-engineering-career-ladders-why-matter-how-work-nourzadeh
+- [5] SHRM. (2023). Career Development: Dual Career Ladder. https://www.shrm.org/mena/topics-tools/tools/hr-answers/career-development-dual-career-ladder
 
-[2] GitHub. (2023). Engineering Ladder Framework. https://github.com/glitchdotcom/engineering-ladder
-
-[3] Shore, J. (2024). Update on Software Engineering Career Ladder. https://www.jamesshore.com/v2/blog/2024/update-on-software-engineering-career-ladder
-
-[4] Nourzadeh, M. (2023). Software Engineering Career Ladders: Why They Matter & How They Work. LinkedIn Pulse. https://www.linkedin.com/pulse/software-engineering-career-ladders-why-matter-how-work-nourzadeh
-
-[5] SHRM. (2023). Career Development: Dual Career Ladder. https://www.shrm.org/mena/topics-tools/tools/hr-answers/career-development-dual-career-ladder
-
-[6] Testlify. (2023). Dual Career Ladder/Track. HR Glossary. https://testlify.com/hr-glossary/dual-career-ladder-track/
-
-[7] Semantic Scholar. (2020). Career Development and Job Satisfaction. https://www.semanticscholar.org/paper/3e0a4cb3521b2615c73ad1894c4c743dfa3ca70b
-
-[8] Koteshwar, S. (2023). Dual Career Ladder. LinkedIn Pulse. https://www.linkedin.com/pulse/dual-career-ladder-dr-shivananda-koteshwar
-
-[9] TestGorilla. (2023). Look Nonlinear: Careers & The Future of Hiring. https://www.testgorilla.com/blog/look-nonlinear-careers-future-hiring/
-
-[10] Engineering Ladders. (2023). Career Progression Framework. http://www.engineeringladders.com
-
-[11] HCI Panel in Africa. (2022). Career Development in Emerging Tech Hubs.
+- [6] Testlify. (2023). Dual Career Ladder/Track. HR Glossary. https://testlify.com/hr-glossary/dual-career-ladder-track/
+- [7] Semantic Scholar. (2020). Career Development and Job Satisfaction. https://www.semanticscholar.org/paper/3e0a4cb3521b2615c73ad1894c4c743dfa3ca70b
+- [8] Koteshwar, S. (2023). Dual Career Ladder. LinkedIn Pulse. https://www.linkedin.com/pulse/dual-career-ladder-dr-shivananda-koteshwar
+- [9] TestGorilla. (2023). Look Nonlinear: Careers & The Future of Hiring. https://www.testgorilla.com/blog/look-nonlinear-careers-future-hiring/
+- [10] Engineering Ladders. (2023). Career Progression Framework. http://www.engineeringladders.com
+- [11] HCI Panel in Africa. (2022). Career Development in Emerging Tech Hubs.
