@@ -5,11 +5,7 @@ draft: false
 weight: 3
 ---
 
-- [Introduction](./introduction)
 - [Languages](./languages/)
-  - [Python](./languages/python)
+- [Data Structures and Algorithms (DSA)](./dsa/)
+- [System Design](./system-design/)
 - [Stacks](./stacks/)
-  - [React Native](./stacks/react-native/)
-- [Data Structures and Algorithms](./data-structures-and-algorithms/)
-  - [Concepts](./data-structures-and-algorithms/concepts)
-  - [Mini Projects](./data-structures-and-algorithms/mini-projects)
