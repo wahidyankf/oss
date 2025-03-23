@@ -5,4 +5,5 @@ draft: false
 weight: 2
 ---
 
+- [Frontend Engineer](./frontend-engineer/)
 - [Software Engineering Manager](./software-engineering-manager/)
