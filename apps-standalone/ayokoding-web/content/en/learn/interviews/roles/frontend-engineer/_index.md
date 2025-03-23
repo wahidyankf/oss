@@ -5,6 +5,7 @@ draft: false
 weight: 1
 ---
 
+- [Responsibilities](./responsibilities)
 - [Concepts](./concepts/)
 - [Mini Projects](./mini-projects/)
 - [Questions](./questions/)
