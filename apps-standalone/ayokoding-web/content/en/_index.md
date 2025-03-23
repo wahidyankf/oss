@@ -5,25 +5,8 @@ draft: false
 weight: 1
 ---
 
-- [Learn](./learn/)
-  - [How to Learn](./learn/how-to-learn/)
-    - [Guiding Questions](./learn/how-to-learn/guiding-questions/)
-  - [Interviews](./learn/interviews/)
-  - [Software Engineering](./learn/software-engineering/)
-    - [Programming Languages](./learn/software-engineering/programming-languages/)
-    - [System Design](./learn/software-engineering/system-design/)
-    - [Software Development Approaches](./learn/software-engineering/software-development-approaches/)
-    - [Tools](./learn/software-engineering/tools/)
-    - [Routines](./learn/software-engineering/routines/)
-  - [Human](./learn/human/)
-    - [Tools](./learn/human/tools/)
-  - [Cheatsheets](./learn/cheatsheets/)
-    - [Software Engineering](./learn/cheatsheets/software-engineering/)
-      - [Programming Languages](./learn/cheatsheets/software-engineering/programming-languages/)
-    - [General](./learn/cheatsheets/general/)
-  - [Takeaways](./takeaways/)
-    - [Books](./takeaways/books/)
-    - [Essays](./takeaways/essays/)
-- [Rants](./rants/)
-  - [2023](./rants/2023/)
-- [About AyoKoding](./about-ayokoding/)
+{{< cards >}}
+{{< card link="/en/learn" title="Learn" >}}
+{{< card link="/en/rants" title="Rants" >}}
+{{< card link="/en/about-ayokoding" title="About AyoKoding" >}}
+{{< /cards >}}
