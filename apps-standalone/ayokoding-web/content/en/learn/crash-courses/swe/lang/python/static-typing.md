@@ -2,7 +2,7 @@
 title: 'Static Typing'
 date: 2025-03-25T07:17:00+07:00
 draft: false
-weight: 1
+weight: 2
 ---
 
 Hey there! Let's dive into Python static typing over our virtual coffee today. By the end of this guide, you'll be comfortable with 85% of the static typing you'll encounter day-to-day, with enough knowledge to explore that final 15% on your own!

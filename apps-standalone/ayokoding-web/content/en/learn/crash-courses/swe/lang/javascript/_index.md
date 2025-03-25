@@ -6,3 +6,4 @@ weight: 1
 ---
 
 - [Basics](./basics)
+- [Node.js Basics](./nodejs-basics)
