@@ -7,3 +7,5 @@ weight: 2
 
 - [Bash](./bash/)
 - [Linux Administration](./linux-administration/)
+- [Docker](./docker/)
+- [Kubernetes](./kubernetes/)
