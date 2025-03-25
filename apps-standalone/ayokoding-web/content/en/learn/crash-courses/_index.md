@@ -6,3 +6,4 @@ weight: 3
 ---
 
 - [Software Engineering](./swe/)
+- [Productivity](./productivity/)
