@@ -5,7 +5,6 @@ draft: false
 weight: 1
 ---
 
-- [How to Learn](./how-to-learn/)
 - [Interviews](./interviews/)
 - [Crash Courses](./crash-courses/)
 - [Software Engineering](./software-engineering/)
