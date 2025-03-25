@@ -941,3 +941,4 @@ Here's a list of advanced Java topics to explore once you're comfortable with th
 5. **Community**: Stack Overflow for questions, GitHub for exploring projects
 
 And there you have it! You've just completed a crash course covering 85% of the Java you'll use on a daily basis. As you practice and build projects, you'll naturally start exploring more of the advanced topics. Happy coding!
+![alt text](image.png)

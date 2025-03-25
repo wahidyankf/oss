@@ -6,3 +6,4 @@ weight: 3
 ---
 
 - [PostgreSQL](./postgresql)
+- [BigQuery](./bigquery/)
