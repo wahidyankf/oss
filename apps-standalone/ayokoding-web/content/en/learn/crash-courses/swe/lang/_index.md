@@ -5,5 +5,14 @@ draft: false
 weight: 1
 ---
 
+## Generic
+
+- [Python](./python)
+- [JavaScript](./javascript)
+- [TypeScript](./typescript)
 - [Java](./java)
+- [Kotlin](./kotlin)
+
+## Data Store
+
 - [SQL](./sql)
