@@ -54,8 +54,7 @@ gcloud init
 
 BigQuery organizes data hierarchically:
 
-```
-mermaid
+```mermaid
 graph TD
     A[GCP Project] --> B[Dataset]
     B --> C[Table 1]
