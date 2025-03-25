@@ -7,3 +7,4 @@ weight: 1
 
 - [Languages](./lang/)
 - [Stacks](./stacks/)
+- [Data](./data/)
