@@ -5,8 +5,6 @@ draft: false
 weight: 1
 ---
 
-# Java Crash Course: The Essential 85%
-
 Hey there! Let's dive into Java, one of the most popular programming languages in the world. I've designed this crash course to cover the 85% of Java you'll use daily, while giving you enough foundation to explore the remaining 15% on your own. Let's get started!
 
 ## What is Java?
