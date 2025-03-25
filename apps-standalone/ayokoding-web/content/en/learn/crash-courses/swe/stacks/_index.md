@@ -8,3 +8,4 @@ weight: 1
 - [Web](./web/)
 - [Data](./data/)
 - [Infra](./infra/)
+- [Automation](./automation/)
