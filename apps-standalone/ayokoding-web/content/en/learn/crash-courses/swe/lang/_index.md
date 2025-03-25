@@ -12,6 +12,7 @@ weight: 1
 - [TypeScript](./typescript)
 - [Java](./java)
 - [Kotlin](./kotlin)
+- [Clojure](./clojure/)
 
 ## Data Store
 
