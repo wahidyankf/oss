@@ -1002,40 +1002,6 @@ We've now covered the 85% of Go that you'll use in your daily work. Let's briefl
 
 ## The Remaining 15%: Advanced Go Topics
 
-```mermaid
-classDiagram
-    class AdvancedGoTopics {
-        +Reflection
-        +Advanced Concurrency
-        +Context Package
-        +Testing
-        +CGo
-        +Generics
-        +Performance
-    }
-
-    class AdvancedConcurrency {
-        +Mutexes
-        +Atomic Operations
-        +sync.Pool
-    }
-
-    class Testing {
-        +Unit Tests
-        +Benchmarks
-        +Fuzzing
-    }
-
-    class Performance {
-        +Profiling
-        +Memory Optimization
-    }
-
-    AdvancedGoTopics --* AdvancedConcurrency
-    AdvancedGoTopics --* Testing
-    AdvancedGoTopics --* Performance
-```
-
 ### 1. Reflection
 
 Go's reflect package lets you examine types and values at runtime:

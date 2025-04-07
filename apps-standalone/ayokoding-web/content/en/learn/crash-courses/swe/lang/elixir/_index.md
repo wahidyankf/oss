@@ -6,3 +6,4 @@ weight: 1
 ---
 
 - [Basics](./basics)
+- [Ecto](./ecto)
