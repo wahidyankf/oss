@@ -16,6 +16,7 @@ weight: 1
 - [Golang](./golang/)
 - [Kotlin](./kotlin/)
 - [Swift](./swift/)
+- [Dart](./dart/)
 
 ## Data Store
 
