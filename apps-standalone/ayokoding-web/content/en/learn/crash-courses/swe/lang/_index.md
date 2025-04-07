@@ -13,6 +13,7 @@ weight: 1
 - [Java](./java)
 - [Kotlin](./kotlin)
 - [Clojure](./clojure/)
+- [Elixir](./elixir/)
 
 ## Data Store
 
