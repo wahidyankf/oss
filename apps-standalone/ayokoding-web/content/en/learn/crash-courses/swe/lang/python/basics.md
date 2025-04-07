@@ -58,18 +58,42 @@ is_student = True # Boolean - True/False
 Here's a visual overview of Python's main data types:
 
 ```mermaid
-graph TD
-    A[Python Data Types] --> B[Numbers]
-    A --> C[Strings]
-    A --> D[Boolean]
-    A --> E[Collections]
-    B --> F[int: Whole numbers]
-    B --> G[float: Decimal numbers]
-    E --> I[list: Ordered, mutable]
-    E --> J[tuple: Ordered, immutable]
-    E --> K[dict: Key-value pairs]
-    E --> L[set: Unique items]
+classDiagram
+    class PythonDataTypes {
+        +Numbers
+        +Strings
+        +Boolean
+        +Collections
+    }
+
+    class Numbers {
+        +int: Whole numbers
+        +float: Decimal numbers
+    }
+
+    class Strings {
+        +description: "Sequence of characters"
+    }
+
+    class Boolean {
+        +description: "True or False values"
+    }
+
+    class Collections {
+        +list: Ordered, mutable
+        +tuple: Ordered, immutable
+        +dict: Key-value pairs
+        +set: Unique items
+    }
+
+    PythonDataTypes --* Numbers
+    PythonDataTypes --* Strings
+    PythonDataTypes --* Boolean
+    PythonDataTypes --* Collections
 ```
+
+- Lists are suitable for ordered, mutable data.
+- Tuples are suitable for ordered, immutable data.
 
 ### Working with Numbers
 

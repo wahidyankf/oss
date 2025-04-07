@@ -512,26 +512,43 @@ Abstract classes and interfaces provide templates for subclasses to implement, e
 Moving beyond individual objects, Java's Collections Framework provides a unified architecture for representing and manipulating groups of objects. This framework solves common programming challenges like storing, retrieving, and manipulating data.
 
 ```mermaid
-graph TD
-    A[Collection Interface] --> B[List Interface]
-    A --> C[Set Interface]
-    A --> D[Queue Interface]
-    E[Map Interface]
+classDiagram
+    class CollectionInterface {
+        +List Interface
+        +Set Interface
+        +Queue Interface
+        +Map Interface
+    }
 
-    B --> F[ArrayList]
-    B --> G[LinkedList]
-    B --> H[Vector]
+    class ListInterface {
+        +ArrayList
+        +LinkedList
+        +Vector
+    }
 
-    C --> I[HashSet]
-    C --> J[TreeSet]
-    C --> K[LinkedHashSet]
+    class SetInterface {
+        +HashSet
+        +TreeSet
+        +LinkedHashSet
+    }
 
-    D --> L[PriorityQueue]
-    D --> M[ArrayDeque]
+    class QueueInterface {
+        +PriorityQueue
+        +ArrayDeque
+    }
 
-    E --> N[HashMap]
-    E --> O[TreeMap]
-    E --> P[LinkedHashMap]
+    class MapInterface {
+        +HashMap
+        +TreeMap
+        +LinkedHashMap
+    }
+
+    CollectionInterface --* ListInterface
+    CollectionInterface --* SetInterface
+    CollectionInterface --* QueueInterface
+    CollectionInterface --* MapInterface
+
+    note "Collection Interface is the root of the framework."
 ```
 
 Let's explore some of the most commonly used collection types.

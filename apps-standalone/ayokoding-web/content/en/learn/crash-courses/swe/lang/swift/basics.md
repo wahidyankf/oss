@@ -426,20 +426,30 @@ print(car1.year) // Prints: 2024 (both variables reference same object)
 The differences between structs and classes are important to understand:
 
 ```mermaid
-graph TD
-    A[Swift Type System] --> B[Value Types]
-    A --> C[Reference Types]
-    B --> D[Struct]
-    B --> E[Enum]
-    B --> F[Tuple]
-    B --> G[Basic Types]
-    C --> H[Class]
-    C --> I[Function/Closure]
-    J[Differences] --> K[Inheritance: Classes only]
-    J --> L[Reference counting: Classes only]
-    J --> M[Deinitializers: Classes only]
-    J --> N[Copy behavior: Different]
+classDiagram
+    class SwiftTypeSystem {
+        +Value Types
+        +Reference Types
+    }
+
+    class ValueTypes {
+        +Struct
+        +Enum
+        +Tuple
+        +Basic Types
+    }
+
+    class ReferenceTypes {
+        +Class
+        +Function/Closure
+    }
+
+    SwiftTypeSystem --* ValueTypes
+    SwiftTypeSystem --* ReferenceTypes
 ```
+
+- Value Types are copied when assigned.
+- Reference Types are referenced when assigned.
 
 ### Enumerations (Enums)
 
@@ -824,20 +834,40 @@ let symmetricDifference = a.symmetricDifference(b) // [1, 2, 5, 6]
 Here's how these collection types compare:
 
 ```mermaid
-graph TD
-    A[Swift Collections] --> B[Array]
-    A --> C[Dictionary]
-    A --> D[Set]
-    B --> B1[Ordered]
-    B --> B2[Random access]
-    B --> B3[Allow duplicates]
-    C --> C1[Key-Value pairs]
-    C --> C2[Unordered]
-    C --> C3[Unique keys]
-    D --> D1[Unordered]
-    D --> D2[Unique elements]
-    D --> D3[Set operations]
+classDiagram
+    class SwiftCollections {
+        +Array
+        +Dictionary
+        +Set
+    }
+
+    class Array {
+        +ordered: Boolean
+        +randomAccess: Boolean
+        +allowDuplicates: Boolean
+    }
+
+    class Dictionary {
+        +keyValuePairs: Boolean
+        +unordered: Boolean
+        +uniqueKeys: Boolean
+    }
+
+    class Set {
+        +unordered: Boolean
+        +uniqueElements: Boolean
+        +setOperations: Boolean
+    }
+
+    SwiftCollections --* Array
+    SwiftCollections --* Dictionary
+    SwiftCollections --* Set
+
 ```
+
+- Array is ordered and allows duplicates.
+- Dictionary is unordered with unique keys.
+- Set is unordered with unique elements.
 
 Choosing the right collection type for your data can significantly impact your app's performance and code clarity.
 

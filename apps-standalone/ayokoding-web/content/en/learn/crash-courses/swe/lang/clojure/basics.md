@@ -164,25 +164,40 @@ Keywords are particularly important in Clojure—they're self-evaluating, effici
 Now that we understand the basic types, let's explore Clojure's four primary collection types. All of these collections are immutable by default, meaning once created, they cannot be changed—operations that seem to modify them actually create new collections.
 
 ```mermaid
-graph TD
-    A[Clojure Collections] --> B[Lists]
-    A --> C[Vectors]
-    A --> D[Maps]
-    A --> E[Sets]
+classDiagram
+    class ClojureCollections {
+        +Lists
+        +Vectors
+        +Maps
+        +Sets
+    }
 
-    B --> B1["(1 2 3)"]
-    B --> B2["Linked list"]
-    B --> B3["Add to front"]
+    class Lists {
+        +representation: "(1 2 3)"
+        +structure: "Linked list"
+        +addition: "Add to front"
+    }
 
-    C --> C1["[1 2 3]"]
-    C --> C2["Array-like"]
-    C --> C3["Add to end"]
+    class Vectors {
+        +representation: "[1 2 3]"
+        +structure: "Array-like"
+        +addition: "Add to end"
+    }
 
-    D --> D1["{:a 1, :b 2}"]
-    D --> D2["Key-value pairs"]
+    class Maps {
+        +structure: "Key-value pairs"
+    }
 
-    E --> E1["#{1 2 3}"]
-    E --> E2["Unique values"]
+    class Sets {
+        +structure: "Unique values"
+    }
+
+    ClojureCollections --* Lists
+    ClojureCollections --* Vectors
+    ClojureCollections --* Maps
+    ClojureCollections --* Sets
+
+    note "Sets are represented as #{1 2 3}."
 ```
 
 Let's examine each type in detail.

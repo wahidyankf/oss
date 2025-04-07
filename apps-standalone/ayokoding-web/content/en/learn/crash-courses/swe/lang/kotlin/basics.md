@@ -522,24 +522,32 @@ dog.fetch() // Output: Rex is fetching...
 Here's a visualization of Kotlin's class inheritance:
 
 ```mermaid
-graph TD
-    A[open class Animal] -->|extends| B[class Dog]
-    A -->|extends| C[class Cat]
-    A -->|extends| D[class Bird]
+classDiagram
+    class Animal {
+        -name: String
+        +makeSound()
+    }
 
-    E[Properties] -->|belongs to| A
-    E --> F[name: String]
+    class Dog {
+        +override makeSound()
+    }
 
-    G[Methods] -->|belongs to| A
-    G --> H[open fun makeSound()]
+    class Cat {
+        +override makeSound()
+    }
 
-    I[Override Methods] -->|belongs to| B
-    I --> J[override fun makeSound()]
+    class Bird {
+        +override makeSound()
+    }
 
-    style A fill:#d4edda,stroke:#333
-    style B fill:#d1ecf1,stroke:#333
-    style C fill:#d1ecf1,stroke:#333
-    style D fill:#d1ecf1,stroke:#333
+    Animal <|-- Dog
+    Animal <|-- Cat
+    Animal <|-- Bird
+
+    style Animal fill:#d4edda,stroke:#333
+    style Dog fill:#d1ecf1,stroke:#333
+    style Cat fill:#d1ecf1,stroke:#333
+    style Bird fill:#d1ecf1,stroke:#333
 ```
 
 ### Interfaces

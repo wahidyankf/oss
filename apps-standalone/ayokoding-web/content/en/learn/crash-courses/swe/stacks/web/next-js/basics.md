@@ -80,13 +80,13 @@ graph TD
   A --> D[blog/]
   C --> E[page.tsx]
   D --> F[page.tsx]
-  D --> G[[slug]/]
+  D --> G["[slug]/"]
   G --> H[page.tsx]
 
-  B -->|Renders| I[/ route]
-  E -->|Renders| J[/about route]
-  F -->|Renders| K[/blog route]
-  H -->|Renders| L[/blog/post-1 route]
+  B -->|Renders| I["/ route"]
+  E -->|Renders| J["/about route"]
+  F -->|Renders| K["/blog route"]
+  H -->|Renders| L["/blog/post-1 route"]
 ```
 
 This intuitive system makes organizing your application straightforward and eliminates the need for manual route configuration.

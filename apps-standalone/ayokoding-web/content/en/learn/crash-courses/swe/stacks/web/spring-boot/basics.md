@@ -847,34 +847,58 @@ This diagram shows how a request flows through your Spring Boot application, fro
 The architecture of a Spring Boot application typically follows this structure:
 
 ```mermaid
-graph TD
-    A[Spring Boot Project] --> B[Main Application Class]
-    A --> C[Controllers]
-    A --> D[Services]
-    A --> E[Repositories]
-    A --> F[Models/Entities]
-    A --> G[Configuration]
-    A --> H[Resources]
+classDiagram
+    class SpringBootProject {
+        +Main Application Class
+        +Controllers
+        +Services
+        +Repositories
+        +Models/Entities
+        +Configuration
+        +Resources
+    }
 
-    H --> H1[application.properties]
-    H --> H2[static resources]
-    H --> H3[templates]
-    H --> H4[data.sql]
+    class Controllers {
+        +REST Controllers
+        +MVC Controllers
+    }
 
-    C --> C1[REST Controllers]
-    C --> C2[MVC Controllers]
+    class Services {
+        +Service Interfaces
+        +Service Implementations
+    }
 
-    D --> D1[Service Interfaces]
-    D --> D2[Service Implementations]
+    class Repositories {
+        +Repository Interfaces
+    }
 
-    E --> E1[Repository Interfaces]
+    class ModelsEntities {
+        +Entity Classes
+        +DTOs
+    }
 
-    F --> F1[Entity Classes]
-    F --> F2[DTOs]
+    class Configuration {
+        +Security Config
+        +Custom Properties
+    }
 
-    G --> G1[Security Config]
-    G --> G2[Custom Properties]
+    class Resources {
+        +application.properties
+        +static resources
+        +templates
+        +data.sql
+    }
+
+    SpringBootProject --* Controllers
+    SpringBootProject --* Services
+    SpringBootProject --* Repositories
+    SpringBootProject --* ModelsEntities
+    SpringBootProject --* Configuration
+    SpringBootProject --* Resources
 ```
+
+- Controllers handle HTTP requests.
+- Services encapsulate business logic.
 
 This layered architecture promotes separation of concerns, making your code more maintainable and testable.
 
@@ -946,45 +970,6 @@ Monitor and troubleshoot your applications in production:
 - **Distributed Tracing**: Track requests across services with tools like Sleuth
 - **Metrics Collection**: Gather performance data with Micrometer
 - **Log Aggregation**: Centralize logging with ELK stack
-
-## Summary of Advanced Topics
-
-```mermaid
-graph TD
-    A[Advanced Spring Boot Topics] --> B[Security]
-    A --> C[Microservices]
-    A --> D[Reactive]
-    A --> E[Message Brokers]
-    A --> F[Caching]
-    A --> G[Advanced Testing]
-    A --> H[Custom Starters]
-    A --> I[Observability]
-
-    B --> B1[OAuth2/JWT]
-    B --> B2[Method Security]
-
-    C --> C1[Eureka]
-    C --> C2[API Gateway]
-    C --> C3[Circuit Breakers]
-
-    D --> D1[WebFlux]
-    D --> D2[Reactive Repositories]
-
-    E --> E1[RabbitMQ]
-    E --> E2[Kafka]
-
-    F --> F1[Redis]
-    F --> F2[Cache Abstraction]
-
-    G --> G1[Testcontainers]
-    G --> G2[Contract Testing]
-
-    H --> H1[Auto-configuration]
-    H --> H2[Conditional Beans]
-
-    I --> I1[Tracing]
-    I --> I2[Metrics]
-```
 
 ## Conclusion
 

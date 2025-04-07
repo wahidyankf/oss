@@ -293,31 +293,63 @@ This process helps catch many errors before your code even runs, saving you debu
 Understanding how types relate to each other helps you write better annotations:
 
 ```mermaid
-graph TD
-    A[Type System] --> B[Basic Types]
-    A --> C[Container Types]
-    A --> D[Special Types]
+classDiagram
+    class TypeSystem {
+        +Basic Types
+        +Container Types
+        +Special Types
+    }
 
-    B --> B1[int]
-    B --> B2[float]
-    B --> B3[str]
-    B --> B4[bool]
+    class BasicTypes {
+        +int
+        +float
+        +str
+        +bool
+    }
 
-    C --> C1[list]
-    C --> C2[dict]
-    C --> C3[tuple]
-    C --> C4[set]
+    class ContainerTypes {
+        +list
+        +dict
+        +tuple
+        +set
+    }
 
-    D --> D1[Union Types]
-    D --> D2[Optional Types]
-    D --> D3[Any Type]
-    D --> D4[Callable]
+    class SpecialTypes {
+        +Union Types
+        +Optional Types
+        +Any Type
+        +Callable
+    }
 
-    D1 --> E1["int | str"]
-    D2 --> E2["str | None"]
-    D3 --> E3["Any (escape hatch)"]
-    D4 --> E4["Callable[[int], str]"]
+    class UnionTypes {
+        +description: "e.g., int | str"
+    }
+
+    class OptionalTypes {
+        +description: "e.g., str | None"
+    }
+
+    class AnyType {
+        +description: "Any (escape hatch)"
+    }
+
+    class Callable {
+        +description: "e.g., Callable[[int], str]"
+    }
+
+    TypeSystem --* BasicTypes
+    TypeSystem --* ContainerTypes
+    TypeSystem --* SpecialTypes
+
+    SpecialTypes --* UnionTypes
+    SpecialTypes --* OptionalTypes
+    SpecialTypes --* AnyType
+    SpecialTypes --* Callable
+
 ```
+
+- Union Types allow combining types.
+- Optional Types include None.
 
 ## Practical Type Checking Patterns
 

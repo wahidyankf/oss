@@ -93,24 +93,22 @@ With these three components installed, you now have a complete local Kubernetes 
 
 ## Kubernetes Architecture
 
-Before diving into practical usage, understanding Kubernetes architecture is key to working with it effectively. Let's visualize the core components:
+A Kubernetes Cluster consists of two main components: the Control Plane and Worker Nodes.
 
-```mermaid
-graph TD
-    A[Kubernetes Cluster] --> B[Control Plane]
-    A --> C[Worker Nodes]
+The Control Plane includes several critical components:
 
-    B --> D[API Server<br>Central communication hub]
-    B --> E[Scheduler<br>Assigns pods to nodes]
-    B --> F[Controller Manager<br>Maintains desired state]
-    B --> G[etcd<br>Cluster state database]
+- **API Server**: Functions as the central communication hub for the entire cluster
+- **Scheduler**: Responsible for assigning pods to appropriate nodes
+- **Controller Manager**: Maintains the desired state of the cluster
+- **etcd**: Serves as the cluster state database, storing all configuration data
 
-    C --> H[Kubelet<br>Manages pods on node]
-    C --> I[Kube-proxy<br>Network rules]
-    C --> J[Container Runtime<br>Runs containers]
+Worker Nodes contain the following components:
 
-    H --> K[Pods<br>Contain containers]
-```
+- **Kubelet**: Manages pods on each node
+- **Kube-proxy**: Establishes and maintains network rules
+- **Container Runtime**: Executes containers within the environment
+
+The Kubelet on Worker Nodes directly manages Pods, which contain the application containers. All components work in coordination, with the API Server acting as the central communication point between the Control Plane and Worker Nodes to maintain the desired state of applications running in the cluster.
 
 ### Components Explained
 

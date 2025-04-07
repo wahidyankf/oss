@@ -155,31 +155,49 @@ PostgreSQL supports a wide range of data types to fit different needs. Let's exp
 ### Core Data Types
 
 ```mermaid
-graph TD
-    A[PostgreSQL Data Types] --> B[Numeric Types]
-    A --> C[Character Types]
-    A --> D[Date/Time Types]
-    A --> E[Boolean Type]
-    A --> F[Special Types]
+classDiagram
+    class PostgreSQLDataTypes {
+        +Numeric Types
+        +Character Types
+        +Date/Time Types
+        +Boolean Type
+        +Special Types
+    }
 
-    B --> B1[INTEGER: Whole numbers]
-    B --> B2[NUMERIC/DECIMAL: Exact decimal values]
-    B --> B3[REAL/DOUBLE: Floating point]
+    class NumericTypes {
+        +INTEGER
+        +NUMERIC/DECIMAL
+        +REAL/DOUBLE
+    }
 
-    C --> C1[CHAR(n): Fixed-length]
-    C --> C2[VARCHAR(n): Variable-length with limit]
-    C --> C3[TEXT: Unlimited variable-length]
+    class CharacterTypes {
+        +CHAR(n)
+        +VARCHAR(n)
+        +TEXT
+    }
 
-    D --> D1[DATE: Calendar date]
-    D --> D2[TIME: Time of day]
-    D --> D3[TIMESTAMP: Date and time]
-    D --> D4[INTERVAL: Time span]
+    class DateTimeTypes {
+        +DATE
+        +TIME
+        +TIMESTAMP
+        +INTERVAL
+    }
 
-    E --> E1[TRUE/FALSE values]
+    class BooleanType {
+        +TRUE/FALSE
+    }
 
-    F --> F1[JSON/JSONB: JSON data]
-    F --> F2[UUID: Unique identifiers]
-    F --> F3[ARRAY: Arrays of other types]
+    class SpecialTypes {
+        +JSON/JSONB
+        +UUID
+        +ARRAY
+    }
+
+    PostgreSQLDataTypes --* NumericTypes
+    PostgreSQLDataTypes --* CharacterTypes
+    PostgreSQLDataTypes --* DateTimeTypes
+    PostgreSQLDataTypes --* BooleanType
+    PostgreSQLDataTypes --* SpecialTypes
 ```
 
 Choosing the right data type for each column is crucial for data integrity and performance.
@@ -524,23 +542,38 @@ Indexes work similarly to a book's table of contents, allowing PostgreSQL to fin
 PostgreSQL offers several types of indexes for different scenarios:
 
 ```mermaid
-graph TD
-    A[PostgreSQL Indexes] --> B[B-tree: Default general-purpose]
-    A --> C[Hash: Equality comparisons]
-    A --> D[GiST: Geometric, full-text]
-    A --> E[GIN: Arrays, JSON, full-text]
-    A --> F[BRIN: Large tables with ordered data]
-    A --> G[SP-GiST: Partitioned search trees]
+classDiagram
+    class PostgreSQLIndexes {
+        +B-tree
+        +Hash
+        +GiST
+        +GIN
+        +BRIN
+        +SP-GiST
+    }
 
-    H[When to use indexes] --> H1[Frequently queried columns]
-    H --> H2[JOIN, WHERE, ORDER BY columns]
-    H --> H3[UNIQUE constraint columns]
-    H --> H4[Foreign key columns]
+    class IndexUsage {
+        +When to use
+        +When not to use
+    }
 
-    I[When NOT to use] --> I1[Small tables]
-    I --> I2[Columns rarely queried]
-    I --> I3[Columns frequently updated]
-    I --> I4[Tables with heavy INSERT activity]
+    class WhenToUse {
+        +Frequently queried columns
+        +JOIN, WHERE, ORDER BY columns
+        +UNIQUE constraint columns
+        +Foreign key columns
+    }
+
+    class WhenNotToUse {
+        +Small tables
+        +Columns rarely queried
+        +Columns frequently updated
+        +Tables with heavy INSERT activity
+    }
+
+    PostgreSQLIndexes --* IndexUsage
+    IndexUsage --* WhenToUse
+    IndexUsage --* WhenNotToUse
 ```
 
 While indexes speed up queries, they can slow down data modifications, so use them judiciously.

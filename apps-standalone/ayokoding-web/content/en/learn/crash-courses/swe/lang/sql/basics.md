@@ -395,40 +395,46 @@ CREATE TABLE order_items (
 This schema uses foreign keys throughout to maintain relationships between entities. The diagram below illustrates how these tables connect:
 
 ```mermaid
-flowchart TD
-    A[Categories] --- A1[category_id]
-    A --- A2[name]
-    A --- A3[description]
+erDiagram
+    Categories ||--o{ Products : has
+    Categories {
+        int category_id
+        string name
+        string description
+    }
+    Products {
+        int product_id
+        string name
+        string description
+        decimal price
+        int stock_quantity
+        int category_id
+    }
 
-    B[Products] --- B1[product_id]
-    B --- B2[name]
-    B --- B3[description]
-    B --- B4[price]
-    B --- B5[stock_quantity]
-    B --- B6[category_id]
+    Customers ||--o{ Orders : has
+    Customers {
+        int customer_id
+        string first_name
+        string last_name
+        string email
+        string phone
+    }
+    Orders {
+        int order_id
+        int customer_id
+        date order_date
+        decimal total_amount
+        string status
+    }
 
-    C[Customers] --- C1[customer_id]
-    C --- C2[first_name]
-    C --- C3[last_name]
-    C --- C4[email]
-    C --- C5[phone]
-
-    D[Orders] --- D1[order_id]
-    D --- D2[customer_id]
-    D --- D3[order_date]
-    D --- D4[total_amount]
-    D --- D5[status]
-
-    E[Order Items] --- E1[order_item_id]
-    E --- E2[order_id]
-    E --- E3[product_id]
-    E --- E4[quantity]
-    E --- E5[price]
-
-    A1 --- B6
-    C1 --- D2
-    D1 --- E2
-    B1 --- E3
+    Orders ||--o{ OrderItems : has
+    OrderItems {
+        int order_item_id
+        int order_id
+        int product_id
+        int quantity
+        decimal price
+    }
 ```
 
 ### Seed Data Script
@@ -601,19 +607,6 @@ Now that you understand the core 85% of SQL, here's what makes up the remaining 
    - Partitioning strategies
    - Data warehousing concepts
    - OLAP vs. OLTP workloads
-
-```mermaid
-flowchart TD
-    A[Advanced SQL Topics] --> B[Database Design]
-    A --> C[Advanced SQL Features]
-    A --> D[Transaction Management]
-    A --> E[Stored Procedures]
-    A --> F[Performance Optimization]
-    A --> G[Security]
-    A --> H[Special Data Types]
-    A --> I[Database Administration]
-    A --> J[Large Datasets]
-```
 
 ## Conclusion
 

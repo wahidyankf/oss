@@ -113,18 +113,16 @@ This hierarchical organization creates what we call a "tree structure." Visualiz
 
 ```mermaid
 graph TD
-    A[bookstore] -->|parent| B[book]
+    A[bookstore] -->|parent| B[book: fiction]
     B -->|child| D[title]
     B -->|child| E[author]
     B -->|child| F[year]
     B -->|child| G[price]
-    A -->|parent| C[book]
+    A -->|parent| C[book: non-fiction]
     C -->|child| H[title]
     C -->|child| I[author]
     C -->|child| J[year]
     C -->|child| K[price]
-    B -->|attribute| L[category="fiction"]
-    C -->|attribute| M[category="non-fiction"]
 ```
 
 Understanding this tree structure is essential for working with XML effectively. Each element can be a parent (containing other elements), a child (contained within another element), or both simultaneously.

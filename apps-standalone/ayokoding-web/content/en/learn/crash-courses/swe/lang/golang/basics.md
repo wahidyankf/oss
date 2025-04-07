@@ -1003,22 +1003,37 @@ We've now covered the 85% of Go that you'll use in your daily work. Let's briefl
 ## The Remaining 15%: Advanced Go Topics
 
 ```mermaid
-graph TD
-    A[Advanced Go Topics] --> B[Reflection]
-    A --> C[Advanced Concurrency]
-    A --> D[Context Package]
-    A --> E[Testing]
-    A --> F[CGo]
-    A --> G[Generics]
-    A --> H[Performance]
-    C --> C1[Mutexes]
-    C --> C2[Atomic Operations]
-    C --> C3[sync.Pool]
-    E --> E1[Unit Tests]
-    E --> E2[Benchmarks]
-    E --> E3[Fuzzing]
-    H --> H1[Profiling]
-    H --> H2[Memory Optimization]
+classDiagram
+    class AdvancedGoTopics {
+        +Reflection
+        +Advanced Concurrency
+        +Context Package
+        +Testing
+        +CGo
+        +Generics
+        +Performance
+    }
+
+    class AdvancedConcurrency {
+        +Mutexes
+        +Atomic Operations
+        +sync.Pool
+    }
+
+    class Testing {
+        +Unit Tests
+        +Benchmarks
+        +Fuzzing
+    }
+
+    class Performance {
+        +Profiling
+        +Memory Optimization
+    }
+
+    AdvancedGoTopics --* AdvancedConcurrency
+    AdvancedGoTopics --* Testing
+    AdvancedGoTopics --* Performance
 ```
 
 ### 1. Reflection
