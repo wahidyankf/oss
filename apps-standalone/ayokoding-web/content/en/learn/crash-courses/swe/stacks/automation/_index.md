@@ -5,6 +5,7 @@ draft: false
 weight: 1
 ---
 
+- [Gherkin](./gherkin/)
 - [Playwright](./playwright/)
 - [Cypress](./cypress/)
 - [WDIO](./wdio/)

@@ -6,3 +6,8 @@ weight: 2
 ---
 
 - [XML](./xml/)
+- [JSON](./json/)
+- [TOML](./toml/)
+- [YAML](./yaml/)
+- [Protobuf](./protobuf/)
+- [EDN](./edn/)
