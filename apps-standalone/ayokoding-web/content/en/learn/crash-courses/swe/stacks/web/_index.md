@@ -5,5 +5,6 @@ draft: false
 weight: 1
 ---
 
-- [Node.js](./nodejs/)
+- [Node.js](./node-js/)
+- [Next.js](./next-js/)
 - [Spring Boot](./spring-boot/)

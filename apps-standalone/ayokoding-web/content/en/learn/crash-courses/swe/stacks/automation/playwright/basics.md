@@ -5,253 +5,513 @@ draft: false
 weight: 1
 ---
 
-Hey there! Welcome to your Playwright crash course! ☕ Imagine we're sitting at a coffee shop and I'm walking you through one of my favorite testing tools. By the end of this guide, you'll know 85% of what you need for day-to-day Playwright usage, with a clear path to explore the rest.
-
-## What is Playwright?
-
-Playwright is a powerful automation library developed by Microsoft that allows you to control browsers (Chrome, Firefox, Safari) programmatically. It's primarily used for:
-
-- Automated testing of web applications
-- Web scraping
-- Taking screenshots or generating PDFs
-- Automating browser workflows
-
-What makes Playwright special is its ability to work across all modern browsers with a single API, its speed, and its reliability with modern web apps.
+Playwright is a powerful, modern framework created by Microsoft for automating browser interactions and testing web applications. This crash course will get you up and running with the essentials that cover 85% of daily usage.
 
 ## Prerequisites
 
-Before we dive in, you'll need:
+Before diving into Playwright, you'll need a few basics in place:
 
 - Basic knowledge of JavaScript/TypeScript
-- Node.js installed (version 14 or later)
+- Node.js installed on your machine
+- Familiarity with web technologies (HTML, CSS)
 - A code editor (VS Code recommended)
-- Basic understanding of web technologies (HTML, CSS, DOM)
 
-## Getting Started with Playwright
+## Installation and Setup
 
-### Installation
-
-Let's set up a new project with Playwright:
+Let's start by setting up a new Playwright project. Open your terminal and run:
 
 ```bash
-# Create a new directory and navigate to it
-mkdir playwright-demo
-cd playwright-demo
+# Create a new project directory
+mkdir playwright-project
+cd playwright-project
 
-# Initialize a new Node.js project
-npm init -y
-
-# Install Playwright
+# Initialize a new Playwright project
 npm init playwright@latest
 ```
 
-During the installation, you'll be prompted with a few questions:
+During the initialization, you'll be prompted to make a few choices. Don't worry, the defaults are sensible:
 
-- Choose JavaScript or TypeScript (I recommend TypeScript for better developer experience)
-- Choose the test directory (default is fine)
-- Add GitHub Actions workflow for running tests (yes/no based on your needs)
-- Install Playwright browsers (yes - this will download Chromium, Firefox, and WebKit)
+1. Choose JavaScript or TypeScript (TypeScript recommended for better autocompletion)
+2. Name your tests folder (default: `tests` or `e2e`)
+3. Add GitHub Actions workflow (optional)
+4. Install browser engines (Chromium, Firefox, and WebKit)
 
-### Your First Test
-
-Let's create your first test! Playwright uses a test runner and an assertion library out of the box. Here's a simple test:
-
-```javascript
-// tests/example.spec.js
-const { test, expect } = require('@playwright/test');
-
-test('basic test', async ({ page }) => {
-  // Navigate to the website
-  await page.goto('https://playwright.dev/');
-
-  // Get the title
-  const title = await page.title();
-
-  // Assert that the title contains 'Playwright'
-  expect(title).toContain('Playwright');
-
-  // Click the Get Started link
-  await page.click('text=Get Started');
-
-  // Assert that the URL changed to include '/docs/intro'
-  expect(page.url()).toContain('/docs/intro');
-});
-```
-
-### Running Your Test
-
-To run your test, simply execute:
-
-```bash
-npx playwright test
-```
-
-You'll see output showing the test being executed across the three browsers (Chromium, Firefox, and WebKit).
+Once completed, the setup will create a `playwright.config.js` (or `.ts`) file with default settings and a sample test to get you started.
 
 ## Core Concepts
 
-### The Browser, Context, and Page
-
-Playwright has a clear hierarchy:
-
-```
-Browser → BrowserContext → Page → Frame
-```
-
-Let's visualize this:
+Before writing tests, it's important to understand Playwright's architecture. Think of it as layers that build upon each other:
 
 ```mermaid
-flowchart TB
-  Browser[Browser] --> Context1[Browser Context 1]
-  Browser --> Context2[Browser Context 2]
-  Context1 --> Page1[Page 1]
-  Context1 --> Page2[Page 2]
-  Context2 --> Page3[Page 3]
-  Page1 --> Frame1[Frame 1]
-  Page1 --> Frame2[Frame 2]
+graph TD
+    A[Browser] --> B[Browser Context]
+    B --> C[Page]
+    C --> D[Locators]
+    D --> E1[Actions]
+    D --> E2[Assertions]
+
+    style A fill:#f9d5e5,stroke:#333,stroke-width:2px
+    style B fill:#eeeeee,stroke:#333,stroke-width:2px
+    style C fill:#dddddd,stroke:#333,stroke-width:2px
+    style D fill:#c7ceea,stroke:#333,stroke-width:2px
+    style E1 fill:#b5ead7,stroke:#333,stroke-width:1px
+    style E2 fill:#b5ead7,stroke:#333,stroke-width:1px
 ```
 
-- **Browser**: The browser instance (Chrome, Firefox, etc.)
-- **BrowserContext**: Like an incognito window - isolated from other contexts
-- **Page**: A single tab within a browser
-- **Frame**: A frame within a page (like an iframe)
+- **Browser**: The browser instance (Chrome, Firefox, or WebKit) that runs your tests
+- **Browser Context**: An isolated incognito-like session that provides a clean slate for each test
+- **Page**: Equivalent to a browser tab where your test actions actually happen
+- **Locators**: Methods that help you find specific elements on the page
+- **Actions**: Interactions with web elements (click, type, etc.) that simulate user behavior
+- **Assertions**: Checks that verify your application behaves as expected
 
-This hierarchy is important because each level has different capabilities and lifetimes.
+With these concepts in mind, let's see how they come together in a real test.
 
-### Selectors: Finding Elements
+## Writing Your First Test
 
-Playwright supports multiple selector engines:
-
-```javascript
-// Text content
-await page.click('text=Click me');
-
-// CSS selectors
-await page.fill('input#username', 'john');
-
-// XPath
-await page.click('xpath=//button');
-
-// Combining selectors
-await page.click('article >> text=Read more');
-
-// Using data-testid (recommended for stable tests)
-await page.click('[data-testid="submit-button"]');
-```
-
-Tip: Using `data-testid` attributes in your application makes your tests more resilient to UI changes!
-
-### Actions: Interacting with Elements
-
-Common actions include:
+Playwright uses a simple, intuitive API. Here's a basic test that navigates to a website and verifies some content:
 
 ```javascript
-// Clicking
-await page.click('button');
+// basic-test.js
+import { test, expect } from '@playwright/test';
 
-// Filling form fields
-await page.fill('input[name="username"]', 'john');
+test('basic navigation test', async ({ page }) => {
+  // Navigate to a website
+  await page.goto('https://playwright.dev/');
 
-// Selecting options
-await page.selectOption('select#country', 'USA');
+  // Assert that the page title contains "Playwright"
+  await expect(page).toHaveTitle(/Playwright/);
 
-// Checking checkboxes
-await page.check('input[type="checkbox"]');
+  // Find and click on a button
+  await page.getByRole('link', { name: 'Get started' }).click();
 
-// Hovering
-await page.hover('.dropdown-trigger');
+  // Verify navigation was successful by checking for a heading
+  await expect(
+    page.getByRole('heading', { name: 'Installation' }),
+  ).toBeVisible();
 
-// Drag and drop
-await page.dragAndDrop('#source', '#target');
-```
-
-### Assertions: Verifying Expectations
-
-Playwright comes with built-in assertions:
-
-```javascript
-// Check if element is visible
-await expect(page.locator('.success-message')).toBeVisible();
-
-// Check text content
-await expect(page.locator('h1')).toHaveText('Welcome to our website');
-
-// Check attribute
-await expect(page.locator('input')).toHaveAttribute('disabled', '');
-
-// Check URL
-await expect(page).toHaveURL(/.*dashboard/);
-
-// Check screenshot (visual comparison)
-await expect(page).toHaveScreenshot('homepage.png');
-```
-
-## Writing Complete Tests
-
-Let's write a more complete test for a login flow:
-
-```javascript
-// tests/login.spec.js
-const { test, expect } = require('@playwright/test');
-
-test.describe('Login functionality', () => {
-  test.beforeEach(async ({ page }) => {
-    // Go to the login page before each test
-    await page.goto('https://example.com/login');
-  });
-
-  test('successful login', async ({ page }) => {
-    // Fill in the login form
-    await page.fill('[data-testid="username"]', 'testuser');
-    await page.fill('[data-testid="password"]', 'password123');
-
-    // Click the login button
-    await page.click('[data-testid="login-button"]');
-
-    // Assert that we're redirected to the dashboard
-    await expect(page).toHaveURL(/.*dashboard/);
-
-    // Assert that the welcome message is visible
-    await expect(page.locator('[data-testid="welcome-message"]')).toBeVisible();
-  });
-
-  test('displays error with invalid credentials', async ({ page }) => {
-    // Fill in the login form with invalid credentials
-    await page.fill('[data-testid="username"]', 'wronguser');
-    await page.fill('[data-testid="password"]', 'wrongpass');
-
-    // Click the login button
-    await page.click('[data-testid="login-button"]');
-
-    // Assert that error message is displayed
-    await expect(page.locator('[data-testid="error-message"]')).toBeVisible();
-    await expect(page.locator('[data-testid="error-message"]')).toHaveText(
-      'Invalid username or password',
-    );
-  });
+  // Take a screenshot for reference
+  await page.screenshot({ path: 'screenshot.png' });
 });
 ```
 
-## Testing in Different Browsers
+To run this test, simply execute:
 
-One of Playwright's strengths is cross-browser testing. Your tests can run on Chromium, Firefox, and WebKit. You can configure this in your `playwright.config.js`:
+```bash
+npx playwright test basic-test.js
+```
+
+When you run this test, Playwright will launch a browser, navigate to the Playwright website, click the "Get started" link, verify you've arrived at the installation page, and save a screenshot. All of this happens automatically, with no manual intervention needed.
+
+## Locating Elements (The Right Way)
+
+Finding elements on a page is one of the most important aspects of testing. Playwright encourages user-centric testing through its powerful locators, which help you write tests that mirror how real users interact with your application.
+
+```javascript
+// RECOMMENDED: Role-based locators (most resilient)
+const submitButton = page.getByRole('button', { name: 'Submit' });
+const nameField = page.getByLabel('Full name');
+const agreeCheckbox = page.getByLabel('I agree to terms');
+
+// Text-based locators
+const heading = page.getByText('Welcome to our site');
+const paragraph = page.getByText('Learn more about our services');
+
+// Test ID locators (requires adding data-testid to your HTML)
+const loginForm = page.getByTestId('login-form');
+
+// Other useful locators
+const emailInput = page.getByPlaceholder('Enter your email');
+const errorMessage = page.getByRole('alert');
+const logo = page.getByAltText('Company Logo');
+
+// LESS RECOMMENDED: CSS and XPath selectors (more brittle)
+const menu = page.locator('nav.main-menu');
+const footer = page.locator('xpath=//footer');
+```
+
+Role-based locators are preferred because they focus on the element's purpose rather than its implementation details. This makes your tests more resilient to UI changes and better reflects how users see your application.
+
+## Common Interactions
+
+Once you've located elements, you'll want to interact with them. Playwright provides methods that simulate all common user actions:
+
+```javascript
+// Clicking elements
+await page.getByRole('button', { name: 'Submit' }).click();
+await page.getByText('Read more').click();
+
+// Text input
+await page.getByLabel('Username').fill('testuser');
+await page.getByLabel('Password').fill('securepassword123');
+
+// Handling dropdowns
+await page.getByLabel('Country').selectOption('United States'); // By visible text
+await page.getByLabel('Country').selectOption({ value: 'US' }); // By value
+
+// Checkboxes and radio buttons
+await page.getByLabel('I agree to terms').check();
+await page.getByLabel('Female').check(); // For radio buttons
+
+// Working with file inputs
+await page
+  .getByLabel('Upload profile picture')
+  .setInputFiles('path/to/image.jpg');
+// For multiple files:
+await page
+  .getByLabel('Upload documents')
+  .setInputFiles(['file1.pdf', 'file2.pdf']);
+
+// Special key presses
+await page.getByRole('textbox').press('Enter');
+await page.getByRole('textbox').press('Control+A'); // Select all text
+```
+
+These interactions closely mirror what a user would do, making your tests more intuitive and realistic. Playwright handles waiting automatically, so you don't need to add explicit waits or delays in most cases.
+
+## Making Assertions
+
+After interacting with your application, you'll need to verify that it behaves correctly. Assertions are how you check that the expected outcomes actually happen:
+
+```javascript
+// Element visibility and state assertions
+await expect(page.getByText('Success')).toBeVisible();
+await expect(page.getByRole('button', { name: 'Submit' })).toBeEnabled();
+await expect(page.getByLabel('Accept terms')).toBeChecked();
+
+// Text content assertions
+await expect(page.getByTestId('error-message')).toContainText('Invalid email');
+await expect(page.locator('.greeting')).toHaveText('Hello, User!');
+
+// Attribute assertions
+await expect(page.getByRole('img')).toHaveAttribute('alt', 'Profile Picture');
+await expect(page.getByRole('link')).toHaveAttribute('href', /about/);
+
+// Page state assertions
+await expect(page).toHaveURL(/dashboard/);
+await expect(page).toHaveTitle('User Dashboard');
+
+// Counting elements
+await expect(page.getByTestId('notification')).toHaveCount(3);
+
+// Negative assertions
+await expect(page.getByText('Error')).not.toBeVisible();
+```
+
+These assertions create the "testing" part of your automated tests. They verify that your application is functioning correctly and provide clear feedback when something goes wrong.
+
+## Test Organization
+
+As your test suite grows, organization becomes crucial for maintainability. Playwright provides several features to help structure your tests:
+
+```javascript
+// test-organization.spec.js
+import { test, expect } from '@playwright/test';
+
+// Test hooks for setup and teardown
+test.beforeEach(async ({ page }) => {
+  // Common setup before each test
+  await page.goto('https://example.com/login');
+});
+
+test.afterEach(async ({ page }) => {
+  // Cleanup after each test
+  // For example, clear localStorage
+  await page.evaluate(() => localStorage.clear());
+});
+
+// Group related tests
+test.describe('Authentication flows', () => {
+  test('successful login', async ({ page }) => {
+    await page.getByLabel('Username').fill('testuser');
+    await page.getByLabel('Password').fill('password123');
+    await page.getByRole('button', { name: 'Log in' }).click();
+
+    // Verify successful login
+    await expect(page.getByText('Welcome back')).toBeVisible();
+  });
+
+  test('failed login with incorrect password', async ({ page }) => {
+    await page.getByLabel('Username').fill('testuser');
+    await page.getByLabel('Password').fill('wrongpassword');
+    await page.getByRole('button', { name: 'Log in' }).click();
+
+    // Verify error message
+    await expect(page.getByText('Invalid credentials')).toBeVisible();
+  });
+});
+
+// Conditional tests
+test('feature only available in Chrome', async ({ page, browserName }) => {
+  // Skip test for non-Chrome browsers
+  test.skip(browserName !== 'chromium', 'Feature only available in Chrome');
+
+  // Test Chrome-specific feature
+  // ...
+});
+```
+
+This structure keeps related tests together and avoids repetition by sharing setup code. It also makes it easier to understand what each test is checking, which is particularly valuable when tests fail.
+
+## Page Object Model
+
+As your test suite grows even further, you might find yourself repeating the same locators and actions across multiple tests. The Page Object Model (POM) pattern helps address this by encapsulating page-specific code:
+
+```javascript
+// models/LoginPage.js
+class LoginPage {
+  constructor(page) {
+    this.page = page;
+    this.usernameInput = page.getByLabel('Username');
+    this.passwordInput = page.getByLabel('Password');
+    this.loginButton = page.getByRole('button', { name: 'Log in' });
+    this.errorMessage = page.getByTestId('login-error');
+  }
+
+  async goto() {
+    await this.page.goto('https://example.com/login');
+  }
+
+  async login(username, password) {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+  }
+
+  async getErrorMessage() {
+    return this.errorMessage.textContent();
+  }
+}
+
+// Export the page object
+export default LoginPage;
+
+// Using the Page Object in a test
+// tests/login.spec.js
+import { test, expect } from '@playwright/test';
+import LoginPage from '../models/LoginPage';
+
+test('login functionality', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+
+  // Test successful login
+  await loginPage.login('validuser', 'validpass');
+  await expect(page).toHaveURL(/dashboard/);
+
+  // Navigate back to login for another test
+  await loginPage.goto();
+
+  // Test failed login
+  await loginPage.login('validuser', 'wrongpass');
+  const errorText = await loginPage.getErrorMessage();
+  expect(errorText).toContain('Invalid credentials');
+});
+```
+
+This approach centralizes page-specific code, making your tests more maintainable and readable. When the UI changes, you only need to update the page object, not every test that uses it.
+
+## Handling Advanced UI Components
+
+Modern web applications often include complex components that require special handling. Playwright provides tools for working with these sophisticated elements:
+
+```javascript
+// Working with iframes
+const frame = page.frameLocator('#checkout-iframe');
+await frame.getByRole('button', { name: 'Pay Now' }).click();
+
+// Handling alerts and dialogs
+page.on('dialog', (dialog) => {
+  console.log(`Dialog message: ${dialog.message()}`);
+  dialog.accept(); // Or dialog.dismiss() to cancel
+});
+await page.getByRole('button', { name: 'Delete' }).click();
+
+// Working with dates
+await page.getByLabel('Departure date').fill('2023-12-25');
+
+// Handling shadow DOM
+await page.locator('custom-element').getByRole('button').click();
+
+// Working with tables
+// For a table with data
+const row = page.getByRole('row', { name: /John Doe/ });
+const cell = row.getByRole('cell').nth(2); // Get the 3rd cell
+const value = await cell.textContent();
+```
+
+These techniques allow you to test even the most complex parts of your application, ensuring comprehensive test coverage.
+
+## API Testing and Mocking
+
+Beyond UI testing, Playwright allows you to test and mock APIs, which is crucial for testing complex web applications:
+
+```javascript
+// Direct API testing
+test('API returns correct data', async ({ request }) => {
+  const response = await request.get('https://api.example.com/users');
+  expect(response.status()).toBe(200);
+
+  const data = await response.json();
+  expect(data.users.length).toBeGreaterThan(0);
+});
+
+// Mocking API responses
+test('handle successful API response', async ({ page }) => {
+  // Mock the API response
+  await page.route('https://api.example.com/users', (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        users: [
+          { id: 1, name: 'John Doe' },
+          { id: 2, name: 'Jane Smith' },
+        ],
+      }),
+    });
+  });
+
+  // Navigate to page that will use this API
+  await page.goto('https://example.com/user-list');
+
+  // Verify the mocked data is displayed
+  await expect(page.getByText('John Doe')).toBeVisible();
+});
+
+// Simulating API errors
+test('handle API error gracefully', async ({ page }) => {
+  // Mock an API error
+  await page.route('https://api.example.com/users', (route) => {
+    route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Server error' }),
+    });
+  });
+
+  await page.goto('https://example.com/user-list');
+
+  // Verify error message is shown
+  await expect(page.getByText('Failed to load users')).toBeVisible();
+});
+```
+
+This capability allows you to test how your application behaves with different API responses, without needing to modify the actual backend services.
+
+## Debugging Tips
+
+When tests fail (and they will), effective debugging techniques are essential. Playwright offers several tools to help you diagnose and fix issues:
+
+```javascript
+// Slow down test execution to visually see what's happening
+test.slow(); // Run the test 3x slower
+
+// Pause execution for interactive debugging
+await page.pause();
+
+// Take screenshots at crucial points
+await page.screenshot({ path: 'before-submit.png' });
+await submitButton.click();
+await page.screenshot({ path: 'after-submit.png' });
+
+// Enable verbose API logging
+// Add to playwright.config.js:
+// use: { launchOptions: { slowMo: 100 } }
+
+// Generate traces for failed tests (for Playwright Trace Viewer)
+// In playwright.config.js:
+// use: { trace: 'on-first-retry' }
+
+// View trace with:
+// npx playwright show-trace trace.zip
+```
+
+When debugging, it's helpful to think about a systematic approach:
+
+```mermaid
+graph TD
+    A[Test Failure] --> B{Identify Issue Type}
+    B -->|Element Not Found| C[Check Locators]
+    B -->|Assertion Failed| D[Check Expected Values]
+    B -->|Timing Issues| E[Add Waits or Adjust Timeouts]
+    B -->|Complex Issue| F[Use Trace Viewer]
+    C --> G[Fix and Run Again]
+    D --> G
+    E --> G
+    F --> G
+
+    style A fill:#ffcccc,stroke:#333,stroke-width:2px
+    style B fill:#ffffcc,stroke:#333,stroke-width:2px
+    style C fill:#ccffcc,stroke:#333,stroke-width:1px
+    style D fill:#ccffcc,stroke:#333,stroke-width:1px
+    style E fill:#ccffcc,stroke:#333,stroke-width:1px
+    style F fill:#ccffcc,stroke:#333,stroke-width:1px
+    style G fill:#ccccff,stroke:#333,stroke-width:2px
+```
+
+This systematic approach saves time and reduces frustration when troubleshooting test failures.
+
+## Configuration
+
+As your test suite grows, you'll likely need to customize Playwright's behavior. The `playwright.config.js` file is where you control these settings:
 
 ```javascript
 // playwright.config.js
-module.exports = {
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  // Basic settings
+  testDir: './tests', // Directory with tests
+  timeout: 30000, // Timeout for each test in milliseconds
+
+  // Run tests in parallel
+  fullyParallel: true,
+
+  // Retry failed tests
+  retries: 1,
+
+  // Reporters
+  reporter: [
+    ['html'], // Generate HTML report
+    ['list'], // Show results in console
+  ],
+
+  // Launch options for all browsers
+  use: {
+    // Record traces, video, or screenshots
+    trace: 'on-first-retry', // or 'on', 'off', 'retain-on-failure'
+    video: 'on-first-retry',
+    screenshot: 'only-on-failure',
+
+    // Browser settings
+    headless: true, // Run browsers in headless mode
+    viewport: { width: 1280, height: 720 },
+
+    // Automatically capture screenshot before each action
+    launchOptions: {
+      slowMo: 50, // Slow down test by 50ms (helps visualize actions)
+    },
+
+    // Base URL to use in navigation methods
+    baseURL: 'https://example.com',
+  },
+
+  // Configure browsers to run tests against
   projects: [
     {
-      name: 'Chrome',
+      name: 'chromium',
       use: { browserName: 'chromium' },
     },
     {
-      name: 'Firefox',
+      name: 'firefox',
       use: { browserName: 'firefox' },
     },
     {
-      name: 'WebKit',
+      name: 'webkit',
       use: { browserName: 'webkit' },
     },
+    // Mobile emulation
     {
       name: 'Mobile Chrome',
       use: {
@@ -259,233 +519,115 @@ module.exports = {
         ...devices['Pixel 5'],
       },
     },
-    {
-      name: 'Mobile Safari',
-      use: {
-        browserName: 'webkit',
-        ...devices['iPhone 12'],
-      },
-    },
   ],
-};
+});
 ```
 
-## Debugging Tests
+This configuration file gives you fine-grained control over how your tests run, allowing you to adapt to different testing needs.
 
-When tests fail, you need to debug them. Playwright offers several options:
+## Running Tests
+
+With your tests written and configured, you're ready to run them:
 
 ```bash
-# Run with headed browsers (non-headless)
-npx playwright test --headed
+# Run all tests
+npx playwright test
 
-# Run in debug mode
-npx playwright test --debug
+# Run a specific test file
+npx playwright test login.spec.js
 
-# Run in slow motion
-npx playwright test --slow-mo=1000
+# Run tests in a specific browser
+npx playwright test --browser=firefox
+
+# Run tests with UI mode for debugging
+npx playwright test --ui
+
+# Generate a report after tests
+npx playwright show-report
 ```
 
-You can also use the `page.pause()` method in your test to pause execution and open the Inspector:
+Each command serves a different purpose, allowing you to tailor your test execution to your current needs.
 
-```javascript
-test('debugging example', async ({ page }) => {
-  await page.goto('https://example.com');
+## The Remaining 15% (Advanced Topics)
 
-  // Pause the test execution
-  await page.pause();
+Now that you've mastered the essential 85% of Playwright, here's what you can explore next to become a Playwright expert:
 
-  // Now you can interact with the page manually
-  // and use the Inspector to explore
-  await page.click('button');
-});
-```
+1. **Visual Testing**: Compare screenshots for pixel-perfect UI testing
 
-## Working with Advanced Selectors
+   ```javascript
+   // Add to your tests
+   await expect(page).toHaveScreenshot('expected-ui.png');
+   ```
 
-For complex UIs, you might need more sophisticated selectors:
+2. **API Testing Strategies**: More complex API testing and mocking scenarios
 
-```javascript
-// Using role selectors (accessibility-first approach)
-await page.click('role=button[name="Submit"]');
+3. **Authentication Patterns**: Reusing authentication states between tests
 
-// Chaining selectors to narrow down
-await page.click('.article >> text="Read more"');
+   ```javascript
+   // Store authenticated state
+   await page.context().storageState({ path: 'auth.json' });
 
-// Using nth to get specific element
-await page.click('.product-item >> nth=2');
+   // Use in other tests via playwright.config.js
+   // use: { storageState: 'auth.json' }
+   ```
 
-// Using has-text to find element containing text
-await page.click('.card:has-text("Premium")');
-```
+4. **Performance Testing**: Measuring load times and performance metrics
 
-## Handling Common Scenarios
+   ```javascript
+   const startTime = Date.now();
+   await page.goto('https://example.com');
+   const loadTime = Date.now() - startTime;
+   console.log(`Page loaded in ${loadTime}ms`);
+   ```
 
-### Working with Dialogs
+5. **Mobile Testing**: Emulating various mobile devices and orientations
 
-```javascript
-// Handle alerts, confirms, prompts
-page.on('dialog', (dialog) => dialog.accept());
+6. **Accessibility Testing**: Verifying your app meets accessibility standards
 
-// Or to handle with specific logic
-page.on('dialog', (dialog) => {
-  if (dialog.type() === 'confirm' && dialog.message().includes('Delete')) {
-    dialog.dismiss();
-  } else {
-    dialog.accept();
-  }
-});
+7. **Component Testing**: Testing individual UI components in isolation
 
-await page.click('.delete-button'); // This will trigger a dialog
-```
+8. **Test Data Management**: Strategies for creating and managing test data
 
-### File Downloads
+9. **CI/CD Integration**: Running Playwright in continuous integration pipelines
 
-```javascript
-// Wait for the download to start
-const downloadPromise = page.waitForEvent('download');
-await page.click('button#download');
-const download = await downloadPromise;
+10. **Custom Fixtures**: Creating reusable test contexts
 
-// Wait for the download to complete
-const path = await download.path();
-console.log(`Downloaded file saved to: ${path}`);
-```
+    ```javascript
+    // fixtures.ts
+    import { test as base } from '@playwright/test';
 
-### File Uploads
+    export const test = base.extend({
+      loggedInPage: async ({ page }, use) => {
+        await page.goto('/login');
+        await page.fill('[name="username"]', 'test');
+        await page.fill('[name="password"]', 'pass');
+        await page.click('button[type="submit"]');
+        await page.waitForURL('/dashboard');
+        await use(page);
+      },
+    });
+    ```
 
-```javascript
-// Using file chooser
-const fileChooserPromise = page.waitForEvent('filechooser');
-await page.click('input[type="file"]');
-const fileChooser = await fileChooserPromise;
-await fileChooser.setFiles('path/to/file.pdf');
+11. **Network Monitoring**: Analyzing network requests and performance
 
-// Or more directly
-await page.setInputFiles('input[type="file"]', 'path/to/file.pdf');
-```
+12. **Geolocation and Permissions**: Testing location-based features
 
-## Test Fixtures and Reusable Logic
+13. **WebSocket Testing**: Testing real-time applications
 
-Fixtures allow you to reuse setup logic:
+14. **Test Generation**: Using Playwright Codegen to record and generate tests
 
-```javascript
-// fixtures.js
-const base = require('@playwright/test');
+    ```bash
+    npx playwright codegen https://example.com
+    ```
 
-// Define a custom fixture for logged-in state
-exports.test = base.test.extend({
-  loggedInPage: async ({ page }, use) => {
-    // Go to login page
-    await page.goto('https://example.com/login');
+15. **Advanced Reporting**: Custom reporters and integrations with test management systems
 
-    // Login
-    await page.fill('#username', 'testuser');
-    await page.fill('#password', 'password123');
-    await page.click('#login');
+## Conclusion
 
-    // Wait for login to complete
-    await page.waitForURL('**/dashboard');
+This crash course has covered the essential 85% of Playwright you'll use daily. With this foundation, you can now write effective automated tests for web applications across different browsers. As you gain experience, you can gradually explore the more advanced features to address specific testing challenges.
 
-    // Use the page in the test
-    await use(page);
-  },
-});
+Remember that Playwright's official documentation at https://playwright.dev is comprehensive and regularly updated, making it an excellent resource for continued learning. The community is also active and supportive, with many examples and solutions available online.
 
-exports.expect = base.expect;
-```
+By mastering Playwright, you're not just learning a tool—you're advancing your skills in automated testing, which is an increasingly valuable expertise in modern web development. The time you invest in learning Playwright will pay off with more reliable applications and more efficient testing processes.
 
-Now you can use this fixture in your tests:
-
-```javascript
-// profile.spec.js
-const { test, expect } = require('./fixtures');
-
-test('user can view profile', async ({ loggedInPage }) => {
-  // Already logged in thanks to the fixture
-  await loggedInPage.click('text=Profile');
-  await expect(loggedInPage.locator('h1')).toHaveText('Your Profile');
-});
-```
-
-## Handling API Testing
-
-Playwright isn't just for UI testing. You can also use it for API testing:
-
-```javascript
-const { test, expect } = require('@playwright/test');
-
-test('API test example', async ({ request }) => {
-  // Make API requests
-  const response = await request.get('https://api.example.com/users');
-
-  // Assert responses
-  expect(response.status()).toBe(200);
-
-  const users = await response.json();
-  expect(users.length).toBeGreaterThan(0);
-  expect(users[0]).toHaveProperty('name');
-});
-```
-
-## Visual Testing
-
-You can perform visual testing with Playwright using screenshots:
-
-```javascript
-// Take a screenshot of the whole page
-await page.screenshot({ path: 'screenshot.png' });
-
-// Take a screenshot of a specific element
-await page.locator('.hero-section').screenshot({ path: 'hero.png' });
-
-// Compare with a golden screenshot
-await expect(page).toHaveScreenshot('expected-homepage.png');
-```
-
-## Test Organization
-
-For larger test suites, organization is key:
-
-```mermaid
-flowchart TB
-  Root[Tests] --> E2E[E2E Tests]
-  Root --> API[API Tests]
-  Root --> Visual[Visual Tests]
-
-  E2E --> Auth[Authentication]
-  E2E --> Shop[Shopping Cart]
-  E2E --> User[User Profile]
-
-  Auth --> Login[Login Tests]
-  Auth --> Register[Registration Tests]
-  Auth --> Reset[Password Reset]
-```
-
-## The Missing 15%: Advanced Topics for Self-Exploration
-
-Now that you've learned the essentials (85%), here's a list of more advanced topics you can explore on your own:
-
-1. **CI/CD Integration**: Setting up Playwright in GitHub Actions, Jenkins, or other CI systems
-2. **Parallel Test Execution**: Optimizing test speed with sharding and parallelization
-3. **Authentication Strategies**: Token storage, multi-factor auth, and SSO handling
-4. **Component Testing**: Using Playwright for component-level tests
-5. **Custom Reporting**: Generating custom reports beyond the built-in HTML reporter
-6. **Network Interception**: Advanced mocking and stubbing of network requests
-7. **Performance Testing**: Gathering performance metrics with Playwright
-8. **Advanced Debugging**: Using trace viewer and other advanced debug tools
-9. **Mobile Emulation**: In-depth device emulation for mobile testing
-10. **Page Object Models and Other Design Patterns**: Advanced test organization
-11. **Playwright for Web Scraping**: Using Playwright beyond testing
-12. **Testing Iframes and Shadow DOM**: Working with complex DOM structures
-13. **Testing WebSockets**: Strategies for testing real-time applications
-14. **Visual Regression Testing**: Advanced techniques with third-party tools
-15. **Accessibility Testing**: Using Playwright for a11y audits
-
-## Resources for Further Learning
-
-- [Official Playwright Documentation](https://playwright.dev/docs/intro)
-- [Playwright GitHub Repository](https://github.com/microsoft/playwright)
-- [Playwright Test Examples](https://github.com/microsoft/playwright/tree/main/examples)
-- [Playwright Community Discord](https://discord.com/invite/playwright)
-
-And that's it! You now have the foundational knowledge needed for 85% of your Playwright work. The remaining 15% will come naturally as you encounter specific scenarios and dive deeper into those areas. Happy testing! 🎭
+Happy testing!

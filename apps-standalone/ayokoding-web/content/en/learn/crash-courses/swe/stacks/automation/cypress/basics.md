@@ -5,478 +5,706 @@ draft: false
 weight: 1
 ---
 
-Hey there! Ready to dive into Cypress? This testing tool has made my life so much easier, and I'm excited to share it with you. Let's get you up to speed with everything you'll need for day-to-day testing.
+Cypress is a powerful JavaScript-based end-to-end testing framework designed specifically for modern web applications. This crash course will give you the core knowledge you need for daily testing work, along with a foundation to explore more advanced topics on your own.
 
-## What is Cypress?
+## What is Cypress and Why Use It?
 
-Cypress is a JavaScript-based end-to-end testing framework that makes it super easy to write tests for your web applications. Unlike older tools like Selenium, Cypress runs directly in the browser, giving you real-time feedback as your tests run.
+Cypress is a testing tool that runs directly in the browser, unlike traditional tools like Selenium that operate outside it. This unique approach gives Cypress several key advantages:
 
-```mermaid
-flowchart TD
-    A[Your App] --> B[Browser]
-    B --> C[Cypress]
-    C --> D[Test Runner]
-    D --> E[Results]
-
-    style A fill:#f9d5e5
-    style B fill:#eeeeee
-    style C fill:#b5ead7
-    style D fill:#c7ceea
-    style E fill:#ffdac1
-```
+- **Browser Integration**: Runs in the same loop as your application, giving direct access to DOM elements
+- **Automatic Waiting**: No need for arbitrary sleep/wait commands - Cypress automatically waits for elements
+- **Time Travel Debugging**: Takes snapshots at each test step for easy debugging
+- **Faster & More Reliable**: Tests are more consistent due to the architecture
 
 ## Prerequisites
 
-Before we start, you'll need:
+Before diving into Cypress, you should have:
 
-- Basic JavaScript knowledge
-- Node.js installed on your computer (version 12 or higher)
-- A code editor (like VS Code)
-- A web application to test (we'll use a demo app if you don't have one)
+- **Node.js**: Version 12 or higher installed
+- **Code Editor**: Visual Studio Code or any preferred editor
+- **Basic JavaScript Knowledge**: Understanding functions, objects, and async operations
+- **Web Development Basics**: Familiarity with HTML and CSS selectors
 
-## Getting Started
+## Installation and Setup
 
-### Installation
-
-First, let's create a new project and install Cypress:
+Let's get Cypress installed and running on your system:
 
 ```bash
-# Create a new directory for your project
-mkdir my-cypress-project
-cd my-cypress-project
+# Create a new project folder
+mkdir cypress-project
+cd cypress-project
 
 # Initialize a new npm project
 npm init -y
 
-# Install Cypress
+# Install Cypress as a dev dependency
 npm install cypress --save-dev
-```
 
-### Opening Cypress for the First Time
-
-Let's open Cypress to see what happens:
-
-```bash
-# Use npx to run the Cypress executable
+# Open Cypress Test Runner
 npx cypress open
 ```
 
-This will open the Cypress Test Runner and create a bunch of folders and files in your project. Don't worry - we'll go through what they all mean!
+When you first run Cypress, it will guide you through setup and create a skeleton project structure with example tests. Simply choose "E2E Testing" when prompted during the initial configuration.
 
-### Project Structure
+## Understanding the Cypress Folder Structure
 
-Here's the main structure Cypress created:
+After initialization, your project will have this well-organized structure:
 
 ```
-my-cypress-project/
-├── cypress/
-│   ├── e2e/        # Your test files go here
-│   ├── fixtures/   # Test data files
-│   ├── support/    # Custom commands and utilities
-│   └── videos/     # Recordings of test runs
-├── cypress.config.js  # Configuration file
-└── package.json    # Your npm project file
+cypress/
+├── e2e/         # Your test files go here (.cy.js extension)
+├── fixtures/    # Test data files (JSON, CSV, etc.)
+├── support/     # Custom commands and configurations
+│   ├── commands.js  # Define reusable custom commands
+│   └── e2e.js       # Global configuration for tests
+└── downloads/   # Files downloaded during tests are stored here
+cypress.config.js  # Main configuration file
 ```
 
-## Core Concepts
+## Writing Your First Test
 
-### Writing Your First Test
-
-Let's create a simple test. Create a file called `first_test.cy.js` in the `cypress/e2e` folder:
+Now that you understand the basics, let's create a simple test file in `cypress/e2e/first-test.cy.js`:
 
 ```javascript
-// cypress/e2e/first_test.cy.js
+// Describe block groups related tests
+describe('My First Test Suite', () => {
+  // Each it() is a single test case
+  it('should visit a website and verify content', () => {
+    // Visit the target website
+    cy.visit('https://example.com');
 
-describe('My First Test', () => {
-  it('visits the kitchen sink', () => {
-    // Visit the Cypress example page
-    cy.visit('https://example.cypress.io');
+    // Verify page has expected content
+    cy.contains('Example Domain'); // Finds text anywhere on page
 
-    // Find an element with content "type"
-    cy.contains('type')
+    // Get element by selector and make assertions
+    cy.get('h1').should('be.visible'); // Element should be visible
+    cy.get('h1').should('contain', 'Example Domain'); // Element should contain text
 
-      // Click on it
-      .click();
-
-    // The URL should include "/commands/actions"
-    cy.url().should('include', '/commands/actions');
-
-    // Find the input element and type into it
-    cy.get('.action-email')
-      .type('hello@cypress.io')
-      .should('have.value', 'hello@cypress.io');
+    // You can chain assertions
+    cy.get('p')
+      .should('exist') // Element exists
+      .and('contain', 'for illustrative examples'); // Element contains text
   });
 });
 ```
 
-### The Cypress Command Structure
+## Core Cypress Commands
 
-Cypress uses a unique command chaining syntax that might feel different if you're used to other testing frameworks:
+With your first test written, let's explore the essential commands you'll use almost every day. These form the building blocks of all your Cypress tests.
 
-```mermaid
-flowchart TD
-    A["cy.get('.button')"] --> B[".click()"]
-    B --> C[".should('have.class', 'active')"]
+### 1. Navigation Commands
 
-    style A fill:#f9d5e5
-    style B fill:#b5ead7
-    style C fill:#c7ceea
-```
-
-The key thing to understand is that Cypress commands are **asynchronous** but you don't need to use async/await or promises - Cypress handles this for you!
-
-### Selectors: Finding Elements
-
-One of the most common tasks in Cypress is finding elements to interact with:
+These commands control browser navigation:
 
 ```javascript
-// By CSS selector (most common)
-cy.get('button.submit');
+// Visit a URL
+cy.visit('https://example.com');
 
-// By text content
-cy.contains('Submit');
+// Go back/forward in browser history
+cy.go('back'); // or cy.go(-1)
+cy.go('forward'); // or cy.go(1)
 
-// By test ID (recommended approach)
-cy.get('[data-testid=submit-button]');
-
-// Chaining to find child elements
-cy.get('form').find('input[name="email"]');
+// Reload the page
+cy.reload();
 ```
 
-Pro tip: Add `data-testid` attributes to important elements in your app to make them easier to select in tests!
+### 2. Element Selection Commands
 
-### Assertions: Checking Results
-
-Assertions let you verify that your application is behaving correctly:
+Finding the right elements is crucial for testing:
 
 ```javascript
-// Check element properties
-cy.get('.user-name').should('have.text', 'John Doe');
-cy.get('input').should('have.value', 'hello@example.com');
+// Select by CSS selector (ID, class, attribute, etc.)
+cy.get('#main-content'); // Select by ID
+cy.get('.nav-item'); // Select by class
+cy.get('[data-test=submit-button]'); // Select by attribute (preferred for testing)
 
-// Check element state
-cy.get('button').should('be.disabled');
-cy.get('.dropdown').should('be.visible');
+// Find element containing specific text
+cy.contains('Submit'); // Find element with text "Submit"
+cy.contains('h2', 'Welcome'); // Find h2 element with text "Welcome"
+
+// Find element within a previously selected element
+cy.get('form').find('input[type="email"]');
+
+// Get element by index (when multiple elements match)
+cy.get('li').eq(2); // Get the third list item (0-based index)
+```
+
+### 3. Action Commands
+
+These commands simulate user interactions:
+
+```javascript
+// Click on an element
+cy.get('button').click(); // Simple click
+cy.get('.menu-item').click({ multiple: true }); // Click all matching elements
+cy.get('button').click({ force: true }); // Force click even if element is covered
+
+// Type into an input field
+cy.get('input[name="username"]').type('testuser'); // Type text
+cy.get('input[name="password"]').type('password123', { sensitive: true }); // Mask in logs
+cy.get('input').clear().type('new text'); // Clear first, then type
+
+// Form interactions
+cy.get('select').select('Option 2'); // Select dropdown option
+cy.get('[type="checkbox"]').check(); // Check a checkbox
+cy.get('[type="radio"]').first().check(); // Check first radio button
+```
+
+### 4. Assertion Commands
+
+Verify that your application behaves as expected:
+
+```javascript
+// Element assertions
+cy.get('button').should('exist'); // Element exists
+cy.get('button').should('be.visible'); // Element is visible
+cy.get('button').should('be.disabled'); // Element is disabled
+cy.get('button').should('have.text', 'Submit'); // Exact text match
+cy.get('button').should('contain', 'Submit'); // Contains text
+cy.get('button').should('have.class', 'primary'); // Has CSS class
+cy.get('input').should('have.value', 'test'); // Input has value
+
+// URL assertions
+cy.url().should('include', '/dashboard'); // URL contains string
+cy.location('pathname').should('eq', '/login'); // Path equals string
 
 // Multiple assertions
-cy.get('.status')
-  .should('exist')
-  .and('have.class', 'success')
-  .and('contain', 'Completed');
+cy.get('form')
+  .should('be.visible')
+  .and('have.class', 'signup-form')
+  .find('button')
+  .should('contain', 'Register');
 ```
 
-## Practical Examples
+## Running Cypress Tests
 
-### Navigating Pages
+Once you've written your tests, you'll need to run them. Cypress offers two main approaches:
 
-```javascript
-// Visit a page
-cy.visit('/dashboard');
+### 1. Interactive Mode (GUI)
 
-// Click a link and navigate
-cy.get('nav').contains('Products').click();
-
-// Check the URL after navigation
-cy.url().should('include', '/products');
+```bash
+npx cypress open
 ```
 
-### Working with Forms
+This opens the Cypress Test Runner - a visual interface where you can:
+
+- Select which tests to run
+- Watch tests execute in real-time
+- View time-travel snapshots
+- Debug with the browser's DevTools
+
+### 2. Headless Mode (CLI)
+
+```bash
+# Run all tests headlessly
+npx cypress run
+
+# Run specific test file
+npx cypress run --spec "cypress/e2e/login.cy.js"
+
+# Run tests in specific browser
+npx cypress run --browser chrome
+```
+
+This mode is perfect for CI/CD pipelines and automatically produces:
+
+- Video recordings of test runs
+- Screenshots of failed tests
+- Detailed command logs
+
+## Advanced Testing Patterns
+
+Now that you've mastered the basics, let's explore some more advanced patterns that will help you write more efficient and maintainable tests.
+
+### Using Test Hooks for Setup and Teardown
+
+Hooks help you organize common setup and cleanup operations:
 
 ```javascript
-describe('Login Form', () => {
-  it('should log in successfully', () => {
+describe('User Dashboard', () => {
+  // Runs once before all tests in this block
+  before(() => {
+    // Setup test database or global test state
+    cy.log('Setting up test data');
+  });
+
+  // Runs before each test
+  beforeEach(() => {
+    // Log in before each test
     cy.visit('/login');
+    cy.get('[name="username"]').type('testuser');
+    cy.get('[name="password"]').type('password123');
+    cy.get('form').submit();
 
-    // Fill out the form
-    cy.get('#email').type('user@example.com');
-    cy.get('#password').type('securepassword123');
-
-    // Submit the form
-    cy.get('button[type="submit"]').click();
-
-    // Verify successful login
+    // Verify login successful
     cy.url().should('include', '/dashboard');
-    cy.get('.welcome-message').should('contain', 'Welcome back');
+  });
+
+  // Runs after each test
+  afterEach(() => {
+    // Clean up after each test
+    cy.log('Test completed, cleaning up');
+  });
+
+  // Test cases
+  it('should display user profile information', () => {
+    cy.get('.profile-card').should('contain', 'testuser');
+  });
+
+  it('should allow editing user settings', () => {
+    cy.get('.settings-button').click();
+    // More test steps...
   });
 });
 ```
 
-### Testing API Responses
+### Working with Test Data (Fixtures)
 
-Cypress also lets you test API responses:
-
-```javascript
-describe('API Tests', () => {
-  it('should get user data', () => {
-    cy.request('GET', 'https://jsonplaceholder.typicode.com/users/1').then(
-      (response) => {
-        // Check status code
-        expect(response.status).to.eq(200);
-
-        // Check response body
-        expect(response.body).to.have.property('name');
-        expect(response.body.name).to.eq('Leanne Graham');
-      },
-    );
-  });
-});
-```
-
-### Working with Tables
-
-```javascript
-describe('Table Tests', () => {
-  it('should find data in a table', () => {
-    cy.visit('/users');
-
-    // Get the third row in a table
-    cy.get('table tr')
-      .eq(2)
-      .within(() => {
-        // Check cells within this row
-        cy.get('td').eq(0).should('contain', 'John');
-        cy.get('td').eq(1).should('contain', 'Doe');
-      });
-
-    // Check number of rows
-    cy.get('table tr').should('have.length.greaterThan', 3);
-  });
-});
-```
-
-## Advanced Topics (Still Part of Your Daily 85%)
-
-### Fixtures: Using Test Data
-
-Fixtures let you store and use test data:
-
-1. Create a file at `cypress/fixtures/user.json`:
-
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "role": "Admin"
-}
-```
-
-2. Use this data in your test:
+Fixtures help you separate test data from test logic:
 
 ```javascript
 describe('User Profile', () => {
-  it('displays user information', () => {
-    // Load fixture data
-    cy.fixture('user').then((user) => {
-      // Use the data
-      cy.visit(`/profile/${user.email}`);
-      cy.get('.profile-name').should('contain', user.name);
-      cy.get('.profile-role').should('contain', user.role);
-    });
-  });
-});
-```
-
-### Custom Commands
-
-Create reusable functions for common actions:
-
-Add to `cypress/support/commands.js`:
-
-```javascript
-// Create a login command
-Cypress.Commands.add('login', (email, password) => {
-  cy.visit('/login');
-  cy.get('#email').type(email);
-  cy.get('#password').type(password);
-  cy.get('button[type="submit"]').click();
-  cy.url().should('include', '/dashboard');
-});
-```
-
-Then use it in your tests:
-
-```javascript
-describe('Protected Pages', () => {
   beforeEach(() => {
-    // Use our custom command
-    cy.login('user@example.com', 'password123');
+    // Load test data from fixtures folder
+    cy.fixture('user.json').as('userData');
+
+    // Visit page before each test
+    cy.visit('/profile');
   });
 
-  it('can access account settings', () => {
-    cy.visit('/settings');
-    cy.get('h1').should('contain', 'Account Settings');
+  it('should fill profile form with fixture data', function () {
+    // Access fixture data with this.userData
+    cy.get('#name').type(this.userData.name);
+    cy.get('#email').type(this.userData.email);
+    cy.get('#bio').type(this.userData.bio);
+
+    cy.get('form').submit();
+    cy.get('.success-message').should('be.visible');
   });
 });
 ```
 
-### Stubbing Network Requests
+Example `cypress/fixtures/user.json`:
 
-Cypress can intercept and mock network requests:
+```json
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "bio": "This is a test biography for the user profile."
+}
+```
+
+### Intercepting and Mocking Network Requests
+
+Intercepting network requests gives you powerful control over your test environment:
 
 ```javascript
-describe('User Profile with Stubbed API', () => {
-  it('displays error message when API fails', () => {
-    // Intercept GET requests to /api/user and force a failure
-    cy.intercept('GET', '/api/user', {
-      statusCode: 500,
-      body: { error: 'Server error' },
+describe('API Testing', () => {
+  it('should display user data from API', () => {
+    // Mock API response
+    cy.intercept('GET', '/api/users/1', {
+      statusCode: 200,
+      body: {
+        id: 1,
+        name: 'Test User',
+        email: 'test@example.com',
+      },
+    }).as('getUser'); // Assign alias to reference later
+
+    // Visit page that will make the API call
+    cy.visit('/user-profile/1');
+
+    // Wait for intercepted request
+    cy.wait('@getUser');
+
+    // Verify data appears on page
+    cy.get('.user-name').should('contain', 'Test User');
+    cy.get('.user-email').should('contain', 'test@example.com');
+  });
+
+  it('should handle API error states', () => {
+    // Mock API error response
+    cy.intercept('GET', '/api/users/*', {
+      statusCode: 404,
+      body: {
+        error: 'User not found',
+      },
     }).as('getUserError');
 
-    cy.visit('/profile');
-
-    // Wait for the intercepted request
+    cy.visit('/user-profile/999');
     cy.wait('@getUserError');
 
     // Verify error message appears
     cy.get('.error-message')
       .should('be.visible')
-      .and('contain', 'Could not load profile');
-  });
-
-  it('displays user data from API', () => {
-    // Intercept and return mock data
-    cy.intercept('GET', '/api/user', {
-      statusCode: 200,
-      body: {
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        role: 'Editor',
-      },
-    }).as('getUser');
-
-    cy.visit('/profile');
-    cy.wait('@getUser');
-
-    // Verify the UI shows our mock data
-    cy.get('.profile-name').should('contain', 'Jane Smith');
-    cy.get('.profile-role').should('contain', 'Editor');
+      .and('contain', 'User not found');
   });
 });
 ```
 
-### The Cypress Test Execution Flow
+### Page Object Model for Maintainable Tests
 
-Understanding how Cypress runs commands is crucial:
+The Page Object Model pattern helps keep your tests organized and maintainable by separating page interactions from test logic:
+
+```javascript
+// cypress/support/pages/LoginPage.js
+class LoginPage {
+  // Elements
+  getUsernameField() {
+    return cy.get('input[name="username"]');
+  }
+
+  getPasswordField() {
+    return cy.get('input[name="password"]');
+  }
+
+  getLoginButton() {
+    return cy.get('button[type="submit"]');
+  }
+
+  getErrorMessage() {
+    return cy.get('.error-message');
+  }
+
+  // Actions
+  visit() {
+    cy.visit('/login');
+    return this; // For method chaining
+  }
+
+  login(username, password) {
+    this.getUsernameField().type(username);
+    this.getPasswordField().type(password);
+    this.getLoginButton().click();
+    return this;
+  }
+}
+
+export default new LoginPage();
+```
+
+Using the page object in tests makes your code more readable and maintainable:
+
+```javascript
+// cypress/e2e/login.cy.js
+import LoginPage from '../support/pages/LoginPage';
+
+describe('Login Functionality', () => {
+  beforeEach(() => {
+    LoginPage.visit();
+  });
+
+  it('should log in with valid credentials', () => {
+    LoginPage.login('validuser', 'validpass');
+    cy.url().should('include', '/dashboard');
+  });
+
+  it('should show error with invalid credentials', () => {
+    LoginPage.login('invaliduser', 'invalidpass');
+    LoginPage.getErrorMessage()
+      .should('be.visible')
+      .and('contain', 'Invalid username or password');
+  });
+});
+```
+
+## Cypress Best Practices
+
+Following these best practices will help you write more reliable and maintainable tests:
+
+1. **Use data attributes for test selection**
+
+   ```html
+   <!-- In your app's HTML -->
+   <button data-cy="submit-button">Submit</button>
+   ```
+
+   ```javascript
+   // In your test
+   cy.get('[data-cy="submit-button"]').click();
+   ```
+
+2. **Avoid hard-coded waits**
+
+   ```javascript
+   // ❌ Bad practice
+   cy.wait(5000); // Wait 5 seconds and hope element appears
+
+   // ✅ Good practice
+   cy.get('.loading-spinner').should('not.exist'); // Wait until spinner gone
+   cy.get('.content').should('be.visible'); // Wait until content visible
+   ```
+
+3. **Keep tests independent**
+
+   - Each test should set up its own state
+   - Don't rely on previous test results
+   - Use `beforeEach` hooks for common setup
+
+4. **Test what the user sees and interacts with**
+
+   - Test how elements appear visually
+   - Focus on user workflows and journeys
+   - Verify application behavior, not implementation details
+
+5. **Use descriptive test names**
+
+   ```javascript
+   // ❌ Unclear test name
+   it('login test', () => {
+     // Test code...
+   });
+
+   // ✅ Clear description of what's being tested
+   it('should display error message when password is incorrect', () => {
+     // Test code...
+   });
+   ```
+
+## Debugging Cypress Tests
+
+When tests fail, Cypress offers several powerful debugging tools to help you identify and fix issues:
+
+1. **Time Travel**: Click any command in the Command Log to see the application state at that point
+
+2. **Console Debugging**:
+
+   ```javascript
+   cy.get('.element').then(($el) => {
+     // Log element to console for inspection
+     console.log($el);
+   });
+   ```
+
+3. **Pause Execution**:
+
+   ```javascript
+   it('test with pause', () => {
+     cy.visit('/app');
+     cy.pause(); // Pause execution here
+     cy.get('button').click();
+   });
+   ```
+
+4. **Screenshots and Videos**: Automatically captured for failed tests in headless mode
+
+5. **Debug with Developer Tools**:
+
+   ```javascript
+   cy.get('.complicated-element').then(($el) => {
+     // Pause execution in browser dev tools
+     debugger;
+
+     // Now you can examine $el in the console
+   });
+   ```
+
+## Testing Workflow Visualization
+
+To better understand how all these concepts fit together, here's a visual representation of the Cypress testing workflow:
 
 ```mermaid
-flowchart TD
-    A[Test Start] --> B[Commands Queue]
-    B --> C{"Command Executes"}
-    C -->|Success| D[Next Command]
-    C -->|Failure| E[Test Fails]
-    D --> C
-    E --> F[Test End]
-    D -->|All Done| F
+graph TD
+    A[Start] --> B[Install Cypress]
+    B --> C[Write Test]
+    C --> D[Run Test]
+    D --> E{Test Passes?}
+    E -->|Yes| F[Commit Code]
+    E -->|No| G[Debug Test]
+    G --> H{Test Issue?}
+    H -->|Yes| C
+    H -->|No| I[Fix Application]
+    I --> D
 
-    style A fill:#f9d5e5
-    style B fill:#eeeeee
-    style C fill:#b5ead7
-    style D fill:#c7ceea
-    style E fill:#ffdac1
-    style F fill:#ffdac1
+    subgraph "Test Development Cycle"
+    C
+    D
+    E
+    G
+    H
+    I
+    end
+
+    subgraph "Test Organization"
+    J[describe - Test Suite]
+    J --> K[beforeEach - Setup]
+    K --> L[it - Test Case 1]
+    K --> M[it - Test Case 2]
+    L --> N[afterEach - Cleanup]
+    M --> N
+    end
+
+    subgraph "Command Chain"
+    O[cy.get]
+    O --> P[.should]
+    P --> Q[.and]
+    Q --> R[.click]
+    end
 ```
 
-Cypress doesn't execute commands immediately - it queues them and runs them in sequence. This is why you don't need to use `await` or `.then()` for most commands!
+## Practical Example: Testing a Login Form
 
-## Database Testing Example
-
-If you're working with a database, here's how you might set up a test with seeding data:
+Let's put everything together with a complete test suite for a login form that demonstrates many of the concepts we've covered:
 
 ```javascript
-describe('Product Database Tests', () => {
+describe('Login Functionality', () => {
   beforeEach(() => {
-    // Reset and seed the database
-    cy.task('db:seed', {
-      products: [
-        { id: 1, name: 'Laptop', price: 999 },
-        { id: 2, name: 'Keyboard', price: 129 },
-        { id: 3, name: 'Mouse', price: 59 },
-      ],
-    });
+    // Visit login page before each test
+    cy.visit('/login');
 
-    // Visit the products page
-    cy.visit('/products');
+    // Intercept API calls
+    cy.intercept('POST', '/api/auth/login').as('loginRequest');
   });
 
-  it('displays all products from database', () => {
-    // Check if all 3 products are shown
-    cy.get('.product-card').should('have.length', 3);
+  it('should display the login form', () => {
+    // Verify all form elements are visible
+    cy.get('[data-cy=username]').should('be.visible');
+    cy.get('[data-cy=password]').should('be.visible');
+    cy.get('[data-cy=login-button]')
+      .should('be.visible')
+      .and('contain', 'Log In');
+  });
 
-    // Check specific product details
-    cy.contains('.product-card', 'Laptop').should('contain', '$999');
+  it('should require username and password', () => {
+    // Try to submit empty form
+    cy.get('[data-cy=login-button]').click();
+
+    // Verify validation messages
+    cy.get('[data-cy=username-error]')
+      .should('be.visible')
+      .and('contain', 'Username is required');
+    cy.get('[data-cy=password-error]')
+      .should('be.visible')
+      .and('contain', 'Password is required');
+  });
+
+  it('should show error for invalid credentials', () => {
+    // Mock failed login response
+    cy.intercept('POST', '/api/auth/login', {
+      statusCode: 401,
+      body: { message: 'Invalid credentials' },
+    }).as('failedLogin');
+
+    // Fill form with invalid data
+    cy.get('[data-cy=username]').type('wronguser');
+    cy.get('[data-cy=password]').type('wrongpass');
+    cy.get('[data-cy=login-button]').click();
+
+    // Wait for request and verify error
+    cy.wait('@failedLogin');
+    cy.get('[data-cy=login-error]')
+      .should('be.visible')
+      .and('contain', 'Invalid credentials');
+  });
+
+  it('should successfully log in with valid credentials', () => {
+    // Mock successful login response
+    cy.intercept('POST', '/api/auth/login', {
+      statusCode: 200,
+      body: {
+        token: 'fake-jwt-token',
+        user: { id: 1, username: 'testuser' },
+      },
+    }).as('successfulLogin');
+
+    // Fill form with valid data
+    cy.get('[data-cy=username]').type('testuser');
+    cy.get('[data-cy=password]').type('correctpass');
+    cy.get('[data-cy=login-button]').click();
+
+    // Wait for request
+    cy.wait('@successfulLogin');
+
+    // Verify redirect to dashboard
+    cy.url().should('include', '/dashboard');
+
+    // Verify welcome message
+    cy.get('[data-cy=welcome-message]').should('contain', 'Welcome, testuser');
   });
 });
 ```
 
-To make this work, you'd need to set up a custom task in your `cypress.config.js`:
+## The Remaining 15%: Advanced Topics to Explore
 
-```javascript
-const { defineConfig } = require('cypress');
+Now that you understand the core 85% of Cypress, here are the advanced topics to explore as your testing needs grow:
 
-module.exports = defineConfig({
-  e2e: {
-    setupNodeEvents(on, config) {
-      on('task', {
-        'db:seed': (data) => {
-          // Here you would connect to your database and seed it
-          // This is just a simplified example
-          console.log('Seeding database with:', data);
-          return null; // Tasks must return null or a value
-        },
-      });
-    },
-  },
-});
-```
+1. **Custom Commands**: Extend Cypress with your own reusable commands
 
-## Running Cypress Tests
+   ```javascript
+   // In cypress/support/commands.js
+   Cypress.Commands.add('login', (username, password) => {
+     cy.visit('/login');
+     cy.get('[data-cy=username]').type(username);
+     cy.get('[data-cy=password]').type(password);
+     cy.get('[data-cy=login-button]').click();
+   });
 
-You can run tests in two ways:
+   // In your test
+   cy.login('testuser', 'password123');
+   ```
 
-1. **Interactive mode** (great for development):
+2. **Cypress Dashboard Service**: Cloud recording, parallelization, and test analytics
 
-```bash
-npx cypress open
-```
+   - Allows running tests in parallel across multiple machines
+   - Stores test results, videos, and screenshots
+   - Provides insights into test performance and flakiness
 
-2. **Headless mode** (great for CI/CD):
+3. **Visual Testing**: Compare screenshots for UI regression testing
 
-```bash
-npx cypress run
-```
+   - Plugins like `cypress-image-snapshot` for visual comparisons
+   - Integration with services like Percy or Applitools
 
-## The Remaining 15% (What We Didn't Cover)
+4. **Component Testing**: Test individual UI components in isolation
 
-Here's what you can explore on your own once you're comfortable with the basics:
+   - Test React, Vue, Angular components directly
+   - Faster than full end-to-end tests for component-level behavior
 
-1. **Component Testing** - Testing individual React, Vue, or Angular components
-2. **Visual Testing** - Detecting visual regressions with plugins like Applitools or Percy
-3. **Advanced Mocking** - More complex scenarios with `cy.intercept()` including dynamic responses
-4. **CI/CD Integration** - Setting up Cypress in GitHub Actions, Jenkins, CircleCI, etc.
-5. **Cross-browser Testing** - Running tests across different browsers
-6. **Cypress Dashboard Service** - Recording test results and parallelization
-7. **Performance Testing** - Measuring load times and performance metrics
-8. **Custom Plugins** - Extending Cypress with custom functionality
-9. **Security Testing** - Testing authentication, authorization, and security aspects
-10. **Mobile Testing** - Strategies for testing responsive designs
-11. **Accessibility Testing** - Using Cypress with axe-core for a11y tests
-12. **Test Retries** - Configuring automatic retries for flaky tests
-13. **Advanced Selectors** - Using XPath and more complex selectors
-14. **Page Object Model** - Organizing tests with the POM pattern
-15. **Video Recording and Screenshots** - Configuring and using these features
+5. **CI/CD Integration**: Running Cypress in continuous integration pipelines
 
-To explore these topics, the best resources are:
+   - GitHub Actions, CircleCI, Jenkins, etc.
+   - Parallel test execution
+   - Test result reporting
 
-- [Official Cypress Documentation](https://docs.cypress.io/)
-- [Cypress GitHub Repository](https://github.com/cypress-io/cypress)
-- [Cypress Blog](https://www.cypress.io/blog/)
+6. **API Testing Strategy**: Comprehensive backend validation
 
-## Final Tips
+   - Using `cy.request()` for direct API calls
+   - Testing API contracts and schemas
+   - Integration with OpenAPI/Swagger specifications
 
-1. **Start simple** - Begin with basic navigation and form tests
-2. **Use data-testid attributes** - Make your app more testable
-3. **Don't use `cy.wait(timeout)`** - Use `cy.wait('@alias')` for network requests instead
-4. **Write small, focused tests** - Each test should verify one thing
-5. **Run tests often** during development - The Cypress Test Runner makes this easy!
+7. **Performance Testing**: Basic performance monitoring
 
-And that's it! You now know 85% of what you need for daily Cypress testing. The rest you'll pick up as you go along. Happy testing! ☕
+   - Tracking page load times
+   - Measuring Core Web Vitals
+   - Resource loading analysis
+
+8. **Advanced Mocking Techniques**:
+
+   - Stubbing browser APIs (localStorage, IndexedDB)
+   - Clock manipulation for time-based testing
+   - Service worker interception
+
+9. **Cross-Browser Testing**: Testing across multiple browsers
+
+   - Running tests in Chrome, Firefox, Edge, etc.
+   - Handling browser-specific behavior differences
+
+10. **Authentication Patterns**: Advanced authentication testing
+    - OAuth flows
+    - JWT token management
+    - Session persistence
+
+## Summary
+
+This crash course has equipped you with the essential 85% of Cypress knowledge you'll need for daily testing:
+
+- Installation and basic setup
+- Core commands for navigation, selection, and assertions
+- Test organization with describe/it blocks and hooks
+- Network request interception and mocking
+- The Page Object Model pattern for maintainable tests
+- Best practices for writing reliable tests
+- Debugging techniques for when things go wrong
+
+With this solid foundation, you're now well-equipped to start writing robust end-to-end tests for your web applications. As your testing needs grow, you can gradually explore the more advanced capabilities we outlined in the remaining 15%.
+
+Remember that the most effective Cypress tests focus on user workflows and behaviors rather than implementation details. This approach will keep your tests resilient to UI changes and provide the most value for your testing efforts.

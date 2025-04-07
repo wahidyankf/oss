@@ -9,3 +9,4 @@ weight: 2
 - [Linux Administration](./linux-administration/)
 - [Docker](./docker/)
 - [Kubernetes](./kubernetes/)
+- [Terraform](./terraform/)

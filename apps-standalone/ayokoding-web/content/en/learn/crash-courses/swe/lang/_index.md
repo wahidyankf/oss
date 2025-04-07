@@ -11,9 +11,11 @@ weight: 1
 - [JavaScript](./javascript)
 - [TypeScript](./typescript)
 - [Java](./java)
-- [Kotlin](./kotlin)
 - [Clojure](./clojure/)
 - [Elixir](./elixir/)
+- [Golang](./golang/)
+- [Kotlin](./kotlin/)
+- [Swift](./swift/)
 
 ## Data Store
 

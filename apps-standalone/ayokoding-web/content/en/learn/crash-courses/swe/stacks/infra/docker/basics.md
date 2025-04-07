@@ -5,440 +5,671 @@ draft: false
 weight: 2
 ---
 
-Hey there! Ready to dive into the world of Docker? I'm going to walk you through everything you need to know to get up and running with Docker quickly. By the end of this crash course, you'll understand about 85% of what you'll encounter daily, plus have the foundation to explore the rest on your own.
+Docker has transformed how developers build, deploy, and run applications by introducing a powerful containerization approach. This crash course will guide you through the essential Docker concepts and commands you'll use daily, while giving you the foundation to explore more advanced topics on your own.
 
-## What is Docker & Why Should You Care?
+## What is Docker and Why Use It?
 
-Docker is like a shipping container for your code. Just as shipping containers revolutionized global transport by standardizing how goods are shipped, Docker standardizes how software is packaged and run.
+At its core, Docker is a platform that allows you to package applications with all their dependencies into standardized units called **containers**. These containers can run consistently across different environments, solving several critical problems in software development:
 
-In simple terms, Docker lets you package an application with all its dependencies into a standardized unit (called a container) that can run the same way anywhere.
-
-**Why is this awesome?**
-
-- **Consistency**: "It works on my machine" is no longer an excuse!
-- **Isolation**: Applications don't interfere with each other
-- **Portability**: Run the same container on your laptop, test server, or cloud
-- **Efficiency**: Containers share OS resources and start in seconds
-
-## Docker vs Virtual Machines
+- **"Works on my machine" syndrome**: By packaging your application with all its dependencies, Docker eliminates inconsistencies between development, testing, and production environments.
+- **Environment consistency**: The same container runs identically everywhere, preventing unexpected behavior when deploying.
+- **Resource efficiency**: Containers are much lighter than virtual machines since they share the host's operating system kernel.
+- **Isolation**: Applications in separate containers don't interfere with each other, improving stability and security.
 
 ```mermaid
 graph TD
-    subgraph "Traditional VM Architecture"
-        A[App A] --> VA[Guest OS]
-        B[App B] --> VB[Guest OS]
-        VA --> H[Hypervisor]
-        VB --> H
-        H --> OS[Host Operating System]
-        OS --> I[Infrastructure]
-    end
-
-    subgraph "Docker Architecture"
-        C[App C] --> CA[Container]
-        D[App D] --> CB[Container]
-        CA --> DE[Docker Engine]
-        CB --> DE
-        DE --> DOS[Host Operating System]
-        DOS --> DI[Infrastructure]
-    end
+    A[Application] --> B[Dependencies]
+    B --> C[Docker Container]
+    C --> D[Any Environment]
+    D --> |Same behavior| E[Development]
+    D --> |Same behavior| F[Testing]
+    D --> |Same behavior| G[Production]
 ```
 
-The key difference? VMs virtualize the entire OS, while Docker containers share the host OS kernel and only package what your app needs.
+## Prerequisites
 
-## Let's Get Docker Installed
+Before diving into Docker, ensure your system meets these requirements:
 
-### Prerequisites:
+- 64-bit processor
+- 4GB RAM minimum (8GB+ recommended for smoother performance)
+- Virtualization enabled in BIOS/UEFI
+- Administrative access to your machine
 
-- A 64-bit OS (Windows, macOS, or Linux)
-- For Windows, you need Windows 10/11 Pro, Enterprise, or Education with Hyper-V capability
+## Installation
 
-### Installation:
+Getting Docker up and running is straightforward across all major platforms.
 
-**For macOS:**
+### For Windows:
+
+1. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
+2. Run the installer (WSL2 will be configured automatically)
+3. Start Docker Desktop from your applications
+
+### For Mac:
+
+1. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
+2. Drag the Docker icon to your Applications folder
+3. Launch Docker Desktop and wait for it to initialize
+
+### For Linux (Ubuntu example):
 
 ```bash
-# Using Homebrew
-brew install --cask docker
-# Then open Docker Desktop from Applications
-```
+# Update packages
+sudo apt update
 
-**For Ubuntu/Debian:**
+# Install prerequisites
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
 
-```bash
-# Update package index
-sudo apt-get update
-
-# Install packages to allow apt to use a repository over HTTPS
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-
-# Add Docker's official GPG key
+# Add Docker's GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-# Set up the Docker repository
+# Add Docker repository
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
 # Install Docker
-sudo apt-get update
-sudo apt-get install -y docker-ce
+sudo apt update
+sudo apt install docker-ce
 
-# Add your user to the docker group to run without sudo
-sudo usermod -aG docker $USER
-# Log out and back in for this to take effect
+# Add your user to the docker group (to run without sudo)
+sudo usermod -aG docker ${USER}
+
+# Log out and back in for changes to take effect
 ```
 
-**For Windows:**
-
-1. Download Docker Desktop from [Docker's website](https://www.docker.com/products/docker-desktop)
-2. Run the installer and follow the prompts
-3. Launch Docker Desktop
-
-To verify your installation, open a terminal and run:
+Once installed, verify everything is working properly:
 
 ```bash
 docker --version
-# Should output something like: Docker version 24.0.5, build ced0996
+docker run hello-world
 ```
 
-## Docker's Core Concepts
+If you see the Docker version and the hello-world container runs successfully, you're ready to start your Docker journey.
+
+## Core Concepts
+
+Before diving into commands, let's understand the fundamental Docker concepts that form the foundation of everything you'll do.
 
 ### Images vs Containers
 
-Think of an image as a recipe and a container as the dish you cook from it:
-
-- **Image**: A read-only template with instructions for creating a container
-- **Container**: A runnable instance of an image
+The relationship between Dockerfiles, images, and containers is central to understanding Docker:
 
 ```mermaid
-graph TB
-    I[Docker Image] --> C1[Container 1]
-    I --> C2[Container 2]
-    I --> C3[Container 3]
-
-    style I fill:#f9f,stroke:#333,stroke-width:2px
-    style C1 fill:#bbf,stroke:#333,stroke-width:2px
-    style C2 fill:#bbf,stroke:#333,stroke-width:2px
-    style C3 fill:#bbf,stroke:#333,stroke-width:2px
+graph TD
+    A[Dockerfile] -->|build| B[Docker Image]
+    B -->|run| C[Container 1]
+    B -->|run| D[Container 2]
+    B -->|run| E[Container 3]
 ```
 
-## Essential Docker Commands
+- **Dockerfile**: A text file with instructions to build an image, similar to a recipe
+- **Image**: A read-only template containing your application and all its dependencies
+- **Container**: A running instance of an image, like a lightweight, isolated virtual machine
+- **Registry**: A storage service for Docker images (like Docker Hub, which works similarly to GitHub but for Docker images)
 
-Let's get comfortable with the commands you'll use most often:
+With these concepts in mind, let's explore the essential commands you'll use daily.
+
+## Essential Commands
+
+Docker's command-line interface is how you'll interact with images and containers. Here are the commands you'll use most frequently:
+
+### Working with Images
+
+Images are the building blocks of containers. Here's how to manage them:
 
 ```bash
-# Pull an image from Docker Hub
-docker pull nginx
-# You'll see progress bars as Docker downloads the image layers
-
-# List downloaded images
+# Download an image from Docker Hub
+docker pull nginx:latest
+# List all images on your system
 docker images
-# You'll see a table with repositories, tags, image IDs, etc.
-
-# Run a container
-docker run --name my-nginx -p 8080:80 -d nginx
-# This runs nginx in the background, mapping port 8080 on your host to port 80 in the container
-
-# List running containers
-docker ps
-# Shows container ID, image, command, created time, status, ports, and name
-
-# Stop a container
-docker stop my-nginx
-
-# List all containers (including stopped ones)
-docker ps -a
-
-# Remove a container
-docker rm my-nginx
-
-# Remove an image
-docker rmi nginx
+# Remove an image when you no longer need it
+docker rmi nginx:latest
+# Build an image from a Dockerfile
+docker build -t myapp:1.0 .  # Don't forget the dot!
 ```
 
-## Understanding Dockerfiles
+### Working with Containers
 
-A Dockerfile is like a recipe for your Docker image. It's a text file with instructions on how to build the image.
+Once you have images, you'll create and manage containers with these commands:
 
-Let's create a simple Dockerfile for a Node.js app:
+```bash
+# Run a container
+docker run nginx:latest
+# Run in detached mode (background)
+docker run -d nginx:latest
+# Run with interactive terminal
+docker run -it ubuntu:latest bash
+# Run with port mapping (host:container)
+docker run -p 8080:80 nginx:latest
+# Run with volume (for data persistence)
+docker run -v /host/path:/container/path nginx:latest
+# Run with environment variables
+docker run -e DB_HOST=localhost -e DB_PORT=5432 myapp:1.0
+# Run with a name
+docker run --name webserver nginx:latest
+# List running containers
+docker ps
+# List all containers (including stopped)
+docker ps -a
+# Stop a container
+docker stop container_id_or_name
+# Start a stopped container
+docker start container_id_or_name
+# Remove a container
+docker rm container_id_or_name
+# View container logs
+docker logs container_id_or_name
+# Execute command in running container
+docker exec -it container_id_or_name bash
+```
+
+Now that you understand the basic commands, let's put them into practice with some examples.
+
+## Example 1: Running Your First Container
+
+Let's start with something simple - running a web server:
+
+```bash
+# Pull and run a Nginx web server
+docker run -d -p 8080:80 --name my-webserver nginx:latest
+# Check if it's running
+docker ps
+# Now visit http://localhost:8080 in your browser!
+# View the logs
+docker logs my-webserver
+# Stop and remove when done
+docker stop my-webserver
+docker rm my-webserver
+```
+
+Just like that, you've deployed a web server without installing Nginx directly on your machine. This is the power of Docker - isolated, ready-to-run applications that don't interfere with your host system.
+
+## Creating Docker Images with Dockerfile
+
+While using pre-built images is convenient, you'll often need to create custom images for your applications. This is where Dockerfiles come in:
 
 ```dockerfile
 # Base image
-FROM node:14
+FROM node:14-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy dependency files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy all other source code
+# Copy application code
 COPY . .
 
-# Expose port
+# Expose port for the application
 EXPOSE 3000
 
-# Start the app
+# Command to run when container starts
 CMD ["npm", "start"]
 ```
 
-Each instruction creates a new layer in the image:
-
-```mermaid
-graph TD
-    A[FROM node:14] --> B[WORKDIR /app]
-    B --> C[COPY package*.json]
-    C --> D[RUN npm install]
-    D --> E[COPY . .]
-    E --> F[EXPOSE 3000]
-    F --> G[CMD npm start]
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style G fill:#bbf,stroke:#333,stroke-width:2px
-```
-
-## Building & Running Your Own Images
-
-Let's say you have a simple Node.js app:
+This Dockerfile defines a complete environment for a Node.js application. To turn it into an image:
 
 ```bash
-# Project structure
-my-node-app/
-├── Dockerfile
-├── package.json
-├── index.js
-└── ...
+docker build -t my-node-app:1.0 .
+# The "." specifies the build context (current directory)
 ```
 
-Build and run it:
+And to run your custom image:
 
 ```bash
-# Build the image
-docker build -t my-node-app .
-# The '.' means "use the Dockerfile in the current directory"
-
-# Run the container
-docker run -p 3000:3000 --name my-app-container my-node-app
+docker run -d -p 3000:3000 my-node-app:1.0
 ```
+
+Let's see how this works with a complete application example.
+
+## Example 2: Node.js Web Application
+
+Here's how to containerize a simple Express app:
+
+1. Create `package.json`:
+
+```json
+{
+  "name": "docker-demo",
+  "version": "1.0.0",
+  "description": "Docker demo app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+```
+
+2. Create `app.js`:
+
+```javascript
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('Hello from Docker!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+3. Create `Dockerfile` (as shown earlier)
+
+4. Build and run:
+
+```bash
+docker build -t node-demo .
+docker run -d -p 3000:3000 --name my-node-app node-demo
+# Visit http://localhost:3000 to see the app
+```
+
+Congratulations! You've just containerized a Node.js application. This pattern works for many types of applications - just adjust the Dockerfile for your language and framework.
 
 ## Data Persistence with Volumes
 
-Containers are ephemeral (temporary), meaning when a container stops, any data inside is lost. Volumes solve this problem:
+One challenge with containers is their ephemeral nature - when a container is removed, all data inside it is lost. This is where volumes come in, providing persistent storage for your containers:
 
-```bash
-# Create a volume
-docker volume create my-data
-
-# Run a container with a volume mounted
-docker run -d --name my-db \
-  -v my-data:/var/lib/mysql \
-  -e MYSQL_ROOT_PASSWORD=secret \
-  mysql:5.7
-# Now the MySQL data will persist even if the container is removed
+```mermaid
+graph TD
+    A[Container] -->|Reads/Writes| B[Volume]
+    B -->|Persists on| C[Host File System]
+    D[New Container] -->|Can access same data| B
 ```
 
-## Multi-Container Apps with Docker Compose
+Docker supports several types of data persistence:
 
-Most real applications involve multiple containers (e.g., web server, database, cache). Docker Compose lets you define and run multi-container applications.
+- **Named volumes**: Managed by Docker, the easiest to use
+- **Bind mounts**: Direct mapping to specific locations on your host filesystem
+- **tmpfs mounts**: Stored in memory only, for sensitive or temporary data
 
-Create a `docker-compose.yml` file:
+Here's how to work with volumes:
+
+```bash
+# Create a named volume
+docker volume create my-data
+
+# Run with named volume
+docker run -d -v my-data:/data --name my-container nginx
+
+# Run with bind mount
+docker run -d -v $(pwd)/html:/usr/share/nginx/html --name my-nginx nginx
+
+# List volumes
+docker volume ls
+
+# Remove volume
+docker volume rm my-data
+```
+
+Let's see how this works with a database example.
+
+## Example 3: Database with Persistent Data
+
+Databases are perfect candidates for volumes, as they need to persist data:
+
+```bash
+# Create a volume for database data
+docker volume create postgres-data
+
+# Run PostgreSQL with persistent storage
+docker run -d \
+  --name my-postgres \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -e POSTGRES_USER=myuser \
+  -e POSTGRES_DB=mydb \
+  -p 5432:5432 \
+  -v postgres-data:/var/lib/postgresql/data \
+  postgres:13
+
+# Now your database data persists even if you remove the container!
+```
+
+With this setup, you can stop, remove, and recreate the PostgreSQL container without losing your data. The data lives in the volume, safely stored on your host system.
+
+## Networking in Docker
+
+As your applications grow more complex, you'll often need multiple containers that can communicate with each other. Docker's networking capabilities make this possible:
+
+```mermaid
+graph TD
+    A[Container 1] -->|Can communicate with| B[Container 2]
+    A --> C[Docker Network]
+    B --> C
+    C --> D[Host Network]
+    D --> E[External Network]
+```
+
+Docker provides several network types to suit different needs:
+
+- **bridge**: The default network that isolates containers while allowing them to communicate
+- **host**: Uses the host's networking directly (no isolation)
+- **none**: No network access (for maximum isolation)
+- **custom**: User-defined networks with more control over container communication
+
+Here's how to work with Docker networks:
+
+```bash
+# Create a custom network
+docker network create my-network
+
+# List networks
+docker network ls
+
+# Run container in specific network
+docker run -d --network=my-network --name container1 nginx
+
+# Connect existing container to network
+docker network connect my-network container2
+
+# Inspect network
+docker network inspect my-network
+```
+
+Now let's see how networking works in a multi-container application.
+
+## Example 4: Multi-Container Application with Networking
+
+Here's how to create a web application that connects to a database:
+
+```bash
+# Create a network
+docker network create app-network
+
+# Run a database
+docker run -d \
+  --name postgres \
+  --network app-network \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_USER=user \
+  -e POSTGRES_DB=myapp \
+  postgres:13
+
+# Run a web application that connects to the database
+docker run -d \
+  --name webapp \
+  --network app-network \
+  -p 8080:8080 \
+  -e DB_HOST=postgres \
+  -e DB_USER=user \
+  -e DB_PASSWORD=password \
+  -e DB_NAME=myapp \
+  myapp:latest
+
+# Containers can now communicate using container names as hostnames
+# The webapp can connect to postgres using 'postgres' as the hostname
+```
+
+This setup illustrates a key Docker networking feature: containers on the same network can reach each other using container names as hostnames. This simplifies configuration and makes your applications more portable.
+
+While managing multiple containers with individual commands works, it can become unwieldy as your application grows. This is where Docker Compose comes in.
+
+## Docker Compose for Multi-Container Applications
+
+Docker Compose lets you define and manage multi-container applications with a single YAML file:
+
+```mermaid
+graph TD
+    A[docker-compose.yml] -->|defines| B[Service 1]
+    A -->|defines| C[Service 2]
+    A -->|defines| D[Service 3]
+    B --> E[Container 1]
+    C --> F[Container 2]
+    D --> G[Container 3]
+    E -->|networked together| F
+    F -->|networked together| G
+```
+
+With Docker Compose, you can:
+
+- Define all services in one file
+- Start all containers with a single command
+- Create a default network for your services automatically
+- Define dependencies between services
+
+Here's an example `docker-compose.yml`:
 
 ```yaml
 version: '3'
 services:
-  # Web application
   web:
-    build: .
+    build: . # Build from Dockerfile in current directory
     ports:
-      - '3000:3000'
+      - '8080:80'
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgres://postgres:password@db:5432/mydb
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=myapp
 
-  # Database
   db:
     image: postgres:13
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mydb
+      - POSTGRES_DB=myapp
 
 volumes:
-  db-data:
+  db-data: # Named volume for database data
 ```
 
-Start everything with a single command:
+And here are the essential Docker Compose commands:
 
 ```bash
+# Start all services
+docker-compose up
+
+# Start in detached mode
 docker-compose up -d
-# This builds images if needed and starts all services
-```
 
-Stop everything:
-
-```bash
+# Stop all services
 docker-compose down
-# Add --volumes to also remove the volumes
+
+# Stop and remove volumes
+docker-compose down -v
+
+# View logs
+docker-compose logs
+
+# View logs for specific service
+docker-compose logs web
+
+# Scale a service
+docker-compose up -d --scale web=3
 ```
 
-## Docker Networking
+Let's see Docker Compose in action with a full-stack application.
 
-Containers can talk to each other through Docker networks:
+## Example 5: Full Stack Application with Docker Compose
 
-```bash
-# Create a network
-docker network create my-network
+Imagine you're building an application with a React frontend, a Node.js backend, and a PostgreSQL database. Here's how you'd set it up with Docker Compose:
 
-# Run containers in the network
-docker run -d --name redis --network my-network redis
-docker run -d --name app --network my-network my-app
-
-# Now 'app' can reach 'redis' using its container name as the hostname
-```
-
-## Practical Example: Setting Up a WordPress Site
-
-Let's put it all together with a practical example using Docker Compose:
+1. Create a `docker-compose.yml`:
 
 ```yaml
-# docker-compose.yml
 version: '3'
-
 services:
-  # WordPress
-  wordpress:
-    image: wordpress:latest
+  frontend:
+    build: ./frontend
     ports:
-      - '8080:80'
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
-    volumes:
-      - wordpress_files:/var/www/html
+      - '3000:3000'
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - '5000:5000'
     depends_on:
       - db
-
-  # MySQL Database
-  db:
-    image: mysql:5.7
-    volumes:
-      - db_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=myapp
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=myapp
 
 volumes:
-  wordpress_files:
-  db_data:
+  postgres-data:
 ```
 
-Start it with:
+2. Start everything with a single command:
 
 ```bash
 docker-compose up -d
-# Wait a minute, then visit http://localhost:8080 in your browser
 ```
 
-## Seeding a Database Example
+With this setup, Docker Compose handles creating a network, starting containers in the right order, and connecting everything together. This drastically simplifies development and deployment of complex applications.
 
-If you need to seed a database with initial data, you can do this by mounting SQL scripts that run when the container starts:
+## Best Practices
+
+As you become more comfortable with Docker, these best practices will help you create more efficient and secure containers.
+
+### Dockerfile Best Practices:
+
+1. **Use specific base image tags** (e.g., `node:14-alpine` not just `node`) to ensure consistency
+2. **Minimize layers** by combining related commands with `&&` to reduce image size
+3. **Order instructions by change frequency** (less frequent at top) to optimize build times
+4. **Use .dockerignore** to exclude unnecessary files from your build context
+5. **Use multi-stage builds** for smaller production images
+
+Here's how a multi-stage build looks:
+
+```dockerfile
+# Build stage
+FROM node:14-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+This approach drastically reduces the final image size by including only what's needed for production.
+
+### Security Best Practices:
+
+1. **Don't run as root** inside containers to limit potential damage from breaches
+2. **Scan images for vulnerabilities** using tools like Docker Scout
+3. **Use official or verified images** to reduce the risk of malicious code
+4. **Keep images updated** with security patches to protect against known vulnerabilities
+5. **Don't store secrets in images** - use environment variables or dedicated secrets management
+
+## Database Seed Example (for PostgreSQL)
+
+When working with databases in Docker, you'll often need to initialize them with schema and data. Here's how to do it with PostgreSQL:
+
+Create a `seed.sql` file:
+
+```sql
+-- Create tables
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seed data
+INSERT INTO users (name, email) VALUES
+('John Doe', 'john@example.com'),
+('Jane Smith', 'jane@example.com'),
+('Bob Johnson', 'bob@example.com');
+```
+
+Then add the initialization to your docker-compose:
 
 ```yaml
-# docker-compose.yml
-version: '3'
-
 services:
   db:
     image: postgres:13
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: myapp
     volumes:
-      - ./init-scripts:/docker-entrypoint-initdb.d
-      - db_data:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
-
-volumes:
-  db_data:
+      - postgres-data:/var/lib/postgresql/data
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql # This will run on initialization
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=myapp
 ```
 
-Create an init script:
+PostgreSQL automatically executes any .sql files in the `/docker-entrypoint-initdb.d/` directory when the container first initializes, making this an elegant way to seed your database.
 
-```sql
--- ./init-scripts/01-seed.sql
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL
-);
+## The Remaining 15%: Advanced Topics
 
-INSERT INTO users (name, email) VALUES
-  ('John Doe', 'john@example.com'),
-  ('Jane Smith', 'jane@example.com');
-```
+Now that you've mastered the essentials of Docker, here are the advanced topics you can explore on your own:
 
-## Docker Best Practices
+1. **Container Orchestration**
 
-1. **Use official images** when possible
-2. **Keep images small** (use Alpine-based images, multi-stage builds)
-3. **Don't run as root** inside containers
-4. **Use environment variables** for configuration
-5. **Label your images** with metadata
-6. **Use .dockerignore** files to exclude unnecessary files
-7. **Pin specific versions** in your image tags (e.g., `node:14.17` instead of `node:latest`)
-8. **Use health checks** to verify container state
+   - Kubernetes for managing containerized applications at scale
+   - Docker Swarm for native Docker orchestration in multi-server environments
 
-## The Remaining 15%: What to Explore Next
+2. **Advanced Networking**
 
-Now that you've got the basics down, here's what you can explore next:
+   - Overlay networks for multi-host deployments
+   - Network policies and security for fine-grained access control
 
-1. **Advanced Networking**
+3. **Docker in CI/CD Pipelines**
 
-   - Overlay networks for multi-host setups
-   - Network policies and security
-   - Custom DNS configurations
+   - Integrating Docker with GitHub Actions, Jenkins, or GitLab CI
+   - Automated testing and deployment of containers for continuous delivery
 
-2. **Container Orchestration**
+4. **Advanced Security**
 
-   - Docker Swarm (Docker's native orchestration)
-   - Kubernetes basics and integration
-   - Service discovery and load balancing
+   - Docker Content Trust for image signing and verification
+   - Security scanning and hardening techniques
+   - Rootless containers for additional security
 
-3. **Docker Security**
+5. **Monitoring and Logging**
 
-   - Image scanning for vulnerabilities
-   - Content trust and image signing
-   - Runtime security and container isolation
-   - Limiting container resources
+   - Container monitoring with Prometheus and Grafana
+   - Centralized logging with ELK stack (Elasticsearch, Logstash, Kibana)
 
-4. **CI/CD Integration**
+6. **Docker on Different Platforms**
+   - Windows containers for .NET applications
+   - Edge and IoT deployments for resource-constrained environments
 
-   - Building images in CI pipelines
-   - Automated testing of containers
-   - Container registry integration
+As you delve into these topics, you'll find that your solid foundation in Docker basics will serve you well.
 
-5. **Production Considerations**
+## Summary
 
-   - Logging strategies
-   - Monitoring containers
-   - Backup and restore procedures
-   - High availability setups
+Congratulations! You've now learned the 85% of Docker you'll use on a daily basis:
 
-6. **Performance Optimization**
-   - Multi-stage builds
-   - Image layer caching strategies
-   - Resource constraints fine-tuning
+- Core concepts of images and containers
+- Essential commands for managing Docker resources
+- Creating custom images with Dockerfiles
+- Persisting data with volumes
+- Connecting containers with networking
+- Orchestrating multi-container applications with Docker Compose
+- Best practices for efficiency and security
 
-This foundation gives you the tools to start exploring these more advanced topics on your own. The good news is that the core concepts you've learned will apply to all of these areas!
+The examples provided should help you get started immediately, and you now have the knowledge foundation to explore the more advanced topics on your own.
 
-Feel free to start with whichever seems most relevant to your projects. Docker has excellent documentation, and there are tons of tutorials online covering these advanced topics.
+Remember that Docker is all about making development and deployment more consistent and efficient. As you integrate Docker into your workflow, you'll find that it simplifies many complex tasks and allows you to focus on what matters most: building great applications.
 
-Happy containerizing! 🐳
+Happy containerizing!

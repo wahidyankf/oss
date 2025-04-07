@@ -5,544 +5,729 @@ draft: false
 weight: 2
 ---
 
-Hey there! Let's dive into the world of Kubernetes (K8s for short). By the end of this guide, you'll understand 85% of what you need for daily Kubernetes work, with enough foundation to explore the rest on your own.
+## Introduction
 
-## What is Kubernetes?
+Kubernetes (K8s) is an open-source platform for automating the deployment, scaling, and management of containerized applications. Originally developed by Google and now maintained by the Cloud Native Computing Foundation, it has become the industry standard for container orchestration. In this crash course, I'll cover the essential 85% you need for daily work, and prepare you to explore the remaining 15% on your own.
 
-Kubernetes is an open-source platform for automating deployment, scaling, and management of containerized applications. Think of it as an orchestra conductor for your containers, ensuring they run exactly as you want them to.
+```mermaid
+graph TD
+    A[What is Kubernetes?] --> B[Container Orchestration Platform]
+    B --> C[Automates deployment]
+    B --> D[Handles scaling]
+    B --> E[Manages containers]
+    B --> F[Provides self-healing]
+    B --> G[Enables service discovery]
+```
 
-## Why Kubernetes?
+## Prerequisites
 
-Imagine you have dozens or hundreds of containers. Managing them manually would be a nightmare! Kubernetes handles:
+Before we begin our Kubernetes journey, you'll need:
 
-- Automatically restarting failed containers
-- Scaling applications up or down based on demand
-- Rolling out updates without downtime
-- Load balancing traffic between containers
+1. Basic understanding of containers (Docker)
+2. Command line familiarity
+3. YAML syntax knowledge
+4. A computer with at least 4GB RAM, 2 CPUs
+
+These prerequisites ensure you can follow along with the hands-on parts of this crash course without getting stuck on fundamentals.
+
+## Installation: Getting Started
+
+Now that we understand what Kubernetes is and what we need, let's set up a local Kubernetes environment to get hands-on experience:
+
+### 1. Install Docker
+
+First, install Docker Desktop (Mac/Windows) or Docker Engine (Linux) as Kubernetes relies on containers:
+
+```bash
+# For Ubuntu
+sudo apt update
+sudo apt install docker.io
+sudo systemctl enable --now docker
+
+# Verify installation
+docker --version
+```
+
+### 2. Install Minikube
+
+With Docker in place, we can now install Minikube, which runs a single-node Kubernetes cluster locally:
+
+```bash
+# macOS (with Homebrew)
+brew install minikube
+
+# Linux
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+# Windows (with chocolatey)
+choco install minikube
+
+# Start your cluster
+minikube start
+
+# Verify status
+minikube status
+```
+
+### 3. Install kubectl
+
+Finally, we need kubectl, the command-line tool for interacting with our Kubernetes cluster:
+
+```bash
+# macOS
+brew install kubectl
+
+# Linux
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Windows
+choco install kubernetes-cli
+
+# Verify installation
+kubectl version --client
+```
+
+With these three components installed, you now have a complete local Kubernetes environment ready for exploration.
 
 ## Kubernetes Architecture
 
-Let's visualize how Kubernetes is structured:
+Before diving into practical usage, understanding Kubernetes architecture is key to working with it effectively. Let's visualize the core components:
 
 ```mermaid
-flowchart TD
-    A[Control Plane] --> B[API Server]
-    A --> C[etcd]
-    A --> D[Scheduler]
-    A --> E[Controller Manager]
+graph TD
+    A[Kubernetes Cluster] --> B[Control Plane]
+    A --> C[Worker Nodes]
 
-    F[Worker Nodes] --> G[kubelet]
-    F --> H[kube-proxy]
-    F --> I[Container Runtime]
+    B --> D[API Server<br>Central communication hub]
+    B --> E[Scheduler<br>Assigns pods to nodes]
+    B --> F[Controller Manager<br>Maintains desired state]
+    B --> G[etcd<br>Cluster state database]
 
-    B <--> G
+    C --> H[Kubelet<br>Manages pods on node]
+    C --> I[Kube-proxy<br>Network rules]
+    C --> J[Container Runtime<br>Runs containers]
+
+    H --> K[Pods<br>Contain containers]
 ```
 
-The **Control Plane** is the brain of Kubernetes:
+### Components Explained
 
-- **API Server**: Everything communicates through this
-- **etcd**: Database that stores the cluster state
-- **Scheduler**: Decides where to run pods
-- **Controller Manager**: Maintains the desired state
+1. **Control Plane** (formerly Master): The brain of the cluster
 
-**Worker Nodes** are where your applications actually run:
+   - **API Server**: The front door to the cluster that processes all requests
+   - **Scheduler**: Watches for new pods and assigns them to nodes
+   - **Controller Manager**: Ensures the cluster maintains the desired state
+   - **etcd**: Key-value store that holds all cluster data
 
-- **kubelet**: Ensures containers are running as expected
-- **kube-proxy**: Handles networking
-- **Container Runtime**: The software running your containers (like Docker)
+2. **Worker Nodes**: Where your applications actually run
+   - **Kubelet**: Ensures containers are running in pods
+   - **Kube-proxy**: Maintains network rules on the node
+   - **Container Runtime**: Software that runs containers (Docker, containerd)
 
-## Getting Started with Kubernetes
+This architecture follows a central control model where the Control Plane makes decisions and Worker Nodes carry them out, creating a scalable and resilient system.
 
-Let's get you a working Kubernetes environment:
+## Core Kubernetes Concepts
 
-### Option 1: Minikube (for local development)
+Now that we understand the infrastructure, let's explore the essential building blocks you'll use daily in Kubernetes:
 
-```bash
-# Install Minikube (macOS with Homebrew)
-brew install minikube
+### 1. Pods
 
-# Start Minikube
-minikube start
-
-# Verify it's running
-kubectl get nodes
-# Should show something like:
-# NAME       STATUS    ROLES    AGE     VERSION
-# minikube   Ready     master   45s     v1.24.3
-```
-
-### Option 2: Kind (Kubernetes IN Docker)
-
-```bash
-# Install Kind
-brew install kind
-
-# Create a cluster
-kind create cluster
-
-# Verify it's running
-kubectl get nodes
-```
-
-### Option 3: Docker Desktop
-
-If you use Docker Desktop, you can enable Kubernetes in the settings.
-
-## Kubernetes Objects: The Building Blocks
-
-### Pods: The Smallest Unit
-
-A Pod is one or more containers that share storage and network resources.
+The smallest deployable unit in Kubernetes is the Pod. Think of a Pod as a wrapper around one or more containers:
 
 ```yaml
 # simple-pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-pod
+  name: nginx-pod # Name of the pod
+  labels:
+    app: nginx # Label for identification/selection
 spec:
   containers:
-    - name: nginx
-      image: nginx:latest
+    - name: nginx # Container name inside the pod
+      image: nginx:latest # Docker image to use
       ports:
-        - containerPort: 80
+        - containerPort: 80 # Port the container exposes
 ```
 
+Apply with:
+
 ```bash
-# Create the pod
 kubectl apply -f simple-pod.yaml
-
-# See it running
-kubectl get pods
 ```
 
-### Deployments: Managing Pods
+Key characteristics:
 
-Deployments manage multiple replicas of your pods and handle updates.
+- Contains one or more containers that share storage/network
+- Gets its own IP address
+- Always runs on a single node
+- Is ephemeral (temporary)
+
+While Pods are the foundation of Kubernetes, you'll rarely create them directly. Instead, you'll use higher-level abstractions like Deployments, which we'll discuss shortly.
+
+### 2. Services
+
+Since Pods are ephemeral and their IP addresses change when restarted, we need Services to provide stable network endpoints to access them:
 
 ```yaml
-# simple-deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 3 # We want 3 identical pods
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:latest
-          ports:
-            - containerPort: 80
-```
-
-```bash
-# Create the deployment
-kubectl apply -f simple-deployment.yaml
-
-# See your pods
-kubectl get pods
-# You should see 3 pods with names like nginx-deployment-xyz123
-```
-
-### Services: Networking Made Easy
-
-Services provide a stable network endpoint for your pods.
-
-```mermaid
-flowchart TD
-    A[Service: my-service] --> B[Pod 1]
-    A --> C[Pod 2]
-    A --> D[Pod 3]
-```
-
-```yaml
-# service.yaml
+# nginx-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
 spec:
   selector:
-    app: nginx
+    app: nginx # Connects to pods with this label
   ports:
-    - port: 80
-      targetPort: 80
-  type: ClusterIP # Default internal service
+    - port: 80 # Port the service exposes
+      targetPort: 80 # Port on the pod to forward to
+  type: ClusterIP # Service type (internal to cluster)
 ```
 
-```bash
-# Create the service
-kubectl apply -f service.yaml
+Service types:
 
-# View services
-kubectl get services
-```
+- **ClusterIP**: Internal-only IP (default)
+- **NodePort**: Exposes on each node's IP at a static port
+- **LoadBalancer**: Uses cloud provider's load balancer
+- **ExternalName**: Maps to a DNS name
 
-## ConfigMaps and Secrets: Configuration Management
+Services allow your applications to communicate with each other reliably, even as the underlying Pods come and go.
 
-### ConfigMaps for Non-Sensitive Data
+### 3. Deployments
+
+Rather than managing individual Pods, Deployments allow us to declare a desired state for a set of identical pods (replicas):
 
 ```yaml
-# config-map.yaml
+# nginx-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3 # Maintains 3 identical pods
+  selector:
+    matchLabels:
+      app: nginx
+  template: # Pod template
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: '0.5' # Maximum CPU usage
+              memory: '512Mi' # Maximum memory usage
+            requests:
+              cpu: '0.2' # Minimum CPU requested
+              memory: '256Mi' # Minimum memory requested
+```
+
+Benefits:
+
+- Declarative updates for pods
+- Rolling updates with zero downtime
+- Automatic rollback capability
+- Scaling capabilities
+
+Deployments are your primary tool for managing applications in Kubernetes, handling all the complexity of ensuring the right number of Pods are running and healthy.
+
+### 4. ConfigMaps and Secrets
+
+A key principle in modern application design is separating configuration from code. Kubernetes supports this through ConfigMaps and Secrets:
+
+```yaml
+# app-config.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
 data:
-  app.properties: |
-    environment=dev
-    log.level=info
-  feature.flags: |
-    dark-mode=true
-    beta-features=false
-```
-
-```bash
-kubectl apply -f config-map.yaml
-```
-
-Using a ConfigMap in a pod:
-
-```yaml
-# pod-with-config.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: app-pod
-spec:
-  containers:
-    - name: app
-      image: myapp:latest
-      volumeMounts:
-        - name: config-volume
-          mountPath: /etc/config
-  volumes:
-    - name: config-volume
-      configMap:
-        name: app-config
-```
-
-### Secrets for Sensitive Data
-
-```yaml
-# secret.yaml
+  DB_HOST: 'database.example.com'
+  API_ENDPOINT: 'api.example.com'
+---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: db-credentials
+  name: app-secrets
 type: Opaque
 data:
-  username: YWRtaW4= # Base64 encoded "admin"
-  password: cGFzc3dvcmQxMjM= # Base64 encoded "password123"
+  # Base64 encoded: echo -n "Password123" | base64
+  DB_PASSWORD: UGFzc3dvcmQxMjM=
 ```
 
-```bash
-kubectl apply -f secret.yaml
-```
-
-## Essential kubectl Commands
-
-```bash
-# Get information
-kubectl get pods
-kubectl get deployments
-kubectl get services
-kubectl get nodes
-
-# Detailed information
-kubectl describe pod my-pod
-kubectl describe deployment nginx-deployment
-
-# Logs
-kubectl logs my-pod
-kubectl logs -f my-pod  # Follow logs in real-time
-
-# Executing commands in containers
-kubectl exec -it my-pod -- /bin/bash
-
-# Port forwarding (access pod directly from your machine)
-kubectl port-forward pod/my-pod 8080:80
-# Now you can access the pod at localhost:8080
-```
-
-## Namespaces: Organizing Your Resources
-
-Think of namespaces like folders for your Kubernetes resources.
-
-```bash
-# Create a namespace
-kubectl create namespace dev
-
-# List namespaces
-kubectl get namespaces
-
-# Use a namespace
-kubectl -n dev get pods
-```
-
-## Storage: Persistent Volumes
-
-For data that needs to persist beyond pod lifecycles:
+Using in a pod:
 
 ```yaml
-# persistent-volume.yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: my-pv
 spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  hostPath: # Just for local testing
-    path: /data/my-pv
+  containers:
+    - name: myapp
+      image: myapp:1.0
+      env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: DB_HOST
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: DB_PASSWORD
 ```
 
+This separation lets you update configuration without rebuilding container images, making your applications more flexible and secure.
+
+### 5. Persistent Volumes
+
+Containers are ephemeral by design, which means any data inside is lost when the container restarts. For data that needs to survive pod restarts, we use Persistent Volumes:
+
 ```yaml
-# persistent-volume-claim.yaml
+# persistent-storage.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: my-pvc
+  name: data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce # Can be mounted by a single node for read/write
+  resources:
+    requests:
+      storage: 1Gi # Request 1GB of storage
+```
+
+Using in a pod:
+
+```yaml
+spec:
+  containers:
+    - name: postgres
+      image: postgres:13
+      volumeMounts:
+        - name: data-volume
+          mountPath: /var/lib/postgresql/data # Mount point in container
+  volumes:
+    - name: data-volume
+      persistentVolumeClaim:
+        claimName: data-pvc # Reference the PVC
+```
+
+Persistent Volumes allow stateful applications like databases to function properly in the otherwise stateless Kubernetes environment.
+
+## Essential kubectl Commands
+
+Now that we understand the key resources, let's explore the commands that will handle 85% of your daily interactions with Kubernetes:
+
+```bash
+# Viewing resources
+kubectl get pods                    # List all pods
+kubectl get deployments             # List deployments
+kubectl get services                # List services
+kubectl get nodes                   # List cluster nodes
+kubectl get all                     # List multiple resource types
+
+# Detailed information
+kubectl describe pod <pod-name>     # Show details of a pod
+kubectl describe deployment <name>  # Show deployment details
+
+# Creating & updating resources
+kubectl apply -f <filename.yaml>    # Create/update from file
+kubectl delete -f <filename.yaml>   # Delete resources in file
+
+# Logs & Debugging
+kubectl logs <pod-name>             # View pod logs
+kubectl logs -f <pod-name>          # Stream pod logs
+kubectl exec -it <pod-name> -- /bin/bash  # Open shell in pod
+
+# Scaling
+kubectl scale deployment <name> --replicas=5  # Scale to 5 pods
+
+# Port forwarding (for local testing)
+kubectl port-forward <pod-name> 8080:80  # Local:Pod port
+```
+
+These commands form the core of your daily interaction with Kubernetes. As you become more comfortable with them, you'll be able to efficiently manage and troubleshoot your applications.
+
+## Practical Example: Deploying a Complete Application
+
+Let's put everything we've learned together by deploying a web application with a database. This example demonstrates how the various components work together:
+
+```mermaid
+graph TD
+    A[User] -->|Access| B[Ingress]
+    B -->|Routes to| C[Web Service]
+    C -->|Balances| D[Web Pods]
+    D -->|Connects to| E[DB Service]
+    E -->|Routes to| F[Database Pod]
+    F -->|Stores in| G[Persistent Volume]
+```
+
+### Step 1: Create a namespace
+
+First, let's create a dedicated namespace to organize our resources:
+
+```yaml
+# namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-app
+```
+
+Apply it:
+
+```bash
+kubectl apply -f namespace.yaml
+```
+
+### Step 2: Database deployment
+
+Next, let's deploy our database component:
+
+```yaml
+# database.yaml
+# Secret for database password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+  namespace: demo-app
+type: Opaque
+data:
+  # echo -n "Password123" | base64
+  password: UGFzc3dvcmQxMjM=
+---
+# Storage for database
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+  namespace: demo-app
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-```
-
-Using the PVC in a pod:
-
-```yaml
-# pod-with-storage.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: pod-with-storage
-spec:
-  containers:
-    - name: app
-      image: myapp:latest
-      volumeMounts:
-        - name: data-volume
-          mountPath: /data
-  volumes:
-    - name: data-volume
-      persistentVolumeClaim:
-        claimName: my-pvc
-```
-
-## Ingress: External Access to Services
-
-```mermaid
-flowchart TD
-    A[Internet] --> B[Ingress Controller]
-    B --> C[Service 1]
-    B --> D[Service 2]
-    C --> E[Pods]
-    D --> F[Pods]
-```
-
-```yaml
-# ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-spec:
-  rules:
-    - host: myapp.example.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nginx-service
-                port:
-                  number: 80
-```
-
-```bash
-# First, you need an Ingress controller
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
-
-# Then apply your ingress
-kubectl apply -f ingress.yaml
-```
-
-## Health Checks: Liveness and Readiness Probes
-
-Ensuring your applications are healthy:
-
-```yaml
-# pod-with-probes.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: pod-with-probes
-spec:
-  containers:
-    - name: app
-      image: myapp:latest
-      ports:
-        - containerPort: 8080
-      livenessProbe: # Kubernetes restarts if this fails
-        httpGet:
-          path: /health
-          port: 8080
-        initialDelaySeconds: 15
-        periodSeconds: 10
-      readinessProbe: # Pod won't receive traffic if this fails
-        httpGet:
-          path: /ready
-          port: 8080
-        initialDelaySeconds: 5
-        periodSeconds: 5
-```
-
-## Resource Management
-
-Control how much CPU and memory your pods can use:
-
-```yaml
-# pod-with-resources.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: pod-with-resources
-spec:
-  containers:
-    - name: app
-      image: myapp:latest
-      resources:
-        requests:
-          memory: '64Mi'
-          cpu: '250m' # 0.25 CPU cores
-        limits:
-          memory: '128Mi'
-          cpu: '500m' # 0.5 CPU cores
-```
-
-## Running a Complete Application Example
-
-Let's put it all together with a simple web application:
-
-```yaml
-# webapplication.yaml
 ---
+# Database deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: db-deployment
+  namespace: demo-app
 spec:
-  replicas: 3
+  replicas: 1 # Only 1 for database
   selector:
     matchLabels:
-      app: webapp
+      app: postgres
   template:
     metadata:
       labels:
-        app: webapp
+        app: postgres
     spec:
       containers:
-        - name: webapp
-          image: nginx:latest
+        - name: postgres
+          image: postgres:13
           ports:
-            - containerPort: 80
-          resources:
-            requests:
-              memory: '64Mi'
-              cpu: '100m'
-            limits:
-              memory: '128Mi'
-              cpu: '200m'
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+            - name: POSTGRES_DB
+              value: demoapp
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pvc
 ---
+# Database service
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp-svc
+  name: db-service
+  namespace: demo-app
 spec:
   selector:
-    app: webapp
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP # Internal only
+```
+
+Notice how we've combined multiple resources in a single file, separated by `---`. This is a common practice that helps organize related resources.
+
+### Step 3: Web application deployment
+
+Now, let's deploy the web application that will connect to our database:
+
+```yaml
+# webapp.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: demo-app
+spec:
+  replicas: 3 # Run 3 copies for high availability
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:alpine # Using nginx as example
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: db-service # Connects to the database service
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+---
+# Web service
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: demo-app
+spec:
+  selector:
+    app: web
   ports:
     - port: 80
       targetPort: 80
   type: ClusterIP
 ---
+# Ingress for external access
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webapp-ingress
+  name: web-ingress
+  namespace: demo-app
 spec:
   rules:
-    - host: webapp.local
+    - host: demoapp.local # Add to your hosts file for local testing
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: webapp-svc
+                name: web-service
                 port:
                   number: 80
 ```
 
-Apply this all at once:
+The Ingress resource creates an entry point for external traffic to reach our web service.
+
+### Step 4: Apply and verify
+
+Finally, let's apply our configurations and verify everything is running:
 
 ```bash
-kubectl apply -f webapplication.yaml
+# Apply configurations
+kubectl apply -f database.yaml
+kubectl apply -f webapp.yaml
+
+# Check resources
+kubectl get all -n demo-app
+
+# Access locally (if Ingress not working)
+kubectl port-forward svc/web-service 8080:80 -n demo-app
+# Then visit http://localhost:8080 in your browser
 ```
 
-## Real-world Workflow
+This command sequence demonstrates the typical workflow for deploying applications to Kubernetes.
+
+## Database Seeding Example
+
+For applications with databases, you'll often need to initialize them with data. Here's how to create a one-time job to seed your database:
+
+```yaml
+# db-seed-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-seed-job
+  namespace: demo-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: db-seed
+          image: postgres:13
+          command: ['/bin/bash', '-c']
+          args:
+            - |
+              # Wait for database to be ready
+              sleep 10
+              # Run seed script
+              PGPASSWORD=$DB_PASSWORD psql -h db-service -U postgres -d demoapp -c "
+              CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL
+              );
+
+              INSERT INTO users (name, email) VALUES 
+                ('John Doe', 'john@example.com'),
+                ('Jane Smith', 'jane@example.com'),
+                ('Bob Johnson', 'bob@example.com');
+              "
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+      restartPolicy: Never
+```
+
+Apply with:
+
+```bash
+kubectl apply -f db-seed-job.yaml
+```
+
+This Job resource runs once and terminates after completing its task, making it perfect for initialization operations.
+
+## Deployment Strategies
+
+As your applications evolve, you'll need to update them. Kubernetes supports several deployment strategies to minimize disruption:
 
 ```mermaid
-flowchart TD
-    A[Write YAML Manifests] --> B[Apply to Cluster]
-    B --> C[Verify Deployment]
-    C --> D[Monitor & Debug]
-    D --> E[Update as Needed]
-    E --> B
+graph TD
+    A[Deployment Strategies] --> B[Rolling Update<br>Default strategy]
+    A --> C[Blue-Green<br>Two identical environments]
+    A --> D[Canary<br>Gradual traffic shift]
+
+    B --> B1[Gradually replaces pods]
+    C --> C1[Zero downtime switch]
+    D --> D1[Tests with subset of users]
 ```
 
-## The 15% You'll Explore Later
+### Rolling Update (Default)
 
-Here's what we didn't cover that you might want to explore as you grow more comfortable with Kubernetes:
+The most commonly used strategy is Rolling Update, which gradually replaces old pods with new ones:
 
-1. **Helm Charts** - Package manager for Kubernetes applications
-2. **StatefulSets** - For stateful applications like databases
-3. **Custom Resource Definitions (CRDs)** - Extending Kubernetes API
-4. **Operators** - Application-specific controllers
-5. **Advanced Networking** - Network policies, service meshes (Istio, Linkerd)
-6. **Horizontal Pod Autoscaling** - Automatically scaling based on metrics
-7. **Multi-cluster Management** - Managing multiple Kubernetes clusters
-8. **GitOps Workflows** - Using Git as the source of truth for deployments
-9. **Security Best Practices** - Pod security policies, RBAC, etc.
-10. **Monitoring and Observability** - Prometheus, Grafana, etc.
-11. **CI/CD Integration** - Automating deployments with Jenkins, GitHub Actions, etc.
-12. **Cost Optimization** - Managing and optimizing cloud costs
+```yaml
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25% # Max unavailable pods during update
+      maxSurge: 25% # Max extra pods during update
+```
 
-## Going Further
+This approach balances availability with resource usage, ensuring your application remains available during updates.
 
-To continue your learning journey:
+## Monitoring Your Cluster
 
-1. The [official Kubernetes documentation](https://kubernetes.io/docs/) is excellent
-2. Try the [Kubernetes Interactive Tutorials](https://kubernetes.io/docs/tutorials/)
-3. Join the Kubernetes community on Slack or forums
+Once your applications are running, you'll want to keep an eye on their health and performance. Here are some basic monitoring commands:
 
-And that's your crash course on Kubernetes! You now know enough to handle 85% of daily Kubernetes tasks, and you have a roadmap for exploring the rest. Happy containerizing!
+```bash
+# Node status
+kubectl get nodes
+kubectl describe node <node-name>
+
+# Check pod usage
+kubectl top pods  # Requires metrics-server
+kubectl top nodes
+
+# Event monitoring
+kubectl get events --sort-by=.metadata.creationTimestamp
+```
+
+These commands provide insights into the current state of your cluster and can help identify potential issues before they become critical.
+
+## The Remaining 15%: Advanced Topics
+
+You now have a solid foundation in Kubernetes, covering approximately 85% of what you'll need for daily operations. As you grow more comfortable, here are the advanced topics to explore next:
+
+1. **Autoscaling**
+
+   - Horizontal Pod Autoscaler (HPA) adjusts the number of pods based on CPU/memory usage
+   - Vertical Pod Autoscaler (VPA) adjusts resource requests and limits
+   - Cluster Autoscaler adds or removes nodes based on pending pods
+
+2. **Specialized Workload Resources**
+
+   - StatefulSets provide guarantees about the ordering and uniqueness of pods
+   - DaemonSets ensure a pod runs on every node in the cluster
+   - Jobs & CronJobs handle batch processing and scheduled tasks
+
+3. **Security**
+
+   - Role-Based Access Control (RBAC) controls who can access what
+   - Network Policies restrict traffic between pods
+   - Pod Security Context controls pod privileges and access
+   - Service Accounts authenticate pods to the API server
+
+4. **Advanced Networking**
+
+   - Service Mesh (Istio, Linkerd) provides traffic management, security, and observability
+   - Network Policies enforce communications rules
+   - Custom CNI plugins for specialized networking needs
+
+5. **GitOps and CI/CD**
+
+   - ArgoCD synchronizes your cluster with a Git repository
+   - Flux provides GitOps for both applications and infrastructure
+   - Jenkins X automates CI/CD on Kubernetes
+
+6. **Ecosystem Tools**
+
+   - Helm simplifies application deployment with charts
+   - Kustomize provides template-free configuration customization
+   - Prometheus & Grafana enable comprehensive monitoring
+   - Logging solutions (EFK/ELK stack) centralize logs
+
+7. **Multi-cluster Management**
+
+   - Cluster Federation coordinates multiple clusters
+   - Fleet management tools handle clusters at scale
+
+8. **Production Readiness**
+   - Disaster recovery planning ensures business continuity
+   - Backup solutions (Velero) protect your data
+   - Advanced troubleshooting techniques solve complex issues
+   - Performance optimization ensures efficient resource usage
+
+These advanced topics build upon the foundation you've established and allow you to tackle more complex scenarios as your Kubernetes journey continues.
+
+## Summary
+
+You've now learned the core 85% of Kubernetes:
+
+- Setting up a local environment with Minikube
+- Understanding Kubernetes architecture
+- Working with Pods, Services, and Deployments
+- Managing configurations with ConfigMaps and Secrets
+- Handling persistent storage
+- Essential kubectl commands
+- Deploying a complete application
+
+This foundation gives you the skills to work productively with Kubernetes on a daily basis. As you encounter more complex scenarios, you can incrementally explore the advanced topics from the final 15%.
+
+Remember that Kubernetes is constantly evolving, so continuing to reference the official documentation at kubernetes.io will always be valuable as you deepen your knowledge. With practice and exploration, you'll soon be confidently managing containerized applications at scale.

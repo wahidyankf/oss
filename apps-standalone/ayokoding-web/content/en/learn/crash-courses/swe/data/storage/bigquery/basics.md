@@ -5,504 +5,528 @@ draft: false
 weight: 1
 ---
 
-Hey there! Let's dive into Google BigQuery - Google's fully-managed, serverless data warehouse that lets you analyze massive datasets with SQL. I'll walk you through everything you need to know to get started and be productive daily.
+## Introduction: What is BigQuery?
 
-## What is BigQuery and Why Should You Care?
+Google BigQuery is a fully managed, serverless data warehouse that enables analyzing massive datasets quickly and efficiently. It separates compute and storage layers, allowing each to scale independently for optimal performance. This architecture means you don't need to provision or manage infrastructure - you simply focus on analyzing your data.
 
-BigQuery is Google's enterprise data warehouse for analytics. Think of it as a super-powered SQL database designed to:
+Key features:
 
-- Query terabytes or petabytes of data in seconds
-- Work without you having to manage any infrastructure
-- Scale automatically to handle your workloads
-- Integrate with the Google Cloud ecosystem
+- Serverless architecture (no infrastructure to manage)
+- Standard SQL support
+- Built-in machine learning capabilities
+- Seamless integration with Google Cloud ecosystem
+- Support for open table formats (Apache Iceberg, Delta, Hudi)
 
-The big difference from traditional databases? BigQuery separates storage and compute, allowing for massive parallelization and cost optimization.
+To get started with BigQuery, you'll need to understand a few basics and set up your environment properly.
 
-## Getting Started with BigQuery
+## Prerequisites
 
-### Prerequisites
+Before diving into BigQuery, you'll need:
 
-- A Google Cloud Platform (GCP) account
-- A GCP project (create one if you don't have it)
-- Basic SQL knowledge (though I'll cover the essentials)
+- A Google account
+- Access to Google Cloud Platform (GCP)
+- Basic understanding of SQL (for querying data)
 
-### Setup
+With these requirements in place, let's move on to setting up your environment.
 
-1. **Create a GCP account** if you don't have one at [console.cloud.google.com](https://console.cloud.google.com)
+## Getting Started: Setting Up Your Environment
 
-2. **Enable billing** for your project:
+1. **Create a Google Cloud Project**
+   Go to the [Google Cloud Console](https://console.cloud.google.com/), click on "Select a project" at the top of the page, then click "New Project". Give your project a name and click "Create".
 
-   - You get $300 in free credits as a new user
-   - BigQuery also has a generous free tier (1 TB of queries per month)
+2. **Enable BigQuery API**
+   In most cases, it's enabled by default for new projects. If not, navigate to "APIs & Services" > "Library" and search for "BigQuery API" to enable it.
 
-3. **Access BigQuery** through:
-   - GCP Console: Navigate to "BigQuery" in the menu
-   - `bq` command-line tool: Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
-   - Client libraries: Available for Python, Java, etc.
+3. **Access BigQuery Console**
+   From the Google Cloud Console navigation menu, select "BigQuery" to open the BigQuery console.
 
-For local experimentation, let's install the `bq` command-line tool:
+Once you've accessed the console, you'll want to familiarize yourself with its interface to navigate efficiently.
 
-```bash
-# Install Google Cloud SDK
-curl https://sdk.cloud.google.com | bash
+## Understanding the BigQuery Interface
 
-# Initialize and authenticate
-gcloud init
-```
-
-## BigQuery Data Structure
-
-BigQuery organizes data hierarchically:
+The BigQuery console has three main components that work together to help you manage and analyze your data:
 
 ```mermaid
 graph TD
-    A[GCP Project] --> B[Dataset]
-    B --> C[Table 1]
-    B --> D[Table 2]
-    B --> E[Table 3]
+    A[BigQuery Console] --> B[Navigation Pane]
+    A --> C[Explorer Pane]
+    A --> D[SQL Workspace]
+    C --> E[Projects]
+    E --> F[Datasets]
+    F --> G[Tables]
+    D --> H[Query Editor]
+    D --> I[Results Panel]
 ```
 
-- **Project**: Your GCP project that contains all resources
-- **Dataset**: Container for tables (like a database schema)
-- **Table**: Actual data storage (like database tables)
+- **Navigation Pane**: Used to navigate between different Google Cloud services
+- **Explorer Pane**: Lists your projects, datasets, and tables in a hierarchical structure
+- **SQL Workspace**: Where you write and run SQL queries, and view results
 
-Let's create these structures:
+Understanding this interface is essential as it reflects BigQuery's underlying resource model, which determines how your data is organized and accessed.
 
-```bash
-# Create a dataset
-bq mk --dataset your_project_id:your_dataset_name
+## BigQuery Resource Model
 
-# Example
-bq mk --dataset my_analytics_project:ecommerce_data
+BigQuery organizes data in a hierarchical structure that helps you manage access and organize related information logically:
+
+```mermaid
+graph TD
+    A[Project] --> B[Dataset 1]
+    A --> C[Dataset 2]
+    B --> D[Table 1]
+    B --> E[Table 2]
+    C --> F[Table 3]
+    C --> G[View 1]
+    D --> H[Schema with Columns]
 ```
 
-Via the SQL interface:
+1. **Projects**: The root container for all BigQuery resources. Controls billing, user access, and privileges.
+
+2. **Datasets**: Collections of related tables or views. Datasets define the location of data (multi-regional or regional) and allow access control at the dataset level.
+
+3. **Tables**: Collections of rows and columns stored in managed storage, defined by a schema with strongly typed columns.
+
+4. **Views**: Virtual tables defined by SQL queries.
+
+5. **Jobs**: Actions run by BigQuery on your behalf, such as loading data, exporting data, or querying data.
+
+Now that you understand how BigQuery organizes data, let's explore how to work with that data effectively.
+
+## Working with Data in BigQuery
+
+The first step in analyzing data is getting it into BigQuery and structuring it properly. Let's look at how to create datasets and tables, load data, and run queries.
+
+### Creating Datasets and Tables
+
+**To create a dataset:**
 
 ```sql
--- Create a new dataset
-CREATE SCHEMA `your_project_id.your_dataset_name`;
-
--- Example
-CREATE SCHEMA `my_analytics_project.ecommerce_data`;
+-- Creating a new dataset
+CREATE SCHEMA IF NOT EXISTS `project_id.new_dataset`;
 ```
 
-## Creating Your First Table
-
-Let's create a table and load some data:
+**To create a table:**
 
 ```sql
--- Create a table with schema definition
-CREATE TABLE `my_analytics_project.ecommerce_data.products` (
+-- Creating a new table with a defined schema
+CREATE TABLE IF NOT EXISTS `project_id.dataset_id.new_table` (
+  user_id STRING,
+  event_date DATE,
   product_id STRING,
+  price NUMERIC
+);
+```
+
+Once you've created your table structure, you'll need to populate it with data.
+
+### Loading Data into BigQuery
+
+There are several ways to load data, depending on your source and requirements:
+
+1. **Batch Loading from files:**
+
+```sql
+-- Loading data from a CSV file in Google Cloud Storage
+LOAD DATA INTO `project_id.dataset_id.table_id`
+FROM FILES(
+  format='CSV',
+  uris=['gs://bucket/path/to/file.csv'],
+  skip_leading_rows=1
+);
+```
+
+2. **Creating a table from query results:**
+
+```sql
+-- Creating a table from query results
+CREATE OR REPLACE TABLE `project_id.dataset_id.new_table` AS
+SELECT * FROM `project_id.dataset_id.source_table`
+WHERE condition;
+```
+
+3. **Inserting data directly:**
+
+```sql
+-- Inserting rows directly into a table
+INSERT INTO `project_id.dataset_id.table_id` (column1, column2)
+VALUES ('value1', 'value2'),
+       ('value3', 'value4');
+```
+
+With data loaded into your tables, you can now begin querying and analyzing it.
+
+### Writing Basic Queries
+
+BigQuery uses standard SQL syntax, making it accessible to anyone familiar with SQL. Here's a simple query example:
+
+```sql
+-- Basic query with filtering, grouping, and ordering
+SELECT
+  product_category,
+  COUNT(*) as product_count,
+  AVG(price) as avg_price
+FROM
+  `project_id.dataset_id.products`
+WHERE
+  price > 10.00
+GROUP BY
+  product_category
+ORDER BY
+  product_count DESC
+LIMIT 10;
+```
+
+This query:
+
+1. Selects product categories along with count and average price
+2. Filters for products priced above $10
+3. Groups results by product category
+4. Orders results by product count in descending order
+5. Limits results to 10 rows
+
+As you become comfortable with basic queries, you'll want to optimize them for better performance and cost-efficiency.
+
+## Query Optimization and Best Practices
+
+BigQuery's pricing model is based on the amount of data processed by your queries, so optimizing your queries not only improves performance but also reduces costs.
+
+### Cost-Effective Querying
+
+Here are key strategies to minimize costs:
+
+1. **Select Specific Columns**: Avoid `SELECT *` when you only need specific columns
+
+```sql
+-- Instead of this (processes all columns):
+SELECT * FROM `dataset.table`;
+
+-- Do this (processes only needed columns):
+SELECT id, name, date FROM `dataset.table`;
+```
+
+2. **Use Partitioned Tables**: Divide large tables into smaller segments based on a column value
+
+```sql
+-- Create a partitioned table by date
+CREATE TABLE `dataset.partitioned_table`
+PARTITION BY DATE(timestamp_column)
+AS SELECT * FROM `dataset.source_table`;
+
+-- Query that benefits from partitioning (only scans relevant partitions)
+SELECT * FROM `dataset.partitioned_table`
+WHERE DATE(timestamp_column) BETWEEN '2023-01-01' AND '2023-01-31';
+```
+
+3. **Use Clustered Tables**: Order data based on column contents to improve query performance
+
+```sql
+-- Create a clustered table
+CREATE TABLE `dataset.clustered_table`
+PARTITION BY DATE(timestamp_column)
+CLUSTER BY user_id, product_id
+AS SELECT * FROM `dataset.source_table`;
+```
+
+4. **Filter Early**: Apply filtering criteria as early as possible in your queries to reduce the amount of data processed
+
+Beyond cost considerations, you'll also want to optimize for performance.
+
+### Performance Optimization
+
+To improve query performance:
+
+1. **Denormalize When Necessary**: Unlike traditional databases, BigQuery often performs better with denormalized data because it reduces the need for complex joins
+
+2. **Use Materialized Views**: Pre-compute and store query results for frequently accessed data patterns
+
+```sql
+-- Create a materialized view
+CREATE MATERIALIZED VIEW `dataset.materialized_view` AS
+SELECT
+  date,
+  product_id,
+  COUNT(*) as view_count
+FROM `dataset.product_views`
+GROUP BY date, product_id;
+```
+
+3. **Optimize JOIN Operations**: Place the largest table first in JOIN operations and use appropriate join conditions to minimize the data that needs to be processed
+
+While BigQuery is powerful on its own, its value is enhanced when integrated with other tools in your data ecosystem.
+
+## Integration with Other Tools
+
+BigQuery works well with a variety of visualization, analysis, and processing tools to create a complete data workflow.
+
+### Visualization with Looker Studio
+
+BigQuery integrates seamlessly with Looker Studio (formerly Data Studio):
+
+1. In your BigQuery query results, click "Explore Data" and select "Explore with Looker Studio"
+2. A new Looker Studio report opens with your data connected
+3. Use Looker Studio's interface to create charts, graphs, and dashboards
+
+For more programmatic data analysis, Python integration is often essential.
+
+### Using with Python and Pandas
+
+```python
+# Install required libraries
+# pip install google-cloud-bigquery pandas pyarrow
+
+from google.cloud import bigquery
+import pandas as pd
+
+# Initialize the BigQuery client
+# Note: This assumes you have set up authentication via
+# gcloud CLI or environment variables
+client = bigquery.Client()
+
+# Define your SQL query
+query = """
+SELECT product_id, name, price
+FROM `project_id.dataset_id.products`
+WHERE price > 100
+LIMIT 1000
+"""
+
+# Execute the query and convert to a Pandas DataFrame
+df = client.query(query).to_dataframe()
+
+# Now you can use pandas functions
+print(df.head())  # Display first 5 rows
+print(df.describe())  # Display summary statistics
+```
+
+To solidify your understanding, let's walk through a practical example that brings together the concepts we've covered.
+
+## Practical Example: E-commerce Data Analysis
+
+Let's create a sample e-commerce dataset and run some analyses to demonstrate BigQuery in action:
+
+```sql
+-- Create dataset
+CREATE SCHEMA IF NOT EXISTS `ecommerce`;
+
+-- Create customers table
+CREATE OR REPLACE TABLE `ecommerce.customers` (
+  customer_id STRING NOT NULL,
+  name STRING,
+  email STRING,
+  registration_date DATE,
+  last_login TIMESTAMP
+);
+
+-- Insert sample data
+INSERT INTO `ecommerce.customers`
+VALUES
+  ('C001', 'John Doe', 'john@example.com', '2023-01-15', '2023-04-01 14:32:15'),
+  ('C002', 'Jane Smith', 'jane@example.com', '2023-02-20', '2023-04-02 09:45:22'),
+  ('C003', 'Alex Johnson', 'alex@example.com', '2023-03-05', '2023-04-01 18:12:45');
+
+-- Create products table
+CREATE OR REPLACE TABLE `ecommerce.products` (
+  product_id STRING NOT NULL,
   name STRING,
   category STRING,
   price NUMERIC,
-  inventory INT64,
-  last_updated TIMESTAMP
+  inventory INT64
 );
 
--- Insert sample data (seeding script)
-INSERT INTO `my_analytics_project.ecommerce_data.products`
+-- Insert sample data
+INSERT INTO `ecommerce.products`
 VALUES
-  ('P001', 'Ergonomic Keyboard', 'Electronics', 89.99, 120, CURRENT_TIMESTAMP()),
-  ('P002', 'Wireless Mouse', 'Electronics', 45.50, 200, CURRENT_TIMESTAMP()),
-  ('P003', 'Coffee Mug', 'Kitchen', 12.99, 500, CURRENT_TIMESTAMP()),
-  ('P004', 'Notebook', 'Office', 8.75, 1000, CURRENT_TIMESTAMP()),
-  ('P005', 'Desk Lamp', 'Home', 34.50, 75, CURRENT_TIMESTAMP());
-```
+  ('P001', 'Laptop', 'Electronics', 999.99, 50),
+  ('P002', 'Smartphone', 'Electronics', 699.99, 100),
+  ('P003', 'Headphones', 'Accessories', 149.99, 200);
 
-Now let's create a second table for orders:
-
-```sql
 -- Create orders table
-CREATE TABLE `my_analytics_project.ecommerce_data.orders` (
-  order_id STRING,
+CREATE OR REPLACE TABLE `ecommerce.orders` (
+  order_id STRING NOT NULL,
   customer_id STRING,
   order_date DATE,
   total_amount NUMERIC
 );
 
 -- Insert sample data
-INSERT INTO `my_analytics_project.ecommerce_data.orders`
+INSERT INTO `ecommerce.orders`
 VALUES
-  ('O10001', 'C2001', DATE '2023-01-15', 134.48),
-  ('O10002', 'C3045', DATE '2023-01-16', 45.50),
-  ('O10003', 'C2001', DATE '2023-01-20', 21.74),
-  ('O10004', 'C8832', DATE '2023-01-25', 89.99),
-  ('O10005', 'C9234', DATE '2023-01-28', 55.25);
-```
+  ('O001', 'C001', '2023-03-10', 1149.98),
+  ('O002', 'C002', '2023-03-15', 699.99),
+  ('O003', 'C003', '2023-03-20', 849.98),
+  ('O004', 'C001', '2023-03-25', 149.99);
 
-And finally, let's add order items:
-
-```sql
--- Create order_items table
-CREATE TABLE `my_analytics_project.ecommerce_data.order_items` (
-  order_id STRING,
-  product_id STRING,
+-- Create order_items table to track which products were in each order
+CREATE OR REPLACE TABLE `ecommerce.order_items` (
+  order_id STRING NOT NULL,
+  product_id STRING NOT NULL,
   quantity INT64,
-  item_price NUMERIC
+  unit_price NUMERIC
 );
 
 -- Insert sample data
-INSERT INTO `my_analytics_project.ecommerce_data.order_items`
+INSERT INTO `ecommerce.order_items`
 VALUES
-  ('O10001', 'P001', 1, 89.99),
-  ('O10001', 'P003', 2, 12.99),
-  ('O10001', 'P004', 2, 8.75),
-  ('O10002', 'P002', 1, 45.50),
-  ('O10003', 'P003', 1, 12.99),
-  ('O10003', 'P004', 1, 8.75),
-  ('O10004', 'P001', 1, 89.99),
-  ('O10005', 'P005', 1, 34.50),
-  ('O10005', 'P003', 1, 12.99),
-  ('O10005', 'P004', 1, 8.75);
+  ('O001', 'P001', 1, 999.99),
+  ('O001', 'P003', 1, 149.99),
+  ('O002', 'P002', 1, 699.99),
+  ('O003', 'P002', 1, 699.99),
+  ('O003', 'P003', 1, 149.99),
+  ('O004', 'P003', 1, 149.99);
 ```
 
-## BigQuery SQL Basics
+With our sample data in place, we can now run some meaningful analyses:
 
-BigQuery uses a SQL dialect called GoogleSQL (similar to standard SQL). Let's explore some basics:
+### Example Queries for Analysis
 
-### Simple Queries
-
-```sql
--- Basic SELECT statement
-SELECT * FROM `my_analytics_project.ecommerce_data.products`
-LIMIT 10;
-
--- Filtering with WHERE
-SELECT name, price, category
-FROM `my_analytics_project.ecommerce_data.products`
-WHERE category = 'Electronics'
-ORDER BY price DESC;
-```
-
-### JOINs and Aggregations
+**1. Customer Purchase Analysis:**
 
 ```sql
--- Join tables to find popular products
+-- Find total spend by customer
 SELECT
-  p.product_id,
-  p.name,
-  SUM(oi.quantity) as total_quantity_sold
-FROM `my_analytics_project.ecommerce_data.products` p
-JOIN `my_analytics_project.ecommerce_data.order_items` oi
-  ON p.product_id = oi.product_id
-GROUP BY p.product_id, p.name
-ORDER BY total_quantity_sold DESC;
+  c.customer_id,
+  c.name,
+  COUNT(DISTINCT o.order_id) AS order_count,
+  SUM(o.total_amount) AS total_spend
+FROM
+  `ecommerce.customers` c
+JOIN
+  `ecommerce.orders` o ON c.customer_id = o.customer_id
+GROUP BY
+  c.customer_id, c.name
+ORDER BY
+  total_spend DESC;
 
--- Calculate revenue by category
+-- Result:
+-- customer_id | name          | order_count | total_spend
+-- C001        | John Doe      | 2           | 1299.97
+-- C003        | Alex Johnson  | 1           | 849.98
+-- C002        | Jane Smith    | 1           | 699.99
+```
+
+**2. Product Category Performance:**
+
+```sql
+-- Analyze product category performance
 SELECT
   p.category,
-  SUM(oi.quantity * oi.item_price) as total_revenue
-FROM `my_analytics_project.ecommerce_data.products` p
-JOIN `my_analytics_project.ecommerce_data.order_items` oi
-  ON p.product_id = oi.product_id
-GROUP BY p.category
-ORDER BY total_revenue DESC;
+  COUNT(DISTINCT oi.order_id) AS order_count,
+  SUM(oi.quantity) AS units_sold,
+  SUM(oi.quantity * oi.unit_price) AS total_revenue
+FROM
+  `ecommerce.products` p
+JOIN
+  `ecommerce.order_items` oi ON p.product_id = oi.product_id
+GROUP BY
+  p.category
+ORDER BY
+  total_revenue DESC;
+
+-- Result:
+-- category     | order_count | units_sold | total_revenue
+-- Electronics  | 3           | 3          | 2399.97
+-- Accessories  | 3           | 3          | 449.97
 ```
 
-### BigQuery Specific Functions
+**3. Customer Purchase Timeline:**
 
 ```sql
--- Working with timestamps
+-- Visualize customer purchase timeline
 SELECT
-  EXTRACT(MONTH FROM last_updated) as month,
-  EXTRACT(YEAR FROM last_updated) as year,
-  COUNT(*) as product_count
-FROM `my_analytics_project.ecommerce_data.products`
-GROUP BY month, year;
+  o.order_date,
+  COUNT(DISTINCT o.order_id) AS daily_orders,
+  SUM(o.total_amount) AS daily_revenue
+FROM
+  `ecommerce.orders` o
+GROUP BY
+  o.order_date
+ORDER BY
+  o.order_date;
 
--- Array functions
-SELECT
-  customer_id,
-  ARRAY_AGG(order_id ORDER BY order_date) as all_orders
-FROM `my_analytics_project.ecommerce_data.orders`
-GROUP BY customer_id;
+-- Result:
+-- order_date | daily_orders | daily_revenue
+-- 2023-03-10 | 1            | 1149.98
+-- 2023-03-15 | 1            | 699.99
+-- 2023-03-20 | 1            | 849.98
+-- 2023-03-25 | 1            | 149.99
 ```
 
-## Loading Data into BigQuery
+Now that you've mastered the core concepts of BigQuery, let's explore what else is out there for your continued learning journey.
 
-BigQuery supports several ways to load data:
+## The Last 15%: Advanced Topics to Explore
 
-### 1. Loading from local files (CSV, JSON, etc.)
+You've now learned the fundamentals of BigQuery that cover about 85% of daily usage. The remaining 15% consists of more advanced techniques that you can explore as your needs grow:
 
-Using the command line:
+### 1. BigQuery ML (Machine Learning)
 
-```bash
-# Load CSV file into a table
-bq load \
-  --source_format=CSV \
-  --skip_leading_rows=1 \
-  your_project_id:your_dataset.your_table \
-  path/to/your/file.csv \
-  field1:type,field2:type
-```
+BigQuery ML allows you to create and execute machine learning models using standard SQL:
 
-Using SQL:
+- Create models for classification, regression, forecasting, and clustering
+- Train models on large datasets without moving data
+- Make predictions directly within BigQuery
+
+Example to explore:
 
 ```sql
--- Load data from GCS
-LOAD DATA INTO `my_analytics_project.ecommerce_data.new_products`
-FROM FILES(
-  format = 'CSV',
-  uris = ['gs://your-bucket/products.csv'],
-  skip_leading_rows = 1
-);
-```
-
-### 2. Loading from Google Cloud Storage (GCS)
-
-```sql
--- Load from GCS bucket
-LOAD DATA INTO `my_analytics_project.ecommerce_data.customers`
-FROM FILES(
-  format = 'NEWLINE_DELIMITED_JSON',
-  uris = ['gs://your-bucket/customers*.json']
-);
-```
-
-### 3. Querying External Data Sources
-
-```sql
--- Create an external table
-CREATE EXTERNAL TABLE `my_analytics_project.ecommerce_data.external_sales`
-OPTIONS (
-  format = 'CSV',
-  uris = ['gs://your-bucket/sales/sales_*.csv'],
-  skip_leading_rows = 1
-);
-```
-
-## Common Analysis Patterns
-
-### Time-Series Analysis
-
-```sql
--- Monthly sales analysis
-SELECT
-  EXTRACT(MONTH FROM o.order_date) as month,
-  EXTRACT(YEAR FROM o.order_date) as year,
-  SUM(o.total_amount) as monthly_revenue
-FROM `my_analytics_project.ecommerce_data.orders` o
-WHERE o.order_date BETWEEN '2023-01-01' AND '2023-12-31'
-GROUP BY month, year
-ORDER BY year, month;
-```
-
-### Window Functions
-
-Window functions are super useful for analytics:
-
-```sql
--- Calculate running total of sales
-SELECT
-  order_date,
-  total_amount,
-  SUM(total_amount) OVER (ORDER BY order_date) as running_total
-FROM `my_analytics_project.ecommerce_data.orders`;
-
--- Calculate percent of total by category
+-- Create a simple linear regression model
+CREATE OR REPLACE MODEL `ecommerce.price_prediction_model`
+OPTIONS(model_type='linear_reg') AS
 SELECT
   category,
-  SUM(price * inventory) as category_inventory_value,
-  SUM(price * inventory) / SUM(SUM(price * inventory)) OVER () as pct_of_total
-FROM `my_analytics_project.ecommerce_data.products`
-GROUP BY category;
-```
+  inventory,
+  price AS label
+FROM
+  `ecommerce.products`;
 
-## BigQuery Performance & Cost Optimization
-
-BigQuery charges based on the amount of data processed by your queries. Here are some best practices:
-
-### 1. Query Optimization
-
-```sql
--- BAD: Scans all columns
-SELECT * FROM `my_analytics_project.ecommerce_data.orders`;
-
--- GOOD: Only select needed columns
-SELECT order_id, customer_id, order_date
-FROM `my_analytics_project.ecommerce_data.orders`;
-
--- BAD: Processing all data
-SELECT COUNT(*) FROM `my_analytics_project.ecommerce_data.orders`;
-
--- BETTER: Using approximate functions when appropriate
-SELECT APPROX_COUNT_DISTINCT(customer_id)
-FROM `my_analytics_project.ecommerce_data.orders`;
-```
-
-### 2. Partitioning and Clustering
-
-Partitioning divides your table into segments based on a column value:
-
-```sql
--- Create a partitioned table by date
-CREATE TABLE `my_analytics_project.ecommerce_data.orders_partitioned`
-PARTITION BY order_date AS
-SELECT * FROM `my_analytics_project.ecommerce_data.orders`;
-
--- Query that benefits from partitioning (only scans relevant partitions)
-SELECT *
-FROM `my_analytics_project.ecommerce_data.orders_partitioned`
-WHERE order_date BETWEEN '2023-01-01' AND '2023-01-15';
-```
-
-Clustering further organizes data within partitions:
-
-```sql
--- Create a clustered table
-CREATE TABLE `my_analytics_project.ecommerce_data.orders_clustered`
-PARTITION BY order_date
-CLUSTER BY customer_id AS
-SELECT * FROM `my_analytics_project.ecommerce_data.orders`;
-```
-
-### 3. Checking Query Costs Before Running
-
-```sql
--- Dry run to estimate bytes processed
-#standardSQL
+-- Make predictions using the model
 SELECT
-  COUNT(*) AS orders_count,
-  SUM(total_amount) AS total_sales
-FROM `my_analytics_project.ecommerce_data.orders`;
--- Add "Execution Details" in the UI to see bytes processed
+  *
+FROM
+  ML.PREDICT(MODEL `ecommerce.price_prediction_model`,
+    (SELECT category, inventory FROM `ecommerce.products`));
 ```
 
-## BigQuery Views and Saved Queries
+### 2. Advanced Data Processing
 
-Views are virtual tables defined by a query:
+- **Window Functions**: For complex analytical calculations
 
 ```sql
--- Create a view for common analytics
-CREATE VIEW `my_analytics_project.ecommerce_data.sales_by_category` AS
+-- Example of window functions
 SELECT
-  p.category,
-  COUNT(DISTINCT o.order_id) as order_count,
-  SUM(oi.quantity * oi.item_price) as revenue
-FROM `my_analytics_project.ecommerce_data.products` p
-JOIN `my_analytics_project.ecommerce_data.order_items` oi
-  ON p.product_id = oi.product_id
-JOIN `my_analytics_project.ecommerce_data.orders` o
-  ON oi.order_id = o.order_id
-GROUP BY p.category;
-
--- Query the view
-SELECT * FROM `my_analytics_project.ecommerce_data.sales_by_category`
-ORDER BY revenue DESC;
+  product_id,
+  order_date,
+  quantity,
+  SUM(quantity) OVER(PARTITION BY product_id ORDER BY order_date) AS running_total
+FROM `dataset.sales`;
 ```
 
-## Visualizing BigQuery Data
+- **User-Defined Functions (UDFs)**: Create custom functions in SQL or JavaScript
+- **BigQuery Scripting**: Write procedural SQL with variables and loops
+- **Geospatial Analysis**: Work with geographic data types and functions
 
-BigQuery integrates with several visualization tools:
+### 3. Data Governance and Security
 
-1. **Google Data Studio (now Looker Studio)**: Direct connection
-2. **Google Sheets**: Query results can be exported
-3. **Tableau/PowerBI**: Connect via ODBC drivers
+- **Row-Level Security**: Control access to specific rows based on user attributes
+- **Column-Level Security**: Restrict access to sensitive columns
+- **Dynamic Data Masking**: Hide sensitive data without changing the underlying data
+- **Access Control**: Fine-grained permission management for datasets and tables
 
-But for quick ad-hoc visualization, you can use the query results:
+### 4. Advanced Data Integration
 
-```sql
--- Query to visualize monthly sales trends
-SELECT
-  FORMAT_DATE('%Y-%m', order_date) as month,
-  SUM(total_amount) as revenue
-FROM `my_analytics_project.ecommerce_data.orders`
-GROUP BY month
-ORDER BY month;
--- Then click "Explore Data" > "Explore with Looker Studio"
-```
+- **BigQuery Data Transfer Service**: Automated data imports from various sources
+- **Streaming Data Ingestion**: Real-time data processing with the Storage Write API
+- **Connecting to External Data Sources**: Query data directly from external storage
+- **BigQuery Omni**: Query data across multiple cloud platforms
 
-## BigQuery Workflow Execution
+### 5. Advanced Cost and Performance Optimization
 
-Here's a typical workflow in BigQuery:
+- **Capacity Commitments**: Purchase committed slots for predictable workloads
+- **Reservation Management**: Allocate resources across teams and projects
+- **Query Plan Optimization**: Advanced techniques for improving query performance
 
-```mermaid
-graph TD
-    A[Load Data] --> B[Create Tables/Views]
-    B --> C[Write Queries]
-    C --> D[Optimize Queries]
-    D --> E[Schedule Queries]
-    E --> F[Visualize Results]
+## Conclusion
 
-    C -.-> G[Save Queries]
-    G -.-> C
+This crash course has covered the essential aspects of BigQuery that you'll encounter in your daily work. You now understand BigQuery's architecture, know how to set up your environment, manage data, write efficient queries, and integrate with other tools. This foundation gives you everything you need to start using BigQuery effectively for your data analytics needs.
 
-    H[Monitor Costs] --> D
-```
+As your experience grows, you can gradually explore the advanced topics in the "Last 15%" section to enhance your BigQuery skills. Remember that Google's documentation and training resources are excellent references that can support your continued learning.
 
-## The Remaining 15%: What You'll Explore Next
-
-Now that you've got the essentials, here's what you'll want to explore on your own:
-
-1. **BigQuery ML**: Build and deploy machine learning models using SQL
-
-   ```sql
-   -- Simple example of creating a linear regression model
-   CREATE MODEL `my_project.my_dataset.price_prediction_model`
-   OPTIONS(model_type='linear_reg') AS
-   SELECT features, target FROM training_data;
-   ```
-
-2. **Advanced Performance Techniques**:
-
-   - Materialized views
-   - Dynamic partitioning strategies
-   - Advanced clustering techniques
-
-3. **BigQuery Scripting and Stored Procedures**:
-
-   ```sql
-   -- Example of a stored procedure
-   CREATE PROCEDURE `my_project.my_dataset.analyze_sales`()
-   BEGIN
-     -- Multiple SQL statements
-   END;
-   ```
-
-4. **User-Defined Functions (UDFs)**:
-
-   ```sql
-   -- JavaScript UDF example
-   CREATE FUNCTION `my_project.my_dataset.calculate_discount`(price FLOAT64, category STRING)
-   RETURNS FLOAT64
-   LANGUAGE js AS """
-     if (category === 'Electronics') return price * 0.9;
-     return price * 0.95;
-   """;
-   ```
-
-5. **Streaming Data**: Real-time data ingestion
-
-   ```
-   -- Using the BigQuery API to stream data
-   -- (typically done via client libraries)
-   ```
-
-6. **Data Governance and Security**:
-
-   - Column-level security
-   - Dynamic data masking
-   - Row-level security policies
-
-7. **BigQuery BI Engine**: In-memory analysis service for sub-second query responses
-
-   ```
-   -- Configuration via the Google Cloud Console
-   ```
-
-8. **Integration with Other GCP Services**:
-   - Dataflow for ETL
-   - Pub/Sub for event streams
-   - Cloud Functions for automation
-
-## Final Tips to Remember
-
-1. **Start with small queries** when learning
-2. **Use the BigQuery sandbox** if you don't have billing enabled
-3. **Explore public datasets** in the BigQuery marketplace
-4. **Save commonly used queries** as views or saved queries
-5. **Monitor your costs** in the GCP Billing dashboard
-
-That's it! You now know the 85% of BigQuery you'll use daily. The remaining 15% you'll pick up as you go deeper into specific use cases. Happy querying!
+By leveraging BigQuery's powerful capabilities, you can analyze vast amounts of data quickly and cost-effectively, unlocking valuable insights that drive better business decisions. The serverless nature of BigQuery means you can focus on what matters most—understanding your data—while Google handles the infrastructure management behind the scenes.

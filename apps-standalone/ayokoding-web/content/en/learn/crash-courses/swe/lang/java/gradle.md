@@ -5,594 +5,608 @@ draft: false
 weight: 20
 ---
 
-Hey there! Let's dive into Gradle - the powerful, flexible build system that's become a standard in many development environments. By the end of this guide, you'll be comfortable with Gradle for your daily tasks, and you'll know enough to explore the more advanced stuff on your own.
+## Introduction to Gradle
 
-## What is Gradle?
+Gradle is a powerful build automation tool that has become the standard for Java, Android, and JVM-based projects. At its core, Gradle helps you compile your code, run tests, package your application, manage dependencies, and deploy your software—all through a flexible, code-based configuration system.
 
-Gradle is a build automation tool that helps you compile your code, manage dependencies, run tests, package applications, and deploy them. Think of it as your project's personal assistant - it handles all the repetitive tasks, leaving you free to focus on writing great code.
+What makes Gradle stand out from other build tools is its combination of power and flexibility:
 
-```
-"Gradle combines the power of Ant with the dependency management of Maven,
-wrapped in a Groovy or Kotlin DSL that makes it much more flexible and customizable."
-```
+1. **Flexibility**: Rather than using XML like older build tools, Gradle uses code (Groovy or Kotlin) for configuration, giving you much more expressive power.
 
-## Why Gradle Over Other Build Tools?
+2. **Performance**: Gradle employs smart incremental builds that only process what changed since your last build, significantly reducing build times for large projects.
 
-Gradle offers some significant advantages over older tools like Maven and Ant:
+3. **Dependency Management**: Its robust system seamlessly pulls libraries from Maven or Ivy repositories, handling transitive dependencies with ease.
 
-- **Speed**: Gradle is faster thanks to its incremental builds and build cache
-- **Flexibility**: Uses a programming language (Groovy or Kotlin) instead of XML
-- **Dependency Management**: Powerful and flexible dependency resolution
-- **Extensibility**: Easy to create custom tasks and plugins
-- **Multi-project Builds**: Great support for managing complex, multi-module projects
+4. **Multi-project Support**: When your application grows complex, Gradle excels at managing projects with many interconnected modules.
 
-## Installing Gradle
+5. **Extensibility**: With its rich plugin ecosystem, you can easily add functionality for specific technologies or build processes.
 
-Let's get you up and running with Gradle:
+## Getting Started
 
-### Prerequisites:
+### Installation
 
-- Java Development Kit (JDK) 8 or newer installed
-- Internet connection for downloading dependencies
-
-### Installation:
-
-**Option 1: Manual Installation**
-
-1. Download Gradle from [gradle.org/releases](https://gradle.org/releases/)
-2. Unzip to a directory of your choice
-3. Add the `bin` directory to your PATH environment variable
-
-**Option 2: Using SDKMAN (recommended for Linux/macOS)**
+Setting up Gradle is straightforward. Choose the method that works best for your operating system:
 
 ```bash
-# Install SDKMAN first
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# Then install Gradle
-sdk install gradle
-```
-
-**Option 3: Using Homebrew (macOS)**
-
-```bash
+# macOS with Homebrew
 brew install gradle
-```
 
-**Option 4: Using Chocolatey (Windows)**
+# Ubuntu/Debian
+sudo apt install gradle
 
-```bash
+# Windows with Chocolatey
 choco install gradle
 ```
 
-Verify your installation with:
+After installation, verify everything is working by running:
 
 ```bash
-gradle -v
+gradle --version
 ```
 
-## Gradle Core Concepts
+### The Gradle Wrapper (Recommended Approach)
 
-Let's understand the fundamental building blocks of Gradle:
+Rather than requiring everyone to install the same Gradle version locally, most projects use the Gradle Wrapper. This approach bundles a specific Gradle version with your project, ensuring everyone uses exactly the same build tool configuration.
 
-```mermaid
-graph TD
-    A[Gradle Build] --> B[Project]
-    B --> C[Tasks]
-    B --> D[Properties]
-    B --> E[Dependencies]
-    E --> F[External Libraries]
-    B --> G[Plugins]
-    G --> H[Apply functionality]
-    G --> I[Add tasks]
-    C --> J[Actions]
-    J --> K[Execution]
+To create a wrapper in an existing project:
+
+```bash
+gradle wrapper
 ```
 
-### Projects
+This command generates several important files:
 
-A project represents something you're building (an application, library, etc.). Every Gradle build consists of one or more projects.
+- `gradlew` (Linux/Mac) and `gradlew.bat` (Windows) scripts
+- `gradle/wrapper/gradle-wrapper.jar`
+- `gradle/wrapper/gradle-wrapper.properties`
 
-### Tasks
+From this point forward, you'll run builds using the wrapper instead of your local Gradle installation:
 
-Tasks are the atomic units of work in a Gradle build. Examples include compiling code, running tests, or creating a JAR file.
+```bash
+./gradlew build    # Linux/Mac
+gradlew.bat build  # Windows
+```
 
-### Dependencies
+### Project Structure
 
-These are external libraries your project needs. Gradle manages downloading and linking them for you.
-
-## Basic Project Structure
-
-Here's what a typical Gradle project looks like:
+A typical Gradle project follows this structure:
 
 ```
-my-project/
-├── build.gradle      # The main build script
-├── settings.gradle   # Project settings (name, subprojects)
+project/
 ├── gradle/
-│   └── wrapper/      # Gradle wrapper files
-├── gradlew          # Gradle wrapper script (Unix)
-├── gradlew.bat      # Gradle wrapper script (Windows)
-├── src/
-│   ├── main/
-│   │   ├── java/     # Your Java source code
-│   │   └── resources/ # Non-code resources
-│   └── test/
-│       ├── java/     # Your test code
-│       └── resources/ # Test resources
-└── build/           # Generated files (created by Gradle)
+│   └── wrapper/
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── settings.gradle(.kts)
+├── build.gradle(.kts)
+└── src/
+    ├── main/
+    │   ├── java/
+    │   └── resources/
+    └── test/
+        ├── java/
+        └── resources/
 ```
 
-## Creating Your First Gradle Project
+The key files that define your project are:
 
-Let's create a simple Java application:
+- `settings.gradle(.kts)`: Defines your project name and any subprojects
+- `build.gradle(.kts)`: Contains your build configuration
+- `src/`: Contains your source code in a standard Maven layout
 
-```bash
-# Create a directory for your project
-mkdir my-first-gradle-project
-cd my-first-gradle-project
+## Understanding Build Scripts
 
-# Initialize a Gradle project
-gradle init
-```
+The heart of Gradle is its build scripts, which can be written in either Groovy (`.gradle`) or Kotlin (`.gradle.kts`). The Kotlin DSL has become increasingly popular due to its type safety, better IDE support, and more reliable refactoring.
 
-When prompted:
+Let's look at a basic build script using the Kotlin DSL:
 
-- Select "application" as the project type
-- Select your implementation language (Java)
-- Select build script DSL (Groovy or Kotlin)
-- Use the defaults for the rest
-
-## Understanding build.gradle
-
-The `build.gradle` file is the heart of your project configuration. Here's a simple example for a Java application:
-
-```groovy
-// Apply the Java plugin - adds tasks for compiling Java, running tests, etc.
+```kotlin
+// build.gradle.kts
 plugins {
-    id 'java'
-    id 'application'  // Adds support for running the application
+    id("java")  // Adds Java compilation support
 }
 
-// Basic information about your project
-group = 'com.example'
-version = '0.1.0'
+group = "com.example"
+version = "1.0-SNAPSHOT"
 
-// Set the main class for the application
-application {
-    mainClass = 'com.example.App'
-}
-
-// Configure which repositories to use for finding dependencies
 repositories {
-    mavenCentral()  // Use the Maven Central repository
+    mavenCentral()  // Where to find dependencies
 }
 
-// Define dependencies
 dependencies {
-    // Implementation dependencies (needed at compile and runtime)
-    implementation 'com.google.guava:guava:30.1-jre'
-
-    // Test dependencies
-    testImplementation 'junit:junit:4.13.2'
-}
-
-// Custom task example
-task hello {
-    doLast {
-        println 'Hello, Gradle!'
-    }
+    implementation("com.google.guava:guava:31.1-jre")  // Regular dependency
+    testImplementation("junit:junit:4.13.2")  // Test dependency
 }
 ```
 
-## Running Gradle Tasks
+This simple script introduces several core Gradle concepts:
 
-To run tasks, use the `gradle` command followed by the task name:
+1. **Plugins**: These add functionality to your build. The Java plugin adds tasks for compiling, testing, and packaging Java code.
 
-```bash
-# List all available tasks
-gradle tasks
+2. **Repositories**: These tell Gradle where to look for your dependencies. `mavenCentral()` is a common public repository.
 
-# Run the build task (compiles code, runs tests)
-gradle build
+3. **Dependencies**: These are external libraries your project needs. Gradle will download and manage them for you.
 
-# Run the application
-gradle run
+4. **Tasks**: Although not explicitly shown above, plugins add tasks—units of work that Gradle executes during the build process.
 
-# Run your custom task
-gradle hello
+## Creating and Running Java Projects
 
-# Clean the build directory
-gradle clean
-```
+Now that we understand the basics, let's see how to create and run a Java project with Gradle.
 
-Pro tip: use the `-q` flag for quieter output:
+### Create a New Java Project
+
+Gradle makes it easy to get started with a new project:
 
 ```bash
-gradle -q run
+mkdir my-java-app
+cd my-java-app
+gradle init --type java-application
 ```
 
-## The Gradle Wrapper
+This command creates a complete Java application project with:
 
-The Gradle Wrapper is a best practice that ensures everyone uses the same Gradle version:
+- A main class
+- A test class
+- All necessary Gradle configuration
+
+### Common Gradle Commands
+
+Once your project is set up, you'll use these commands regularly:
 
 ```bash
-# Generate wrapper files (if not already present)
-gradle wrapper --gradle-version=7.4.2
+./gradlew build    # Compile, test, and package
+./gradlew clean    # Remove build outputs
+./gradlew test     # Run tests
+./gradlew run      # Execute the application
+./gradlew tasks    # List available tasks
 ```
 
-Now you can use `./gradlew` (or `gradlew.bat` on Windows) instead of `gradle`:
-
-```bash
-./gradlew build
-```
-
-Benefits:
-
-- No need to install Gradle
-- Ensures consistent builds across different environments
-- Automatically downloads the specified Gradle version
+Each command triggers a series of tasks that Gradle executes in the correct order.
 
 ## Managing Dependencies
 
-Dependency management is one of Gradle's strengths:
+As your project grows, you'll need to incorporate external libraries. Gradle organizes dependencies by their scope—when they're needed and who needs them:
 
-```groovy
+```kotlin
 dependencies {
-    // For code that's part of your application
-    implementation 'group:name:version'
+    // For compile-time and runtime
+    implementation("com.google.guava:guava:31.1-jre")
 
-    // For APIs you expose to users of your library
-    api 'group:name:version'
+    // For compile-time only (visible to consumers of your library)
+    api("org.apache.commons:commons-lang3:3.12.0")
 
-    // For compilation only
-    compileOnly 'group:name:version'
-
-    // For testing
-    testImplementation 'group:name:version'
+    // For tests only
+    testImplementation("junit:junit:4.13.2")
 
     // For runtime only
-    runtimeOnly 'group:name:version'
+    runtimeOnly("org.postgresql:postgresql:42.3.6")
 }
 ```
 
-Example with real libraries:
+Each configuration serves a specific purpose. For example, `implementation` dependencies are needed for compilation and runtime but aren't exposed to consumers of your library, while `api` dependencies are.
 
-```groovy
+### Version Catalogs
+
+For larger projects with many dependencies, version catalogs help manage everything in one place:
+
+```kotlin
+// In gradle/libs.versions.toml
+[versions]
+kotlin = "1.7.10"
+junit = "5.9.0"
+
+[libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+
+// In build.gradle.kts
 dependencies {
-    // Spring Boot starter
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
-
-    // Database driver
-    runtimeOnly 'mysql:mysql-connector-java:8.0.28'
-
-    // Testing frameworks
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'org.mockito:mockito-core:4.3.1'
+    implementation(libs.kotlin.stdlib)
+    testImplementation(libs.junit.jupiter)
 }
 ```
 
-## Common Plugins
+This approach centralizes version management and makes it easy to update versions across multiple modules.
 
-Plugins add pre-configured tasks and conventions to your build:
+## Understanding Gradle Tasks
 
-```groovy
-plugins {
-    id 'java'                    // Java compilation, testing, etc.
-    id 'application'             // For applications with a main class
-    id 'java-library'            // For Java libraries
-    id 'org.springframework.boot' version '2.6.3'  // For Spring Boot apps
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.android.application' // For Android apps
+Tasks are the fundamental work units in Gradle. Each represents an atomic piece of work like compiling code or running tests. When you run a command like `./gradlew build`, you're actually executing a series of interconnected tasks.
+
+### Built-in Tasks
+
+Most plugins provide tasks that handle common operations:
+
+- `build`: Assembles and tests the project
+- `clean`: Deletes build outputs
+- `test`: Runs tests
+- `assemble`: Creates distribution archives
+- `check`: Runs all verification tasks like tests and linting
+
+### Creating Custom Tasks
+
+As your build becomes more complex, you'll likely need custom tasks for project-specific operations:
+
+```kotlin
+// Simple task
+tasks.register("hello") {
+    description = "Prints a greeting"
+    group = "Custom"  // Groups tasks in ./gradlew tasks output
+
+    doLast {
+        println("Hello, Gradle!")
+    }
+}
+
+// Task with dependencies
+tasks.register("processData") {
+    dependsOn("downloadData", "validateData")
+    doLast {
+        println("Processing data...")
+    }
 }
 ```
 
-## Task Lifecycle and Dependency
+The `dependsOn` method ensures tasks execute in the right order—in this case, `downloadData` and `validateData` will run before `processData`.
 
-Tasks can depend on each other and have a lifecycle:
+### The Task Graph
+
+Behind the scenes, Gradle builds a directed acyclic graph (DAG) of tasks to determine the execution order:
 
 ```mermaid
 graph TD
-    A[clean] --> B[compileJava]
-    B --> C[processResources]
-    B --> D[compileTestJava]
-    C --> E[classes]
-    D --> F[testClasses]
-    E --> G[jar]
-    F --> H[test]
-    G --> I[assemble]
-    H --> J[check]
-    I --> K[build]
-    J --> K
+    clean[clean] --> compileJava
+    compileJava --> processResources
+    compileJava --> compileTestJava
+    processResources --> classes
+    compileTestJava --> testClasses
+    classes --> jar
+    testClasses --> test
+    jar --> assemble
+    test --> check
+    assemble --> build
+    check --> build
 ```
 
-Creating task dependencies:
+This graph ensures tasks run in the correct order while maximizing parallelism where possible.
 
-```groovy
-task hello {
-    doLast {
-        println 'Hello, World!'
-    }
-}
+## Multi-Project Builds
 
-task goodbye(dependsOn: hello) {
-    doLast {
-        println 'Goodbye, World!'
-    }
-}
+As applications grow more complex, it often makes sense to split them into separate modules. Gradle's multi-project builds make this manageable.
 
-// Running 'gradle goodbye' will first run 'hello', then 'goodbye'
+### Structure
+
+A multi-project build typically looks like this:
+
+```
+root-project/
+├── settings.gradle.kts
+├── build.gradle.kts
+├── app/
+│   └── build.gradle.kts
+└── library/
+    └── build.gradle.kts
 ```
 
-## Working with Multi-Project Builds
+### Configuration
 
-For larger applications, you might split your code into multiple projects:
+Connecting these projects is straightforward:
 
-**settings.gradle:**
+```kotlin
+// settings.gradle.kts
+rootProject.name = "my-project"
+include("app", "library")
 
-```groovy
-rootProject.name = 'my-application'
-
-// Include subprojects
-include 'api'
-include 'service'
-include 'web'
-```
-
-**Root build.gradle:**
-
-```groovy
-// Configuration common to all projects
-allprojects {
-    repositories {
-        mavenCentral()
-    }
-}
-
-// Configuration for all subprojects but not the root project
-subprojects {
-    apply plugin: 'java'
-
-    dependencies {
-        testImplementation 'junit:junit:4.13.2'
-    }
-}
-```
-
-**api/build.gradle:**
-
-```groovy
+// In app/build.gradle.kts
 dependencies {
-    implementation 'com.google.guava:guava:30.1-jre'
+    implementation(project(":library"))  // Depend on the library project
 }
 ```
 
-**service/build.gradle:**
+With this setup, changes to the library automatically trigger rebuilds of the app when needed, and you can build everything with a single command.
 
-```groovy
-dependencies {
-    implementation project(':api')  // Depends on the api project
+## Build Customization
+
+As your project requirements become more specific, you'll need more control over the build process.
+
+### Source Sets
+
+Source sets define different groups of code that should be compiled together:
+
+```kotlin
+sourceSets {
+    main {
+        java.srcDirs("src/main/java", "src/shared/java")
+        resources.srcDirs("src/main/resources")
+    }
+    test {
+        java.srcDirs("src/test/java")
+    }
+    // Create custom source set
+    create("integrationTest") {
+        java.srcDirs("src/integration-test/java")
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
 }
 ```
 
-## Custom Tasks
+This approach lets you organize your code into logical groups with different compilation and runtime settings.
 
-Creating custom tasks is straightforward:
+### Build Types and Product Flavors (Android)
 
-```groovy
-// Simple task
-task copyDocs(type: Copy) {
-    from 'src/docs'
-    into 'build/docs'
-}
+For Android development, Gradle offers additional customization through build types and product flavors:
 
-// Task with custom actions
-task countdown {
-    doLast {
-        5.downto(1) { number ->
-            println "$number..."
+```kotlin
+android {
+    // Debug vs Release builds
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
-        println "Liftoff!"
+        debug {
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+        }
     }
-}
 
-// Task with properties
-task analyze {
-    ext.outputDir = file("$buildDir/reports")
-
-    doLast {
-        println "Analyzing... Output will be in $outputDir"
+    // Free vs Paid versions
+    flavorDimensions += "version"
+    productFlavors {
+        create("free") {
+            dimension = "version"
+            applicationIdSuffix = ".free"
+        }
+        create("paid") {
+            dimension = "version"
+            applicationIdSuffix = ".paid"
+        }
     }
 }
 ```
 
-## Working with Database Projects
+These configurations let you build multiple variants of your app from a single codebase.
 
-If you're working on a project with a database, you can use Gradle to manage database migrations and seed data:
+## Gradle Plugins
 
-**build.gradle:**
+Plugins are what make Gradle so versatile. They add tasks, configurations, dependencies, and more to your build.
 
-```groovy
+### Common Plugins
+
+Some widely used plugins include:
+
+1. **Java Plugin**: Adds tasks for compiling, testing, and packaging Java code
+2. **Application Plugin**: Adds tasks for running and packaging JVM applications
+3. **Kotlin Plugin**: Adds support for Kotlin projects
+4. **Spring Boot Plugin**: Simplifies Spring Boot application development
+
+### Adding Plugins
+
+Plugins can be core (built into Gradle) or external (from the Gradle Plugin Portal):
+
+```kotlin
 plugins {
-    id 'java'
-    id 'org.flywaydb.flyway' version '8.5.0'  // For database migrations
+    java  // Core plugin (built into Gradle)
+    application  // Core plugin
+
+    // External plugins with versions
+    id("org.springframework.boot") version "2.7.3"
+    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    kotlin("jvm") version "1.7.10"
 }
+```
+
+Each plugin adds its own set of tasks and configurations to your build.
+
+## Creating a Complete Java App Example
+
+Let's put everything together to create a simple Java application with Gradle. First, the build configuration:
+
+```kotlin
+// settings.gradle.kts
+rootProject.name = "hello-gradle"
+
+// build.gradle.kts
+plugins {
+    java
+    application
+}
+
+group = "com.example"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.flywaydb:flyway-core:8.5.0'
-    implementation 'org.postgresql:postgresql:42.3.2'
+    implementation("com.google.guava:guava:31.1-jre")
+    testImplementation("junit:junit:4.13.2")
 }
 
-flyway {
-    url = 'jdbc:postgresql://localhost:5432/mydb'
-    user = 'postgres'
-    password = 'postgres'
-    locations = ['filesystem:src/main/resources/db/migration']
+application {
+    mainClass.set("com.example.App")
+}
+
+// Add a custom task
+tasks.register("printDependencies") {
+    description = "Prints all dependencies"
+    group = "Help"
+
+    doLast {
+        project.configurations.forEach { config ->
+            println("${config.name}:")
+            config.allDependencies.forEach { dep ->
+                println("  - ${dep.group}:${dep.name}:${dep.version}")
+            }
+        }
+    }
 }
 ```
 
-**src/main/resources/db/migration/V1\_\_Create_tables.sql:**
+Next, let's create our source files:
 
-```sql
--- Create tables
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
-);
+```java
+// src/main/java/com/example/App.java
+package com.example;
 
-CREATE TABLE posts (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    title VARCHAR(200) NOT NULL,
-    content TEXT,
-    published_at TIMESTAMP
-);
+import com.google.common.base.Strings;
 
--- Seed data
-INSERT INTO users (username, email) VALUES
-('john_doe', 'john@example.com'),
-('jane_smith', 'jane@example.com');
+public class App {
+    public static void main(String[] args) {
+        // Using Guava to demonstrate dependency usage
+        String message = Strings.repeat("Hello Gradle! ", 3);
+        System.out.println(message);
+    }
 
-INSERT INTO posts (user_id, title, content, published_at) VALUES
-(1, 'First Post', 'This is my first post!', NOW()),
-(2, 'Hello World', 'Hello to everyone reading this!', NOW());
+    public String getGreeting() {
+        return "Hello World!";
+    }
+}
+
+// src/test/java/com/example/AppTest.java
+package com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class AppTest {
+    @Test
+    public void testAppHasGreeting() {
+        App classUnderTest = new App();
+        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+        assertEquals("Hello World!", classUnderTest.getGreeting());
+    }
+}
 ```
 
-To run migrations:
+Finally, we can run the application:
 
 ```bash
-./gradlew flywayMigrate
+./gradlew run
+# Output: Hello Gradle! Hello Gradle! Hello Gradle!
 ```
 
-## Build Lifecycle
+This example demonstrates how Gradle integrates all the concepts we've covered: plugins, dependencies, tasks, and source code compilation.
 
-Understanding the build lifecycle helps you hook into the right points:
+## IDE Integration
 
-```mermaid
-graph TD
-    A[Initialization] --> B[Configuration]
-    B --> C[Execution]
+You don't have to use Gradle from the command line—it works seamlessly with all major IDEs:
 
-    subgraph "Initialization"
-    A1[Parse settings.gradle]
-    A2[Determine projects]
-    end
+- **IntelliJ IDEA**: Built-in support with a dedicated Gradle tool window
+- **Eclipse**: Via the Buildship plugin
+- **Android Studio**: Built on IntelliJ with enhanced Gradle support
+- **VS Code**: Via Gradle extension
 
-    subgraph "Configuration"
-    B1[Configure projects]
-    B2[Configure tasks]
-    B3[Create task graph]
-    end
+This integration lets you run Gradle tasks directly from your IDE and provides useful visualizations of your build.
 
-    subgraph "Execution"
-    C1[Execute selected tasks]
-    end
+## The Remaining 15%: Advanced Topics
 
-    A1 --> A2 --> B1 --> B2 --> B3 --> C1
-```
+Now that you've mastered the essentials of Gradle, here are the more advanced topics that make up the remaining 15% you can explore on your own:
 
-## Gradle Properties
+1. **Custom Plugin Development**: Create reusable functionality for multiple projects:
 
-You can configure Gradle behavior with properties:
+   ```kotlin
+   // Example starter for a custom plugin
+   class MyPlugin : Plugin<Project> {
+       override fun apply(project: Project) {
+           project.tasks.register("myTask") {
+               doLast { println("Hello from my plugin") }
+           }
+       }
+   }
+   ```
 
-**gradle.properties:**
+2. **Build Cache Configuration**: Speed up builds across machines:
 
-```properties
-# Increase memory for the daemon
-org.gradle.jvmargs=-Xmx2048m
+   ```kotlin
+   buildCache {
+       local {
+           directory = File(rootDir, "build-cache")
+           removeUnusedEntriesAfterDays = 30
+       }
+   }
+   ```
 
-# Enable parallel execution
-org.gradle.parallel=true
+3. **Composite Builds**: Work with builds from other directories:
 
-# Enable build cache
-org.gradle.caching=true
+   ```kotlin
+   // settings.gradle.kts
+   includeBuild("../other-project")
+   ```
 
-# Custom project properties
-appVersion=1.0.0
-jdbcUrl=jdbc:postgresql://localhost:5432/mydb
-```
+4. **Custom Task Types**: Create reusable task classes:
 
-Access in build.gradle:
+   ```kotlin
+   abstract class PrintToFileTask : DefaultTask() {
+       @get:InputFile
+       abstract val inputFile: RegularFileProperty
 
-```groovy
-version = property('appVersion')
+       @get:OutputFile
+       abstract val outputFile: RegularFileProperty
 
-println "JDBC URL: ${property('jdbcUrl')}"
-```
+       @TaskAction
+       fun execute() {
+           // Task implementation
+       }
+   }
+   ```
 
-## The 15% You'll Explore Later
+5. **Build Scans**: Get detailed insights into your build:
 
-Here's what we've left for you to discover on your own (but now you have the foundation to learn it):
+   ```kotlin
+   plugins {
+       id("com.gradle.build-scan") version "3.11"
+   }
 
-1. **Advanced Dependency Management**
+   buildScan {
+       termsOfServiceUrl = "https://gradle.com/terms-of-service"
+       termsOfServiceAgree = "yes"
+   }
+   ```
 
-   - Version catalogs
-   - Dynamic versions
-   - Dependency substitution
-   - Custom repositories
+6. **Advanced Dependency Management**: Resolve version conflicts:
 
-2. **Writing Custom Plugins**
+   ```kotlin
+   configurations.all {
+       resolutionStrategy {
+           // Force specific versions
+           force("com.google.guava:guava:30.1-jre")
 
-   - Creating reusable build logic
-   - Publishing plugins
+           // Fail if versions conflict
+           failOnVersionConflict()
+       }
+   }
+   ```
 
-3. **Build Cache and Performance Optimization**
+7. **Gradle Script Kotlin Extensions**: Write type-safe build scripts with custom extensions
 
-   - Configuring build cache
-   - Incremental tasks
-   - Profiling builds
+8. **Gradle TestKit**: Test your custom plugins and build logic
 
-4. **Continuous Integration**
+9. **CI/CD Integration**: Connect Gradle to Jenkins, GitHub Actions, and other CI systems
 
-   - Setting up Gradle with CI systems
-   - Publishing artifacts to repositories
+10. **Performance Optimization**: Profile and tune your builds:
+    ```kotlin
+    // Enable parallel execution
+    org.gradle.parallel=true
+    org.gradle.caching=true
+    org.gradle.configureondemand=true
+    ```
 
-5. **Testing Framework Integration**
+## Summary
 
-   - Advanced test configuration
-   - Test reports and aggregation
+This crash course has equipped you with the essential 85% of Gradle knowledge for day-to-day use. You now understand:
 
-6. **Gradle Kotlin DSL**
+1. How to install Gradle and set up projects
+2. How build scripts work with plugins, dependencies, and repositories
+3. How to create and run tasks
+4. How to structure multi-project builds
+5. How to manage dependencies efficiently
+6. How to customize your build for specific needs
+7. How to use common plugins to enhance your build
 
-   - Converting from Groovy to Kotlin DSL
-   - IDE integration
+The remaining 15%—custom plugins, build caching, advanced dependency management, and more—can be explored as your needs grow. Your foundation is now solid enough to tackle any Gradle project and expand your knowledge into these more specialized areas as needed.
 
-7. **Configuration Avoidance**
-
-   - Lazy configuration
-   - Configuration caching
-
-8. **Composite Builds**
-
-   - Including builds from other locations
-   - Build substitution
-
-9. **Gradle Enterprise**
-
-   - Build scans
-   - Advanced performance monitoring
-
-10. **Dealing with Legacy Systems**
-    - Migrating from Ant/Maven
-    - Integrating with non-Gradle components
-
-## Final Tips
-
-1. **Use the Wrapper**: Always use the Gradle Wrapper (`gradlew`) rather than a locally installed Gradle.
-
-2. **Read the Docs**: The [Gradle documentation](https://docs.gradle.org/) is comprehensive and well-written.
-
-3. **Keep Build Scripts Clean**: Avoid putting too much logic in your build scripts. Extract complex logic to plugins.
-
-4. **Be Careful with Task Dependencies**: Explicitly declare task dependencies to ensure correct execution order.
-
-5. **Use Gradle Forums**: The Gradle community is helpful if you get stuck.
-
-And that's your crash course! You now know enough about Gradle to handle 85% of what you'll need day-to-day. The remaining 15% will come naturally as you encounter specific needs in your projects. Happy building!
+Remember that Gradle's official documentation (docs.gradle.org) is extensive and well-maintained, providing a valuable reference when you need to dive deeper into any of these topics.
