@@ -6,4 +6,6 @@ weight: 1
 ---
 
 - [PostgreSQL](./postgresql/)
+- [SQLite](./sqlite/)
+- [Redis](./redis/)
 - [BigQuery](./bigquery/)
