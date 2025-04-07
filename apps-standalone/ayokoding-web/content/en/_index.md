@@ -5,8 +5,6 @@ draft: false
 weight: 1
 ---
 
-{{< cards >}}
-{{< card link="/en/learn" title="Learn" >}}
-{{< card link="/en/rants" title="Rants" >}}
-{{< card link="/en/about-ayokoding" title="About AyoKoding" >}}
-{{< /cards >}}
+- [Learn](./learn/)
+- [Rants](./rants/)
+- [About AyoKoding](./about-ayokoding/)
