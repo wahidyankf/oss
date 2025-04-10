@@ -6,9 +6,9 @@ This directory demonstrates Python's module and package system.
 
 ```
 06-modules-packages/
-├── modules_demo.py       # Main demo script
-├── demo_module.py        # Standalone module
-└── demo_package/         # Example package
+├── main.py              # Main demo script
+├── demo_module.py       # Standalone module
+└── demo_package/        # Example package
     ├── __init__.py       # Package initialization
     ├── module_in_package.py  # Module within package
     └── subpackage/       # Subpackage example
@@ -37,7 +37,7 @@ This directory demonstrates Python's module and package system.
 1. Execute the main demo:
 
    ```bash
-   python modules_demo.py
+   python main.py
    ```
 
 2. Expected output shows:
