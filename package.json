@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prepare": "husky",
+    "prepare": "node scripts/prepare.js && husky",
     "preinstall": "npm run doctor",
     "next-hello:build": "nx build next-hello",
     "next-hello:dev": "nx serve next-hello",
