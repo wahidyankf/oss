@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky",
+    "preinstall": "npm run doctor",
     "next-hello:build": "nx build next-hello",
     "next-hello:dev": "nx serve next-hello",
     "next-hello:test": "nx test next-hello",
@@ -19,7 +20,8 @@
     "test:all:standalone": "npm run build:standalone",
     "test:all": "npm run test:echo && npm run test:all:standalone && npx nx run-many --target=test && npx nx run-many --target=typecheck && npx nx run-many --target=build",
     "build": "./scripts/build.sh",
-    "build:standalone": "npm run ayokoding-web:build && npm run analisapasar-web:build && npm run wahidyankf-web:build"
+    "build:standalone": "npm run ayokoding-web:build && npm run analisapasar-web:build && npm run wahidyankf-web:build",
+    "doctor": "node scripts/doctor.js"
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",
