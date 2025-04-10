@@ -32,14 +32,15 @@ I. Python Fundamentals (Building an Unshakeable Core)
     - Description: Learn how Python organizes code using modules (.py files) and packages (directories with `__init__.py`). Understand different import mechanisms (`import module`, `from module import name`, `import module as alias`) and their implications for namespaces. Get familiar with the breadth of Python's Standard Library ("batteries included"). Learn to create and structure your own reusable packages.
     - Importance: Essential for managing larger projects and leveraging existing code (both yours and Python's).
 
-7.  File Input/Output (I/O):
+7.  Error and Exception Handling - Robustness:
+
+    - Description: Handling runtime errors gracefully. Understand the `try...except` block to catch specific exceptions. Use `else` to run code only if no exception occurred in the `try` block, and `finally` for cleanup code that _always_ runs. Learn to `raise` exceptions when errors occur in your code and define custom exception classes for application-specific errors.
+    - Importance: Makes your programs resilient to unexpected situations and provides clear error reporting.
+
+8.  File Input/Output (I/O):
 
     - Description: Interacting with files on the filesystem. Understand opening files (`open()`) with different modes (read 'r', write 'w', append 'a', binary 'b'). Master the `with` statement for automatic resource management (ensures files are closed even if errors occur). Learn to read/write text and binary data effectively. Use `os.path` or the more modern `pathlib` module for robust path manipulation.
     - Importance: Necessary for reading data, writing results, configuration, logging, etc. Proper handling prevents data loss and resource leaks.
-
-8.  Error and Exception Handling - Robustness:
-    - Description: Handling runtime errors gracefully. Understand the `try...except` block to catch specific exceptions. Use `else` to run code only if no exception occurred in the `try` block, and `finally` for cleanup code that _always_ runs. Learn to `raise` exceptions when errors occur in your code and define custom exception classes for application-specific errors.
-    - Importance: Makes your programs resilient to unexpected situations and provides clear error reporting.
 
 II. Intermediate Python (Leveraging Language Power)
 
