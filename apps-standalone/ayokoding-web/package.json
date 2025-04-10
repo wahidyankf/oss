@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "hugo server --disableFastRender",
+    "dev": "hugo server",
     "build": "hugo --minify"
   },
   "volta": {

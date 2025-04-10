@@ -63,6 +63,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,mdx,yaml,mjs,json}": [
       "prettier --write"
+    ],
+    "*.py": [
+      "black --quiet"
     ]
   },
   "volta": {
