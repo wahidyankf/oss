@@ -53,6 +53,8 @@ Shared libraries and components that can be used across different applications i
 - **Monorepo Management**: Nx
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
+- **Python Formatting**: Black
+- **Node Version Management**: nvm (via .nvmrc)
 - **Testing**:
   - Unit Testing: Jest
   - E2E Testing: Playwright
@@ -132,9 +134,41 @@ Shared libraries and components that can be used across different applications i
 
 ## Git Hooks
 
-The project uses Husky for Git hooks:
+The project uses Husky for Git hooks with automated setup:
 
-- `pre-push`: Runs tests and builds affected projects before pushing
+```bash
+npm run prepare
+```
+
+Hooks include:
+
+- `pre-commit`: Runs lint-staged (Prettier for JS/TS, Black for Python)
+- `commit-msg`: Validates commit messages
+- `pre-push`: Runs tests and builds affected projects
+
+The prepare script ensures all hooks are executable.
+
+## Project Health Checks
+
+The project includes automated checks to ensure proper setup:
+
+### Doctor Script
+
+```bash
+npm run doctor
+```
+
+Checks:
+
+- Required tools (nvm, black)
+- Node version matches .nvmrc
+
+### Pre-install Checks
+
+Automatically runs during `npm install` to verify:
+
+- Correct Node version
+- Required tools are installed
 
 ## License
 
@@ -144,4 +178,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Wahid Yankfi - [Your Email or Social Media]
 
-Project Link: [https://github.com/wahidyankf/ayokoding](https://github.com/wahidyankf/ayokoding)
+Project Link: [https://github.com/wahidyankf/oss](https://github.com/wahidyankf/oss)
