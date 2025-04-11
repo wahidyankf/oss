@@ -11,6 +11,7 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     DateTime,
+    func,
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
@@ -32,9 +33,6 @@ class User(Base):
 
     orders = relationship("Order", back_populates="user")
 
-    def __repr__(self):
-        return f"<User(id={self.id}, name='{self.name}', email='{self.email}')>"
-
 
 class Order(Base):
     __tablename__ = "orders"
@@ -46,9 +44,6 @@ class Order(Base):
     order_date = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="orders")
-
-    def __repr__(self):
-        return f"<Order(id={self.id}, product='{self.product}', amount={self.amount})>"
 
 
 # Create tables
@@ -81,24 +76,45 @@ if __name__ == "__main__":
     session.add_all([order1, order2, order3])
     session.commit()
 
-    # Query all users
+    # Query all users - output as dicts
     print("\nAll users:")
     for user in session.query(User).all():
-        print(user)
+        print(
+            {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "age": user.age,
+                "created_at": (
+                    user.created_at.strftime("%Y-%m-%d %H:%M:%S")
+                    if user.created_at
+                    else None
+                ),
+            }
+        )
 
-    # Get user with orders - safely handle None case
+    # Get user with orders - output as dict
     print("\nJohn's orders:")
     john = session.query(User).filter_by(name="John Doe").first()
     if john is not None:
         for order in john.orders:
-            print(order)
+            print(
+                {
+                    "id": order.id,
+                    "product": order.product,
+                    "amount": order.amount,
+                    "order_date": (
+                        order.order_date.strftime("%Y-%m-%d %H:%M:%S")
+                        if order.order_date
+                        else None
+                    ),
+                }
+            )
     else:
         print("User 'John Doe' not found")
 
-    # Sales report
+    # Sales report - output as dict
     print("\nSales report:")
-    from sqlalchemy import func
-
     sales = (
         session.query(
             User.id,
