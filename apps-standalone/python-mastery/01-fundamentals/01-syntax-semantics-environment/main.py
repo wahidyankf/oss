@@ -1,90 +1,101 @@
 """
 Python Syntax, Semantics & Environment Demo
 
-Key concepts demonstrated:
-1. Dynamic typing
-2. Indentation-based blocks
-3. Naming conventions
-4. Basic syntax elements
+Key concepts demonstrated with detailed explanations:
+1. Dynamic typing - Variables can change type dynamically
+2. Indentation-based blocks - Python's unique scoping approach
+3. Naming conventions - PEP 8 style guidelines
+4. Basic syntax elements - Core language features
 """
 
-# 1. Dynamic typing example
-# Variables don't have fixed types, they can change type
+# ========== 1. DYNAMIC TYPING ==========
+# Python is dynamically typed - variable types are determined at runtime
+# and can be changed during execution
 
 print("\n=== DYNAMIC TYPING ===")
 
-# Integer
-a = 5  # integer
-print(f"a is {a}, type: {type(a)}")
+# Variable starts as integer
+a = 5  # type: int
+print(f"a is {a}, type: {type(a)}")  # Output shows integer type
 
-# String
-a = "hello"  # now a string
-print(f"a is {a}, type: {type(a)}")
+# Same variable reassigned to string (dynamic typing demo)
+a = "hello"  # type: ignore
+print(f"a is {a}, type: {type(a)}")  # Shows type changed
 
-# List
-a = [1, 2, 3]  # now a list
-print(f"a is {a}, type: {type(a)}")
+# Reassigned again to list (dynamic typing demo)
+a = [1, 2, 3]  # type: ignore
+print(f"a is {a}, type: {type(a)}")  # Type changed again
 
 
-# 2. Indentation-based blocks (vs braces in other languages)
+# ========== 2. INDENTATION-BASED BLOCKS ==========
+# Python uses indentation (whitespace) to define code blocks instead
+# of curly braces {} like many other languages
 
 print("\n=== INDENTATION-BASED BLOCKS ===")
 
 
 def greet(name):
-    # This indented block is part of the function
-    if name:  # Another indented block for the if statement
-        print(f"Hello, {name}!")
+    """
+    Function demonstrating indentation:
+    - The entire function body is indented
+    - Control structures within are further indented
+    """
+    if name:  # if block starts with indentation
+        print(f"Hello, {name}!")  # if body indented further
     else:
-        print("Hello, stranger!")
+        print("Hello, stranger!")  # else body at same level
 
 
-# Proper indentation is required
-greet("Alice")
+# Function calls must be at proper indentation level
+greet("Alice")  # Properly aligned with module-level code
 greet("")
 
-# 3. Naming conventions
+
+# ========== 3. NAMING CONVENTIONS ==========
+# Python follows PEP 8 style guide for naming:
 
 print("\n=== NAMING CONVENTIONS ===")
 
-# Variables/functions: snake_case
-my_variable = 42
+# Variables and functions use snake_case
+my_variable = 42  # All lowercase with underscores
 
 
-def my_function():
+def my_function():  # Function names follow same convention
     pass
 
 
-# Constants: UPPER_SNAKE_CASE
-MAX_CONNECTIONS = 5
+# Constants use UPPER_SNAKE_CASE
+MAX_CONNECTIONS = 5  # Clearly indicates constant value
 PI_APPROXIMATION = 3.14159
 
 
-# Classes: PascalCase
-class MyClass:
+# Classes use PascalCase (also called CapitalizedCase)
+class MyClass:  # Each word capitalized, no separators
     pass
 
 
-# 4. Basic syntax elements
+# ========== 4. BASIC SYNTAX ELEMENTS ==========
 
 print("\n=== BASIC SYNTAX ELEMENTS ===")
 
-# Comments start with #
-""" Multi-line
-    comments use triple quotes """
+# Comments: Single line starts with #
+""" 
+Multi-line comments/documentation 
+use triple quotes (technically docstrings)
+"""
 
-# Basic operators
-x = 5 + 3 * 2  # Follows operator precedence
-print(f"5 + 3 * 2 = {x}")
+# Operators follow standard precedence
+x = 5 + 3 * 2  # Multiplication before addition
+print(f"5 + 3 * 2 = {x}")  # Output: 11 not 16
 
-# String formatting (f-strings)
+# Modern string formatting with f-strings (Python 3.6+)
 name = "Bob"
 age = 25
-print(f"{name} is {age} years old")
+print(f"{name} is {age} years old")  # Variables embedded directly
 
-# List comprehensions
-squares = [x**2 for x in range(5)]
+# List comprehensions - concise way to create lists
+squares = [x**2 for x in range(5)]  # Equivalent to map+lambda
 print(f"Squares: {squares}")
 
-# Environment note: This assumes Python 3.6+ for f-strings
-# Run with: python3 syntax_demo.py
+# Environment note: Requires Python 3.6+ for f-strings
+# Run with: python main.py
