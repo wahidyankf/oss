@@ -24,6 +24,7 @@ Basic Module Import:
 - Most explicit but most verbose
 """
 print("\n=== BASIC MODULE IMPORT ===")
+
 import demo_module  # Imports demo_module.py
 
 print(demo_module.module_function())  # Access module contents
@@ -37,6 +38,7 @@ Specific Import:
 - Avoid 'from module import *' (pollutes namespace)
 """
 print("\n=== SPECIFIC IMPORT ===")
+
 from demo_module import ModuleClass  # Import just ModuleClass
 
 obj = ModuleClass()  # Use directly without module prefix
@@ -50,6 +52,7 @@ Import with Alias:
 - Common in data science (import numpy as np)
 """
 print("\n=== IMPORT WITH ALIAS ===")
+
 import demo_module as dm  # Create short alias
 
 print(f"Aliased import: {dm.module_function()}")
@@ -62,6 +65,7 @@ Package Imports:
 - Use dot notation to access submodules
 """
 print("\n=== PACKAGE IMPORTS ===")
+
 from demo_package import package_function  # Import from package
 
 print(package_function())
@@ -74,6 +78,7 @@ Subpackage Imports:
 - Can use relative imports within package
 """
 print("\n=== SUBPACKAGE IMPORT ===")
+
 from demo_package.subpackage import subpackage_function
 
 print(subpackage_function())
@@ -88,7 +93,8 @@ Standard Library:
 - Many more (see Python docs)
 """
 print("\n=== STANDARD LIBRARY ===")
-from math import pi, sqrt
+
+from math import sqrt
 from datetime import datetime
 
 print(f"Square root of 16: {sqrt(16)}")
@@ -102,6 +108,7 @@ Package Contents:
 - Can expose subpackage contents at package level
 """
 print("\n=== PACKAGE CONTENTS ===")
+
 import demo_package  # Import entire package
 
 print(f"Package variable: {demo_package.package_variable}")

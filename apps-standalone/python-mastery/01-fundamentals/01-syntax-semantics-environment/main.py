@@ -10,15 +10,27 @@ Key concepts demonstrated:
 
 # 1. Dynamic typing example
 # Variables don't have fixed types, they can change type
+
+print("\n=== DYNAMIC TYPING ===")
+
+# Integer
 a = 5  # integer
 print(f"a is {a}, type: {type(a)}")
+
+# String
 a = "hello"  # now a string
 print(f"a is {a}, type: {type(a)}")
+
+# List
 a = [1, 2, 3]  # now a list
 print(f"a is {a}, type: {type(a)}")
 
 
 # 2. Indentation-based blocks (vs braces in other languages)
+
+print("\n=== INDENTATION-BASED BLOCKS ===")
+
+
 def greet(name):
     # This indented block is part of the function
     if name:  # Another indented block for the if statement
@@ -32,6 +44,9 @@ greet("Alice")
 greet("")
 
 # 3. Naming conventions
+
+print("\n=== NAMING CONVENTIONS ===")
+
 # Variables/functions: snake_case
 my_variable = 42
 
@@ -51,6 +66,9 @@ class MyClass:
 
 
 # 4. Basic syntax elements
+
+print("\n=== BASIC SYNTAX ELEMENTS ===")
+
 # Comments start with #
 """ Multi-line
     comments use triple quotes """

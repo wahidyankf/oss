@@ -60,6 +60,7 @@ def demonstrate_basic_operations():
     try:
         # 1. Writing to file
         print("=== WRITING TO FILE ===")
+
         try:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write("Line 1: Hello File World!\n")
@@ -70,6 +71,7 @@ def demonstrate_basic_operations():
 
         # 2. Reading from file
         print("\n=== READING FROM FILE ===")
+
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
@@ -108,6 +110,7 @@ def demonstrate_advanced_operations():
 
         # Binary file operations
         print("\n=== BINARY FILE OPERATIONS ===")
+
         try:
             with open(binary_file, "wb") as f:
                 f.write(b"Binary data \x01\x02\x03")

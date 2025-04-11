@@ -26,6 +26,7 @@ Note:
 - No switch statement in Python (use if/elif chains or dicts)
 """
 print("=== CONDITIONAL STATEMENTS ===")
+
 age = 25  # Test age value
 
 if age < 13:
@@ -45,6 +46,7 @@ For loops iterate over sequences:
 - Can use with else clause (runs if no break)
 """
 print("\n=== FOR LOOPS ===")
+
 fruits = ["apple", "banana", "cherry"]  # List to iterate
 
 print("Simple for loop:")
