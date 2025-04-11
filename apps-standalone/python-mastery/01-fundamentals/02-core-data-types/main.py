@@ -1,55 +1,116 @@
 """
 Python Core Data Types & Operations Demo
 
-Covers:
-1. Numeric types (int, float, complex)
-2. Sequence types (str, list, tuple)
-3. Mapping type (dict)
-4. Set type
-5. Boolean and None
-6. Common operations and methods
-7. Mutability vs Immutability
-8. String formatting (f-strings)
+This heavily commented example demonstrates Python's fundamental data types with:
+1. Detailed explanations of each type category
+2. Common operations and methods
+3. Practical examples with output
+4. Key differences (mutability, use cases)
+
+Key Concepts Covered:
+- Numeric types and operations
+- Sequence types and indexing
+- Dictionary mapping
+- Set operations
+- Boolean logic
+- Type conversion
 """
 
-# 1. Numeric Types
+# ========== NUMERIC TYPES ==========
+"""
+Python's numeric types:
+- int: Arbitrary precision integers (no size limit)
+- float: Double-precision floating point (64-bit)
+- complex: Complex numbers (real + imaginary parts)
+
+Key Characteristics:
+- All are immutable (operations create new objects)
+- Support standard arithmetic operations
+- Type conversion via int(), float(), complex()
+"""
 print("\n=== NUMERIC TYPES ===")
-integer = 42
-float_num = 3.14
-complex_num = 2 + 3j
+integer = 42  # Basic integer
+float_num = 3.14  # Floating point number
+complex_num = 2 + 3j  # Complex number (j for imaginary unit)
+
+# Display types and values
 print(f"Integer: {integer}, type: {type(integer)}")
 print(f"Float: {float_num}, type: {type(float_num)}")
 print(f"Complex: {complex_num}, type: {type(complex_num)}")
 
-# 2. Sequence Types
+# ========== SEQUENCE TYPES ==========
+"""
+Sequence Types:
+1. str: Immutable Unicode character sequences
+2. list: Mutable ordered collections
+3. tuple: Immutable ordered collections
+
+Common Operations:
+- Indexing (0-based)
+- Slicing [start:stop:step]
+- Concatenation (+)
+- Repetition (*)
+- Membership testing (in)
+"""
 print("\n=== SEQUENCE TYPES ===")
-# Strings
+
+# ----- Strings -----
+"""
+Strings:
+- Immutable sequence of Unicode characters
+- Support extensive methods for manipulation
+- Single or double quotes (consistent in file)
+"""
 message = "Hello Python"
 print(f"String: {message}, type: {type(message)}")
-print(f"Split: {message.split()}")  # Common string method
-print(f"Slice: {message[0:5]}")  # Slicing
+print(f"Split: {message.split()}")  # Split into words (list)
+print(f"Slice: {message[0:5]}")  # Get first 5 characters
 
-# Lists (mutable)
+# ----- Lists -----
+"""
+Lists:
+- Mutable ordered collections
+- Heterogeneous (can mix types)
+- Grow/shrink dynamically
+"""
 colors = ["red", "green", "blue"]
 print(f"\nList: {colors}, type: {type(colors)}")
-colors.append("yellow")  # Modifies list in-place
+colors.append("yellow")  # Modifies in-place
 print(f"After append: {colors}")
-print(f"Slice: {colors[1:]}")
+print(f"Slice: {colors[1:]}")  # All elements after first
 
-# Tuples (immutable)
+# ----- Tuples -----
+"""
+Tuples:
+- Immutable ordered collections
+- Faster than lists
+- Often used for fixed data
+"""
 dimensions = (1920, 1080)
 print(f"\nTuple: {dimensions}, type: {type(dimensions)}")
-# dimensions[0] = 2560  # Would raise TypeError
+# dimensions[0] = 2560  # Would raise TypeError (immutable)
 
-# 3. Mapping Type (dict)
+# ========== MAPPING TYPE (DICT) ==========
+"""
+Dictionaries:
+- Mutable key-value mappings
+- Keys must be hashable (immutable types)
+- Unordered until Python 3.7+, insertion-ordered after
+"""
 print("\n=== MAPPING TYPE ===")
 user = {"name": "Alice", "age": 30, "is_admin": False}
 print(f"Dict: {user}, type: {type(user)}")
-print(f"Get name: {user.get('name')}")  # Safe access
-user["email"] = "alice@example.com"  # Add new key
+print(f"Name: {user['name']}")  # Access by key
+user["email"] = "alice@example.com"  # Add new key-value pair
 print(f"After update: {user}")
 
-# 4. Set Type
+# ========== SET TYPE ==========
+"""
+Sets:
+- Mutable unordered collections
+- Elements must be hashable (immutable types)
+- Fast membership testing and set operations
+"""
 print("\n=== SET TYPE ===")
 primes = {2, 3, 5, 7, 11}
 print(f"Set: {primes}, type: {type(primes)}")
@@ -57,14 +118,24 @@ primes.add(13)  # Add element
 print(f"After add: {primes}")
 print(f"Is 7 prime? {7 in primes}")  # Fast membership test
 
-# 5. Boolean and None
+# ========== BOOLEAN & NONE ==========
+"""
+Boolean and None:
+- Boolean: True or False
+- None: Special value for absence of value
+"""
 print("\n=== BOOLEAN & NONE ===")
 is_valid = True
 no_value = None
 print(f"Boolean: {is_valid}, type: {type(is_valid)}")
 print(f"None: {no_value}, type: {type(no_value)}")
 
-# 6. Mutability Examples
+# ========== MUTABILITY ==========
+"""
+Mutability Examples:
+- Lists are mutable
+- Strings are immutable
+"""
 print("\n=== MUTABILITY ===")
 # Lists are mutable
 numbers = [1, 2, 3]
@@ -74,7 +145,12 @@ print(f"Mutable list: {numbers}")
 # Strings are immutable
 # message[0] = 'h'  # Would raise TypeError
 
-# 7. String Formatting (f-strings)
+# ========== STRING FORMATTING ==========
+"""
+String Formatting (f-strings):
+- Convenient way to embed expressions in strings
+- Support various formatting options
+"""
 print("\n=== STRING FORMATTING ===")
 name = "Bob"
 score = 95.5
