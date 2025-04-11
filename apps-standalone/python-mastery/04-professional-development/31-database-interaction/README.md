@@ -81,6 +81,38 @@ Outputs will be functionally equivalent but formatted differently to showcase ea
 - Session-based transaction handling
 - Query builder interface
 
+## Output Comparison
+
+### SQLAlchemy Output
+
+```python
+All users:
+{'id': 5, 'name': 'John Doe', 'email': 'john@example.com', 'age': 30, 'created_at': '2025-04-11 08:50:53'}
+{'id': 6, 'name': 'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'created_at': '2025-04-11 08:50:53'}
+
+John's orders:
+{'id': 7, 'product': 'Laptop', 'amount': 999.99, 'order_date': '2025-04-11 08:50:53'}
+{'id': 8, 'product': 'Mouse', 'amount': 49.99, 'order_date': '2025-04-11 08:50:53'}
+```
+
+### Vanilla SQLite Output
+
+```python
+All users:
+{'id': 1, 'name': 'John Doe', 'email': 'john@example.com', 'age': 30, 'created_at': '2025-04-11 08:51:29'}
+{'id': 2, 'name': 'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'created_at': '2025-04-11 08:51:29'}
+
+John's orders:
+{'id': 1, 'name': 'John Doe', 'email': 'john@example.com', 'age': 30, 'created_at': '2025-04-11 08:51:29', 'order_id': 1, 'amount': 999.99, 'product': 'Laptop', 'order_date': '2025-04-11 08:51:29'}
+```
+
+Key Differences:
+
+- **SQLAlchemy**: Separates user and order data (ORM pattern)
+- **Vanilla**: Shows joined data in single dictionaries (SQL pattern)
+- Both use identical datetime string formatting
+- Sales reports are identical in format
+
 ## Sample Output Comparison
 
 ### Vanilla Demo Output

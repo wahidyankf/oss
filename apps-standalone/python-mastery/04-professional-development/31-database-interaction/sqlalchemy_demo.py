@@ -79,37 +79,31 @@ if __name__ == "__main__":
     # Query all users - output as dicts
     print("\nAll users:")
     for user in session.query(User).all():
-        print(
-            {
-                "id": user.id,
-                "name": user.name,
-                "email": user.email,
-                "age": user.age,
-                "created_at": (
-                    user.created_at.strftime("%Y-%m-%d %H:%M:%S")
-                    if user.created_at
-                    else None
-                ),
-            }
-        )
+        user_dict = {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "age": user.age,
+        }
+        if user.created_at is not None:  # Proper None check instead of column check
+            user_dict["created_at"] = user.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        print(user_dict)
 
     # Get user with orders - output as dict
     print("\nJohn's orders:")
     john = session.query(User).filter_by(name="John Doe").first()
     if john is not None:
         for order in john.orders:
-            print(
-                {
-                    "id": order.id,
-                    "product": order.product,
-                    "amount": order.amount,
-                    "order_date": (
-                        order.order_date.strftime("%Y-%m-%d %H:%M:%S")
-                        if order.order_date
-                        else None
-                    ),
-                }
-            )
+            order_dict = {
+                "id": order.id,
+                "product": order.product,
+                "amount": order.amount,
+            }
+            if order.order_date is not None:  # Proper None check
+                order_dict["order_date"] = order.order_date.strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+            print(order_dict)
     else:
         print("User 'John Doe' not found")
 
