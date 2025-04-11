@@ -1,21 +1,29 @@
-# Python File I/O Demo
+# Comprehensive File I/O Documentation
 
-This directory demonstrates Python's file input/output capabilities with robust error handling.
+This module demonstrates Python file operations with best practices.
 
-## Key Concepts Demonstrated
+## Key Concepts Covered
 
-1. **File Opening Modes** (`'r'`, `'w'`, `'a'`, `'b'`)
-2. **Context Managers** (`with` statement)
-3. **Exception Handling** for common file operations:
-   - `FileNotFoundError`
-   - `PermissionError`
-   - `IOError`/`OSError`
-4. **Custom Exceptions** for application-specific errors
-5. **Cleanup Operations** in `finally` blocks
-6. **Reading Methods** (`read()`, `readline()`, `readlines()`)
-7. **Writing Methods** (`write()`, `writelines()`)
-8. **Path Handling** (`os.path` vs `pathlib`)
-9. **Binary File Operations**
+### 1. Basic File Operations
+
+- Reading/writing text files
+- Context managers (`with`)
+- File modes (r, w, a, etc.)
+- Proper error handling
+
+### 2. Advanced Techniques
+
+- Binary file operations
+- Path handling with `pathlib`
+- Working with directories
+- Temporary files
+
+### 3. Best Practices
+
+- File encoding considerations
+- Resource cleanup
+- Cross-platform compatibility
+- Exception handling patterns
 
 ## How to Run
 
@@ -23,13 +31,18 @@ This directory demonstrates Python's file input/output capabilities with robust 
 python main.py
 ```
 
-## Key Takeaways
+## Expected Output
 
-- Always handle potential file operation errors
-- Use specific exception types for different failure modes
-- Ensure resources are cleaned up in `finally` blocks
-- Create custom exceptions for application-specific errors
-- Always use `with` statements for automatic resource cleanup
-- `pathlib` provides more intuitive path manipulation
-- Different modes serve different purposes (write vs append)
-- Be mindful of file encodings when working with text files
+The demo will show:
+
+- Successful file write/read operations
+- Binary file handling
+- Proper cleanup
+- Error handling scenarios
+
+## Learning Objectives
+
+- Understand Python's file I/O system
+- Handle files safely and efficiently
+- Work with paths cross-platform
+- Implement robust error handling

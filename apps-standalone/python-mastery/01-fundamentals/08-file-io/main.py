@@ -1,80 +1,143 @@
 """
-File I/O Demo
-Demonstrates reading/writing files in Python with exception handling
+Comprehensive File I/O Demonstration
+
+This module demonstrates Python file operations with:
+1. Proper error handling
+2. Context managers (with)
+3. Different file modes
+4. Path handling best practices
+5. Real-world patterns
+
+Key Concepts Covered:
+- Reading/writing text and binary files
+- Using pathlib for cross-platform paths
+- Exception handling for file operations
+- File encoding considerations
+- Temporary files and cleanup
 """
 
-import os
 from pathlib import Path
 
+# ========== CUSTOM EXCEPTIONS ==========
+"""
+File Operation Exceptions:
+- Custom exceptions provide better error context
+- Inherit from appropriate built-in exceptions
+- Include relevant file system details
+"""
 
-# Custom exception for file operations
+
 class FileOperationError(Exception):
-    """Custom exception for file operation errors"""
+    """
+    Custom exception for file operation failures.
 
-    pass
+    Attributes:
+        path: The file path involved
+        operation: The failed operation (read/write/etc)
+        original_error: The underlying exception
+    """
+
+    def __init__(self, path: str, operation: str, original_error: Exception):
+        self.path = path
+        self.operation = operation
+        self.original_error = original_error
+        super().__init__(f"Failed to {operation} file at {path}: {original_error}")
 
 
-def safe_file_operations():
-    """Demonstrates file operations with proper error handling"""
+# ========== BASIC FILE OPERATIONS ==========
+"""
+Basic File Operations:
+- Always use context managers (with)
+- Handle specific exceptions
+- Include cleanup in finally blocks
+"""
+
+
+def demonstrate_basic_operations():
+    """Demonstrates fundamental file operations with proper error handling."""
+    file_path = Path("example.txt")
+
     try:
-        # 1. Basic file writing
-        print("=== BASIC FILE WRITING ===")
+        # 1. Writing to file
+        print("=== WRITING TO FILE ===")
         try:
-            with open("example.txt", "w") as f:
-                f.write("Hello file world!\n")
-                f.write("Second line\n")
-        except (IOError, PermissionError) as e:
-            raise FileOperationError(f"Failed to write file: {e}")
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write("Line 1: Hello File World!\n")
+                f.write("Line 2: Second line content\n")
+                print(f"Successfully wrote to {file_path}")
+        except (PermissionError, IsADirectoryError) as e:
+            raise FileOperationError(str(file_path), "write", e)
 
-        # 2. Basic file reading
-        print("\n=== BASIC FILE READING ===")
+        # 2. Reading from file
+        print("\n=== READING FROM FILE ===")
         try:
-            with open("example.txt", "r") as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
-                print(content)
+                print(f"File content:\n{content}")
         except FileNotFoundError:
-            print("Error: File not found")
-        except IOError as e:
-            print(f"Error reading file: {e}")
+            print(f"Error: File not found at {file_path}")
+        except UnicodeDecodeError as e:
+            raise FileOperationError(str(file_path), "read (decode)", e)
 
-        # 3. Reading line by line
-        print("\n=== READING LINE BY LINE ===")
-        try:
-            with open("example.txt", "r") as f:
-                for i, line in enumerate(f):
-                    print(f"Line {i+1}: {line.strip()}")
-        except FileNotFoundError:
-            print("Error: File not found")
-        except IOError as e:
-            print(f"Error reading file: {e}")
-
-        # 4. Using pathlib for modern path handling
-        print("\n=== PATHLIB DEMO ===")
-        file_path = Path("example.txt")
-        try:
-            print(f"File exists: {file_path.exists()}")
-            print(f"File size: {file_path.stat().st_size} bytes")
-        except OSError as e:
-            print(f"Error accessing file metadata: {e}")
-
-        # 5. File append mode
-        print("\n=== APPEND MODE ===")
-        try:
-            with open("example.txt", "a") as f:
-                f.write("This line was appended\n")
-        except (IOError, PermissionError) as e:
-            raise FileOperationError(f"Failed to append to file: {e}")
-
-    except Exception as e:
-        print(f"Unexpected error: {e}")
     finally:
-        # Clean up
+        # 3. Cleanup
+        if file_path.exists():
+            print("\n=== CLEANUP ===")
+            file_path.unlink()
+            print(f"Removed {file_path}")
+
+
+# ========== ADVANCED FILE OPERATIONS ==========
+"""
+Advanced File Operations:
+- Working with binary files
+- Using pathlib for path operations
+- Handling different file encodings
+"""
+
+
+def demonstrate_advanced_operations():
+    """Demonstrates more complex file operations."""
+    # Using pathlib for robust path handling
+    data_dir = Path("data_files")
+    binary_file = data_dir / "example.bin"
+
+    try:
+        # Create directory if needed
+        data_dir.mkdir(exist_ok=True)
+
+        # Binary file operations
+        print("\n=== BINARY FILE OPERATIONS ===")
         try:
-            if os.path.exists("example.txt"):
-                os.remove("example.txt")
+            with open(binary_file, "wb") as f:
+                f.write(b"Binary data \x01\x02\x03")
+                print(f"Wrote binary data to {binary_file}")
+
+            with open(binary_file, "rb") as f:
+                data = f.read()
+                print(f"Read binary data: {data}")
         except OSError as e:
-            print(f"Error during cleanup: {e}")
+            raise FileOperationError(str(binary_file), "binary operation", e)
+
+    finally:
+        # Cleanup
+        if binary_file.exists():
+            binary_file.unlink()
+        if data_dir.exists():
+            data_dir.rmdir()
 
 
+# ========== MAIN DEMO ==========
 if __name__ == "__main__":
-    safe_file_operations()
+    print("=== FILE I/O DEMONSTRATION ===\n")
+
+    try:
+        demonstrate_basic_operations()
+        demonstrate_advanced_operations()
+    except FileOperationError as e:
+        print(f"\nERROR: {e}")
+        print(f"Original error: {type(e.original_error).__name__}: {e.original_error}")
+    except Exception as e:
+        print(f"\nUNEXPECTED ERROR: {type(e).__name__}: {e}")
+    finally:
+        print("\nDemo completed.")

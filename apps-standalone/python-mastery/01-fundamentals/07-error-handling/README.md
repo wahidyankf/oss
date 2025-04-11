@@ -1,15 +1,32 @@
-# Python Error Handling Demo
+# Python Error Handling Documentation
 
-This directory demonstrates Python's exception handling mechanisms.
+This module demonstrates Python's error handling system with comprehensive examples.
 
-## Key Concepts Demonstrated
+## Key Concepts Covered
 
-1. **Basic Exception Handling** (`try-except-else-finally`)
-2. **Multiple Exception Types** (catching different exceptions)
-3. **Custom Exceptions** (defining application-specific errors)
-4. **Exception Chaining** (preserving original exceptions)
-5. **Exception Context** (adding supplemental information)
-6. **Built-in Exceptions** (common exception types)
+### 1. Exception Basics
+
+- try/except/else/finally blocks
+- Built-in exception hierarchy
+- Exception objects and attributes
+
+### 2. Custom Exceptions
+
+- Creating exception classes
+- Adding custom attributes
+- Exception inheritance
+
+### 3. Advanced Handling
+
+- Exception chaining (raise from)
+- Context managers (with)
+- Exception groups (Python 3.11+)
+
+### 4. Best Practices
+
+- Specific exception handling
+- Proper exception messages
+- Logging vs raising
 
 ## How to Run
 
@@ -17,10 +34,18 @@ This directory demonstrates Python's exception handling mechanisms.
 python main.py
 ```
 
-## Key Takeaways
+## Expected Output
 
-- Always catch specific exceptions rather than bare `except`
-- Use `else` for code that should only run when no exception occurs
-- `finally` blocks are ideal for cleanup operations
-- Custom exceptions make error handling more maintainable
-- Exception chaining preserves the full error context
+The demo will show:
+
+- Basic exception handling scenarios
+- Custom exception usage
+- Exception chaining examples
+- Clean cleanup with finally
+
+## Learning Objectives
+
+- Understand Python's exception hierarchy
+- Create meaningful custom exceptions
+- Handle exceptions appropriately
+- Follow error handling best practices
