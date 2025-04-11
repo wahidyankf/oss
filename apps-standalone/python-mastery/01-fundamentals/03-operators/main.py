@@ -1,69 +1,134 @@
 """
-Python Operators Demo
+Python Operators Comprehensive Demo
 
-Key concepts demonstrated:
-1. Arithmetic operators
-2. Comparison operators
-3. Logical operators
-4. Assignment operators
-5. Membership operators
-6. Identity operators
-7. Operator precedence
+This heavily commented example demonstrates:
+1. All Python operator categories with explanations
+2. Practical examples with clear output
+3. Special cases and edge behaviors
+4. Operator precedence rules
+
+Key Concepts Covered:
+- Arithmetic operations and numeric behaviors
+- Comparison and logical operator chaining
+- Assignment operator variations
+- Membership and identity testing
 """
 
-# 1. Arithmetic Operators
+# ========== ARITHMETIC OPERATORS ==========
+"""
+Basic math operations:
++ : Addition
+- : Subtraction
+* : Multiplication
+/ : True division (always returns float)
+// : Floor division (returns integer)
+% : Modulus (remainder)
+** : Exponentiation
+"""
 print("=== ARITHMETIC OPERATORS ===")
-a, b = 10, 3
-print(f"{a} + {b} = {a + b}")  # Addition
-print(f"{a} - {b} = {a - b}")  # Subtraction
-print(f"{a} * {b} = {a * b}")  # Multiplication
-print(f"{a} / {b} = {a / b}")  # True division
-print(f"{a} // {b} = {a // b}")  # Floor division
-print(f"{a} % {b} = {a % b}")  # Modulus
-print(f"{a} ** {b} = {a ** b}")  # Exponentiation
+a, b = 10, 3  # Initialize test values
+print(f"{a} + {b} = {a + b}")  # 13
+print(f"{a} - {b} = {a - b}")  # 7
+print(f"{a} * {b} = {a * b}")  # 30
+print(f"{a} / {b} = {a / b:.2f}")  # 3.33 (float division)
+print(f"{a} // {b} = {a // b}")  # 3 (integer division)
+print(f"{a} % {b} = {a % b}")  # 1 (remainder)
+print(f"{a} ** {b} = {a ** b}")  # 1000 (10 cubed)
 
-# 2. Comparison Operators
+# ========== COMPARISON OPERATORS ==========
+"""
+Comparison operators return booleans:
+== : Equal to
+!= : Not equal to
+> : Greater than
+< : Less than
+>= : Greater than or equal
+<= : Less than or equal
+
+Note: Chained comparisons like 1 < x < 10 are valid
+"""
 print("\n=== COMPARISON OPERATORS ===")
-print(f"{a} == {b}: {a == b}")
-print(f"{a} != {b}: {a != b}")
-print(f"{a} > {b}: {a > b}")
-print(f"{a} < {b}: {a < b}")
-print(f"{a} >= {b}: {a >= b}")
-print(f"{a} <= {b}: {a <= b}")
+print(f"{a} == {b}: {a == b}")  # False
+print(f"{a} != {b}: {a != b}")  # True
+print(f"{a} > {b}: {a > b}")  # True
+print(f"{a} < {b}: {a < b}")  # False
+print(f"{a} >= {b}: {a >= b}")  # True
+print(f"{a} <= {b}: {a <= b}")  # False
 
-# 3. Logical Operators
+# ========== LOGICAL OPERATORS ==========
+"""
+Logical operators work with booleans:
+and : Both must be True
+or : Either must be True
+not : Inverts the boolean
+
+Short-circuit evaluation:
+- and stops at first False
+- or stops at first True
+"""
 print("\n=== LOGICAL OPERATORS ===")
 x, y = True, False
-print(f"{x} and {y}: {x and y}")
-print(f"{x} or {y}: {x or y}")
-print(f"not {x}: {not x}")
+print(f"{x} and {y}: {x and y}")  # False
+print(f"{x} or {y}: {x or y}")  # True
+print(f"not {x}: {not x}")  # False
 
-# 4. Assignment Operators
+# ========== ASSIGNMENT OPERATORS ==========
+"""
+Shorthand assignment operators:
++= : Add and assign
+-= : Subtract and assign
+*= : Multiply and assign
+/= : Divide and assign
+//= : Floor divide and assign
+%= : Modulus and assign
+**= : Exponent and assign
+"""
 print("\n=== ASSIGNMENT OPERATORS ===")
-c = 5
-print(f"Original c: {c}")
-c += 2  # c = c + 2
-print(f"After += 2: {c}")
-c *= 3  # c = c * 3
-print(f"After *= 3: {c}")
+num = 5
+num += 3  # Equivalent to num = num + 3
+print(f"After += 3: {num}")
+num **= 2  # Square the number
+print(f"After **= 2: {num}")
 
-# 5. Membership Operators
+# ========== MEMBERSHIP OPERATORS ==========
+"""
+Membership operators:
+in : True if value exists in sequence
+not in : True if value doesn't exist
+
+Works with strings, lists, tuples, dicts, etc.
+"""
 print("\n=== MEMBERSHIP OPERATORS ===")
 fruits = ["apple", "banana", "cherry"]
-print(f"'banana' in {fruits}: {"banana" in fruits}")
-print(f"'mango' not in {fruits}: {"mango" not in fruits}")
+print(f"'banana' in fruits: {'banana' in fruits}")  # True
+print(f"'mango' not in fruits: {'mango' not in fruits}")  # True
 
-# 6. Identity Operators
+# ========== IDENTITY OPERATORS ==========
+"""
+Identity operators:
+is : True if same object (memory address)
+is not : True if different objects
+
+Different from == which checks equality
+"""
 print("\n=== IDENTITY OPERATORS ===")
 list1 = [1, 2, 3]
 list2 = [1, 2, 3]
-list3 = list1
 print(f"list1 == list2: {list1 == list2}")  # True (same values)
 print(f"list1 is list2: {list1 is list2}")  # False (different objects)
-print(f"list1 is list3: {list1 is list3}")  # True (same object)
 
-# 7. Operator Precedence
+# ========== OPERATOR PRECEDENCE ==========
+"""
+Operator precedence determines evaluation order:
+1. Parentheses () - highest precedence
+2. Exponentiation **
+3. *, /, //, %
+4. +, -
+5. Comparison operators
+6. Logical not
+7. Logical and
+8. Logical or
+"""
 print("\n=== OPERATOR PRECEDENCE ===")
-result = 10 + 3 * 2**2
-print(f"10 + 3 * 2 ** 2 = {result}")  # 22 not 52
-print("Order: Exponentiation > Multiplication > Addition")
+result = 5 + 3 * 2**2  # Evaluates as 5 + (3 * (2**2)) = 17
+print(f"5 + 3 * 2 ** 2 = {result}")

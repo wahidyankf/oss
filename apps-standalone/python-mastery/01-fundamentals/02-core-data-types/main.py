@@ -1,19 +1,19 @@
 """
-Python Core Data Types & Operations Demo
+Python Core Data Types Comprehensive Demo
 
-This heavily commented example demonstrates Python's fundamental data types with:
-1. Detailed explanations of each type category
-2. Common operations and methods
-3. Practical examples with output
-4. Key differences (mutability, use cases)
+This heavily commented example demonstrates:
+1. All fundamental Python data types
+2. Practical examples with clear output
+3. Mutability vs immutability
+4. Type conversion and special cases
 
 Key Concepts Covered:
-- Numeric types and operations
-- Sequence types and indexing
-- Dictionary mapping
-- Set operations
-- Boolean logic
-- Type conversion
+- Numeric types (int, float, complex)
+- Sequence types (str, list, tuple, bytes)
+- Mapping type (dict)
+- Set types (set, frozenset)
+- Boolean and None
+- Type conversion functions
 """
 
 # ========== NUMERIC TYPES ==========
@@ -44,6 +44,8 @@ Sequence Types:
 1. str: Immutable Unicode character sequences
 2. list: Mutable ordered collections
 3. tuple: Immutable ordered collections
+4. bytes: Immutable byte sequences
+5. bytearray: Mutable byte sequences
 
 Common Operations:
 - Indexing (0-based)
@@ -104,17 +106,17 @@ print(f"Name: {user['name']}")  # Access by key
 user["email"] = "alice@example.com"  # Add new key-value pair
 print(f"After update: {user}")
 
-# ========== SET TYPE ==========
+# ========== SET TYPES ==========
 """
-Sets:
-- Mutable unordered collections
+Set Types:
+- set: Mutable unordered collections of unique elements
+- frozenset: Immutable version of set
 - Elements must be hashable (immutable types)
-- Fast membership testing and set operations
 """
-print("\n=== SET TYPE ===")
+print("\n=== SET TYPES ===")
 primes = {2, 3, 5, 7, 11}
 print(f"Set: {primes}, type: {type(primes)}")
-primes.add(13)  # Add element
+primes.add(13)  # Modifies in-place
 print(f"After add: {primes}")
 print(f"Is 7 prime? {7 in primes}")  # Fast membership test
 
@@ -127,33 +129,17 @@ Boolean and None:
 print("\n=== BOOLEAN & NONE ===")
 is_valid = True
 no_value = None
-print(f"Boolean: {is_valid}, type: {type(is_valid)}")
 print(f"None: {no_value}, type: {type(no_value)}")
 
-# ========== MUTABILITY ==========
+# ========== TYPE CONVERSION ==========
 """
-Mutability Examples:
-- Lists are mutable
-- Strings are immutable
+Type Conversion:
+- Explicit conversion between types
+- Common functions: int(), float(), str(), list(), etc.
+- Some conversions may lose information
 """
-print("\n=== MUTABILITY ===")
-# Lists are mutable
-numbers = [1, 2, 3]
-numbers[0] = 10
-print(f"Mutable list: {numbers}")
-
-# Strings are immutable
-# message[0] = 'h'  # Would raise TypeError
-
-# ========== STRING FORMATTING ==========
-"""
-String Formatting (f-strings):
-- Convenient way to embed expressions in strings
-- Support various formatting options
-"""
-print("\n=== STRING FORMATTING ===")
-name = "Bob"
-score = 95.5
-print(f"{name} scored {score:.1f}% on the test")
-
-# Run with: python3 data_types_demo.py
+print("\n=== TYPE CONVERSION ===")
+num_str = "123"
+print(f"String to int: {int(num_str)}, type: {type(int(num_str))}")
+print(f"Int to float: {float(integer)}, type: {type(float(integer))}")
+print(f"List to tuple: {tuple(colors)}, type: {type(tuple(colors))}")

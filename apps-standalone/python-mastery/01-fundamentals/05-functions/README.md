@@ -1,16 +1,32 @@
-# Python Functions Demo
+# Python Functions Documentation
 
-This directory demonstrates Python functions.
+This module demonstrates Python's function features with comprehensive examples.
 
-## Key Concepts Demonstrated
+## Key Concepts Covered
 
-1. **Function Definition** (`def`)
-2. **Parameter Passing** (positional, keyword, default)
-3. **Variable-length Arguments** (`*args`, `**kwargs`)
-4. **Return Values**
-5. **Scope Rules** (LEGB)
-6. **Lambda Functions**
-7. **Docstrings** (PEP 257)
+### 1. Function Basics
+
+- Definition and invocation
+- Parameters and arguments
+- Return values
+
+### 2. Parameter Passing
+
+- Positional vs keyword arguments
+- Default parameter values
+- Variable-length arguments (\*args, \*\*kwargs)
+
+### 3. Scope and Lifetime
+
+- LEGB rule (Local, Enclosing, Global, Built-in)
+- Global and nonlocal keywords
+
+### 4. Advanced Features
+
+- Lambda functions
+- Decorators
+- Type hints
+- Recursion
 
 ## How to Run
 
@@ -18,8 +34,18 @@ This directory demonstrates Python functions.
 python main.py
 ```
 
-## Key Takeaways
+## Expected Output
 
-- Functions promote code reuse and organization
-- Python has flexible parameter handling
-- Scope rules determine variable visibility
+The demo will show:
+
+- Function examples with clear output
+- Scope demonstrations
+- Decorator timing example
+- Lambda usage
+
+## Learning Objectives
+
+- Master all function definition styles
+- Understand parameter passing techniques
+- Learn scope rules
+- Apply advanced function features

@@ -1,14 +1,37 @@
-# Python Control Flow Demo
+# Python Control Flow Documentation
 
-This directory demonstrates Python's control flow structures.
+This module demonstrates Python's control flow structures with comprehensive examples.
 
-## Key Concepts Demonstrated
+## Key Concepts Covered
 
-1. **Conditional Statements** (`if/elif/else`)
-2. **For Loops** (definite iteration)
-3. **While Loops** (indefinite iteration)
-4. **Loop Control Statements** (`break`, `continue`, `pass`)
-5. **Else Clause in Loops**
+### 1. Conditional Statements
+
+- if/elif/else chains
+- Truthy/falsy evaluation
+- Nested conditionals
+
+### 2. For Loops
+
+- Iterating over sequences
+- Using enumerate()
+- The else clause
+
+### 3. While Loops
+
+- Condition-based iteration
+- Avoiding infinite loops
+- The else clause
+
+### 4. Loop Control
+
+- break: Early loop termination
+- continue: Skipping iterations
+- pass: Placeholder statement
+
+### 5. Special Cases
+
+- List comprehensions (alternative to loops)
+- Ternary expressions (alternative to simple if/else)
 
 ## How to Run
 
@@ -16,8 +39,17 @@ This directory demonstrates Python's control flow structures.
 python main.py
 ```
 
-## Key Takeaways
+## Expected Output
 
-- Control flow determines program execution order
-- Proper indentation is required for blocks
-- `else` in loops executes only if loop completes normally
+The demo will show:
+
+- Example control flow structures
+- Clear output formatting
+- Explanatory comments
+
+## Learning Objectives
+
+- Understand all control flow structures
+- Learn when to use each type
+- Recognize common patterns
+- Identify potential pitfalls
