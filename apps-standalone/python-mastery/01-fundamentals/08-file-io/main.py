@@ -37,7 +37,7 @@ class FileOperationError(Exception):
         original_error: The underlying exception
     """
 
-    def __init__(self, path: str, operation: str, original_error: Exception):
+    def __init__(self, path, operation, original_error):
         self.path = path
         self.operation = operation
         self.original_error = original_error

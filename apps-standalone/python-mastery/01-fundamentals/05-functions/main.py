@@ -32,7 +32,7 @@ Basic Function Components:
 print("\n=== BASIC FUNCTION ===")
 
 
-def greet(name: str) -> str:
+def greet(name):
     """
     Returns a greeting message.
 
@@ -57,7 +57,7 @@ Parameter Passing Methods:
 print("\n=== PARAMETER PASSING ===")
 
 
-def describe_pet(pet_name: str, animal_type: str = "dog") -> str:
+def describe_pet(pet_name, animal_type="dog"):
     """
     Describes a pet with flexible parameter passing.
 
@@ -82,7 +82,7 @@ Variable Arguments:
 print("\n=== VARIABLE ARGUMENTS ===")
 
 
-def make_pizza(size: str, *toppings: str, **details: str) -> None:
+def make_pizza(size, *toppings, **details):
     """
     Demonstrates flexible argument handling.
 
@@ -108,7 +108,7 @@ Return Values:
 print("\n=== RETURN VALUES ===")
 
 
-def get_formatted_name(first: str, last: str, middle: str = "") -> str:
+def get_formatted_name(first, last, middle=""):
     """Returns a formatted full name."""
     return f"{first} {middle} {last}".strip() if middle else f"{first} {last}"
 
@@ -186,7 +186,7 @@ def timer(func):
 
 
 @timer
-def calculate_sum(n: int) -> int:
+def calculate_sum(n):
     """Calculates sum of first n numbers."""
     return sum(range(n + 1))
 

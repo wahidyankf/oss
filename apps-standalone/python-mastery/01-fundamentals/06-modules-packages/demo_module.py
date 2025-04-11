@@ -22,7 +22,7 @@ module_variable = "This is a module-level variable"
 
 
 # ========== MODULE FUNCTION ==========
-def module_function() -> str:
+def module_function():
     """
     Demonstrates a module-level function.
 
@@ -45,7 +45,7 @@ class ModuleClass:
         """Initializes with default value 42."""
         self.value = 42
 
-    def get_value(self) -> int:
+    def get_value(self):
         """
         Gets the current value.
 

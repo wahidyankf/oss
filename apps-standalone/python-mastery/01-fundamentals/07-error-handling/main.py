@@ -35,7 +35,7 @@ class InvalidInputError(Exception):
         input_value: The invalid input that caused the error
     """
 
-    def __init__(self, message: str, input_value=None):
+    def __init__(self, message, input_value=None):
         self.input_value = input_value
         super().__init__(message)
 
@@ -49,7 +49,7 @@ class ResourceUnavailableError(Exception):
         reason: Explanation of why unavailable
     """
 
-    def __init__(self, resource: str, reason: str):
+    def __init__(self, resource, reason):
         self.resource = resource
         self.reason = reason
         super().__init__(f"{resource} unavailable: {reason}")
