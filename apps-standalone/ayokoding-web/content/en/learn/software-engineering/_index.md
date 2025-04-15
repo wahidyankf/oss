@@ -9,5 +9,6 @@ weight: 4
 - [System Design](./system-design/)
 - [Software Development Approaches](./software-development-approaches/)
 - [Tools](./tools/)
+- [Onboardings](./onboardings/)
 - [Routines](./routines/)
 - [Career](./career/)
