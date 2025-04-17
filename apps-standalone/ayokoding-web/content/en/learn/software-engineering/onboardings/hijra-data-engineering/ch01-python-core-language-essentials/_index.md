@@ -14,7 +14,6 @@ This chapter covers fundamental Python concepts that form the foundation of data
 - Functions for reusable code
 - Data structures for organizing information
 - String manipulation for formatting data
-- List comprehensions for concise data transformation
 - Essential modules from the standard library
 
 This 52-minute session will give you the core Python skills needed for data engineering work.
@@ -830,6 +829,91 @@ product_info = f"Product: {product['name']}, Price: ${product['price']:.2f}"
 print(product_info)  # Product: Laptop, Price: $999.99
 ```
 
+## 6. Standard Library Modules
+
+Python's standard library provides many useful modules for common tasks. Here are some essential ones for data engineering:
+
+```python
+# Math module for mathematical operations
+import math
+
+radius = 5
+circle_area = math.pi * radius**2
+print(f"Circle area with radius {radius}:", circle_area)  # Circle area with radius 5: 78.53981633974483
+print(f"Circle area (formatted):", f"{circle_area:.2f}")  # Circle area (formatted): 78.54
+
+sqrt_value = math.sqrt(16)  # Square root
+print(f"Square root of 16:", sqrt_value)  # Square root of 16: 4.0
+
+# Datetime module for working with dates and times
+import datetime
+
+# Current date and time
+now = datetime.datetime.now()
+print(f"Current date and time:", now)  # Current date and time: 2023-04-17 15:30:45.123456 (your output will vary)
+
+# Creating specific dates
+event_date = datetime.datetime(2023, 12, 31, 23, 59, 59)
+print(f"Event date:", event_date)  # Event date: 2023-12-31 23:59:59
+
+# Date arithmetic
+time_difference = event_date - now
+print(f"Days until event:", time_difference.days)  # Days until event: 258 (your output will vary)
+
+# OS module for operating system interactions
+import os
+
+# Current working directory
+current_dir = os.getcwd()
+print(f"Current directory:", current_dir)  # Current directory: /your/current/directory
+
+# List files in a directory (we'll use the current directory)
+files = os.listdir('.')  # '.' refers to the current directory
+print(f"Files in current directory (first 5 if available):")
+for i, file in enumerate(files[:5]):  # Only show up to 5 files for brevity
+    print(f"  {i+1}. {file}")
+# Files in current directory (first 5 if available):
+#   1. example.py
+#   2. data.txt
+#   3. ...
+
+# JSON module for working with JSON data
+import json
+
+# Converting Python objects to JSON strings
+person = {
+    "name": "Alice",
+    "age": 30,
+    "city": "New York",
+    "skills": ["Python", "SQL", "Data Engineering"]
+}
+
+json_string = json.dumps(person, indent=2)
+print(f"JSON representation of person object:")
+print(json_string)
+# JSON representation of person object:
+# {
+#   "name": "Alice",
+#   "age": 30,
+#   "city": "New York",
+#   "skills": [
+#     "Python",
+#     "SQL",
+#     "Data Engineering"
+#   ]
+# }
+
+# Converting JSON string back to Python object
+parsed_json = json.loads(json_string)
+print(f"Name from parsed JSON:", parsed_json['name'])  # Name from parsed JSON: Alice
+print(f"First skill from parsed JSON:", parsed_json['skills'][0])  # First skill from parsed JSON: Python
+
+# Note: The csv and sqlite3 modules will be covered in later chapters
+# when we discuss file handling and databases
+```
+
+These standard library modules provide essential functionality for working with mathematical computations, dates, file systems, and data formats - all common tasks in data engineering.
+
 ## Micro-Project: Sales Data Analyzer
 
 Now let's apply what we've learned to create a sales data analyzer. This micro-project will help reinforce Python fundamentals while solving a practical data problem.
@@ -1127,132 +1211,6 @@ In a real-world/production scenario, this solution would differ in several ways:
    - Real-world: Comprehensive unit tests, integration tests
    - Micro-project: Manual testing
 
-## 6. List Comprehensions
-
-List comprehensions provide a concise way to create and transform lists, making data transformation code more readable and efficient.
-
-```python
-# Basic list comprehension syntax: [expression for item in iterable]
-numbers = [1, 2, 3, 4, 5]
-squares = [x**2 for x in numbers]
-print(squares)  # [1, 4, 9, 16, 25]
-
-# List comprehension with filtering: [expression for item in iterable if condition]
-even_squares = [x**2 for x in numbers if x % 2 == 0]
-print(even_squares)  # [4, 16]
-
-# Equivalent to:
-even_squares_traditional = []
-for x in numbers:
-    if x % 2 == 0:
-        even_squares_traditional.append(x**2)
-
-# List comprehension with string operations
-names = ["Alice", "Bob", "Charlie", "David"]
-# Using a loop instead of list comprehension (covered later in the chapter)
-upper_names = []
-for name in names:
-    upper_names.append(name.upper())
-print(upper_names)  # ['ALICE', 'BOB', 'CHARLIE', 'DAVID']
-
-# List comprehension with conditional expression
-status = ["even" if x % 2 == 0 else "odd" for x in numbers]
-print(status)  # ['odd', 'even', 'odd', 'even', 'odd']
-
-# Creating a list of dictionaries (common in data engineering)
-products = ["Laptop", "Mouse", "Keyboard"]
-prices = [999.99, 24.99, 49.99]
-inventory = [{"product": p, "price": pr} for p, pr in zip(products, prices)]
-print(inventory)  # [{'product': 'Laptop', 'price': 999.99}, {'product': 'Mouse', 'price': 24.99}, {'product': 'Keyboard', 'price': 49.99}]
-```
-
-List comprehensions are especially useful in data engineering when transforming data structures or extracting specific information from complex datasets.
-
-## 7. Standard Library Modules
-
-Python's standard library provides many useful modules for common tasks. Here are some essential ones for data engineering:
-
-```python
-# Math module for mathematical operations
-import math
-
-radius = 5
-circle_area = math.pi * radius**2
-print(f"Circle area with radius {radius}:", circle_area)  # Circle area with radius 5: 78.53981633974483
-print(f"Circle area (formatted):", f"{circle_area:.2f}")  # Circle area (formatted): 78.54
-
-sqrt_value = math.sqrt(16)  # Square root
-print(f"Square root of 16:", sqrt_value)  # Square root of 16: 4.0
-
-# Datetime module for working with dates and times
-import datetime
-
-# Current date and time
-now = datetime.datetime.now()
-print(f"Current date and time:", now)  # Current date and time: 2023-04-17 15:30:45.123456 (your output will vary)
-
-# Creating specific dates
-event_date = datetime.datetime(2023, 12, 31, 23, 59, 59)
-print(f"Event date:", event_date)  # Event date: 2023-12-31 23:59:59
-
-# Date arithmetic
-time_difference = event_date - now
-print(f"Days until event:", time_difference.days)  # Days until event: 258 (your output will vary)
-
-# OS module for operating system interactions
-import os
-
-# Current working directory
-current_dir = os.getcwd()
-print(f"Current directory:", current_dir)  # Current directory: /your/current/directory
-
-# List files in a directory (we'll use the current directory)
-files = os.listdir('.')  # '.' refers to the current directory
-print(f"Files in current directory (first 5 if available):")
-for i, file in enumerate(files[:5]):  # Only show up to 5 files for brevity
-    print(f"  {i+1}. {file}")
-# Files in current directory (first 5 if available):
-#   1. example.py
-#   2. data.txt
-#   3. ...
-
-# JSON module for working with JSON data
-import json
-
-# Converting Python objects to JSON strings
-person = {
-    "name": "Alice",
-    "age": 30,
-    "city": "New York",
-    "skills": ["Python", "SQL", "Data Engineering"]
-}
-
-json_string = json.dumps(person, indent=2)
-print(f"JSON representation of person object:")
-print(json_string)
-# JSON representation of person object:
-# {
-#   "name": "Alice",
-#   "age": 30,
-#   "city": "New York",
-#   "skills": [
-#     "Python",
-#     "SQL",
-#     "Data Engineering"
-#   ]
-# }
-
-# Converting JSON string back to Python object
-parsed_json = json.loads(json_string)
-print(f"Name from parsed JSON:", parsed_json['name'])  # Name from parsed JSON: Alice
-print(f"First skill from parsed JSON:", parsed_json['skills'][0])  # First skill from parsed JSON: Python
-
-# Note: The csv and sqlite3 modules will be covered in later chapters
-# when we discuss file handling and databases
-```
-
-These standard library modules provide essential functionality for working with mathematical computations, dates, file systems, and data formats - all common tasks in data engineering.
-
 ## Practice Exercises
 
 Reinforce your Python fundamentals with these exercises:
@@ -1265,13 +1223,13 @@ Create a function to calculate the total price of items in a shopping cart:
 - Returns the total including tax
 - Test it with different inputs
 
-### Exercise 2: List Comprehensions
+### Exercise 2: Data Transformation
 
 Write a function that:
 
 - Takes a list of product dictionaries (each with 'name' and 'price' keys)
 - Returns a list of only the products with prices greater than $50
-- Try implementing it both with a traditional for loop and with a list comprehension
+- Use a traditional for loop with appropriate conditionals
 
 ### Exercise 3: Data Structures
 
@@ -1291,10 +1249,10 @@ Write a program using the datetime module that:
 
 ### Challenge Exercise: Enhanced Sales Analyzer
 
-Extend the Sales Data Analyzer micro-project using list comprehensions to:
+Extend the Sales Data Analyzer micro-project to:
 
-- Create a filtered list of valid sales records
-- Group sales by product using a dictionary comprehension
+- Create a filtered list of valid sales records using traditional loops
+- Group sales by product using a dictionary
 - Format the output using string formatting
 
 ## Exercise Solutions
@@ -1347,10 +1305,10 @@ print(f"Tax Rate: {tax_rate2 * 100}%")  # Tax Rate: 6.0%
 print(f"Total with tax: ${total2:.2f}")  # Total with tax: $389.58
 ```
 
-### Solution to Exercise 2: List Comprehensions
+### Solution to Exercise 2: Data Transformation
 
 ```python
-def find_expensive_products_loop(products, min_price):
+def find_expensive_products(products, min_price):
     """
     Find products with prices greater than the minimum price using a traditional loop.
 
@@ -1369,19 +1327,6 @@ def find_expensive_products_loop(products, min_price):
 
     return expensive_products
 
-def find_expensive_products_comprehension(products, min_price):
-    """
-    Find products with prices greater than the minimum price using a list comprehension.
-
-    Args:
-        products: A list of product dictionaries with 'name' and 'price' keys
-        min_price: The minimum price threshold
-
-    Returns:
-        A list of products with prices greater than min_price
-    """
-    return [product for product in products if product["price"] > min_price]
-
 # Test data
 product_list = [
     {"name": "Laptop", "price": 999.99},
@@ -1395,28 +1340,19 @@ product_list = [
 min_price = 50.0
 
 # Using traditional loop
-expensive_loop = find_expensive_products_loop(product_list, min_price)
-print(f"Products over ${min_price} (using loop):")
-for product in expensive_loop:
+expensive_products = find_expensive_products(product_list, min_price)
+print(f"Products over ${min_price}:")
+for product in expensive_products:
     print(f"  - {product['name']}: ${product['price']}")
-# Products over $50.0 (using loop):
+# Products over $50.0:
 #   - Laptop: $999.99
 #   - Monitor: $149.99
 #   - Headphones: $79.99
 
-# Using list comprehension
-expensive_comprehension = find_expensive_products_comprehension(product_list, min_price)
-print(f"\nProducts over ${min_price} (using list comprehension):")
-for product in expensive_comprehension:
-    print(f"  - {product['name']}: ${product['price']}")
-# Products over $50.0 (using list comprehension):
-#   - Laptop: $999.99
-#   - Monitor: $149.99
-#   - Headphones: $79.99
-
-# Verifying both approaches give the same result
-print(f"\nBoth approaches give the same result: {expensive_loop == expensive_comprehension}")
-# Both approaches give the same result: True
+# Count expensive products
+num_expensive = len(expensive_products)
+print(f"\nNumber of products over ${min_price}: {num_expensive}")
+# Number of products over $50.0: 3
 ```
 
 ### Solution to Exercise 3: Data Structures
@@ -1571,16 +1507,20 @@ def is_valid_record(record):
 
     return True
 
-def analyze_sales_with_comprehensions(sales_data):
-    """Analyze sales data using list comprehensions where appropriate."""
-    # Filter valid records using list comprehension
-    valid_records = [record for record in sales_data if is_valid_record(record)]
+def analyze_sales_enhanced(sales_data):
+    """Analyze sales data with filtering and grouping."""
+    # Filter valid records using traditional loop
+    valid_records = []
+    for record in sales_data:
+        if is_valid_record(record):
+            valid_records.append(record)
 
     print(f"Total records: {len(sales_data)}")  # Total records: 11
     print(f"Valid records: {len(valid_records)}")  # Valid records: 8
 
     # Calculate totals and group by product
     product_sales = {}
+    total_sales = 0
 
     for record in valid_records:
         _, product_name, quantity_str, price_str, _ = record
@@ -1590,17 +1530,16 @@ def analyze_sales_with_comprehensions(sales_data):
         # Calculate order value
         order_value = quantity * price
 
+        # Add to total sales
+        total_sales = total_sales + order_value
+
         # Group by product (using dictionary)
         if product_name in product_sales:
             product_sales[product_name] = product_sales[product_name] + order_value
         else:
             product_sales[product_name] = order_value
 
-    # Calculate total sales and average order value
-    total_sales = sum(quantity * float(price) for _, _, quantity, price, _ in
-                      ([record[0], record[1], int(record[2]), record[3], record[4]]
-                       for record in valid_records))
-
+    # Calculate average order value
     average_order = total_sales / len(valid_records)
 
     # Find top product
@@ -1633,7 +1572,19 @@ Sales by Product:
 """
 
     # Add product sales in descending order
-    sorted_products = sorted(product_sales.items(), key=lambda x: x[1], reverse=True)
+    # First, create a sorted list of (product, sales) tuples
+    sorted_products = []
+    for product, sales in product_sales.items():
+        sorted_products.append((product, sales))
+
+    # Sort by sales in descending order
+    for i in range(len(sorted_products)):
+        for j in range(i + 1, len(sorted_products)):
+            if sorted_products[i][1] < sorted_products[j][1]:
+                # Swap positions
+                sorted_products[i], sorted_products[j] = sorted_products[j], sorted_products[i]
+
+    # Add to report
     for product, sales in sorted_products:
         report += f"{product}: ${sales:.2f}\n"
 
@@ -1655,7 +1606,7 @@ sales_data = [
 ]
 
 # Run the enhanced analyzer
-enhanced_report = analyze_sales_with_comprehensions(sales_data)
+enhanced_report = analyze_sales_enhanced(sales_data)
 print(enhanced_report)
 """
 ENHANCED SALES ANALYSIS REPORT
@@ -1691,7 +1642,6 @@ In this chapter, we covered the fundamental building blocks of Python:
 - Functions for code organization and reuse
 - Data structures (lists, dictionaries, tuples, sets)
 - String manipulation and formatting with f-strings
-- List comprehensions for concise data transformations
 - Standard library modules for common tasks (math, datetime, os, json)
 
 These core concepts serve as the foundation for all data engineering work in Python. In the next chapter, we'll build on these basics to learn about file handling, error management, and more advanced data handling techniques.
