@@ -9,3 +9,4 @@ This curriculum is designed to onboard programmers into data engineering with a 
 
 - [Overview](./overview/)
 - [01 - Python Core Language Essentials](./ch01-python-core-language-essentials/)
+- [02 - Python Data Handling and Error Management](./ch02-python-data-handling-and-error-management/)
