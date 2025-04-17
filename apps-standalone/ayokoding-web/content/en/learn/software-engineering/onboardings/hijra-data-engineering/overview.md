@@ -7,7 +7,7 @@ weight: 4
 
 This curriculum is designed to onboard programmers into data engineering with a specific focus on PostgreSQL, BigQuery, SQLite, and Kubernetes. Each section is optimized to take approximately 52 minutes (one lunch break), providing a focused learning experience that fits into your daily schedule.
 
-## Prerequisites
+## **Prerequisites**
 
 Before beginning this curriculum, please ensure you have the following:
 
@@ -38,7 +38,7 @@ Before beginning this curriculum, please ensure you have the following:
 - Experience with any database system
 - Familiarity with cloud computing concepts
 
-## Complexity Ratings and Time Estimates
+## **Complexity Ratings and Time Estimates**
 
 To help you plan your learning journey, each chapter has been assigned a complexity rating:
 
@@ -48,9 +48,11 @@ To help you plan your learning journey, each chapter has been assigned a complex
 
 For Advanced topics, we've provided more granular time estimates for each section to help you plan your learning more effectively.
 
-## Introduction: Learning Progression
+**Important Note on Timing:** While the 52-minute target provides structure, be flexible\! Complex topics, environment setup (especially for Docker, Kubernetes, Airflow), and debugging micro-projects may realistically require more than one session. Focus on understanding the concepts thoroughly.
 
-This curriculum follows a carefully designed learning path to build data engineering skills progressively. Each section provides just enough knowledge for the next, creating a smooth learning journey from basic concepts to advanced techniques.
+## **Introduction: Learning Progression**
+
+This curriculum follows a carefully designed learning path to build data engineering skills progressively. Each section provides just enough knowledge for the next, creating a smooth learning journey from basic concepts to advanced techniques. The goal is to provide strong foundational knowledge and practical familiarity across the data engineering stack within the lunch-break format, preparing you for deeper dives into specific areas.
 
 The curriculum begins with Python fundamentals and gradually introduces database systems from simplest (SQLite) to more complex (PostgreSQL) to specialized analytical systems (BigQuery). Python integration with each system follows the same pattern, ensuring you learn just what you need when you need it.
 
@@ -60,35 +62,35 @@ The learning journey follows a logical progression through several major phases:
 
 1. **Foundation Building (Chapters 1-9):** Establishing core programming and database skills with Python and SQLite.
 2. **Production Database Systems (Chapters 10-13):** Moving to enterprise-grade databases with PostgreSQL.
-3. **Analytical Systems (Chapters 14-18):** Expanding to data warehousing and analytical capabilities with BigQuery.
+3. **Analytical Systems (Chapters 14-18):** Expanding to data warehousing, data marts, data lakes, and analytical capabilities with BigQuery.
 4. **Advanced Processing & Development (Chapters 19-28):** Deepening data processing skills and introducing visualization.
 5. **Orchestration & Operations (Chapters 29-40):** Learning to automate, deploy, and maintain data systems at scale.
 6. **Advanced Development & Capstone Projects (Chapters 41-43):** Applying technical skills through comprehensive capstone projects that integrate multiple aspects of the curriculum.
 
 Each phase builds naturally on the previous one, and transition sections explicitly connect concepts across the curriculum to create a cohesive learning experience.
 
-## Self-Assessment Framework
+## **Self-Assessment Framework**
 
 To help you gauge your understanding and readiness to progress, we've included knowledge checks at the end of each major section. These self-assessments are designed to verify that you've mastered the key concepts before moving to more advanced topics.
 
-### How to Use the Self-Assessments
+### **How to Use the Self-Assessments**
 
 1. Complete the knowledge check questions at the end of each major section
 2. If you can answer at least 80% of the questions correctly, you're ready to move on
 3. For any areas where you struggle, review the relevant chapters before proceeding
 4. Use the self-assessments as a study guide when revisiting topics
 
-The self-assessments are not meant to be stressful evaluations but rather helpful tools to reinforce learning and identify any knowledge gaps that need attention before building on those foundations.
+The self-assessments are not meant to be stressful evaluations but helpful tools to reinforce learning and identify any knowledge gaps that need attention before building on those foundations.
 
-## Chapter 1: Python Core Language Essentials
+## **Chapter 1: Python Core Language Essentials**
 
 **Complexity: Easy (E)**
 
 **Summary:** This chapter covers the fundamental Python concepts that form the foundation of data engineering code. These core language features are essential for writing clean, maintainable code for data pipelines.
 
-**Building on:** This chapter serves as the foundation of the curriculum. It assumes only basic programming knowledge and builds on your existing understanding of programming concepts to introduce Python-specific implementations.
+**Building on:** This chapter serves as the foundation of the curriculum. It assumes only basic programming knowledge and introduces Python-specific implementations by building on your existing understanding of programming concepts.
 
-**Preparing for:** These Python fundamentals are essential for all subsequent chapters. The data structures, control flow, and functions covered here will be used extensively in data handling (Chapter 2), working with data libraries (Chapter 3), and throughout the entire curriculum when writing data processing code.
+**Preparing for:** These Python fundamentals are essential for all subsequent chapters. The data structures, control flow, and functions covered here will be used extensively in data handling (Chapter 2), working with data libraries (Chapter 3), and the entire curriculum when writing data processing code.
 
 - **Python syntax and data types:** Basic grammar, variables, assignment, and primitive types (int, float, bool, str)
 - **Control flow:** Decision-making (if/elif/else) and looping structures (for/while)
@@ -97,6 +99,8 @@ The self-assessments are not meant to be stressful evaluations but rather helpfu
 - **String manipulation:** Using f-strings and string methods for data formatting
 
 **Micro-Project: Sales Data Analyzer**
+
+**(Note:** Remember that setting up your Python environment and debugging might take extra time beyond the core project work.)
 
 **Objectives:**
 
@@ -123,19 +127,18 @@ The self-assessments are not meant to be stressful evaluations but rather helpfu
 - Lack of comments explaining the processing logic
 - Disorganized or unreadable output format
 
-**Simplified Version:**
-Focus on just calculating total sales and the top-selling product, without the additional data cleaning steps.
-
+Simplified Version:  
+Focus on just calculating total sales and the top-selling product, without the additional data cleaning steps.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** CSV file might have inconsistent formatting
-  **Solution:** Use the `csv` module instead of manual parsing
-- **Pitfall:** String vs. numeric data confusion
-  **Solution:** Explicitly convert strings to numeric types before calculations
-- **Pitfall:** Script crashes on first invalid entry
-  **Solution:** Implement basic try/except blocks around conversion operations
+- Pitfall: CSV file might have inconsistent formatting  
+  Solution: Use the csv module instead of manual parsing
+- Pitfall: String vs. numeric data confusion  
+  Solution: Explicitly convert strings to numeric types before calculations
+- Pitfall: Script crashes on first invalid entry  
+  Solution: Implement basic try/except blocks around conversion operations
 
-## Chapter 2: Python Data Handling and Error Management
+## **Chapter 2: Python Data Handling and Error Management**
 
 **Complexity: Easy (E)**
 
@@ -145,7 +148,7 @@ Focus on just calculating total sales and the top-selling product, without the a
 
 **Preparing for:** The error handling and file operations learned here are crucial for Chapter 3 (NumPy and Pandas), where you'll work with larger datasets, and for all database interaction chapters (11-22), where proper error handling is vital for robust database code.
 
-- **File handling:** Reading from and writing to files using context managers (`with` statements)
+- **File handling:** Reading from and writing to files using context managers (with statements)
 - **Error handling:** Using try/except blocks to gracefully manage exceptions
 - **List comprehensions:** Creating and transforming lists with concise syntax
 - **Modules and imports:** Using built-in libraries (math, datetime, os, csv, json)
@@ -171,19 +174,18 @@ Enhance your sales data analyzer with proper error handling, multiple export for
 - All functions use proper exception handling with try/except blocks
 - Successfully processes the provided test files, including one with intentional errors
 
-**Simplified Version:**
-Focus only on adding basic error handling and JSON export functionality, skipping the additional transformations and logging components.
-
+Simplified Version:  
+Focus only on adding basic error handling and JSON export functionality, skipping the additional transformations and logging components.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Too broad exception handling (catching all exceptions)
-  **Solution:** Catch specific exceptions types (FileNotFoundError, ValueError, etc.)
-- **Pitfall:** File handles left open after exceptions
-  **Solution:** Use context managers (`with` statements) for all file operations
-- **Pitfall:** JSON serialization errors with complex objects
-  **Solution:** Convert non-serializable objects (like datetime) to strings first
+- Pitfall: Too broad exception handling (catching all exceptions)  
+  Solution: Catch specific exceptions types (FileNotFoundError, ValueError, etc.)
+- Pitfall: File handles left open after exceptions  
+  Solution: Use context managers (with statements) for all file operations
+- Pitfall: JSON serialization errors with complex objects  
+  Solution: Convert non-serializable objects (like datetime) to strings first
 
-## Chapter 3: Essential Data Libraries (NumPy and Pandas Basics)
+## **Chapter 3: Essential Data Libraries (NumPy and Pandas Basics)**
 
 **Complexity: Moderate (M)**
 
@@ -194,15 +196,13 @@ Focus only on adding basic error handling and JSON export functionality, skippin
 **Preparing for:** These libraries form the backbone of data processing in later chapters. Pandas will be used extensively for data preparation in database chapters (11-22), and both NumPy and Pandas are essential for the advanced data processing techniques covered in Chapters 30-35.
 
 - **NumPy basics:**
-
   - Creating and manipulating arrays
   - Vectorized operations for performance
   - Basic statistical functions
-
 - **Pandas introduction:**
   - Series and DataFrame concepts
   - Reading and writing CSV/JSON
-  - Basic data inspection (`head`, `info`, etc.)
+  - Basic data inspection (head, info, etc.)
 
 **Micro-Project: Pandas Sales Analyzer**
 
@@ -224,19 +224,18 @@ Refactor your sales data processor to leverage Pandas and NumPy for more efficie
 - Generates at least one visualization (bar chart, line graph, etc.)
 - Execution time is measurably faster than the previous non-Pandas version
 
-**Simplified Version:**
-Convert your script to use Pandas for loading and basic processing, implementing just one analytical operation (e.g., groupby with aggregation), and skip the visualization component.
-
+Simplified Version:  
+Convert your script to use Pandas for loading and basic processing, implementing just one analytical operation (e.g., groupby with aggregation), and skip the visualization component.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Confusion between Pandas Series and DataFrames
-  **Solution:** Remember that Series is one-dimensional like a list, DataFrame is two-dimensional like a table
-- **Pitfall:** Modifying DataFrames without assignment
-  **Solution:** Operations like `df.drop()` don't modify in place unless `inplace=True` is specified
-- **Pitfall:** Performance issues with iterating over rows
-  **Solution:** Use vectorized operations instead of explicit loops
+- Pitfall: Confusion between Pandas Series and DataFrames  
+  Solution: Remember that Series is one-dimensional like a list, DataFrame is two-dimensional like a table
+- Pitfall: Modifying DataFrames without assignment  
+  Solution: Operations like df.drop() don't modify in place unless inplace=True is specified
+- Pitfall: Performance issues with iterating over rows  
+  Solution: Use vectorized operations instead of explicit loops
 
-## Chapter 4: Web Integration and APIs
+## **Chapter 4: Web Integration and APIs**
 
 **Complexity: Moderate (M)**
 
@@ -244,13 +243,14 @@ Convert your script to use Pandas for loading and basic processing, implementing
 
 **Building on:** This chapter extends your Python knowledge from Chapters 1-2 with network capabilities, enabling you to access data beyond local files. It applies error handling concepts to network operations and builds on your JSON knowledge for working with API responses.
 
-**Preparing for:** API integration is a key data ingestion technique used throughout the curriculum. These skills will be directly applied in Chapter 5's OOP implementation and form the foundation for more advanced data pipeline work in later chapters, particularly the ETL processes in Chapter 23 and BigQuery integration in Chapter 26.
+**Preparing for:** API integration is a key data ingestion technique used throughout the curriculum. These skills will be directly applied in Chapter 5's OOP implementation and form the foundation for more advanced data pipeline work in later chapters, particularly the ETL processes in Chapter 23 and BigQuery integration in Chapter 26\.
 
 - **HTTP and REST fundamentals:** Understanding web communication protocols
 - **API concepts:** HTTP methods, status codes, and API structures
-- **Working with the `requests` library:** Making API calls and handling responses
+- Working with the requests library: Making API calls and handling responses
 - **Parsing API data:** Working with JSON responses
 - **Basic error handling for APIs:** Managing timeouts and server errors
+- **API Security:** Considerations for authentication and key management
 
 **Micro-Project: Weather Data API Integrator**
 
@@ -262,16 +262,17 @@ Convert your script to use Pandas for loading and basic processing, implementing
 - Transform the data into a structured format
 - Save the processed results to a CSV file
 - Implement proper error handling for API failures
+- Handle API keys securely
 
 **Go Criteria:**
 
-- Successfully authenticates with the chosen API
+- Successfully authenticates with the chosen API (using secure key management)
 - Correctly handles API response codes and potential errors
 - Processes JSON data into a structured format
 - Implements at least one meaningful transformation of the raw data
 - Creates a well-formatted CSV output file with proper headers
 - Includes timeout handling and retry logic for failed requests
-- Documentation includes instructions for obtaining and using an API key
+- Documentation includes instructions for obtaining and securely using an API key
 
 **No-Go Criteria:**
 
@@ -279,22 +280,21 @@ Convert your script to use Pandas for loading and basic processing, implementing
 - Script crashes on API timeout or error
 - No error handling for network issues
 - Results overwritten without confirmation
-- No documentation for API usage
+- No documentation for API usage or secure key handling
 - Inconsistent data formatting in output file
 
-**Simplified Version:**
-Use a simpler API (e.g., a public JSON API that doesn't require authentication), retrieve data for just 2-3 cities, and focus on basic processing without implementing retry logic.
-
+Simplified Version:  
+Use a simpler API (e.g., a public JSON API that doesn't require authentication), retrieve data for just 2-3 cities, and focus on basic processing without implementing retry logic.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Exposing API keys in code
-  **Solution:** Store API keys in environment variables or a configuration file not committed to version control
-- **Pitfall:** Hitting API rate limits
-  **Solution:** Implement delayed requests or proper retry handling with exponential backoff
-- **Pitfall:** API structure changes
-  **Solution:** Add validation checks for expected data structure and fallback options
+- Pitfall: Exposing API keys in code  
+  Solution: Store API keys securely in environment variables or a configuration file not committed to version control. Never commit secrets.
+- Pitfall: Hitting API rate limits  
+  Solution: Implement delayed requests or proper retry handling with exponential backoff
+- Pitfall: API structure changes  
+  Solution: Add validation checks for expected data structure and fallback options
 
-## Chapter 5: Object-Oriented Programming for Data Engineering
+## **Chapter 5: Object-Oriented Programming for Data Engineering**
 
 **Complexity: Moderate (M)**
 
@@ -302,11 +302,11 @@ Use a simpler API (e.g., a public JSON API that doesn't require authentication),
 
 **Building on:** This chapter builds on your Python fundamentals from Chapters 1-2 and applies them to a more structured programming paradigm. It introduces object-oriented design that helps you organize and scale the data processing code you've been working with in previous chapters.
 
-**Preparing for:** OOP concepts are essential for all professional data engineering work. They'll be directly applied in the database access patterns of Chapters 13-22, particularly in the SQLAlchemy sections, and form the foundation for the application design patterns in Chapter 37. Virtually all production data engineering systems use OOP principles.
+**Preparing for:** OOP concepts are essential for all professional data engineering work. They'll be directly applied in the database access patterns of Chapters 13-22, particularly in the SQLAlchemy sections, and form the foundation for the application design patterns in Chapter 37\. Virtually all production data engineering systems use OOP principles.
 
 - **Classes and objects:** Creating blueprints for data components
 - **Attributes and methods:** Storing data and behavior in classes
-- **Initialization (`__init__`, `self`):** Setting up new objects properly
+- Initialization (\_\_init\_\_, self): Setting up new objects properly
 - **Basic inheritance:** Extending existing classes for specialized behavior
 - **OOP for data pipelines:** Structuring data processing code with classes
 
@@ -316,9 +316,9 @@ Refactor your weather API integration script using object-oriented programming p
 
 **Objectives:**
 
-- Create a base `DataFetcher` class with standard methods for API interaction
-- Implement a specific `WeatherDataFetcher` class that inherits from the base class
-- Add configuration options (API keys, endpoints, request parameters) as class attributes
+- Create a base DataFetcher class with standard methods for API interaction
+- Implement a specific WeatherDataFetcher class that inherits from the base class
+- Add configuration options (API keys, endpoints, request parameters) as class attributes, ensuring keys are handled securely (e.g., loaded from env vars)
 - Implement proper error handling and retry logic as class methods
 - Create a simple client script that demonstrates using your classes
 
@@ -331,21 +331,20 @@ Refactor your weather API integration script using object-oriented programming p
 - Error handling is implemented as class methods with appropriate logging
 - Code follows OOP best practices (SOLID principles)
 - Client code demonstrates how to instantiate and use the classes
-- Classes are designed to be reusable for other API integrations
+- Classes are designed to be reusable for other API integrations (and handle configuration securely)
 
-**Simplified Version:**
-Skip the inheritance hierarchy and create a single comprehensive `WeatherDataFetcher` class with basic error handling and configuration options.
-
+Simplified Version:  
+Skip the inheritance hierarchy and create a single comprehensive WeatherDataFetcher class with basic error handling and secure configuration options.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Overusing inheritance vs. composition
-  **Solution:** Consider "has-a" relationships (composition) instead of "is-a" (inheritance) when appropriate
-- **Pitfall:** Poor encapsulation exposing too many implementation details
-  **Solution:** Use private/protected attributes (with leading underscores) and provide property methods
-- **Pitfall:** Forgetting to initialize parent class in child classes
-  **Solution:** Always call `super().__init__()` in child class constructors
+- Pitfall: Overusing inheritance vs. composition  
+  Solution: Consider "has-a" relationships (composition) instead of "is-a" (inheritance) when appropriate
+- Pitfall: Poor encapsulation exposing too many implementation details  
+  Solution: Use private/protected attributes (with leading underscores) and provide property methods
+- Pitfall: Forgetting to initialize parent class in child classes  
+  Solution: Always call super().\_\_init\_\_() in child class constructors
 
-## Checkpoint 1: Python Foundations Review
+## **Checkpoint 1: Python Foundations Review**
 
 **Complexity: Easy (E)**
 
@@ -363,7 +362,7 @@ Create a small application that integrates multiple concepts learned so far into
 
 **Objectives:**
 
-- Create a tool that combines file processing, API data fetching, and data transformation
+- Create a tool that combines file processing, API data fetching (with secure credential handling), and data transformation
 - Implement using OOP principles with at least two classes
 - Use Pandas for data processing and analysis
 - Implement proper error handling and logging
@@ -378,17 +377,16 @@ Create a small application that integrates multiple concepts learned so far into
 - Includes documentation explaining how concepts from different chapters are applied
 - Produces a useful output (report, visualization, or data file)
 
-**Simplified Version:**
-Create a script that combines just two concepts (e.g., file processing and Pandas analysis) without implementing the full OOP structure.
-
+Simplified Version:  
+Create a script that combines just two concepts (e.g., file processing and Pandas analysis) without implementing the full OOP structure.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Trying to incorporate too many features, leading to incomplete implementation
-  **Solution:** Start with a minimal viable product that demonstrates integration, then add features if time allows
-- **Pitfall:** Forced design patterns that don't fit the problem
-  **Solution:** Let the problem drive the design choices, not the other way around
-- **Pitfall:** Unclear separation of concerns between classes
-  **Solution:** Each class should have a single, well-defined responsibility
+- Pitfall: Trying to incorporate too many features, leading to incomplete implementation  
+  Solution: Start with a minimal viable product that demonstrates integration, then add features if time allows
+- Pitfall: Forced design patterns that don't fit the problem  
+  Solution: Let the problem drive the design choices, not the other way around
+- Pitfall: Unclear separation of concerns between classes  
+  Solution: Each class should have a single, well-defined responsibility
 
 **Self-Assessment: Python Foundations**
 
@@ -399,9 +397,9 @@ Test your understanding of the Python concepts covered in Chapters 1-6 by answer
 3. How would you handle a potential KeyError when accessing a dictionary value?
 4. Write a list comprehension that filters a list of numbers to return only the even values.
 5. What is the benefit of using Pandas over raw Python for data analysis tasks?
-6. Describe the difference between `__init__` and `__call__` methods in a Python class.
+6. Describe the difference between \_\_init\_\_ and \_\_call\_\_ methods in a Python class.
 7. How would you implement a retry mechanism for an API call that might fail?
-8. What is the purpose of the `with` statement when working with files?
+8. What is the purpose of the with statement when working with files?
 9. Explain how inheritance supports code reuse in object-oriented design.
 10. What are vectorized operations in NumPy and why are they more efficient than loops?
 
@@ -413,7 +411,7 @@ Test your understanding of the Python concepts covered in Chapters 1-6 by answer
 
 If you scored in the Beginner range, consider reviewing the chapters before proceeding, focusing particularly on the areas where you had difficulty.
 
-## Chapter 7: Static Typing with Python
+## **Chapter 7: Static Typing with Python**
 
 **Complexity: Moderate (M)**
 
@@ -421,7 +419,7 @@ If you scored in the Beginner range, consider reviewing the chapters before proc
 
 **Building on:** This chapter builds on your Python knowledge from Chapters 1-5, adding a layer of type safety to your code. It enhances your existing understanding of Python data structures by formalizing their expected types and interfaces.
 
-**Preparing for:** Type safety is a critical aspect of professional data engineering. The concepts learned here will be applied throughout database interaction chapters (13-22), ensuring robust database code, and will be essential for the type-safe data processing techniques in Chapter 34 and type-safe database programming in Chapter 22.
+**Preparing for:** Type safety is a critical aspect of professional data engineering. The concepts learned here will be applied throughout database interaction chapters (13-22), ensuring robust database code, and will be essential for the type-safe data processing techniques in Chapter 34 and type-safe database programming in Chapter 22\.
 
 - **Type annotations syntax:** Adding types to variables, parameters, and return values
 - **Common type annotations:** Working with basic and collection types
@@ -453,33 +451,33 @@ Add comprehensive static typing to an existing data processing script using Pyth
 - Type annotations don't change the runtime behavior of the application
 - Documents any cases where type annotations required code restructuring
 
-**Simplified Version:**
-Focus on adding basic type annotations to the main functions in your script, using built-in types without creating custom type definitions, and run basic type checking without strict settings.
-
+Simplified Version:  
+Focus on adding basic type annotations to the main functions in your script, using built-in types without creating custom type definitions, and run basic type checking without strict settings.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Type annotations becoming overly complex and hard to read
-  **Solution:** Start with simpler types and gradually refine them as needed
-- **Pitfall:** Using Any type too liberally, defeating the purpose of typing
-  **Solution:** Be as specific as possible with types, even if it requires more effort
-- **Pitfall:** Type checking errors that seem impossible to resolve
-  **Solution:** Use Union and Optional types to handle edge cases, or use cast() when appropriate
+- Pitfall: Type annotations becoming overly complex and hard to read  
+  Solution: Start with simpler types and gradually refine them as needed
+- Pitfall: Using Any type too liberally, defeating the purpose of typing  
+  Solution: Be as specific as possible with types, even if it requires more effort
+- Pitfall: Type checking errors that seem impossible to resolve  
+  Solution: Use Union and Optional types to handle edge cases, or use cast() when appropriate
 
-## Chapter 8: Data Engineering Code Quality
+## **Chapter 8: Data Engineering Code Quality**
 
 **Complexity: Moderate (M)**
 
-**Summary:** Tools and practices for maintaining high-quality, reliable data engineering code.
+**Summary:** Tools and practices for maintaining high-quality, reliable, and secure data engineering code.
 
-**Building on:** This chapter builds on your Python knowledge and type safety from Chapters 1-7, introducing professional tooling that enforces quality standards. It shows how to apply systematic checks to ensure your code meets industry standards.
+**Building on:** This chapter builds on your Python knowledge and type safety from Chapters 1-7, introducing professional tooling that enforces quality standards. It shows how to apply systematic checks to ensure your code meets industry standards for correctness, style, and security.
 
 **Preparing for:** These code quality practices will be used throughout the rest of the curriculum, particularly in the testing approaches of Chapter 9 and all subsequent development work. Creating a quality-focused workflow now will significantly improve your experience with the complex systems in later chapters (Airflow, Kubernetes, etc.).
 
 - **Code formatting with black:** Consistent code style
 - **Linting with ruff:** Catching errors and enforcing standards
-- **Pre-commit hooks:** Automating quality checks
+- **Security considerations:** Introduction to secure coding practices (e.g., avoiding hardcoded secrets, input validation)
+- **Pre-commit hooks:** Automating quality and basic security checks (e.g., detect-secrets hook)
 - **Documentation standards:** Writing clear docstrings and project documentation
-- **Git for data engineering:** Version control best practices for data code
+- **Git for data engineering:** Version control best practices for data code (including handling sensitive data in history)
 
 **Micro-Project: Quality-Focused Data Engineering Repository**
 
@@ -487,42 +485,44 @@ Create a Git repository for data engineering work with integrated code quality t
 
 **Objectives:**
 
-- Initialize a Git repository with appropriate .gitignore for data engineering
-- Set up pre-commit hooks for code quality enforcement
+- Initialize a Git repository with appropriate .gitignore for data engineering (including secrets/config files)
+- Set up pre-commit hooks for code quality enforcement (black, ruff, pyright)
+- Optionally, add a basic secret detection hook (like detect-secrets) to pre-commit
 - Configure black for code formatting
 - Set up ruff for linting with data engineering-specific rules
 - Configure pyright for static type checking
 - Create documentation templates for data pipelines and transformations
-- Add a comprehensive README with project standards and guidelines
+- Add a comprehensive README with project standards and guidelines (including a note on secure coding)
 
 **Acceptance Criteria:**
 
 - Git repository is properly initialized with an appropriate branching strategy
 - .gitignore properly excludes data files, credentials, and environment-specific configs
-- Pre-commit hooks successfully run black, ruff, and pyright before allowing commits
+- Pre-commit hooks successfully run black, ruff, and pyright before allowing commits (and optionally, secret detection)
 - Configuration files for each tool are present and properly configured
 - Documentation templates include sections for data lineage, transformations, and schema
 - README includes clear sections on:
   - Project overview and purpose
   - Development environment setup
-  - Code style and quality requirements
+  - Code style and quality requirements (mentioning security)
   - Testing requirements
   - Contribution guidelines
 - A sample commit demonstrates that the quality checks are properly enforced
 
-**Simplified Version:**
-Set up a basic Git repository with a .gitignore file and configure just one code quality tool (black for formatting), along with a simple README that outlines basic project standards.
-
+Simplified Version:  
+Set up a basic Git repository with a .gitignore file and configure just one code quality tool (black for formatting), along with a simple README that outlines basic project standards.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Pre-commit hooks that are too strict, impeding development workflow
-  **Solution:** Start with essential checks and gradually add more as the team adapts
-- **Pitfall:** Inconsistent enforcement of standards across team members
-  **Solution:** Automate as much as possible and document the importance of each standard
-- **Pitfall:** Overly complex configuration that's hard to maintain
-  **Solution:** Begin with default configurations and customize only as needed
+- Pitfall: Pre-commit hooks that are too strict or slow, impeding development workflow  
+  Solution: Start with essential checks and gradually add more as the team adapts. Run more intensive checks (like full security scans) in CI pipelines rather than pre-commit.
+- Pitfall: Inconsistent enforcement of standards across team members  
+  Solution: Automate as much as possible and document the importance of each standard
+- Pitfall: Overly complex configuration that's hard to maintain  
+  Solution: Begin with default configurations and customize only as needed
+- Pitfall: Accidentally committing secrets despite hooks  
+  Solution: Regularly audit commit history and use tools like BFG Repo-Cleaner or git filter-repo if secrets are found (use with extreme caution).
 
-## Chapter 9: Python Testing for Data Engineering
+## **Chapter 9: Python Testing for Data Engineering**
 
 **Complexity: Moderate (M)**
 
@@ -535,7 +535,7 @@ Set up a basic Git repository with a .gitignore file and configure just one code
 - **Test fundamentals with pytest:** Creating and running tests
 - **Unit testing data functions:** Validating transformation logic
 - **Test fixtures and factories:** Creating reusable test data
-- **Mock objects:** Isolating code from external dependencies
+- **Mock objects:** Isolating code from external dependencies (databases, APIs)
 - **Testing numerical accuracy:** Validating calculations for data engineering
 
 **Micro-Project: Data Validation Testing Framework**
@@ -566,19 +566,18 @@ Create a comprehensive test suite for a data validation module that ensures data
 - Tests handle both valid and invalid inputs appropriately
 - README documents the testing approach and how to run the tests
 
-**Simplified Version:**
-Create a basic validation module with just 2-3 core validation functions and implement simple unit tests for each function, without property-based testing or integration tests.
-
+Simplified Version:  
+Create a basic validation module with just 2-3 core validation functions and implement simple unit tests for each function, without property-based testing or integration tests.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Tests that are too coupled to implementation details
-  **Solution:** Focus on testing behavior and outcomes rather than implementation
-- **Pitfall:** Slow-running tests due to external dependencies
-  **Solution:** Use mocks and in-memory fixtures to avoid external systems
-- **Pitfall:** Brittle tests that break with minor changes
-  **Solution:** Test business requirements rather than specific implementation details
+- Pitfall: Tests that are too coupled to implementation details  
+  Solution: Focus on testing behavior and outcomes rather than implementation
+- Pitfall: Slow-running tests due to external dependencies  
+  Solution: Use mocks and in-memory fixtures to avoid external systems
+- Pitfall: Brittle tests that break with minor changes  
+  Solution: Test business requirements rather than specific implementation details
 
-## Chapter 10: Docker Basics for Development
+## **Chapter 10: Docker Basics for Development**
 
 **Complexity: Advanced (A)**
 
@@ -590,7 +589,7 @@ Create a basic validation module with just 2-3 core validation functions and imp
 
 - **Docker concepts:** Containers, images, and isolation
 - **Basic Docker commands:** Building, running, and managing containers
-- **Dockerfile basics:** Creating custom images
+- **Dockerfile basics:** Creating custom images (including security considerations like non-root users)
 - **Docker Compose fundamentals:** Running multi-container data applications
 - **Volume mounting for persistence:** Managing data outside containers
 
@@ -620,6 +619,8 @@ Create a basic validation module with just 2-3 core validation functions and imp
 - Day 2: Dockerfiles and building images
 - Day 3: Docker Compose and volumes
 
+**(Note:** Initial Docker setup and understanding core concepts might take longer than one session.)
+
 **Micro-Project: Dockerized Data Processor**
 
 Create a containerized environment for a data processing application that ensures consistent execution across different systems.
@@ -629,14 +630,15 @@ Create a containerized environment for a data processing application that ensure
 - Create a Dockerfile for a Python data processing application
 - Install all required dependencies in the container
 - Configure appropriate working directories and file permissions
-- Set up proper environment variables for configuration
+- Set up proper environment variables for configuration (avoiding hardcoded secrets)
+- Run the container as a non-root user for better security
 - Create an entrypoint script that runs the data processor
 - Build and test the Docker image locally
 - Document the build and run process
 
 **Acceptance Criteria:**
 
-- Dockerfile follows best practices (minimal layers, proper base image, etc.)
+- Dockerfile follows best practices (minimal layers, proper base image, non-root user, etc.)
 - Container includes only necessary dependencies (no dev packages)
 - Image builds successfully without errors
 - Application runs correctly inside the container
@@ -646,26 +648,26 @@ Create a containerized environment for a data processing application that ensure
   - Build instructions
   - Run instructions with example commands
   - Volume mounting guidance
-  - Environment variable configuration
+  - Environment variable configuration (mentioning secure handling)
 - Container exits cleanly after processing is complete
 
-**Simplified Version:**
-Use a pre-built Python image without customization and focus only on volume mounting and running a simple script inside the container.
-
+Simplified Version:  
+Use a pre-built Python image without customization and focus only on volume mounting and running a simple script inside the container.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Permission issues with mounted volumes
-  **Solution:** Pay attention to user IDs inside and outside the container; consider using the `--user` flag
-- **Pitfall:** Large image sizes due to unnecessary packages or files
-  **Solution:** Use multi-stage builds and .dockerignore files to keep images small
-- **Pitfall:** Hard-coded paths that don't work in containers
-  **Solution:** Use environment variables or configuration files for paths
+- Pitfall: Permission issues with mounted volumes  
+  Solution: Pay attention to user IDs inside and outside the container; consider using the \--user flag or initializing permissions correctly.
+- Pitfall: Large image sizes due to unnecessary packages or files  
+  Solution: Use multi-stage builds and .dockerignore files to keep images small. Scan images for vulnerabilities.
+- Pitfall: Hard-coded paths that don't work in containers  
+  Solution: Use environment variables or configuration files for paths.
+- Pitfall: Running containers as root  
+  Solution: Explicitly create and switch to a non-root user in your Dockerfile (USER instruction).
 
-## Chapter 11: SQL Fundamentals Part 1
+## **Chapter 11: SQL Fundamentals Part 1**
 
-**Complexity: Easy (E)**
-_This topic is rated Easy because it introduces fundamental database concepts with SQLite, which has minimal setup requirements and a straightforward interface, making it accessible for beginners._
-
+Complexity: Easy (E)  
+This topic is rated Easy because it introduces fundamental database concepts with SQLite, which has minimal setup requirements and a straightforward interface, making it accessible for beginners.  
 **Summary:** Core SQL concepts using SQLite as a lightweight database for learning.
 
 - **Database and SQL introduction:** Core concepts and terminology
@@ -715,25 +717,23 @@ _This topic is rated Easy because it introduces fundamental database concepts wi
 - Missing documentation of schema design
 - Poorly normalized database design (redundancy)
 
-**Simplified Version:**
-Create a single tasks table with basic fields (title, description, status) and implement simple queries to retrieve and filter task data.
-
+Simplified Version:  
+Create a single tasks table with basic fields (title, description, status) and implement simple queries to retrieve and filter task data.  
 **Bridging Note:** If you completed the simplified version, review database normalization concepts and the relationship between tables before proceeding. The ability to model related data will be crucial in the next chapters as we tackle more complex database operations.
 
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Denormalized tables with redundant data
-  **Solution:** Review normalization principles and split data into related tables
-- **Pitfall:** Incorrect data types leading to unexpected query results
-  **Solution:** Choose appropriate data types for each column (INTEGER, TEXT, etc.)
-- **Pitfall:** Foreign key constraints not working
-  **Solution:** Ensure foreign key support is enabled in SQLite (`PRAGMA foreign_keys = ON;`)
+- Pitfall: Denormalized tables with redundant data  
+  Solution: Review normalization principles and split data into related tables
+- Pitfall: Incorrect data types leading to unexpected query results  
+  Solution: Choose appropriate data types for each column (INTEGER, TEXT, etc.)
+- Pitfall: Foreign key constraints not working  
+  Solution: Ensure foreign key support is enabled in SQLite (PRAGMA foreign_keys \= ON;)
 
-## Chapter 12: SQL Fundamentals Part 2
+## **Chapter 12: SQL Fundamentals Part 2**
 
-**Complexity: Easy (E)**
-_This topic is rated Easy because it builds on the SQL basics from the previous chapter, introducing slightly more advanced concepts but still within a beginner-friendly environment using SQLite._
-
+Complexity: Easy (E)  
+This topic is rated Easy because it builds on the SQL basics from the previous chapter, introducing slightly more advanced concepts but still within a beginner-friendly environment using SQLite.  
 **Summary:** Building on basic SQL with more advanced query capabilities.
 
 - **Sorting results with ORDER BY:** Controlling result order
@@ -782,21 +782,20 @@ _This topic is rated Easy because it builds on the SQL basics from the previous 
 - Lack of documentation explaining the query logic
 - Performance issues with complex queries
 
-**Simplified Version:**
-Add just one additional table (such as users) to your database, and focus on implementing two key queries: one with a basic join and one with simple aggregation.
-
+Simplified Version:  
+Add just one additional table (such as users) to your database, and focus on implementing two key queries: one with a basic join and one with simple aggregation.  
 **Bridging Note:** If you completed the simplified version, make sure you understand the concept of table joins before proceeding. Try writing a query that joins three tables to get comfortable with multiple-table operations, as this will be important for more complex database work ahead.
 
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Incorrect join conditions leading to duplicate or missing data
-  **Solution:** Carefully identify the correct columns to join on and test with sample data
-- **Pitfall:** GROUP BY missing columns that appear in the SELECT clause
-  **Solution:** Include all non-aggregated columns from SELECT in the GROUP BY clause
-- **Pitfall:** Creating indexes without considering query patterns
-  **Solution:** Analyze your most common queries first, then create indexes based on those patterns
+- Pitfall: Incorrect join conditions leading to duplicate or missing data  
+  Solution: Carefully identify the correct columns to join on and test with sample data
+- Pitfall: GROUP BY missing columns that appear in the SELECT clause  
+  Solution: Include all non-aggregated columns from SELECT in the GROUP BY clause
+- Pitfall: Creating indexes without considering query patterns  
+  Solution: Analyze your most common queries first, then create indexes based on those patterns
 
-## Chapter 13: Python and SQLite Integration
+## **Chapter 13: Python and SQLite Integration**
 
 **Complexity: Easy (E)**
 
@@ -806,17 +805,15 @@ Add just one additional table (such as users) to your database, and focus on imp
 - **Using the sqlite3 module:** Python's built-in library for SQLite
 - **Connection management:** Properly opening and closing database connections
 - **Basic query execution:** Running SQL from Python code
-- **Parameterized queries:** Safely incorporating variables into SQL
+- **Parameterized queries:** Safely incorporating variables into SQL (Security focus)
 
 **Micro-Project: Python Task Manager**
-
-Create a Python application that interacts with your SQLite task database, allowing programmatic data access and manipulation.
 
 **Objectives:**
 
 - Develop a Python script that connects to your SQLite task database
 - Implement functions for CRUD operations (Create, Read, Update, Delete)
-- Create parameterized queries for data retrieval and filtering
+- Create parameterized queries for data retrieval and filtering (Essential for security)
 - Properly handle connection management with context managers
 - Process query results into Python data structures
 - Implement a simple command-line interface for database interaction
@@ -825,7 +822,7 @@ Create a Python application that interacts with your SQLite task database, allow
 
 - Application successfully connects to the SQLite database
 - Implements at least 2 functions for each CRUD operation (total of 8+ functions)
-- Uses parameterized queries for all database operations
+- Uses parameterized queries for all database operations involving external input
 - Properly manages database connections using context managers
 - Handles database errors gracefully with appropriate error messages
 - Command-line interface allows basic task management operations
@@ -833,17 +830,16 @@ Create a Python application that interacts with your SQLite task database, allow
 - Code includes comments explaining the database interaction patterns
 - Documentation includes example usage commands
 
-**Simplified Version:**
-Create a simple script that connects to your SQLite database, performs basic queries to retrieve tasks, and displays them in a formatted output, without implementing the full CRUD functionality.
-
+Simplified Version:  
+Create a simple script that connects to your SQLite database, performs basic queries to retrieve tasks, and displays them in a formatted output, without implementing the full CRUD functionality.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Not closing database connections properly
-  **Solution:** Always use context managers (`with` statements) for database connections
-- **Pitfall:** SQL injection vulnerabilities from string concatenation
-  **Solution:** Use parameterized queries for all user-provided data
-- **Pitfall:** Retrieving all results at once for large datasets
-  **Solution:** Use cursor iteration for large result sets to manage memory efficiently
+- Pitfall: Not closing database connections properly  
+  Solution: Always use context managers (with statements) for database connections
+- Pitfall: SQL injection vulnerabilities from string concatenation/formatting  
+  Solution: Strictly use parameterized queries (? or %s placeholders depending on DB-API driver) for all user-provided or external data.
+- Pitfall: Retrieving all results at once for large datasets  
+  Solution: Use cursor iteration for large result sets to manage memory efficiently
 
 **Self-Assessment: Database Fundamentals**
 
@@ -868,7 +864,7 @@ Test your understanding of database concepts covered in Chapters 11-13 by answer
 
 If you scored in the Beginner range, consider reviewing the database chapters before proceeding to the more advanced PostgreSQL content.
 
-## Chapter 14: Advanced Database Operations in Python
+## **Chapter 14: Advanced Database Operations in Python**
 
 **Complexity: Moderate (M)**
 
@@ -878,7 +874,7 @@ If you scored in the Beginner range, consider reviewing the database chapters be
 - **Transaction management:** Understanding and using database transactions
 - **Error handling in database operations:** Gracefully managing database exceptions
 - **Bulk operations:** Efficiently inserting or updating multiple records
-- **Context managers for connections:** Using Python's `with` statement for resources
+- **Context managers for connections:** Using Python's with statement for resources
 
 **Micro-Project: Robust Database Operations**
 
@@ -906,19 +902,18 @@ Enhance your Python task manager with proper transaction management, comprehensi
 - Migration utility handles schema changes with data preservation
 - Documentation explains the transaction management approach
 
-**Simplified Version:**
-Focus on implementing just the basic transaction management for a single critical operation, with appropriate commit/rollback logic and error handling, without implementing the full bulk operations or transaction logging.
-
+Simplified Version:  
+Focus on implementing just the basic transaction management for a single critical operation, with appropriate commit/rollback logic and error handling, without implementing the full bulk operations or transaction logging.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Beginning a transaction but forgetting to commit or rollback
-  **Solution:** Use try/except/finally blocks to ensure proper transaction closure
-- **Pitfall:** Not handling transaction isolation levels properly
-  **Solution:** Understand and explicitly set the appropriate isolation level for your needs
-- **Pitfall:** Performance issues with large bulk operations
-  **Solution:** Use batch processing with smaller transaction sizes for very large datasets
+- Pitfall: Beginning a transaction but forgetting to commit or rollback  
+  Solution: Use try/except/finally blocks to ensure proper transaction closure
+- Pitfall: Not handling transaction isolation levels properly  
+  Solution: Understand and explicitly set the appropriate isolation level for your needs
+- Pitfall: Performance issues with large bulk operations  
+  Solution: Use batch processing with smaller transaction sizes for very large datasets
 
-## Chapter 15: Type-Safe Database Programming
+## **Chapter 15: Type-Safe Database Programming**
 
 **Complexity: Moderate (M)**
 
@@ -957,19 +952,18 @@ Enhance your SQLite task manager with comprehensive type annotations for improve
 - Type annotations enhance code readability and self-documentation
 - At least one example demonstrates how types caught a potential error
 
-**Simplified Version:**
-Focus on adding type annotations to just the core database connection and query functions, using basic types without implementing custom TypedDict or dataclass definitions for the full data model.
-
+Simplified Version:  
+Focus on adding type annotations to just the core database connection and query functions, using basic types without implementing custom TypedDict or dataclass definitions for the full data model.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Overly complex type definitions that are hard to maintain
-  **Solution:** Start with simpler types and gradually refine them as needed
-- **Pitfall:** Using Any type too liberally, reducing type safety benefits
-  **Solution:** Use specific types whenever possible, even if it requires more effort
-- **Pitfall:** Not accounting for None values in database results
-  **Solution:** Use Optional types consistently for columns that might be NULL
+- Pitfall: Overly complex type definitions that are hard to maintain  
+  Solution: Start with simpler types and gradually refine them as needed
+- Pitfall: Using Any type too liberally, reducing type safety benefits  
+  Solution: Use specific types whenever possible, even if it requires more effort
+- Pitfall: Not accounting for None values in database results  
+  Solution: Use Optional types consistently for columns that might be NULL
 
-## Chapter 16: PostgreSQL Fundamentals
+## **Chapter 16: PostgreSQL Fundamentals**
 
 **Complexity: Moderate (M)**
 
@@ -977,7 +971,7 @@ Focus on adding type annotations to just the core database connection and query 
 
 - **PostgreSQL vs SQLite:** Understanding the jump to client-server architecture
 - **PostgreSQL in Docker:** Running PostgreSQL in containers for development
-- **Docker Compose for PostgreSQL:** Setting up containerized databases
+- **Docker Compose for PostgreSQL:** Setting up containerized databases (with secure configuration)
 - **PostgreSQL data types:** Working with PostgreSQL's rich type system
 - **Schema management:** Organizing database objects logically
 
@@ -985,21 +979,24 @@ Focus on adding type annotations to just the core database connection and query 
 
 Set up a PostgreSQL database in Docker and migrate your existing task management schema and data from SQLite.
 
+**(Note:** Docker environment setup and initial configuration can often take longer than expected.)
+
 **Objectives:**
 
 - Create a Docker Compose configuration for PostgreSQL
 - Configure persistent volume storage for database data
-- Set up appropriate environment variables for database credentials
+- Set up appropriate environment variables for database credentials (using secure methods like .env files, not hardcoding)
 - Create a migration script to transfer schema from SQLite to PostgreSQL
 - Transfer existing data from SQLite to PostgreSQL
 - Adjust data types and constraints for PostgreSQL compatibility
 - Verify data integrity after migration
-- Document the migration process
+- Document the migration process and secure setup
 
 **Acceptance Criteria:**
 
 - Docker Compose file successfully creates a PostgreSQL container
 - Database data persists across container restarts (volume correctly configured)
+- Secure credential management is used (e.g., environment variables loaded from .env file excluded from Git)
 - Migration script successfully creates all tables, constraints, and indexes
 - All data is transferred correctly from SQLite to PostgreSQL
 - Primary keys, foreign keys, and constraints are properly implemented
@@ -1009,21 +1006,22 @@ Set up a PostgreSQL database in Docker and migrate your existing task management
   - Appropriate port mappings
   - Environment variables for configuration
   - Health check configuration
-- Documentation includes instructions for starting the database and running migrations
+- Documentation includes instructions for starting the database securely and running migrations
 
-**Simplified Version:**
-Set up a PostgreSQL container using Docker Compose with persistent storage, but manually create a simplified schema with just one or two basic tables instead of migrating the full schema from SQLite.
-
+Simplified Version:  
+Set up a PostgreSQL container using Docker Compose with persistent storage, but manually create a simplified schema with just one or two basic tables instead of migrating the full schema from SQLite. Focus on secure credential handling.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Data type mismatches between SQLite and PostgreSQL
-  **Solution:** Create a mapping dictionary to translate between SQLite and PostgreSQL types
-- **Pitfall:** Permission issues with Docker volumes
-  **Solution:** Pay attention to file ownership and permissions when configuring volumes
-- **Pitfall:** Connection issues between containers
-  **Solution:** Ensure proper network configuration in Docker Compose
+- Pitfall: Data type mismatches between SQLite and PostgreSQL  
+  Solution: Create a mapping dictionary to translate between SQLite and PostgreSQL types
+- Pitfall: Permission issues with Docker volumes  
+  Solution: Pay attention to file ownership and permissions when configuring volumes
+- Pitfall: Connection issues between containers  
+  Solution: Ensure proper network configuration in Docker Compose
+- Pitfall: Hardcoding passwords in Docker Compose file  
+  Solution: Use environment files (.env) excluded from version control to pass sensitive variables.
 
-## Checkpoint 2: Database Fundamentals Review
+## **Checkpoint 2: Database Fundamentals Review**
 
 **Complexity: Easy (E)**
 
@@ -1032,8 +1030,8 @@ Set up a PostgreSQL container using Docker Compose with persistent storage, but 
 - **Database concepts comparison:** SQLite vs. PostgreSQL architecture and use cases
 - **SQL language review:** Common operations across database systems
 - **Schema design principles:** Normalization, relationships, and constraints
-- **Database integration with Python:** Connection patterns and query execution
-- **Docker database environments:** Containerized database deployment
+- **Database integration with Python:** Connection patterns and query execution (emphasizing security)
+- **Docker database environments:** Containerized database deployment (emphasizing security)
 
 **Micro-Project: Database Migration Tool**
 
@@ -1041,7 +1039,7 @@ Create a simple migration tool that can transfer schema and data from SQLite to 
 
 **Objectives:**
 
-- Develop a Python script that connects to both SQLite and PostgreSQL
+- Develop a Python script that connects to both SQLite and PostgreSQL (using secure connection methods)
 - Automatically extract schema information from a SQLite database
 - Generate equivalent PostgreSQL schema with appropriate data type mapping
 - Transfer data between the systems, handling data type conversions
@@ -1050,7 +1048,7 @@ Create a simple migration tool that can transfer schema and data from SQLite to 
 
 **Acceptance Criteria:**
 
-- Successfully connects to both database systems
+- Successfully connects to both database systems using secure credential management
 - Correctly extracts table definitions from SQLite
 - Generates valid PostgreSQL CREATE TABLE statements with appropriate data types
 - Transfers data correctly, maintaining referential integrity
@@ -1058,17 +1056,16 @@ Create a simple migration tool that can transfer schema and data from SQLite to 
 - Provides a progress log of the migration process
 - Documentation includes usage instructions and limitations
 
-**Simplified Version:**
-Create a script that transfers just the schema and data from a single simple table, without handling complex relationships or all data types.
-
+Simplified Version:  
+Create a script that transfers just the schema and data from a single simple table, without handling complex relationships or all data types.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Data type mismatches between systems
-  **Solution:** Create a mapping dictionary for SQLite to PostgreSQL data types
-- **Pitfall:** Primary/foreign key constraints failing during data import
-  **Solution:** Disable constraints during import, then enable after completion
-- **Pitfall:** Character encoding issues
-  **Solution:** Explicitly specify encoding when reading/writing text data
+- Pitfall: Data type mismatches between systems  
+  Solution: Create a mapping dictionary for SQLite to PostgreSQL data types
+- Pitfall: Primary/foreign key constraints failing during data import  
+  Solution: Disable constraints during import, then enable after completion
+- Pitfall: Character encoding issues  
+  Solution: Explicitly specify encoding when reading/writing text data
 
 **Self-Assessment: Production Database Systems**
 
@@ -1081,7 +1078,7 @@ Test your understanding of the PostgreSQL concepts covered in Chapters 16-17 by 
 5. How would you create a schema in PostgreSQL and what is its purpose?
 6. What considerations must be made when migrating data from SQLite to PostgreSQL?
 7. How would you set up persistent storage for a PostgreSQL container?
-8. Why might you need to map environment variables in a Docker Compose file for PostgreSQL?
+8. Why might you need to map environment variables in a Docker Compose file for PostgreSQL, and how should sensitive ones be handled?
 9. Explain the concept of health checks in containerized database deployments.
 10. What are the benefits of using PostgreSQL-specific data types over generic types?
 
@@ -1093,7 +1090,7 @@ Test your understanding of the PostgreSQL concepts covered in Chapters 16-17 by 
 
 If you scored in the Beginner range, consider spending more time with PostgreSQL before proceeding to more advanced topics.
 
-## Chapter 18: Database Design Principles
+## **Chapter 18: Database Design Principles**
 
 **Complexity: Moderate (M)**
 
@@ -1131,26 +1128,25 @@ Design a properly normalized database schema for a business domain that demonstr
 - Normalization explanation demonstrates understanding of normal forms
 - Schema handles potential edge cases in the business domain
 
-**Simplified Version:**
-Design a smaller schema with 3 tables that focuses on applying first and second normal form principles to a simple business scenario.
-
+Simplified Version:  
+Design a smaller schema with 3 tables that focuses on applying first and second normal form principles to a simple business scenario.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Over-normalization leading to excessive joins and complexity
-  **Solution:** Balance normalization principles with practical performance considerations
-- **Pitfall:** Poor naming conventions making the schema hard to understand
-  **Solution:** Develop and follow consistent naming conventions for all database objects
-- **Pitfall:** Missing indexes for common query patterns
-  **Solution:** Anticipate query patterns and add appropriate indexes
+- Pitfall: Over-normalization leading to excessive joins and complexity  
+  Solution: Balance normalization principles with practical performance considerations
+- Pitfall: Poor naming conventions making the schema hard to understand  
+  Solution: Develop and follow consistent naming conventions for all database objects
+- Pitfall: Missing indexes for common query patterns  
+  Solution: Anticipate query patterns and add appropriate indexes
 
-## Chapter 19: Python and PostgreSQL Integration
+## **Chapter 19: Python and PostgreSQL Integration**
 
 **Complexity: Moderate (M)**
 
-**Summary:** Connecting Python applications to PostgreSQL databases.
+**Summary:** Connecting Python applications to PostgreSQL databases securely.
 
 - **PostgreSQL connection libraries:** Using psycopg2 for database access
-- **Connection strings and parameters:** Configuring database connections
+- **Connection strings and parameters:** Configuring database connections securely (avoiding hardcoded credentials)
 - **Executing SQL statements:** Direct query execution with psycopg2
 - **Result handling:** Working with PostgreSQL result sets
 - **Transaction management:** Commit and rollback operations
@@ -1161,38 +1157,37 @@ Create a Python application that connects to your PostgreSQL database, providing
 
 **Objectives:**
 
-- Develop a Python application that connects to your PostgreSQL database
+- Develop a Python application that connects to your PostgreSQL database (using secure credential management)
 - Implement connection management with proper error handling
 - Create functions for executing common queries and operations
-- Handle query parameters securely
+- Handle query parameters securely using parameterized queries
 - Process result sets efficiently
 - Implement proper transaction management
 - Create a simple interface for interacting with the database
 
 **Acceptance Criteria:**
 
-- Successfully connects to PostgreSQL using psycopg2
+- Successfully connects to PostgreSQL using psycopg2 with secure credential handling
 - Properly manages connections with context managers
-- Implements parameterized queries for all SQL operations
+- Implements parameterized queries for all SQL operations involving external input
 - Correctly handles transactions with commit/rollback
 - Properly processes and formats query results
 - Includes error handling for common database exceptions
-- Documentation includes connection configuration and usage examples
+- Documentation includes connection configuration (emphasizing security) and usage examples
 - Demonstrates at least 3 different database operations
 
-**Simplified Version:**
-Create a simple script that connects to your PostgreSQL database, executes a basic query, and displays the results, without implementing the full transaction management or extensive error handling.
-
+Simplified Version:  
+Create a simple script that connects to your PostgreSQL database securely, executes a basic query, and displays the results, without implementing the full transaction management or extensive error handling.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Hardcoding database credentials in your code
-  **Solution:** Use environment variables or configuration files for sensitive information
-- **Pitfall:** Not properly closing database connections
-  **Solution:** Always use context managers (with statements) for database operations
-- **Pitfall:** SQL injection vulnerabilities
-  **Solution:** Use parameterized queries for all user-provided data
+- Pitfall: Hardcoding database credentials in your code  
+  Solution: Use environment variables, configuration files (not checked into Git), or a secrets management system.
+- Pitfall: Not properly closing database connections  
+  Solution: Always use context managers (with statements) for database operations
+- Pitfall: SQL injection vulnerabilities  
+  Solution: Strictly use parameterized queries for all user-provided or external data.
 
-## Chapter 20: Advanced PostgreSQL Features in Python
+## **Chapter 20: Advanced PostgreSQL Features in Python**
 
 **Complexity: Moderate (M)**
 
@@ -1227,19 +1222,18 @@ Enhance your Python application to leverage PostgreSQL-specific features for imp
 - Documentation explains PostgreSQL-specific features and their benefits
 - Implementation includes examples of when to use each specialized feature
 
-**Simplified Version:**
-Focus on implementing just one PostgreSQL-specific feature, such as working with JSON data types or implementing a simple connection pool.
-
+Simplified Version:  
+Focus on implementing just one PostgreSQL-specific feature, such as working with JSON data types or implementing a simple connection pool.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Memory issues when working with large result sets
-  **Solution:** Use server-side cursors with appropriate fetch sizes
-- **Pitfall:** Connection pool exhaustion during peak loads
-  **Solution:** Configure proper pool sizing and timeout parameters
-- **Pitfall:** JSON data type serialization/deserialization issues
-  **Solution:** Use specialized JSON handlers that understand PostgreSQL's JSON implementation
+- Pitfall: Memory issues when working with large result sets  
+  Solution: Use server-side cursors with appropriate fetch sizes
+- Pitfall: Connection pool exhaustion during peak loads  
+  Solution: Configure proper pool sizing and timeout parameters
+- Pitfall: JSON data type serialization/deserialization issues  
+  Solution: Use specialized JSON handlers that understand PostgreSQL's JSON implementation
 
-## Chapter 21: SQLAlchemy Core Basics
+## **Chapter 21: SQLAlchemy Core Basics**
 
 **Complexity: Moderate (M)**
 
@@ -1250,6 +1244,7 @@ Focus on implementing just one PostgreSQL-specific feature, such as working with
 - **Basic query construction:** Building SQL expressions with Python
 - **Executing and processing queries:** Working with connection and result objects
 - **Basic transaction management:** Using SQLAlchemy's transaction handling
+- **Note on SQLAlchemy ORM:** Briefly mention the Object Relational Mapper (ORM) as an alternative, higher-level abstraction within SQLAlchemy for mapping Python objects directly to tables.
 
 **Micro-Project: SQLAlchemy Core Data Access Layer**
 
@@ -1260,7 +1255,7 @@ Refactor part of your application to use SQLAlchemy Core instead of raw SQL, cre
 - Set up SQLAlchemy Core with proper table and metadata definitions
 - Define your database schema programmatically using SQLAlchemy Core
 - Refactor key database operations to use SQLAlchemy expression language
-- Implement proper connection and transaction management
+- Implement proper connection and transaction management (using secure credentials)
 - Create query building functions for common operations
 - Compare performance and maintainability with raw SQL implementation
 
@@ -1272,22 +1267,21 @@ Refactor part of your application to use SQLAlchemy Core instead of raw SQL, cre
 - Transaction management correctly handles commit and rollback
 - Query results are properly processed into Python data structures
 - Implementation demonstrates at least one complex query using joins or subqueries
-- Documentation explains the SQLAlchemy Core approach and benefits
+- Documentation explains the SQLAlchemy Core approach and benefits, briefly noting the ORM alternative
 - Code compares the original raw SQL and refactored SQLAlchemy implementations
 
-**Simplified Version:**
-Refactor just one key database operation to use SQLAlchemy Core, keeping the rest of your application with raw SQL, and focus on basic table definitions and simple queries.
-
+Simplified Version:  
+Refactor just one key database operation to use SQLAlchemy Core, keeping the rest of your application with raw SQL, and focus on basic table definitions and simple queries.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Confusion between SQLAlchemy Core and ORM features
-  **Solution:** Focus specifically on Core components (Table, select, etc.) without mixing in ORM concepts
-- **Pitfall:** Overly complex query expressions that are hard to understand
-  **Solution:** Build queries step by step with clear variable names for each component
-- **Pitfall:** Performance issues compared to optimized raw SQL
-  **Solution:** Use the appropriate level of abstraction for different operations
+- Pitfall: Confusion between SQLAlchemy Core and ORM features  
+  Solution: Focus specifically on Core components (Table, select, etc.) for this chapter. Understand that the ORM provides a different way to interact with the database.
+- Pitfall: Overly complex query expressions that are hard to understand  
+  Solution: Build queries step by step with clear variable names for each component
+- Pitfall: Performance issues compared to optimized raw SQL  
+  Solution: Use the appropriate level of abstraction; Core offers more control than the ORM but less than raw SQL sometimes. Profile queries if needed.
 
-## Chapter 22: Type-Safe PostgreSQL Programming
+## **Chapter 22: Type-Safe PostgreSQL Programming**
 
 **Complexity: Moderate (M)**
 
@@ -1295,7 +1289,7 @@ Refactor just one key database operation to use SQLAlchemy Core, keeping the res
 
 **Building on:** This chapter combines your PostgreSQL knowledge from Chapters 16-21 with the type safety concepts from Chapter 7 and the data access patterns you've been developing. It represents an advanced integration of database programming with type safety.
 
-**Preparing for:** The type-safe patterns you'll learn here will enhance your database interactions throughout the rest of the curriculum. They're particularly relevant for the BigQuery type safety in Chapter 27 and the advanced processing with type-safe data transformations in Chapter 34. These patterns are essential for production-grade data engineering.
+**Preparing for:** The type-safe patterns you'll learn here will enhance your database interactions throughout the rest of the curriculum. They're particularly relevant for the BigQuery type safety in Chapter 27 and the advanced processing with type-safe data transformations in Chapter 34\. These patterns are essential for production-grade data engineering.
 
 - **Type annotations for psycopg2:** Typing connections and cursors
 - **Type-safe SQL parameters:** Creating typed interfaces for queries
@@ -1329,45 +1323,48 @@ Add complete type annotations to your PostgreSQL database code to improve reliab
 - Tests demonstrate type safety in database operations
 - Documentation includes examples of type safety patterns specific to PostgreSQL
 
-**Simplified Version:**
-Focus on adding basic type annotations to connection management and a few key query functions, without implementing complete typing for all database operations or SQLAlchemy expressions.
-
+Simplified Version:  
+Focus on adding basic type annotations to connection management and a few key query functions, without implementing complete typing for all database operations or SQLAlchemy expressions.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Incomplete typing of cursor result structures
-  **Solution:** Create typed classes or TypedDict for result rows
-- **Pitfall:** Not accounting for NULL values in database results
-  **Solution:** Consistently use Optional types for nullable columns
-- **Pitfall:** Type errors with dynamic SQL construction
-  **Solution:** Create helper functions with specific types for different query patterns
+- Pitfall: Incomplete typing of cursor result structures  
+  Solution: Create typed classes or TypedDict for result rows
+- Pitfall: Not accounting for NULL values in database results  
+  Solution: Consistently use Optional types for nullable columns
+- Pitfall: Type errors with dynamic SQL construction  
+  Solution: Create helper functions with specific types for different query patterns
 
-## Chapter 23: From Transactional to Analytical Databases
+## **Chapter 23: From Transactional to Analytical Databases**
 
 **Complexity: Moderate (M)**
 
-**Summary:** Understanding the spectrum of database systems and introducing data warehousing.
+**Summary:** Understanding the spectrum of database systems, introducing data warehousing, data marts, and data lakes.
 
-**Building on:** This chapter builds on your understanding of PostgreSQL as a transactional database from Chapters 16-22. It represents a paradigm shift in how you think about databases, moving from transaction processing to analytical processing.
+**Building on:** This chapter builds on your understanding of PostgreSQL as a transactional database from Chapters 16-22. It represents a paradigm shift in how you think about databases, moving from transaction processing to analytical processing and introducing key analytical storage concepts.
 
-**Preparing for:** This conceptual foundation is crucial for the BigQuery sections that follow in Chapters 24-28. Understanding the differences between OLTP and OLAP systems will help you make appropriate architectural decisions in your data engineering career and is essential for the advanced optimization techniques in later chapters.
+**Preparing for:** This conceptual foundation is crucial for the BigQuery sections that follow in Chapters 24-28. Understanding the differences between OLTP, OLAP, Data Warehouses, Data Marts, and Data Lakes will help you make appropriate architectural decisions and is essential for advanced optimization techniques.
 
 - **Database spectrum overview:** Different database types and purposes
 - **OLTP vs OLAP comparison:** Transaction processing vs. analytical processing
 - **Data warehousing fundamentals:** Purpose and architecture
+- **Data Mart concepts:** Focused analytical subsets
+- **Data Lake concepts:** Storing raw, diverse data at scale
+- **Comparing Warehouse, Mart, and Lake:** Use cases and characteristics
 - **Dimensional modeling basics:** Star and snowflake schemas
 - **ETL and ELT concepts:** Approaches to data loading and transformation
 
 **Micro-Project: Dimensional Data Model Design**
 
-Design a simple dimensional model for a business domain based on an existing transactional database schema.
+Design a simple dimensional model for a business domain based on an existing transactional database schema, identifying potential data marts.
 
 **Objectives:**
 
 - Select a business domain with transactional data (e.g., e-commerce, finance)
 - Analyze the existing transactional schema
 - Identify facts and dimensions for analytical queries
-- Design a star or snowflake schema
-- Document the dimensional model
+- Design a star or snowflake schema for a central data warehouse concept
+- Identify potential data marts (e.g., Sales Mart, Marketing Mart) within the model
+- Document the dimensional model and potential marts
 - Create sample analytical queries that demonstrate the model's value
 - Compare query complexity between transactional and dimensional models
 
@@ -1376,23 +1373,25 @@ Design a simple dimensional model for a business domain based on an existing tra
 - Dimensional model includes at least one fact table and three dimension tables
 - Clear identification of facts (measures) and dimensions
 - Proper use of surrogate keys and handling of slowly changing dimensions
+- At least two potential data marts are identified and justified
 - Entity-relationship diagram illustrates the dimensional model clearly
-- Documentation explains the purpose of each table and the relationships
+- Documentation explains the purpose of each table, the relationships, and the rationale for marts
 - Sample analytical queries demonstrate business insights
 - Comparison shows how the dimensional model simplifies complex analytical queries
 - Design addresses grain and aggregation considerations
 
-**Simplified Version:**
-Create a basic star schema with one fact table and two dimension tables, focusing on the core concepts without addressing advanced topics like slowly changing dimensions.
-
+Simplified Version:  
+Create a basic star schema with one fact table and two dimension tables, focusing on the core concepts without addressing advanced topics like slowly changing dimensions or explicitly designing marts (just mention the concept).  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Confusion between dimensional attributes and facts
-  **Solution:** Facts are typically numeric measures, while dimensions provide context
-- **Pitfall:** Inappropriate granularity in the fact table
-  **Solution:** Carefully define the grain at the appropriate level of detail
-- **Pitfall:** Over-normalization of dimension tables
-  **Solution:** Remember that dimensional models prioritize query performance over storage efficiency
+- Pitfall: Confusion between dimensional attributes and facts  
+  Solution: Facts are typically numeric measures, while dimensions provide context
+- Pitfall: Inappropriate granularity in the fact table  
+  Solution: Carefully define the grain at the appropriate level of detail
+- Pitfall: Over-normalization of dimension tables  
+  Solution: Remember that dimensional models prioritize query performance over storage efficiency
+- Pitfall: Misunderstanding the scope of a Data Mart vs. Data Warehouse  
+  Solution: Marts are subsets, focused on specific business areas, often derived from a warehouse.
 
 **Self-Assessment: Analytical Systems**
 
@@ -1402,12 +1401,12 @@ Test your understanding of analytical database concepts by answering these quest
 2. Explain the concept of a star schema and its components.
 3. What is the difference between ETL and ELT approaches to data warehousing?
 4. Describe the purpose of fact tables and dimension tables in dimensional modeling.
-5. How does query optimization differ between transactional and analytical databases?
+5. **Compare and contrast a Data Warehouse, Data Mart, and Data Lake.**
 6. What is data warehousing and why is it used alongside transactional databases?
 7. How does the concept of normalization apply differently to OLAP vs. OLTP databases?
 8. What is a slowly changing dimension and why is it important in data warehousing?
 9. Explain the trade-offs between performance and storage in analytical database design.
-10. How might you determine when to use a transactional vs. analytical database for a particular business need?
+10. How might you determine when to use a transactional vs. analytical database (or a data lake/mart) for a particular business need?
 
 **Proficiency Indicators:**
 
@@ -1417,18 +1416,18 @@ Test your understanding of analytical database concepts by answering these quest
 
 If you scored in the Beginner range, review the analytical database concepts before proceeding to BigQuery-specific chapters.
 
-## Chapter 24: BigQuery Fundamentals
+## **Chapter 24: BigQuery Fundamentals**
 
 **Complexity: Moderate (M)**
 
 **Summary:** Introduction to Google BigQuery, a cloud data warehouse for analytics.
 
-**Building on:** This chapter builds directly on the data warehousing concepts from Chapter 23, implementing those principles in a modern cloud data warehouse. It extends your SQL knowledge from Chapters 11-12 to the analytics-focused SQL dialect of BigQuery.
+**Building on:** This chapter builds directly on the data warehousing, data mart, and data lake concepts from Chapter 23, implementing those principles in a modern cloud data warehouse. It extends your SQL knowledge from Chapters 11-12 to the analytics-focused SQL dialect of BigQuery.
 
-**Preparing for:** BigQuery will be a key focus for several upcoming chapters. The fundamentals learned here are essential for the advanced analytics in Chapter 25, Python integration in Chapter 26, and the optimization techniques in Chapter 28. These skills are increasingly important in modern data engineering.
+**Preparing for:** BigQuery will be a key focus for several upcoming chapters. The fundamentals learned here are essential for the advanced analytics in Chapter 25, Python integration in Chapter 26, and the optimization techniques in Chapter 28\. These skills are increasingly important in modern data engineering.
 
-- **Cloud data warehouse concepts:** Serverless architecture overview
-- **BigQuery project setup:** Basic configuration to get started
+- **Cloud data warehouse concepts:** Serverless architecture overview (mentioning its role as Warehouse/Lake)
+- **BigQuery project setup:** Basic configuration to get started (including IAM/permission basics)
 - **BigQuery SQL dialect:** How BigQuery SQL differs from standard SQL
 - **Basic query patterns:** Running your first analytical queries
 - **Cost model introduction:** Understanding BigQuery's pricing approach
@@ -1437,10 +1436,12 @@ If you scored in the Beginner range, review the analytical database concepts bef
 
 Set up BigQuery and run basic analytical queries against public datasets to understand its capabilities and interface.
 
+**(Note:** GCP account setup and initial BigQuery configuration might take extra time.)
+
 **Objectives:**
 
 - Set up a Google Cloud Platform account and project
-- Configure BigQuery access and permissions
+- Configure BigQuery access and permissions securely
 - Explore the BigQuery console interface
 - Run queries against public datasets
 - Write analytical queries using BigQuery SQL
@@ -1450,7 +1451,7 @@ Set up BigQuery and run basic analytical queries against public datasets to unde
 
 **Acceptance Criteria:**
 
-- Successfully set up BigQuery access in a GCP project
+- Successfully set up BigQuery access in a GCP project with appropriate permissions
 - Run at least 5 analytical queries of increasing complexity
 - Demonstrate understanding of BigQuery SQL dialect in at least 2 queries
 - Successfully join data across multiple tables
@@ -1458,21 +1459,20 @@ Set up BigQuery and run basic analytical queries against public datasets to unde
 - Export query results to at least two different formats
 - Document any syntax differences observed between standard SQL and BigQuery SQL
 - Include cost information for each query executed
-- Documentation includes setup instructions and query examples
+- Documentation includes setup instructions (mentioning security) and query examples
 
-**Simplified Version:**
-Set up BigQuery and run 2-3 simple queries against public datasets, focusing on basic SELECT statements and simple filtering without complex joins or aggregations.
-
+Simplified Version:  
+Set up BigQuery and run 2-3 simple queries against public datasets, focusing on basic SELECT statements and simple filtering without complex joins or aggregations.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Unexpected query costs from scanning large datasets
-  **Solution:** Always check the data volume before running queries and use LIMIT for testing
-- **Pitfall:** Permission issues when setting up BigQuery
-  **Solution:** Ensure proper IAM roles are assigned to your account
-- **Pitfall:** Performance issues with unoptimized queries
-  **Solution:** Pay attention to partitioning and clustering when querying large datasets
+- Pitfall: Unexpected query costs from scanning large datasets  
+  Solution: Always check the data volume before running queries and use LIMIT for testing. Use cost controls.
+- Pitfall: Permission issues when setting up BigQuery  
+  Solution: Ensure proper IAM roles are assigned following the principle of least privilege.
+- Pitfall: Performance issues with unoptimized queries  
+  Solution: Pay attention to partitioning and clustering when querying large datasets.
 
-## Chapter 25: Advanced Analytics with BigQuery
+## **Chapter 25: Advanced Analytics with BigQuery**
 
 **Complexity: Moderate (M)**
 
@@ -1510,28 +1510,27 @@ Write advanced analytical queries in BigQuery that demonstrate sophisticated dat
 - Documentation includes query costs and optimization techniques
 - Performance considerations are addressed in the documentation
 
-**Simplified Version:**
-Focus on implementing 2-3 queries that use window functions and basic advanced aggregations, without implementing user-defined functions or working with complex data types.
-
+Simplified Version:  
+Focus on implementing 2-3 queries that use window functions and basic advanced aggregations, without implementing user-defined functions or working with complex data types.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Overly complex window function specifications
-  **Solution:** Build window functions incrementally, testing each component
-- **Pitfall:** Performance issues with advanced analytics on large datasets
-  **Solution:** Use appropriate partitioning and filtering to limit data processed
-- **Pitfall:** Difficulty debugging complex analytical queries
-  **Solution:** Break down complex queries into CTEs for better readability and testing
+- Pitfall: Overly complex window function specifications  
+  Solution: Build window functions incrementally, testing each component
+- Pitfall: Performance issues with advanced analytics on large datasets  
+  Solution: Use appropriate partitioning and filtering to limit data processed
+- Pitfall: Difficulty debugging complex analytical queries  
+  Solution: Break down complex queries into CTEs for better readability and testing
 
-## Chapter 26: Python and BigQuery Integration
+## **Chapter 26: Python and BigQuery Integration**
 
 **Complexity: Moderate (M)**
 
 **Summary:** Connecting Python applications to BigQuery for programmatic analytics.
 
 - **BigQuery client library:** Using google-cloud-bigquery for programmatic access
-- **Authentication and project configuration:** Setting up secure BigQuery access
+- **Authentication and project configuration:** Setting up secure BigQuery access (Service Accounts, ADC)
 - **Executing queries and retrieving results:** Working with BigQuery's API
-- **Loading data to BigQuery:** Methods for importing data
+- **Loading data to BigQuery:** Methods for importing data (incl. unstructured for Lake scenarios)
 - **Working with pandas DataFrames:** Converting results to familiar formats
 
 **Micro-Project: Python BigQuery Analytics Tool**
@@ -1541,7 +1540,7 @@ Create a Python application that interacts with BigQuery for programmatic analyt
 **Objectives:**
 
 - Set up the google-cloud-bigquery library in your Python environment
-- Configure authentication and project access
+- Configure authentication and project access securely (e.g., using Application Default Credentials)
 - Create functions to execute queries and retrieve results
 - Implement data loading from Python to BigQuery
 - Convert query results to pandas DataFrames for analysis
@@ -1550,29 +1549,28 @@ Create a Python application that interacts with BigQuery for programmatic analyt
 
 **Acceptance Criteria:**
 
-- Application successfully authenticates with BigQuery
+- Application successfully authenticates with BigQuery using secure methods
 - Implements functions for executing queries with parameters
 - Properly handles query results and converts to pandas DataFrames
 - Successfully loads data from Python to BigQuery
 - Includes at least one data visualization from query results
 - Handles errors gracefully with appropriate messaging
 - Efficiently manages large result sets
-- Documentation includes setup instructions and usage examples
+- Documentation includes secure setup instructions and usage examples
 - Implements at least one practical analytical workflow
 
-**Simplified Version:**
-Create a simple script that authenticates with BigQuery, runs a basic query, and converts the results to a pandas DataFrame, without implementing data loading or visualizations.
-
+Simplified Version:  
+Create a simple script that authenticates with BigQuery securely, runs a basic query, and converts the results to a pandas DataFrame, without implementing data loading or visualizations.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Authentication issues with service accounts
-  **Solution:** Carefully follow GCP authentication setup and use environment variables for credentials
-- **Pitfall:** Memory issues when retrieving large result sets
-  **Solution:** Use pagination or streaming queries for large datasets
-- **Pitfall:** Performance problems when loading large datasets
-  **Solution:** Use the appropriate loading method based on data size and batch processing when needed
+- Pitfall: Authentication issues with service accounts or ADC  
+  Solution: Carefully follow GCP authentication setup guides. Ensure environment variables (like GOOGLE_APPLICATION_CREDENTIALS) are set correctly or gcloud auth application-default login is run.
+- Pitfall: Memory issues when retrieving large result sets  
+  Solution: Use pagination or streaming queries for large datasets
+- Pitfall: Performance problems when loading large datasets  
+  Solution: Use the appropriate loading method based on data size and batch processing when needed
 
-## Chapter 27: BigQuery Type Safety and Testing
+## **Chapter 27: BigQuery Type Safety and Testing**
 
 **Complexity: Moderate (M)**
 
@@ -1581,8 +1579,8 @@ Create a simple script that authenticates with BigQuery, runs a basic query, and
 - **Type annotations for BigQuery client:** Properly typing SDK interactions
 - **Schema type definitions:** Creating typed representations of BigQuery schemas
 - **Query result typing:** Ensuring type safety for query results
-- **Testing BigQuery interactions:** Strategies for efficient testing
-- **Local testing approaches:** Testing without using actual BigQuery resources
+- **Testing BigQuery interactions:** Strategies for efficient testing (cost considerations)
+- **Local testing approaches:** Testing without using actual BigQuery resources (mocking)
 
 **Micro-Project: Type-Safe BigQuery Integration**
 
@@ -1593,9 +1591,9 @@ Add type safety and comprehensive tests to your BigQuery application to improve 
 - Add type annotations to all BigQuery client interactions
 - Create typed representations of BigQuery schemas
 - Implement proper typing for query results
-- Develop a strategy for testing BigQuery operations
-- Create unit tests that don't require actual BigQuery resources
-- Implement integration tests for critical operations
+- Develop a strategy for testing BigQuery operations (balancing cost and coverage)
+- Create unit tests that don't require actual BigQuery resources (using mocks)
+- Implement integration tests for critical operations (mindful of cost)
 - Document type safety and testing patterns for BigQuery
 
 **Acceptance Criteria:**
@@ -1604,35 +1602,34 @@ Add type safety and comprehensive tests to your BigQuery application to improve 
 - Schema definitions use appropriate type structures (TypedDict, dataclass, etc.)
 - Query results are properly typed with accurate field types
 - Unit tests use mocking to test BigQuery operations without actual API calls
-- Integration tests verify functionality with real BigQuery resources
+- Integration tests verify functionality with real BigQuery resources (executed judiciously)
 - Tests cover both success scenarios and error handling
 - Type checking passes with strict settings
 - Documentation includes examples of type safety patterns
 - Testing strategy addresses cost and performance considerations
 
-**Simplified Version:**
-Add basic type annotations to your main BigQuery functions and create a few simple unit tests using mocks, without implementing the full schema typing or integration tests.
-
+Simplified Version:  
+Add basic type annotations to your main BigQuery functions and create a few simple unit tests using mocks, without implementing the full schema typing or integration tests.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Difficulty mocking BigQuery client responses
-  **Solution:** Use the `unittest.mock` library with carefully constructed return values
-- **Pitfall:** Inconsistencies between mocked and actual BigQuery behavior
-  **Solution:** Validate key integration tests against the actual BigQuery service
-- **Pitfall:** Schema changes breaking type definitions
-  **Solution:** Design type structures that can adapt to schema changes or additions
+- Pitfall: Difficulty mocking BigQuery client responses  
+  Solution: Use the unittest.mock library with carefully constructed return values matching the expected API response structure.
+- Pitfall: Inconsistencies between mocked and actual BigQuery behavior  
+  Solution: Validate key integration tests against the actual BigQuery service periodically.
+- Pitfall: Schema changes breaking type definitions  
+  Solution: Design type structures that can adapt to schema changes or additions; consider tools like Pydantic for schema validation.
 
-## Chapter 28: BigQuery Cost Management
+## **Chapter 28: BigQuery Cost Management**
 
 **Complexity: Moderate (M)**
 
 **Summary:** Optimizing BigQuery usage for performance and cost efficiency.
 
-- **BigQuery pricing model:** Understanding the cost structure
-- **Cost control mechanisms:** Setting quotas and limits
+- **BigQuery pricing model:** Understanding the cost structure (storage vs. analysis)
+- **Cost control mechanisms:** Setting quotas, limits, and budgets/alerts
 - **Partitioning for cost optimization:** Reducing data scanned
 - **Clustering basics:** Improving query performance
-- **Query optimization:** Techniques to minimize processed data
+- **Query optimization:** Techniques to minimize processed data (SELECT specific columns, use WHERE early)
 
 **Micro-Project: BigQuery Cost Optimization**
 
@@ -1640,12 +1637,12 @@ Optimize existing BigQuery tables and queries for cost efficiency and performanc
 
 **Objectives:**
 
-- Analyze the cost structure of your current BigQuery usage
+- Analyze the cost structure of your current BigQuery usage (using console or logs)
 - Identify optimization opportunities in table design and queries
 - Implement partitioning for appropriate tables
 - Add clustering for performance improvement
-- Rewrite queries to minimize data processed
-- Set up cost controls and monitoring
+- Rewrite queries to minimize data processed (e.g., avoid SELECT \*)
+- Set up cost controls and monitoring (e.g., budget alerts)
 - Measure and document cost improvements
 - Create a cost optimization guide for your project
 
@@ -1654,24 +1651,23 @@ Optimize existing BigQuery tables and queries for cost efficiency and performanc
 - At least 2 tables optimized with appropriate partitioning
 - At least 1 table with clustering applied (if beneficial)
 - At least 3 queries rewritten for improved cost efficiency
-- Cost controls implemented (quotas or limits)
-- Before/after cost comparisons for each optimization
+- Cost controls implemented (quotas, limits, or budget alerts)
+- Before/after cost comparisons for each optimization (estimated or actual)
 - Performance improvements measured and documented
-- Cost monitoring solution implemented
+- Cost monitoring solution implemented or documented
 - Documentation includes best practices for ongoing cost management
 - Implementation demonstrates quantifiable cost reduction
 
-**Simplified Version:**
-Focus on optimizing 1-2 queries for cost efficiency and implementing basic cost monitoring, without implementing table partitioning or clustering.
-
+Simplified Version:  
+Focus on optimizing 1-2 queries for cost efficiency and implementing basic cost monitoring/alerts, without implementing table partitioning or clustering.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Choosing inappropriate partitioning keys
-  **Solution:** Select partitioning keys based on common query filters and data distribution
-- **Pitfall:** Over-optimizing for cost at the expense of usability
-  **Solution:** Balance cost optimization with query flexibility and development efficiency
-- **Pitfall:** Insufficient monitoring leading to cost surprises
-  **Solution:** Implement proactive cost alerts and regular usage reviews
+- Pitfall: Choosing inappropriate partitioning keys  
+  Solution: Select partitioning keys based on common query filters (especially date/timestamp) and data distribution.
+- Pitfall: Over-optimizing for cost at the expense of usability  
+  Solution: Balance cost optimization with query flexibility and development efficiency.
+- Pitfall: Insufficient monitoring leading to cost surprises  
+  Solution: Implement proactive cost alerts via GCP Budgets and regularly review usage patterns.
 
 **Self-Assessment: Advanced Processing & Development**
 
@@ -1679,7 +1675,7 @@ Test your understanding of the advanced data processing concepts covered in Chap
 
 1. What is the difference between partitioning and clustering in BigQuery?
 2. Explain the BigQuery pricing model and how it differs from traditional database pricing.
-3. How would you authenticate a Python application with BigQuery?
+3. How would you securely authenticate a Python application with BigQuery?
 4. Write a Python snippet that retrieves data from BigQuery and converts it to a pandas DataFrame.
 5. What strategies can you use to optimize BigQuery query costs?
 6. Explain how to properly type BigQuery schema definitions in Python.
@@ -1696,14 +1692,14 @@ Test your understanding of the advanced data processing concepts covered in Chap
 
 If you scored in the Beginner range, consider reviewing the BigQuery chapters before proceeding to integration topics.
 
-## Chapter 29: Google Sheets Integration
+## **Chapter 29: Google Sheets Integration**
 
 **Complexity: Moderate (M)**
 
 **Summary:** Connecting data systems with spreadsheets for business users.
 
 - **Google Sheets in the data ecosystem:** Role alongside databases
-- **Using gspread with authentication:** Connecting to spreadsheets
+- **Using gspread with authentication:** Connecting to spreadsheets securely (OAuth)
 - **Basic data operations:** Reading, writing, and formatting
 - **Spreadsheets as data sources and destinations:** Practical integration patterns
 - **Basic transformations:** Preparing spreadsheet data
@@ -1714,7 +1710,7 @@ Create a Python application that connects BigQuery or PostgreSQL with Google She
 
 **Objectives:**
 
-- Set up the gspread library and authentication
+- Set up the gspread library and secure OAuth authentication
 - Create a connection to your database (BigQuery or PostgreSQL)
 - Build functions to query data and write it to Google Sheets
 - Implement formatting and basic visualization in the spreadsheet
@@ -1724,29 +1720,28 @@ Create a Python application that connects BigQuery or PostgreSQL with Google She
 
 **Acceptance Criteria:**
 
-- Successfully authenticates with both Google Sheets and your database
+- Successfully authenticates securely with both Google Sheets (OAuth) and your database
 - Queries data from the database and writes it to spreadsheets
 - Properly formats data in spreadsheets (headers, data types, etc.)
 - Implements at least one visualization in the spreadsheet (charts, conditional formatting)
 - Successfully reads data from spreadsheets back into the database
 - Handles errors gracefully with appropriate messages
 - Includes validation for data being transferred in either direction
-- Documentation includes setup instructions and usage examples
+- Documentation includes secure setup instructions and usage examples
 - Implementation demonstrates at least one practical business workflow
 
-**Simplified Version:**
-Create a basic script that queries your database and writes the results to a Google Sheet with minimal formatting, without implementing the read-back functionality or visualizations.
-
+Simplified Version:  
+Create a basic script that queries your database and writes the results to a Google Sheet with minimal formatting, without implementing the read-back functionality or visualizations. Focus on secure OAuth setup.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Authentication issues with Google API
-  **Solution:** Follow the OAuth setup carefully and store credentials securely
-- **Pitfall:** Rate limiting when working with Google Sheets API
-  **Solution:** Implement batch operations and pause between API calls when needed
-- **Pitfall:** Data type conversion issues between systems
-  **Solution:** Explicitly handle data type conversions in both directions
+- Pitfall: Authentication issues with Google API (OAuth setup)  
+  Solution: Follow the OAuth 2.0 setup carefully, store client secrets securely, and manage tokens appropriately.
+- Pitfall: Rate limiting when working with Google Sheets API  
+  Solution: Implement batch operations and pause between API calls when needed. Check API quotas.
+- Pitfall: Data type conversion issues between systems  
+  Solution: Explicitly handle data type conversions in both directions.
 
-## Chapter 30: Advanced Data Processing with NumPy
+## **Chapter 30: Advanced Data Processing with NumPy**
 
 **Complexity: Moderate (M)**
 
@@ -1764,13 +1759,13 @@ Create a basic script that queries your database and writes the results to a Goo
 
 **Micro-Project:** Implement a data processing pipeline using NumPy for numerical operations.
 
-## Chapter 31: Advanced Pandas Techniques
+## **Chapter 31: Advanced Pandas Techniques**
 
 **Complexity: Moderate (M)**
 
 **Summary:** Sophisticated data manipulation with Pandas.
 
-**Building on:** This chapter extends the Pandas fundamentals from Chapter 3, taking your data manipulation capabilities to an advanced level. It builds on the Python foundations, error handling, and the advanced NumPy techniques from Chapter 30.
+**Building on:** This chapter extends the Pandas fundamentals from Chapter 3, taking your data manipulation capabilities to an advanced level. It builds on the Python foundations, error handling, and the advanced NumPy techniques from Chapter 30\.
 
 **Preparing for:** These advanced Pandas skills are essential for the data transformation work in later chapters. They'll be particularly valuable for the data visualization in Chapter 36, integration with web applications, and the ETL processes implemented with Airflow in Chapters 43-46.
 
@@ -1782,7 +1777,7 @@ Create a basic script that queries your database and writes the results to a Goo
 
 **Micro-Project:** Implement advanced data transformations with Pandas.
 
-## Chapter 32: Python Concurrency for Data Engineering
+## **Chapter 32: Python Concurrency for Data Engineering**
 
 **Estimated time: 52 minutes**
 
@@ -1796,7 +1791,7 @@ Create a basic script that queries your database and writes the results to a Goo
 
 **Micro-Project:** Create a parallel data processing script that demonstrates performance improvement.
 
-## Chapter 33: Advanced Concurrency for Data Engineering
+## **Chapter 33: Advanced Concurrency for Data Engineering**
 
 **Estimated time: 52 minutes**
 
@@ -1810,21 +1805,21 @@ Create a basic script that queries your database and writes the results to a Goo
 
 **Micro-Project:** Implement a hybrid concurrent data pipeline that handles both I/O and CPU bound tasks.
 
-## Chapter 34: Type-Safe Data Processing
+## **Chapter 34: Type-Safe Data Processing**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Ensuring reliability in data transformation code through typing.
 
 - **Typing NumPy arrays:** Working with typed numerical data
-- **Typing Pandas DataFrames:** Adding strong types to tabular data
+- **Typing Pandas DataFrames:** Adding strong types to tabular data (e.g., using pandera or type hints)
 - **Custom data model types:** Creating domain-specific type definitions
 - **Generic types for data processing:** Building reusable type components
 - **Type-safe concurrency:** Proper typing for async and parallel code
 
 **Micro-Project:** Add complete type annotations to a data processing pipeline.
 
-## Chapter 35: Testing Data Transformations
+## **Chapter 35: Testing Data Transformations**
 
 **Estimated time: 52 minutes**
 
@@ -1834,7 +1829,7 @@ Create a basic script that queries your database and writes the results to a Goo
 - **Testing with synthetic datasets:** Creating predictable test data
 - **Property-based testing:** Using Hypothesis to find edge cases
 - **Testing numerical accuracy:** Ensuring precise calculations
-- **Validation and quality assurance:** Input and output verification
+- **Validation and quality assurance:** Input and output verification (schema validation)
 
 **Micro-Project:** Create a comprehensive test suite for a data transformation module.
 
@@ -1861,7 +1856,7 @@ Test your understanding of the advanced data processing concepts covered in Chap
 
 If you scored in the Beginner range, consider reviewing the advanced processing chapters before proceeding to visualization and interactive development.
 
-## Chapter 36: Jupyter Notebooks for Data Development
+## **Chapter 36: Jupyter Notebooks for Data Development**
 
 **Estimated time: 52 minutes**
 
@@ -1870,12 +1865,12 @@ If you scored in the Beginner range, consider reviewing the advanced processing 
 - **Notebook interface:** Understanding the cell-based execution model
 - **Mixing code, markdown, and visualization:** Creating rich documents
 - **Data exploration workflows:** Iterative data discovery
-- **Database connectivity:** Connecting to and querying databases
+- **Database connectivity:** Connecting to and querying databases (securely)
 - **Visualization fundamentals:** Creating basic charts and graphs
 
 **Micro-Project:** Create a Jupyter notebook that analyzes data from your database.
 
-## Chapter 37: Data Access Patterns for Applications
+## **Chapter 37: Data Access Patterns for Applications**
 
 **Estimated time: 52 minutes**
 
@@ -1889,7 +1884,7 @@ If you scored in the Beginner range, consider reviewing the advanced processing 
 
 **Micro-Project:** Implement a data access layer for an application using one of these patterns.
 
-## Chapter 38: Advanced PostgreSQL Features
+## **Chapter 38: Advanced PostgreSQL Features**
 
 **Estimated time: 52 minutes**
 
@@ -1903,7 +1898,7 @@ If you scored in the Beginner range, consider reviewing the advanced processing 
 
 **Micro-Project:** Create reusable SQL snippets demonstrating these advanced features.
 
-## Chapter 39: PostgreSQL Performance Optimization
+## **Chapter 39: PostgreSQL Performance Optimization**
 
 **Estimated time: 52 minutes**
 
@@ -1917,7 +1912,7 @@ If you scored in the Beginner range, consider reviewing the advanced processing 
 
 **Micro-Project:** Analyze and optimize slow queries in a PostgreSQL database.
 
-## Chapter 40: BigQuery Advanced Optimization
+## **Chapter 40: BigQuery Advanced Optimization**
 
 **Estimated time: 52 minutes**
 
@@ -1954,7 +1949,7 @@ Test your understanding of the orchestration and operations concepts by answerin
 
 If you scored in the Beginner range, consider reviewing the database optimization chapters before proceeding to the visualization and BI tools.
 
-## Chapter 41: Data Visualization and BI Tools
+## **Chapter 41: Data Visualization and BI Tools**
 
 **Estimated time: 52 minutes**
 
@@ -1968,7 +1963,7 @@ If you scored in the Beginner range, consider reviewing the database optimizatio
 
 **Micro-Project:** Set up a BI tool connected to your database and create a dashboard.
 
-## Chapter 42: dbt for Data Transformation
+## **Chapter 42: dbt for Data Transformation**
 
 **Estimated time: 52 minutes**
 
@@ -1982,18 +1977,18 @@ If you scored in the Beginner range, consider reviewing the database optimizatio
 
 **Micro-Project:** Create a small dbt project for a business domain.
 
-## Chapter 43: Simple Scheduling with Python
+## **Chapter 43: Simple Scheduling with Python**
 
 **Complexity: Moderate (M)**
 
 **Summary:** Creating basic task schedulers for data processes.
 
-**Building on:** This chapter builds on your Python skills from earlier chapters, particularly the OOP concepts from Chapter 5 and error handling from Chapter 2. It applies these to solve the scheduling problem—a crucial aspect of data engineering.
+**Building on:** This chapter builds on your Python skills from earlier chapters, particularly the OOP concepts from Chapter 5 and error handling from Chapter 2\. It applies these to solve the scheduling problem—a crucial aspect of data engineering.
 
 **Preparing for:** This chapter directly prepares you for the Airflow concepts in Chapters 44-46. Understanding simple scheduling is essential before moving to full workflow orchestration. These concepts will also apply to containerized scheduling in Chapters 47-50 and are foundational for production data pipelines.
 
 - **Scheduling concepts:** Time-based and event-based approaches
-- **The `schedule` library:** Simple periodic task scheduling
+- The schedule library: Simple periodic task scheduling
 - **APScheduler:** More powerful scheduling capabilities
 - **Error handling and retries:** Building resilient scheduled tasks
 - **Logging and monitoring:** Tracking execution and failures
@@ -2002,9 +1997,11 @@ If you scored in the Beginner range, consider reviewing the database optimizatio
 
 Create a Python-based scheduler for data processing tasks that can run on a regular schedule.
 
+**(Note:** Debugging scheduling logic and error handling can take time.)
+
 **Objectives:**
 
-- Implement a scheduler using either the `schedule` library or APScheduler
+- Implement a scheduler using either the schedule library or APScheduler
 - Create multiple data processing tasks with different schedules
 - Add comprehensive logging for task execution and results
 - Implement error handling and retry logic
@@ -2022,19 +2019,18 @@ Create a Python-based scheduler for data processing tasks that can run on a regu
 - Command-line interface allows basic control (start, stop, status)
 - Documentation explains how to add new tasks to the scheduler
 
-**Simplified Version:**
-Create a basic scheduler with the `schedule` library that runs a single data processing task on a fixed interval, with simple error handling and console logging.
-
+Simplified Version:  
+Create a basic scheduler with the schedule library that runs a single data processing task on a fixed interval, with simple error handling and console logging.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Scheduler blocking on long-running tasks
-  **Solution:** Use threading or multiprocessing to run tasks in parallel
-- **Pitfall:** Memory leaks from long-running scheduler processes
-  **Solution:** Implement periodic restart mechanisms or use subprocess approach
-- **Pitfall:** Missed schedules due to task execution taking longer than interval
-  **Solution:** Track execution time and adjust scheduling accordingly
+- Pitfall: Scheduler blocking on long-running tasks  
+  Solution: Use threading or multiprocessing to run tasks in parallel
+- Pitfall: Memory leaks from long-running scheduler processes  
+  Solution: Implement periodic restart mechanisms or use subprocess approach
+- Pitfall: Missed schedules due to task execution taking longer than interval  
+  Solution: Track execution time and adjust scheduling accordingly
 
-## Chapter 44: Airflow Fundamentals
+## **Chapter 44: Airflow Fundamentals**
 
 **Complexity: Moderate (M)**
 
@@ -2042,7 +2038,7 @@ Create a basic scheduler with the `schedule` library that runs a single data pro
 
 **Building on:** This chapter builds on the simple scheduling concepts from Chapter 43, elevating them to full workflow orchestration. It leverages your Python skills, particularly OOP concepts from Chapter 5, to create more sophisticated workflow definitions.
 
-**Preparing for:** Understanding Airflow fundamentals is essential for the more advanced Airflow topics in Chapters 45-46 and 54. These concepts will also inform your work with other orchestration systems and are crucial for the capstone projects in Chapters 58-62, where you'll build complete data pipelines.
+**Preparing for:** Understanding Airflow fundamentals is essential for the more advanced Airflow topics in Chapters 45-46 and 54\. These concepts will also inform your work with other orchestration systems and are crucial for the capstone projects in Chapters 58-62, where you'll build complete data pipelines.
 
 - **Orchestration concepts:** Beyond simple scheduling
 - **Airflow architecture:** Core components
@@ -2054,9 +2050,11 @@ Create a basic scheduler with the `schedule` library that runs a single data pro
 
 Create a simple Airflow DAG that performs a basic extract, transform, load (ETL) process.
 
+**(Note:** Setting up a local Airflow environment for the first time can take a significant portion of a session.)
+
 **Objectives:**
 
-- Set up a local Airflow environment
+- Set up a local Airflow environment (e.g., using Docker Compose)
 - Create a DAG that performs a simple ETL process
 - Implement at least three tasks with dependencies
 - Use appropriate operators for each step
@@ -2074,19 +2072,18 @@ Create a simple Airflow DAG that performs a basic extract, transform, load (ETL)
 - DAG includes proper error handling
 - Implementation demonstrates understanding of Airflow concepts
 
-**Simplified Version:**
-Create a minimal Airflow DAG with two connected tasks that process a small dataset, focusing on the basic workflow structure rather than complex data operations.
-
+Simplified Version:  
+Create a minimal Airflow DAG with two connected tasks that process a small dataset, focusing on the basic workflow structure rather than complex data operations.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** DAG fails without clear error messages
-  **Solution:** Add extensive logging to each task for better visibility
-- **Pitfall:** Tasks running out of order despite dependencies
-  **Solution:** Double-check dependency definitions using proper operators
-- **Pitfall:** Environment variables not available in tasks
-  **Solution:** Configure variables properly in Airflow UI or config
+- Pitfall: DAG fails without clear error messages  
+  Solution: Add extensive logging to each task for better visibility. Check Airflow task logs.
+- Pitfall: Tasks running out of order despite dependencies  
+  Solution: Double-check dependency definitions using \>\>, \<\<, or set_downstream/set_upstream. Visualize the graph in the UI.
+- Pitfall: Environment variables or connections not available in tasks  
+  Solution: Configure variables and connections properly in Airflow UI or via environment variables/secrets backend.
 
-## Chapter 45: Airflow in Docker
+## **Chapter 45: Airflow in Docker**
 
 **Estimated time: 52 minutes**
 
@@ -2094,13 +2091,13 @@ Create a minimal Airflow DAG with two connected tasks that process a small datas
 
 - **Airflow Docker Compose setup:** Using the official configuration
 - **Volume configuration:** Persisting DAGs and logs
-- **Configuration management:** Setting options and environment variables
+- **Configuration management:** Setting options and environment variables (securely)
 - **Local development workflow:** Creating and testing DAGs
 - **Inter-container communication:** Connecting to databases
 
 **Micro-Project:** Set up a containerized Airflow environment.
 
-## Chapter 46: Building Complex Airflow Workflows
+## **Chapter 46: Building Complex Airflow Workflows**
 
 **Estimated time: 52 minutes**
 
@@ -2114,13 +2111,13 @@ Create a minimal Airflow DAG with two connected tasks that process a small datas
 
 **Micro-Project:** Create a data pipeline that extracts, transforms, and loads data between systems.
 
-## Chapter 47: Docker for Data Applications
+## **Chapter 47: Docker for Data Applications**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Containerizing data applications for consistent deployment.
 
-- **Dockerfile best practices:** Optimizing image builds
+- **Dockerfile best practices:** Optimizing image builds (security, size)
 - **Multi-stage builds:** Creating efficient images
 - **Docker networks:** Container communication patterns
 - **Docker Compose for data stacks:** Orchestrating multiple containers
@@ -2138,7 +2135,7 @@ Test your understanding of the workflow orchestration concepts covered in Chapte
 4. How would you implement error handling and retries in an Airflow task?
 5. What is the purpose of Jinja templating in Airflow workflows?
 6. How does Airflow manage dependencies between tasks?
-7. What considerations are important when containerizing Airflow with Docker?
+7. What considerations are important when containerizing Airflow with Docker (including security)?
 8. How would you implement a data pipeline that extracts from PostgreSQL and loads to BigQuery using Airflow?
 9. Explain the concept of SLAs in Airflow and how they're monitored.
 10. What is the advantage of using specialized operators (PostgresOperator, BigQueryOperator) versus generic operators (PythonOperator)?
@@ -2151,7 +2148,7 @@ Test your understanding of the workflow orchestration concepts covered in Chapte
 
 If you scored in the Beginner range, consider reviewing the Airflow chapters before proceeding to Kubernetes concepts.
 
-## Chapter 48: Kubernetes Fundamentals
+## **Chapter 48: Kubernetes Fundamentals**
 
 **Complexity: Advanced (A)**
 
@@ -2159,20 +2156,21 @@ If you scored in the Beginner range, consider reviewing the Airflow chapters bef
 
 **Building on:** This chapter builds on the Docker concepts from Chapter 10 and Chapter 47, taking containerization to the next level with orchestration. It represents a significant step up in complexity but leverages your understanding of containerized applications.
 
-**Preparing for:** Kubernetes is essential for scaling data applications in production environments. This foundation prepares you for deploying data applications (Chapter 49) and running databases in Kubernetes (Chapter 50). It's also crucial for running Airflow at scale (Chapter 54) and for the capstone projects in Chapters 58-62.
+**Preparing for:** Kubernetes is essential for scaling data applications in production environments. This foundation prepares you for deploying data applications (Chapter 49\) and running databases in Kubernetes (Chapter 50). It's also crucial for running Airflow at scale (Chapter 54\) and for the capstone projects in Chapters 58-62.
 
 - **Container orchestration concepts:** Beyond Docker Compose
 - **Kubernetes architecture:** Control plane and nodes
 - **Core objects:** Pods, Services, Deployments
 - **Declarative configuration:** YAML specification format
 - **kubectl basics:** Essential management commands
+- **Basic Security Concepts:** Namespaces, Secrets, RBAC overview
 
 **Detailed Time Estimates:**
 
 - **Kubernetes concepts and architecture:** 25-30 minutes
   - Understanding container orchestration problems: 10 minutes
   - Learning Kubernetes components and architecture: 15-20 minutes
-- **Setting up Kubernetes environment:** 30-45 minutes
+- **Setting up Kubernetes environment:** 30-45 minutes (Can take longer depending on method/issues)
   - Installing kubectl: 5-10 minutes
   - Setting up Minikube/kind or cloud access: 25-35 minutes
 - **Core Kubernetes objects:** 40-50 minutes
@@ -2191,7 +2189,7 @@ If you scored in the Beginner range, consider reviewing the Airflow chapters bef
 
 **Recommended approach:** Split this chapter across 3-4 lunch breaks:
 
-- Day 1: Kubernetes concepts, architecture, and setup
+- Day 1: Kubernetes concepts, architecture, and setup (allow extra time for setup)
 - Day 2: Core Kubernetes objects and YAML
 - Day 3: kubectl commands, debugging, and beginning the micro-project
 - Day 4 (if needed): Completing the micro-project and additional practice
@@ -2200,55 +2198,57 @@ If you scored in the Beginner range, consider reviewing the Airflow chapters bef
 
 Deploy a data processing application to Kubernetes.
 
+**(Note:** Kubernetes setup and first deployment often involve troubleshooting and take longer than estimated.)
+
 **Objectives:**
 
 - Create Kubernetes YAML manifests for a simple data application
 - Define a Deployment with appropriate configuration
 - Create a Service to expose the application
 - Set up a ConfigMap for application configuration
+- Use Kubernetes Secrets for any sensitive configuration (if applicable)
 - Deploy the application to a Kubernetes cluster (local or managed)
 - Verify the application is running correctly
 - Access the application using kubectl port-forward
 
 **Acceptance Criteria:**
 
-- Valid YAML manifests for Deployment, Service, and ConfigMap
+- Valid YAML manifests for Deployment, Service, ConfigMap (and Secret if used)
 - Application deploys successfully to the Kubernetes cluster
 - Pods are running without errors (check logs and status)
 - Service correctly exposes the application
 - Application can be accessed using port-forwarding
-- Application uses configuration from ConfigMap
+- Application uses configuration from ConfigMap/Secrets appropriately
 - Documentation explains the deployment process and how to verify it
 
-**Simplified Version:**
-Use a pre-built container image and focus on creating just the Deployment and Service manifests without ConfigMap.
-
+Simplified Version:  
+Use a pre-built container image and focus on creating just the Deployment and Service manifests without ConfigMap/Secrets.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** YAML indentation errors
-  **Solution:** Use an editor with YAML validation or run `kubectl apply --validate=true -f file.yaml`
-- **Pitfall:** Container crashes or won't start
-  **Solution:** Check logs with `kubectl logs pod-name` and pod status with `kubectl describe pod pod-name`
-- **Pitfall:** Service not connecting to pods
-  **Solution:** Verify that Service selector labels match pod labels exactly
-- **Pitfall:** Access issues when using managed clusters
-  **Solution:** Ensure proper authentication is configured with `kubectl config` commands
+- Pitfall: YAML indentation errors  
+  Solution: Use an editor with YAML validation or run kubectl apply \--validate=true \-f file.yaml
+- Pitfall: Container crashes or won't start (ImagePullBackOff, CrashLoopBackOff)  
+  Solution: Check logs (kubectl logs pod-name), pod status (kubectl describe pod pod-name), and events (kubectl get events). Ensure image is accessible and container runs correctly locally.
+- Pitfall: Service not connecting to pods  
+  Solution: Verify that Service selector labels match pod labels exactly. Check endpoints (kubectl get endpoints service-name).
+- Pitfall: Access issues when using managed clusters  
+  Solution: Ensure proper authentication is configured (kubectl config current-context) and necessary firewall rules/load balancer settings are in place (for external access).
 
-## Chapter 49: Deploying Data Applications to Kubernetes
+## **Chapter 49: Deploying Data Applications to Kubernetes**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Running data processing workloads in Kubernetes.
 
 - **StatefulSets:** Managing stateful applications
-- **ConfigMaps and Secrets:** Managing configuration
+- **ConfigMaps and Secrets:** Managing configuration securely
 - **Resource management:** Setting requests and limits
-- **Health checks:** Ensuring application availability
-- **Scaling applications:** Managing capacity
+- **Health checks:** Liveness and Readiness probes
+- **Scaling applications:** Managing capacity with Deployments/HPAs
 
 **Micro-Project:** Deploy a data processing application with configuration to Kubernetes.
 
-## Chapter 50: PostgreSQL in Kubernetes
+## **Chapter 50: PostgreSQL in Kubernetes**
 
 **Complexity: Advanced (A)**
 
@@ -2260,9 +2260,10 @@ Use a pre-built container image and focus on creating just the Deployment and Se
 
 - **Database containerization challenges:** Stateful workload considerations
 - **StatefulSets for PostgreSQL:** Proper deployment patterns
-- **Data persistence:** Managing volumes for databases
-- **Backup and recovery:** Protecting data in containers
-- **Configuration tuning:** Optimizing for containerized environments
+- **Data persistence:** Persistent Volumes (PVs) and Persistent Volume Claims (PVCs)
+- **Backup and recovery:** Protecting data in containers (e.g., using CronJobs, volume snapshots)
+- **Configuration tuning:** Optimizing for containerized environments (using ConfigMaps/Secrets)
+- **Security:** Network Policies, Secrets management, RBAC
 
 **Detailed Time Estimates:**
 
@@ -2274,7 +2275,7 @@ Use a pre-built container image and focus on creating just the Deployment and Se
   - StatefulSet concepts: 10 minutes
   - Persistent Volume Claims: 10 minutes
   - PostgreSQL configuration in Kubernetes: 10-20 minutes
-- **Deployment and configuration:** 40-60 minutes
+- **Deployment and configuration:** 40-60 minutes (Likely longer in practice)
   - Writing StatefulSet manifests: 15-20 minutes
   - Configuring persistent storage: 10-15 minutes
   - Setting up initialization scripts: 15-25 minutes
@@ -2290,39 +2291,43 @@ Use a pre-built container image and focus on creating just the Deployment and Se
 **Recommended approach:** Split this chapter across 3-4 lunch breaks:
 
 - Day 1: Database containerization concepts and StatefulSet basics
-- Day 2: Persistent storage and PostgreSQL configuration
+- Day 2: Persistent storage and PostgreSQL configuration (YAML)
 - Day 3: Backup strategies and health monitoring
-- Day 4: Complete the micro-project implementation
+- Day 4: Complete the micro-project implementation and testing (allow extra time)
 
-**Building on:** This chapter combines your PostgreSQL knowledge from Chapters 16-20 with the Kubernetes fundamentals from Chapter 48. It represents an advanced integration of database systems with container orchestration.
+**Building on:** This chapter combines your PostgreSQL knowledge from Chapters 16-20 with the Kubernetes fundamentals from Chapter 48\. It represents an advanced integration of database systems with container orchestration.
 
 **Preparing for:** The patterns learned here will be essential for production-grade data infrastructure. This chapter prepares you for monitoring complex systems, implementing CI/CD for databases, and designing high-availability data solutions.
 
 **Micro-Project: Production PostgreSQL in Kubernetes**
 
+**(Note:** This is a complex project involving stateful workloads and requires careful attention to detail. Allow ample time for setup and testing.)
+
 **Objectives:**
 
 - Create a StatefulSet manifest for PostgreSQL
 - Configure persistent volume claims for data storage
-- Set up proper initialization and configuration
-- Implement basic monitoring and health checks
+- Set up proper initialization and configuration using ConfigMaps/Secrets
+- Implement basic monitoring and health checks (liveness/readiness probes)
 - Create a backup solution using CronJobs
 - Configure appropriate resource requests and limits
-- Test failover scenarios
+- Optionally, configure basic Network Policies for security
+- Test failover scenarios (e.g., delete a pod)
 
 **Go Criteria:**
 
 - PostgreSQL StatefulSet successfully deploys to Kubernetes
 - Database data persists across pod restarts and rescheduling
 - Appropriate resource limits and requests are configured
-- Health checks are implemented and working
-- Backup CronJob successfully creates database dumps
+- Health checks are implemented and working correctly
+- Backup CronJob successfully creates database dumps to a persistent location
 - Connection information is accessible via Kubernetes Services
+- Secrets are used for sensitive credentials
 - Documentation includes operational procedures:
   - How to connect to the database
   - How to perform backups and restores
   - How to check database health
-  - How to update configuration
+  - How to update configuration securely
 
 **No-Go Criteria:**
 
@@ -2330,48 +2335,47 @@ Use a pre-built container image and focus on creating just the Deployment and Se
 - Missing or incorrectly configured persistent volumes
 - No health checks implemented
 - Inadequate resource limits leading to instability
-- Lack of backup mechanism
+- Lack of reliable backup mechanism
 - No monitoring or logging configuration
-- Poor security practices (default passwords, no network policies)
+- Poor security practices (passwords in ConfigMaps, no Network Policies, default passwords)
 - Missing operational documentation
 
-**Simplified Version:**
-Deploy PostgreSQL using a Helm chart with default configurations, and focus only on verifying persistence and connectivity.
-
+Simplified Version:  
+Deploy PostgreSQL using a Helm chart (like Bitnami's) with custom values for persistence and basic security, focusing on verifying persistence and connectivity rather than writing manifests from scratch.  
 **Bridging Note:** If you completed the simplified version, ensure you understand the concept of StatefulSets and why they're important for databases before proceeding. Also review Kubernetes persistent volume concepts, as these are critical for data integrity in production environments.
 
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Data loss during pod rescheduling
-  **Solution:** Ensure proper persistent volume configuration and storage class settings
-- **Pitfall:** Performance issues with default PostgreSQL settings
-  **Solution:** Adjust PostgreSQL configuration parameters based on available resources
-- **Pitfall:** Connection issues between applications and database
-  **Solution:** Use Kubernetes DNS for service discovery (e.g., postgresql.namespace.svc.cluster.local)
-- **Pitfall:** Incomplete backup solutions
-  **Solution:** Ensure backups are stored outside the cluster and regularly tested
+- Pitfall: Data loss during pod rescheduling  
+  Solution: Ensure proper persistent volume configuration (PVCs), storage class settings (e.g., reclaimPolicy: Retain), and StatefulSet volumeClaimTemplates.
+- Pitfall: Performance issues with default PostgreSQL settings  
+  Solution: Adjust PostgreSQL configuration parameters (via ConfigMap) based on available pod resources (requests/limits).
+- Pitfall: Connection issues between applications and database  
+  Solution: Use Kubernetes DNS for service discovery (e.g., service-name.namespace.svc.cluster.local). Ensure Network Policies allow traffic if used.
+- Pitfall: Incomplete backup solutions  
+  Solution: Ensure backups are stored outside the cluster (e.g., cloud storage bucket) and regularly tested for restoration.
 
-## Checkpoint 3: Infrastructure and Deployment Review
+## **Checkpoint 3: Infrastructure and Deployment Review**
 
 **Complexity: Moderate (M)**
 
 **Summary:** This checkpoint chapter reviews and integrates the infrastructure and deployment concepts covered in recent chapters, focusing on containerization, orchestration, and operational concerns.
 
-- **Container ecosystem review:** Docker concepts and best practices
+- **Container ecosystem review:** Docker concepts and best practices (including security)
 - **Orchestration patterns:** From Docker Compose to Kubernetes
-- **Stateful vs. stateless workloads:** Handling data persistence
-- **Database deployment strategies:** Ensuring reliability and performance
+- **Stateful vs. stateless workloads:** Handling data persistence securely
+- **Database deployment strategies:** Ensuring reliability, performance, and security
 - **Operational considerations:** Monitoring, backup, and disaster recovery
 
 **Micro-Project: Infrastructure Documentation and Runbook**
 
-Create comprehensive documentation and operational procedures for a data infrastructure deployment.
+Create comprehensive documentation and operational procedures for a containerized data infrastructure deployment.
 
 **Objectives:**
 
 - Document the architecture of a containerized data infrastructure
 - Create deployment diagrams showing system components
-- Develop runbook procedures for common operational tasks
+- Develop runbook procedures for common operational tasks (including security checks)
 - Document backup and recovery processes
 - Create troubleshooting guides for common issues
 - Implement a sample monitoring dashboard template
@@ -2380,31 +2384,31 @@ Create comprehensive documentation and operational procedures for a data infrast
 
 - Architecture documentation includes:
   - Component diagram showing all services
-  - Network flow documentation
+  - Network flow documentation (mentioning security boundaries like Network Policies)
   - Storage configuration details
-  - Security considerations
+  - Security considerations (credential management, access control)
 - Runbook procedures cover at least:
   - Deployment and updates
   - Scaling operations
   - Backup and recovery
   - Monitoring and alerting
   - Disaster recovery
+  - Basic security checks/audits
 - Troubleshooting guides address common failure scenarios
 - Monitoring dashboard template shows key metrics to track
 - Documentation follows a clear, consistent format
 - Technical accuracy of all procedures is verified
 
-**Simplified Version:**
-Focus on documenting just the architecture and basic deployment procedures for a simpler system with fewer components.
-
+Simplified Version:  
+Focus on documenting just the architecture and basic deployment procedures for a simpler system with fewer components, including key security notes.  
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Documentation that's too theoretical without practical steps
-  **Solution:** Include specific commands and expected outputs for each procedure
-- **Pitfall:** Assuming reader knowledge level
-  **Solution:** Define prerequisites clearly and link to reference documentation
-- **Pitfall:** Procedures that aren't tested in practice
-  **Solution:** Verify all procedures work by actually performing them in a test environment
+- Pitfall: Documentation that's too theoretical without practical steps  
+  Solution: Include specific commands and expected outputs for each procedure
+- Pitfall: Assuming reader knowledge level  
+  Solution: Define prerequisites clearly and link to reference documentation
+- Pitfall: Procedures that aren't tested in practice  
+  Solution: Verify all procedures work by actually performing them in a test environment
 
 **Self-Assessment: Infrastructure and Deployment**
 
@@ -2416,8 +2420,8 @@ Test your understanding of the infrastructure and deployment concepts covered in
 4. What monitoring considerations are specific to containerized databases?
 5. Describe a proper backup and recovery strategy for a PostgreSQL database running in Kubernetes.
 6. What resource limits would you configure for a PostgreSQL pod and why?
-7. How would you handle configuration changes to a database running in Kubernetes?
-8. What security considerations should be addressed when deploying databases in containers?
+7. How would you handle configuration changes to a database running in Kubernetes securely?
+8. What security considerations (e.g., Network Policies, Secrets, RBAC) should be addressed when deploying databases in containers?
 9. Explain the concept of liveness and readiness probes and why they're important.
 10. How would you implement high availability for a PostgreSQL database in Kubernetes?
 
@@ -2429,7 +2433,7 @@ Test your understanding of the infrastructure and deployment concepts covered in
 
 If you scored in the Beginner range, consider reviewing the infrastructure chapters before proceeding to monitoring and CI/CD topics.
 
-## Chapter 52: Monitoring Technologies
+## **Chapter 52: Monitoring Technologies**
 
 **Estimated time: 52 minutes**
 
@@ -2437,79 +2441,79 @@ If you scored in the Beginner range, consider reviewing the infrastructure chapt
 
 - **Prometheus:** Collecting and querying metrics
 - **Grafana:** Building dashboards and visualizations
-- **Database-specific monitoring:** PostgreSQL and BigQuery
-- **Pipeline monitoring:** Tracking Airflow execution
-- **Log aggregation:** Centralizing logs for analysis
+- **Database-specific monitoring:** PostgreSQL and BigQuery exporters/metrics
+- **Pipeline monitoring:** Tracking Airflow execution (statsd, Prometheus exporter)
+- **Log aggregation:** Centralizing logs for analysis (e.g., EFK/Loki stack concepts)
 
 **Micro-Project:** Set up basic monitoring for a data application.
 
-## Chapter 53: Slack Integration for Operations
+## **Chapter 53: Slack Integration for Operations**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Using chat platforms for operational visibility and response.
 
 - **ChatOps concepts:** Operational management in chat
-- **Notification design:** Creating actionable alerts
+- **Notification design:** Creating actionable alerts (from Prometheus Alertmanager/Grafana)
 - **Alert routing:** Targeting the right channels
 - **Rich formatting:** Visual, structured messages
 - **Incident management workflows:** Coordinating through Slack
 
 **Micro-Project:** Create advanced Slack notifications for a data pipeline.
 
-## Chapter 54: Airflow in Kubernetes
+## **Chapter 54: Airflow in Kubernetes**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Running workflow orchestration at scale.
 
-- **KubernetesExecutor:** Scaling task execution
-- **Resource management:** Controlling CPU and memory
-- **High availability:** Ensuring orchestration reliability
+- **KubernetesExecutor:** Scaling task execution dynamically
+- **Resource management:** Controlling CPU and memory per task
+- **High availability:** Ensuring orchestration reliability (multiple schedulers/webservers)
 - **Helm for deployment:** Package management for Airflow
-- **Monitoring Airflow in Kubernetes:** Specialized observability
+- **Monitoring Airflow in Kubernetes:** Specialized observability (metrics, logs)
 
 **Micro-Project:** Deploy Airflow to Kubernetes using Helm.
 
-## Chapter 55: CI/CD Fundamentals
+## **Chapter 55: CI/CD Fundamentals**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Automating testing and deployment for data applications.
 
-- **CI/CD concepts:** Continuous integration and delivery
+- **CI/CD concepts:** Continuous integration and delivery/deployment
 - **GitHub Actions basics:** Workflows, jobs, and steps
-- **Automated testing:** Validating changes automatically
-- **Docker image building:** Creating and pushing containers
-- **Deployment automation:** Consistent application updates
+- **Automated testing:** Running pytest suites automatically
+- **Docker image building:** Creating and pushing containers securely (scanning images)
+- **Deployment automation:** Consistent application updates (e.g., updating K8s manifests)
 
 **Micro-Project:** Create a GitHub Actions workflow for a data application.
 
-## Chapter 56: Database CI/CD
+## **Chapter 56: Database CI/CD**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Safely automating database schema changes.
 
-- **Database migration tools:** Managing schema versions
-- **Testing schema changes:** Validating migrations
-- **Schema validation in CI:** Automated checks
-- **Deployment strategies:** Safe approaches to schema updates
-- **Data quality validation:** Ensuring data integrity
+- **Database migration tools:** Alembic, Flyway concepts
+- **Testing schema changes:** Validating migrations in CI
+- **Schema validation in CI:** Automated checks against target environments
+- **Deployment strategies:** Safe approaches to schema updates (blue/green, canary concepts)
+- **Data quality validation:** Ensuring data integrity post-migration
 
-**Micro-Project:** Implement a CI/CD pipeline for database migrations.
+**Micro-Project:** Implement a CI/CD pipeline for database migrations using a tool like Alembic.
 
-## Chapter 57: Advanced PostgreSQL Management
+## **Chapter 57: Advanced PostgreSQL Management**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Enterprise-grade database administration techniques.
 
-- **High availability configurations:** Ensuring database uptime
-- **Replication strategies:** Data redundancy approaches
-- **Backup and disaster recovery:** Comprehensive data protection
-- **Security hardening:** Protecting sensitive data
-- **Performance monitoring:** Long-term optimization
+- **High availability configurations:** Patroni, Pgpool-II concepts
+- **Replication strategies:** Streaming vs. Logical replication
+- **Backup and disaster recovery:** Point-in-Time Recovery (PITR)
+- **Security hardening:** Authentication methods, encryption (SSL), auditing
+- **Performance monitoring:** Long-term optimization (pg_stat_statements, etc.)
 
 **Micro-Project:** Design a high-availability database strategy.
 
@@ -2517,16 +2521,16 @@ If you scored in the Beginner range, consider reviewing the infrastructure chapt
 
 Test your understanding of the advanced operations concepts covered in recent chapters by answering these questions:
 
-1. What metrics would you monitor for a PostgreSQL database and how would you collect them?
+1. What metrics would you monitor for a PostgreSQL database and how would you collect them using Prometheus?
 2. Explain the purpose of liveness and readiness probes in Kubernetes.
-3. How does the KubernetesExecutor in Airflow differ from other executors?
-4. What steps would you include in a CI/CD pipeline for a database schema change?
-5. Describe a strategy for implementing high availability for PostgreSQL.
-6. How would you implement effective Slack notifications for operational events?
+3. How does the KubernetesExecutor in Airflow differ from other executors like CeleryExecutor?
+4. What steps would you include in a CI/CD pipeline for a database schema change using Alembic?
+5. Describe a strategy for implementing high availability for PostgreSQL using Patroni.
+6. How would you implement effective Slack notifications for operational events using Alertmanager?
 7. What is the difference between streaming replication and logical replication in PostgreSQL?
-8. Explain the concept of GitOps and how it applies to infrastructure management.
-9. What considerations are important when implementing backup strategies for containerized databases?
-10. How would you approach security hardening for a PostgreSQL instance in Kubernetes?
+8. Explain the concept of GitOps and how it applies to infrastructure management (e.g., using ArgoCD or Flux).
+9. What considerations are important when implementing backup strategies (like PITR) for containerized databases?
+10. How would you approach security hardening for a PostgreSQL instance in Kubernetes (mentioning specific techniques)?
 
 **Proficiency Indicators:**
 
@@ -2536,56 +2540,56 @@ Test your understanding of the advanced operations concepts covered in recent ch
 
 If you scored in the Beginner range, consider reviewing the operational chapters before proceeding to the capstone project.
 
-## Chapter 58: Capstone Project Planning
+## **Chapter 58: Capstone Project Planning**
 
 **Estimated time: 52 minutes**
 
 **Summary:** Preparing to build a comprehensive data engineering solution.
 
-- **Requirement analysis:** Defining project scope
-- **Architecture design:** Planning system components
-- **Technology selection:** Choosing appropriate tools
-- **Implementation roadmap:** Breaking down the development process
-- **Testing strategy:** Ensuring system reliability
+- **Requirement analysis:** Defining project scope and deliverables
+- **Architecture design:** Planning system components and interactions
+- **Technology selection:** Choosing appropriate tools from the curriculum
+- **Implementation roadmap:** Breaking down the development process into manageable tasks
+- **Testing strategy:** Planning unit, integration, and end-to-end tests
+- **Security considerations:** Planning for secure credential management and access control
 
 **Micro-Project:** Create a detailed project plan for your capstone.
 
-## Chapter 59: Capstone Project Implementation Part 1
+## **Chapter 59: Capstone Project Implementation Part 1**
 
-**Estimated time: 52 minutes**
+**Estimated time: 52 minutes (Likely multiple sessions needed)**
 
 **Summary:** Building the data storage and ingestion components.
 
-- **Infrastructure setup:** Preparing the environment
-- **Schema implementation:** Creating database structures
-- **Extract process:** Building data ingestion components
-- **Initial transformation:** First-stage data processing
-- **Testing components:** Validating the foundation
+- **Infrastructure setup:** Preparing the environment (Docker, K8s if used)
+- **Schema implementation:** Creating database structures (transactional, analytical)
+- **Extract process:** Building data ingestion components (API, file, DB)
+- **Initial transformation:** First-stage data processing/cleaning
+- **Testing components:** Validating the foundation with unit/integration tests
 
 **Micro-Project:** Implement the data storage and ingestion layer of your capstone.
 
-## Chapter 60: Capstone Project Implementation Part 2
+## **Chapter 60: Capstone Project Implementation Part 2**
 
-**Estimated time: 52 minutes**
+**Estimated time: 52 minutes (Likely multiple sessions needed)**
 
 **Summary:** Building the transformation and processing layer.
 
-- **Transformation logic:** Implementing business rules
-- **Data quality checks:** Validating processing results
-- **Pipeline orchestration:** Scheduling and dependencies
-- **Monitoring implementation:** Observing system health
+- **Transformation logic:** Implementing business rules (Pandas, SQL, dbt)
+- **Data quality checks:** Validating processing results (dbt tests, custom checks)
+- **Pipeline orchestration:** Scheduling and dependencies (Airflow DAGs)
+- **Monitoring implementation:** Observing system health (basic metrics/logging)
 - **Testing the pipeline:** End-to-end validation
 
 **Micro-Project:** Implement the transformation and processing layer of your capstone.
 
-## Chapter 61-62: Capstone Project Implementation
+## **Chapter 61-62: Capstone Project Implementation**
 
-**Complexity: Advanced (A)**
-_This topic is rated Advanced because it requires integration of multiple complex technologies into a cohesive system, demands sophisticated architectural decision-making, and tests your ability to implement end-to-end data engineering solutions with appropriate monitoring, security, and documentation._
+Complexity: Advanced (A)  
+This topic is rated Advanced because it requires integration of multiple complex technologies into a cohesive system, demands sophisticated architectural decision-making, and tests your ability to implement end-to-end data engineering solutions with appropriate monitoring, security, and documentation. Expect this to take significantly longer than the estimated time.  
+**Summary:** Building a comprehensive data engineering solution that integrates multiple aspects of the curriculum into a cohesive system. This extended project spans two chapters (likely requiring 5-8+ lunch breaks or dedicated time) to allow sufficient time for development, testing, and documentation.
 
-**Summary:** Building a comprehensive data engineering solution that integrates multiple aspects of the curriculum into a cohesive system. This extended project spans two chapters to allow sufficient time for development.
-
-**Building on:** This capstone project integrates concepts from the entire curriculum, requiring you to synthesize knowledge from Python fundamentals, database systems, data processing, orchestration, containerization, and monitoring into a cohesive solution.
+**Building on:** This capstone project integrates concepts from the entire curriculum, requiring you to synthesize knowledge from Python fundamentals, database systems, data processing, orchestration, containerization, monitoring, and security into a cohesive solution.
 
 **Preparing for:** This project represents the culmination of your learning journey. The end-to-end solution you create will demonstrate your ability to design and implement production-grade data engineering systems, preparing you for real-world data engineering challenges.
 
@@ -2594,6 +2598,7 @@ _This topic is rated Advanced because it requires integration of multiple comple
 - **Integration strategy:** Connecting system components
 - **Testing methodology:** Validating the complete system
 - **Documentation standards:** Creating comprehensive project documentation
+- **Security Implementation:** Ensuring secure practices throughout
 
 **Detailed Time Estimates:**
 
@@ -2621,22 +2626,18 @@ _This topic is rated Advanced because it requires integration of multiple comple
   - Component testing: 15-20 minutes
   - End-to-end testing: 15-25 minutes
 
-**Total estimated time: 270-405 minutes (5-8 lunch breaks)**
+**Total estimated time: 270-405 minutes (5-8 lunch breaks or equivalent dedicated time)**
 
-**Recommended approach:** Split this chapter across 6-8 lunch breaks:
+**Recommended approach:** Split this chapter across multiple sessions:
 
-- Day 1: Project planning and architecture
-- Day 2: Database schema design and setup
-- Day 3: Data extraction implementation
-- Day 4: Transformation logic development
-- Day 5: Pipeline orchestration
-- Day 6: Monitoring and operations
-- Day 7: Testing and validation
-- Day 8: Documentation and finalization
-
-**Building on:** This capstone project integrates concepts from the entire curriculum, requiring you to synthesize knowledge from Python fundamentals, database systems, data processing, orchestration, containerization, and monitoring into a cohesive solution.
-
-**Preparing for:** This project represents the culmination of your learning journey. The end-to-end solution you create will demonstrate your ability to design and implement production-grade data engineering systems, preparing you for real-world data engineering challenges.
+- Session 1: Project planning and architecture refinement
+- Session 2: Database schema design and setup
+- Session 3: Data extraction implementation & testing
+- Session 4: Transformation logic development & testing
+- Session 5: Pipeline orchestration setup & testing
+- Session 6: Monitoring, operations, security implementation
+- Session 7: End-to-end testing and validation
+- Session 8: Documentation finalization
 
 **Extended Micro-Project: End-to-End Data Engineering System**
 
@@ -2647,73 +2648,61 @@ _This topic is rated Advanced because it requires integration of multiple comple
 - Load processed data into analytical storage
 - Set up orchestration for the pipeline
 - Add monitoring and alerting
-- Deploy the solution using containerization
+- Deploy the solution using containerization (Docker Compose or Kubernetes)
 - Implement appropriate testing at all levels
+- Incorporate security best practices (credential handling, access control)
 - Create comprehensive documentation
 
 **Go Criteria:**
 
-- Architecture diagram clearly shows all system components
+- Architecture diagram clearly shows all system components and data flow
 - Data pipeline successfully extracts from at least two sources
 - Transformation logic implements business rules correctly
 - Processed data is stored in appropriate formats for analysis
-- Orchestration handles scheduling and dependencies
+- Orchestration handles scheduling and dependencies reliably
 - Containerization provides consistent deployment
-- Monitoring captures system health and performance
+- Monitoring captures system health and performance; basic alerts configured
+- Security best practices are followed (no hardcoded secrets, least privilege where applicable)
 - Documentation includes:
   - Setup instructions
   - Architectural decisions
   - Data lineage
   - Testing approach
   - Operational procedures
+  - Security considerations
 
 **No-Go Criteria:**
 
 - Missing integration between system components
-- Data quality issues not addressed
-- Pipeline failures not properly handled
+- Data quality issues not addressed or tested
+- Pipeline failures not properly handled or logged
 - Lack of monitoring or alerting
-- Security concerns (credentials in code, unnecessary exposure)
+- Obvious security concerns (credentials in code, unnecessary exposure)
 - Unstable containerized deployment
 - Missing or incomplete documentation
-- No testing strategy implemented
-- Performance issues with larger data volumes
+- No effective testing strategy implemented
+- Performance issues with larger data volumes not considered
 
-**Implementation Strategy:**
-Given the complexity of this project, split the work across multiple lunch breaks:
-
-**Days 1-2 (Chapter 61):**
-
-- Design the architecture
-- Implement the extraction and transformation components
-- Set up the data storage solution
-- Create initial tests for components
-
-**Days 3-4 (Chapter 62):**
-
-- Implement orchestration
-- Add monitoring and alerting
-- Containerize the solution
-- Complete testing
-- Finalize documentation
-
-**Simplified Version:**
-Create a pipeline with a single data source, basic transformations, and simplified orchestration, focusing on end-to-end functionality rather than sophistication.
-
-**Bridging Note:** If you completed the simplified version, consider gradually enhancing your solution over time by adding additional data sources, more complex transformations, and improved monitoring. The simplified version should still demonstrate the full data lifecycle from extraction to analysis, even if at a smaller scale.
+Implementation Strategy:  
+Given the complexity of this project, split the work across multiple sessions as suggested above. Focus on getting a minimal viable pipeline working end-to-end first, then iterate to add features, complexity, and robustness.  
+Simplified Version:  
+Create a pipeline with a single data source, basic transformations, and simplified orchestration (e.g., simple Python scheduler or basic Airflow DAG), focusing on end-to-end functionality rather than sophistication. Deploy using Docker Compose.  
+**Bridging Note:** If you completed the simplified version, consider gradually enhancing your solution over time by adding additional data sources, more complex transformations, improved monitoring (Prometheus/Grafana), more robust orchestration (complex Airflow DAGs), and potentially deploying to Kubernetes. The simplified version should still demonstrate the full data lifecycle from extraction to analysis, even if at a smaller scale.
 
 **Common Pitfalls and Solutions:**
 
-- **Pitfall:** Scope creep leading to an unfinished project
-  **Solution:** Start with a minimal viable product and add features incrementally
-- **Pitfall:** Integration issues between components
-  **Solution:** Test each integration point early and often
-- **Pitfall:** Over-engineering the solution
-  **Solution:** Focus on solving the actual problem rather than implementing every possible feature
-- **Pitfall:** Performance bottlenecks with larger data volumes
-  **Solution:** Test with realistic data volumes and implement appropriate optimizations
-- **Pitfall:** Deployment issues in containerized environments
-  **Solution:** Use Docker Compose for local testing before deploying to production environments
+- Pitfall: Scope creep leading to an unfinished project  
+  Solution: Start with a minimal viable product and add features incrementally. Stick to the plan.
+- Pitfall: Integration issues between components  
+  Solution: Test each integration point early and often. Define clear interfaces/contracts between components.
+- Pitfall: Over-engineering the solution  
+  Solution: Focus on solving the actual problem rather than implementing every possible feature just because it was covered.
+- Pitfall: Performance bottlenecks with larger data volumes  
+  Solution: Test with realistic data volumes if possible, or anticipate bottlenecks and implement appropriate optimizations (indexing, partitioning, efficient code).
+- Pitfall: Deployment issues in containerized environments  
+  Solution: Use Docker Compose for local testing before deploying to production-like environments (e.g., Kubernetes). Ensure configurations are environment-agnostic.
+- Pitfall: Underestimating testing and documentation effort  
+  Solution: Allocate specific time slots for testing and documentation throughout the project, not just at the end.
 
 **Final Self-Assessment: Capstone Project**
 
@@ -2724,7 +2713,7 @@ After completing your capstone project, assess your overall data engineering kno
 3. How did you ensure data quality throughout your pipeline?
 4. Explain your approach to testing the various components of your system.
 5. What monitoring and alerting did you implement, and why did you choose these specific metrics?
-6. How did you handle security concerns in your implementation?
+6. How did you handle security concerns (like credential management) in your implementation?
 7. If you were to scale your solution to handle 10x the data volume, what changes would you make?
 8. What deployment strategy did you use, and how would you improve it for a production environment?
 9. How did you orchestrate the different components of your pipeline?
@@ -2738,28 +2727,23 @@ After completing your capstone project, assess your overall data engineering kno
 
 This final assessment serves as both a reflection on your capstone project and a comprehensive review of the data engineering concepts you've learned throughout this curriculum.
 
-## Conclusion
+## **Conclusion**
 
-This lunch break curriculum provides a structured path to becoming proficient in data engineering. By dedicating just a lunch break each day to focused learning, you can systematically build your skills from basic Python to advanced data engineering concepts.
+This lunch break curriculum provides a structured path to gaining foundational knowledge and practical familiarity in data engineering. By dedicating focused learning time, you can systematically build your skills from basic Python to advanced data engineering concepts. Remember that mastering complex topics and completing involved projects or environment setups may require flexibility beyond the 52-minute target per chapter.
 
-The micro-projects in each chapter provide immediate practical application of the concepts, ensuring that you're not just learning theory but building real skills. As you progress through the curriculum, these projects will combine to create a portfolio of data engineering work that demonstrates your capabilities.
+The micro-projects in each chapter provide immediate practical application of the concepts, ensuring that you're not just learning theory but building fundamental skills. As you progress through the curriculum, these projects will combine to create a portfolio of data engineering work that demonstrates your capabilities.
 
 **Key Learning Strategies:**
 
-1. **Be consistent** - Regular practice during these lunch breaks will compound over time, leading to comprehensive expertise.
+1. **Be consistent** \- Regular practice during these lunch breaks will compound over time, leading to comprehensive expertise.
+2. **Pay attention to complexity ratings and time estimates** \- Plan accordingly for Advanced topics which require additional time or preparation. Use the detailed time estimates to break complex topics into manageable segments, and be prepared to spend multiple sessions if needed.
+3. **Use checkpoint chapters and self-assessments effectively** \- These integration points help solidify learning before moving to new topics and identify any knowledge gaps that need attention.
+4. **Don't hesitate to use simplified versions**. Even if time is limited, the simplified project versions still provide valuable practice.
+5. **Review troubleshooting tips before starting** \- Being aware of common pitfalls can save significant time, especially during setup and debugging.
+6. **Build incrementally** \- Each project builds on previous knowledge; focus on mastering current concepts before moving forward.
+7. **Reference previous work** \- Use code and solutions from earlier projects when implementing more advanced concepts.
+8. **Prioritize Security** \- Consider security implications (especially credential handling) throughout the development process.
 
-2. **Pay attention to complexity ratings and time estimates** - Plan accordingly for Advanced topics, which require additional time or preparation. Use the detailed time estimates to break complex topics into manageable segments.
+If you encounter significant challenges with any topic, remember that it's normal and part of the learning process. Take the time to understand complex concepts thoroughly before moving on, even if it means spending multiple lunch breaks on a single chapter.
 
-3. **Use checkpoint chapters and self-assessments effectively** - These integration points help solidify learning before moving to new topics and identify any knowledge gaps that need attention.
-
-4. **Don't hesitate to use simplified versions** - If time is limited, the simplified project versions still provide valuable practice.
-
-5. **Review troubleshooting tips before starting** - Being aware of common pitfalls can save significant time.
-
-6. **Build incrementally** - Each project builds on previous knowledge; focus on mastering current concepts before moving forward.
-
-7. **Reference previous work** - Use code and solutions from earlier projects when implementing more advanced concepts.
-
-If you encounter significant challenges with any topic, remember that it's normal and part of the learning process. Take the time to understand difficult concepts thoroughly before moving on, even if it means spending multiple lunch breaks on a single chapter.
-
-By the end of this curriculum, you'll have developed practical skills in Python programming, database management, data processing, workflow orchestration, containerization, and monitoring—the core competencies of a professional data engineer.
+By the end of this curriculum, you'll have developed foundational skills and practical familiarity in Python programming, database management, data processing, workflow orchestration, containerization, and monitoring, laying a strong foundation for a career as a professional data engineer.
