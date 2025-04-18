@@ -9,531 +9,968 @@ weight: 3
 
 ## 2.0 Introduction: Why This Matters for Data Engineering
 
-As a data engineer, you'll spend much of your time moving data between systems, transforming it, and ensuring its quality. The skills in this chapter form the foundation of robust data pipelines:
-
-- **File operations** are essential for ingesting data from sources and writing results to destinations
-- **Error handling** is critical for building resilient data pipelines that don't fail completely when encountering bad data
-- **List comprehensions** provide efficient ways to transform data in memory
-- **Working with data formats** (CSV, JSON) is fundamental as these are common interchange formats between systems
-- **Modules** from Python's standard library provide powerful tools that simplify common data tasks
-
-Even as you progress to more advanced tools like Pandas, PostgreSQL, and BigQuery, these fundamental skills will remain relevant. Every data pipeline needs to handle potential errors gracefully, and understanding these basics will help you debug issues in more complex systems.
+As a data engineer, you'll spend much of your time moving data between systems, transforming it, and ensuring its quality. The skills in this chapter build directly on the Python fundamentals from Chapter 1, adding critical capabilities for working with external data sources and handling errors that will inevitably occur in complex data pipelines.
 
 Let's visualize how these concepts fit into a basic data pipeline:
 
 ```mermaid
-flowchart LR
-    A[Source Files\nCSV/JSON/Text] --> B[Python Script]
-    B --> C{Error\nHandling}
+flowchart TD
+    A[Data Sources] --> B[File Operations]
+    B --> C{Error Handling}
     C -->|Error| D[Error Logs]
-    C -->|Success| E[Data\nTransformation]
-    E --> F[List Comprehensions\nData Cleaning]
-    F --> G[Output Files\nJSON/CSV/Text]
+    C -->|Success| E[Data Transformation]
+    E --> F[Data Validation]
+    F --> G[Data Destinations]
 
-    subgraph "Context Managers"
-    A
-    G
-    end
+    classDef sources fill:#f9f9f9,stroke:#333,stroke-width:2px
+    classDef operations fill:#d0e0ff,stroke:#336,stroke-width:1px
+    classDef errors fill:#ffdddd,stroke:#633,stroke-width:1px
+    classDef transforms fill:#ddffdd,stroke:#363,stroke-width:1px
 
-    subgraph "Try/Except Blocks"
-    C
-    D
-    end
-
-    subgraph "Data Processing"
-    E
-    F
-    end
-
-    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
-    style G fill:#f9f9f9,stroke:#333,stroke-width:2px
-    style D fill:#ffdddd,stroke:#333,stroke-width:2px
-    style F fill:#ddffdd,stroke:#333,stroke-width:2px
+    class A sources
+    class B,E,F operations
+    class C,D errors
+    class G sources
 ```
 
-This diagram illustrates a typical data flow where you'll use context managers for file handling, try/except blocks for error handling, and list comprehensions for data transformations.
+This chapter introduces four essential skills for data engineering:
 
-## 2.1 File Handling and Context Managers
+1. **File Handling** - Reading and writing data from external files using context managers for safety
+2. **Error Handling** - Creating resilient code that can recover from failures
+3. **Data Transformations** - Efficient techniques for transforming data using list comprehensions
+4. **Working with Data Formats** - Processing common formats like CSV and JSON
 
-As a data engineer, you'll frequently need to read and write files. Let's explore how to do this in Python.
+By the end of this chapter, you'll be able to build small data processing scripts that can read, validate, transform, and write data reliably - essential first steps in creating robust data pipelines.
 
-### Basic File Reading
+## 2.1 File Operations and Context Managers
 
-The most straightforward way to read a file is with the `open()` function:
+In data engineering, reading and writing files is a fundamental operation. Whether you're ingesting raw data, exporting processed results, or logging operations, understanding how to safely work with files is essential.
+
+### 2.1.1 Basic File Reading
+
+Let's start with the most basic approach to reading a file. First, we'll create a sample file to work with:
 
 ```python
-# Opening a file and reading all contents at once
+# Create a sample text file for our examples
+with open('sample_data.txt', 'w') as f:
+    f.write("This is the first line of our sample data file.\n")
+    f.write("This is the second line with some numbers: 42, 73, 91.\n")
+    f.write("Here's a third line with more text content.\n")
+    f.write("And finally a fourth line to give us enough data to work with.")
+
+print("Sample data file created!")
+# Sample data file created!
+```
+
+Now, let's read this file using the basic approach:
+
+```python
+# Basic method to read a file (not recommended in production code)
 file = open('sample_data.txt', 'r')  # 'r' means read mode
-content = file.read()
-print(f"File content: {content}")
-file.close()  # Always remember to close the file!
+content = file.read()  # Read the entire file content
+file.close()  # Close the file when done
 
-# Output:
-# File content: Hello, this is sample data.
-# This file has multiple lines.
-# We'll use it to practice file handling.
+print("File content:")
+print(content)
+# File content:
+# This is the first line of our sample data file.
+# This is the second line with some numbers: 42, 73, 91.
+# Here's a third line with more text content.
+# And finally a fourth line to give us enough data to work with.
 ```
 
-However, this approach has a critical flaw - if your code encounters an error before reaching `file.close()`, the file remains open, potentially causing resource leaks.
+However, this approach has a critical flaw: if an error occurs between opening the file and closing it, the `file.close()` line might never execute, leaving the file handle open. This can lead to resource leaks, especially in long-running data pipelines.
 
-### Using Context Managers (with statement)
+### 2.1.2 Using Context Managers (with statement)
 
-The better approach is to use a context manager with the `with` statement:
+The safer approach is to use a context manager with the `with` statement, which automatically closes the file when the block exits:
 
 ```python
-# Using a context manager to read a file safely
+# Better method using a context manager
 with open('sample_data.txt', 'r') as file:
     content = file.read()
-    print(f"File content using context manager: {content}")
-# The file is automatically closed when the with block ends, even if errors occur!
+    # File is automatically closed when the with block exits, even if an error occurs!
 
-# Output:
-# File content using context manager: Hello, this is sample data.
-# This file has multiple lines.
-# We'll use it to practice file handling.
+print("File content using context manager:")
+print(content)
+# File content using context manager:
+# This is the first line of our sample data file.
+# This is the second line with some numbers: 42, 73, 91.
+# Here's a third line with more text content.
+# And finally a fourth line to give us enough data to work with.
 ```
 
-### Reading Files Line by Line
+### 2.1.3 Reading Files Line by Line
 
-For large files, it's better to process them line by line:
+When working with large data files (common in data engineering), it's often better to process the file line by line instead of loading it all into memory:
 
 ```python
-# Reading a file line by line
+# Reading a file line by line (memory efficient for large files)
 with open('sample_data.txt', 'r') as file:
+    print("Reading file line by line:")
     for line_number, line in enumerate(file, 1):
         print(f"Line {line_number}: {line.strip()}")  # strip() removes trailing newline
 
-# Output:
-# Line 1: Hello, this is sample data.
-# Line 2: This file has multiple lines.
-# Line 3: We'll use it to practice file handling.
+# Reading file line by line:
+# Line 1: This is the first line of our sample data file.
+# Line 2: This is the second line with some numbers: 42, 73, 91.
+# Line 3: Here's a third line with more text content.
+# Line 4: And finally a fourth line to give us enough data to work with.
 ```
 
-### Writing to Files
+### 2.1.4 Writing to Files
 
 Writing to files follows a similar pattern:
 
 ```python
-# Writing to a file
+# Writing to a new file
 with open('output.txt', 'w') as file:  # 'w' mode creates a new file or overwrites existing
-    file.write("This is line 1.\n")
-    file.write("This is line 2.\n")
-    file.write("This is line 3.\n")
+    file.write("This is the first line of our output file.\n")
+    file.write("This is the second line with some numbers: 100, 200, 300.\n")
+    file.write("And a third line to complete our example.\n")
 
 print("File has been written. Let's read it back:")
 
-# Reading back the file we just wrote
+# Now let's read back what we wrote
 with open('output.txt', 'r') as file:
     content = file.read()
     print(content)
 
-# Output:
 # File has been written. Let's read it back:
-# This is line 1.
-# This is line 2.
-# This is line 3.
+# This is the first line of our output file.
+# This is the second line with some numbers: 100, 200, 300.
+# And a third line to complete our example.
 ```
 
-### Appending to Files
+### 2.1.5 File Modes and Appending Data
 
-To add content to an existing file without overwriting:
+Python offers several different modes for opening files:
 
 ```python
-# Appending to a file
+# Common file modes:
+# 'r' - Read (default)
+# 'w' - Write (creates new file or truncates existing)
+# 'a' - Append (adds to end of file)
+# 'b' - Binary mode (used with other modes like 'rb' or 'wb')
+# 't' - Text mode (default)
+
+# Appending to an existing file
 with open('output.txt', 'a') as file:  # 'a' means append mode
-    file.write("This is line 4, added later.\n")
-    file.write("This is line 5, also added later.\n")
+    file.write("This line was added later using append mode.\n")
+    file.write("And so was this one!\n")
 
 print("File has been appended. Let's read it again:")
 
-# Reading it back
+# Read the file after appending
 with open('output.txt', 'r') as file:
     content = file.read()
     print(content)
 
-# Output:
 # File has been appended. Let's read it again:
-# This is line 1.
-# This is line 2.
-# This is line 3.
-# This is line 4, added later.
-# This is line 5, also added later.
+# This is the first line of our output file.
+# This is the second line with some numbers: 100, 200, 300.
+# And a third line to complete our example.
+# This line was added later using append mode.
+# And so was this one!
 ```
 
-## 2.2 Error Handling with try/except
+### 2.1.6 Reading and Writing Data Chunks
 
-Even the best-written code can encounter errors. Rather than letting our program crash, we can handle exceptions gracefully.
-
-### Basic try/except Structure
+For larger files, you might want to read or write in chunks rather than line by line:
 
 ```python
-# Basic try/except
-try:
-    # Code that might cause an error
-    value = int(input("Enter a number: "))
-    print(f"You entered: {value}")
-except ValueError:
-    # This runs if a ValueError occurs
-    print("That wasn't a valid number!")
+# Create a larger file for demonstration
+with open('large_sample.txt', 'w') as file:
+    for i in range(1, 101):  # Write 100 lines
+        file.write(f"This is line {i} of our larger sample file.\n")
 
-# Output (if user enters "abc"):
-# Enter a number: abc
-# That wasn't a valid number!
+print("Large sample file created!")
+
+# Reading in chunks (useful for very large files)
+chunk_size = 100  # Bytes to read at a time
+with open('large_sample.txt', 'r') as file:
+    print("\nReading in chunks:")
+    chunk_num = 1
+    while True:
+        chunk = file.read(chunk_size)
+        if not chunk:  # End of file
+            break
+
+        print(f"Chunk {chunk_num} (size: {len(chunk)} bytes):")
+        print(chunk[:50] + "..." if len(chunk) > 50 else chunk)  # Preview first 50 chars
+        chunk_num += 1
+
+        if chunk_num > 3:  # Just show first 3 chunks for example
+            print("... (remaining chunks omitted)")
+            break
+
+# Large sample file created!
+#
+# Reading in chunks:
+# Chunk 1 (size: 100 bytes):
+# This is line 1 of our larger sample file.
+# This is...
+# Chunk 2 (size: 100 bytes):
+# line 2 of our larger sample file.
+# This is line 3...
+# Chunk 3 (size: 100 bytes):
+# of our larger sample file.
+# This is line 4 of our...
+# ... (remaining chunks omitted)
 ```
 
-### Handling Specific Exceptions
+### 2.1.7 File Paths and the os Module
 
-It's best to catch specific exceptions rather than using a blanket `except`:
-
-```python
-# Handling different types of exceptions
-try:
-    with open('nonexistent_file.txt', 'r') as file:
-        content = file.read()
-        number = int(content)
-        result = 10 / number
-        print(f"Result: {result}")
-except FileNotFoundError:
-    print("Error: The file was not found!")
-except ValueError:
-    print("Error: The file doesn't contain a valid number!")
-except ZeroDivisionError:
-    print("Error: The file contains zero, and we can't divide by zero!")
-except Exception as e:
-    # A fallback for any other exceptions
-    print(f"An unexpected error occurred: {e}")
-
-# Output:
-# Error: The file was not found!
-```
-
-### Combining try/except with File Handling
-
-Let's apply error handling to file operations:
+When working with files, you'll often need to deal with file paths. The `os` module provides utilities for handling paths in a way that works across different operating systems:
 
 ```python
-# Robust file reading with error handling
-filename = 'data.txt'  # This file might not exist
-
-try:
-    with open(filename, 'r') as file:
-        content = file.read()
-        print(f"Successfully read {len(content)} characters from {filename}")
-except FileNotFoundError:
-    print(f"Error: The file '{filename}' does not exist")
-except PermissionError:
-    print(f"Error: You don't have permission to read '{filename}'")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
-
-# Output (if file doesn't exist):
-# Error: The file 'data.txt' does not exist
-```
-
-### Using else and finally
-
-The `try/except` block can be extended with `else` (runs if no exception) and `finally` (always runs):
-
-```python
-# Using else and finally in error handling
-try:
-    # Create a file with a number
-    with open('number.txt', 'w') as file:
-        file.write('42')
-
-    # Read it back
-    with open('number.txt', 'r') as file:
-        content = file.read()
-        number = int(content)
-        print(f"Successfully read number: {number}")
-except FileNotFoundError:
-    print("Error: The file was not found!")
-except ValueError:
-    print("Error: Couldn't convert content to a number!")
-else:
-    # This runs if no exception occurred
-    print(f"The number squared is: {number ** 2}")
-finally:
-    # This always runs, whether there was an exception or not
-    print("File operation attempted. Cleanup complete.")
-
-# Output:
-# Successfully read number: 42
-# The number squared is: 1764
-# File operation attempted. Cleanup complete.
-```
-
-## 2.3 List Comprehensions
-
-List comprehensions provide a concise way to create lists based on existing iterables.
-
-### Basic List Comprehension
-
-```python
-# Traditional way to create a list of squares
-squares_traditional = []
-for i in range(1, 6):
-    squares_traditional.append(i**2)
-print(f"Squares (traditional): {squares_traditional}")
-
-# Using list comprehension to create the same list
-squares_comprehension = [i**2 for i in range(1, 6)]
-print(f"Squares (comprehension): {squares_comprehension}")
-
-# Output:
-# Squares (traditional): [1, 4, 9, 16, 25]
-# Squares (comprehension): [1, 4, 9, 16, 25]
-```
-
-### List Comprehension with Conditional
-
-You can add a conditional filter:
-
-```python
-# Traditional way to get even numbers
-evens_traditional = []
-for i in range(10):
-    if i % 2 == 0:
-        evens_traditional.append(i)
-print(f"Even numbers (traditional): {evens_traditional}")
-
-# Using list comprehension with a condition
-evens_comprehension = [i for i in range(10) if i % 2 == 0]
-print(f"Even numbers (comprehension): {evens_comprehension}")
-
-# Output:
-# Even numbers (traditional): [0, 2, 4, 6, 8]
-# Even numbers (comprehension): [0, 2, 4, 6, 8]
-```
-
-### Practical Example: Data Transformation
-
-List comprehensions are excellent for data transformations:
-
-```python
-# Sample data: temperatures in Fahrenheit
-temperatures_f = [68, 75, 83, 59, 92]
-
-# Convert to Celsius using list comprehension
-temperatures_c = [(temp - 32) * 5/9 for temp in temperatures_f]
-
-print(f"Temperatures in Fahrenheit: {temperatures_f}")
-print(f"Temperatures in Celsius: [" + ", ".join([f"{temp:.1f}" for temp in temperatures_c]) + "]")
-
-# Output:
-# Temperatures in Fahrenheit: [68, 75, 83, 59, 92]
-# Temperatures in Celsius: [20.0, 23.9, 28.3, 15.0, 33.3]
-```
-
-## 2.4 Modules and Imports
-
-Before we dive into working with data formats, it's important to understand how Python's module system works. Modules allow you to organize and reuse code across different scripts and projects.
-
-### Basic Import Syntax
-
-```python
-# Importing an entire module
-import math
-
-# Now we can use functions from the math module with dot notation
-result = math.sqrt(16)
-print(f"The square root of 16 is: {result}")
-
-# We can also use constants from the module
-print(f"The value of pi is approximately: {math.pi}")
-
-# Output:
-# The square root of 16 is: 4.0
-# The value of pi is approximately: 3.141592653589793
-```
-
-### Importing Specific Items
-
-```python
-# Importing specific functions or constants from a module
-from math import sqrt, pi
-
-# Now we can use these directly without the module name
-result = sqrt(16)
-print(f"The square root of 16 is: {result}")
-print(f"The value of pi is approximately: {pi}")
-
-# Output:
-# The square root of 16 is: 4.0
-# The value of pi is approximately: 3.141592653589793
-```
-
-### Renaming Imports
-
-```python
-# Renaming modules or functions during import
-import math as m
-from datetime import datetime as dt
-
-# Now we use the shorter names
-print(f"The square root of 25 is: {m.sqrt(25)}")
-print(f"The current time is: {dt.now().strftime('%H:%M:%S')}")
-
-# Output:
-# The square root of 25 is: 5.0
-# The current time is: 14:35:22  (time will vary)
-```
-
-### Common Modules for Data Engineering
-
-Python's standard library includes several modules that are especially useful for data engineering:
-
-```python
-# The datetime module for working with dates and times
-from datetime import datetime, timedelta
-
-current_time = datetime.now()
-print(f"Current time: {current_time}")
-
-yesterday = current_time - timedelta(days=1)
-print(f"Yesterday: {yesterday}")
-
-# The os module for interacting with the operating system
 import os
 
 # Get the current working directory
 cwd = os.getcwd()
 print(f"Current working directory: {cwd}")
+# Current working directory: /your/current/path
 
 # List files in the current directory
 files = os.listdir('.')
-print(f"Files in current directory: {files[:3]}...")  # Show first 3 files
+print(f"Files in current directory: {files[:5]}")  # Show first 5 files
+# Files in current directory: ['sample_data.txt', 'output.txt', 'large_sample.txt', ...]
 
-# Output example:
-# Current time: 2023-08-15 14:36:45.123456
-# Yesterday: 2023-08-14 14:36:45.123456
-# Current working directory: /home/user/projects/data_engineering
-# Files in current directory: ['sample_text.txt', 'output.txt', 'sales_data.csv']...
+# Join path components in a platform-independent way
+data_dir = os.path.join('data', 'processed', '2023')
+print(f"Platform-independent path: {data_dir}")
+# Platform-independent path: data/processed/2023
+
+# Check if a file exists
+file_exists = os.path.exists('sample_data.txt')
+print(f"Does sample_data.txt exist? {file_exists}")
+# Does sample_data.txt exist? True
+
+nonexistent_file = os.path.exists('nonexistent_file.txt')
+print(f"Does nonexistent_file.txt exist? {nonexistent_file}")
+# Does nonexistent_file.txt exist? False
 ```
 
-### Import Best Practices
-
-1. **Place imports at the top of the file**: Makes dependencies clear
-2. **Group imports**: Standard library first, then third-party modules, then local modules
-3. **Avoid `from module import *`**: Makes it unclear where functions come from
-4. **Use specific imports**: Only import what you need for cleaner namespace
-
-Now that we understand modules, let's explore two of the most important modules for data engineering: `csv` and `json`.
-
-## 2.5 Working with Common Data Formats
-
-### CSV (Comma-Separated Values)
-
-CSV is one of the most common formats for tabular data. Let's create a sample CSV file and read it:
+### 2.1.8 Data Engineering File Operations: Best Practices
 
 ```python
-# First, create a sample CSV file
-with open('sales_data.csv', 'w') as file:
-    file.write("date,product,quantity,price\n")
-    file.write("2023-01-15,Widget A,5,19.99\n")
-    file.write("2023-01-16,Widget B,3,24.99\n")
-    file.write("2023-01-16,Widget A,2,19.99\n")
-    file.write("2023-01-17,Widget C,10,14.99\n")
-    file.write("2023-01-18,Widget B,1,24.99\n")
+# Best practices for file operations in data engineering:
+
+# 1. Always use context managers (with statements)
+# 2. Process large files in chunks or line by line
+# 3. Include proper error handling (we'll cover this next)
+# 4. Use absolute paths for production code
+# 5. Validate input files exist before attempting to read
+# 6. Create backup copies of important files before modifying
+
+def process_data_file(file_path):
+    """Process a data file line by line with validation."""
+    # Check if file exists first
+    if not os.path.exists(file_path):
+        print(f"Error: File {file_path} not found!")
+        return False
+
+    print(f"Processing {file_path}...")
+
+    # Process the file line by line
+    with open(file_path, 'r') as file:
+        for line_num, line in enumerate(file, 1):
+            # Process each line (here we just print a preview)
+            print(f"Line {line_num}: {line[:30]}..." if len(line) > 30 else line)
+
+            # Stop after 5 lines for this example
+            if line_num >= 5:
+                print("...")
+                break
+
+    return True
+
+# Test the function with our sample file
+process_data_file('sample_data.txt')
+# Processing sample_data.txt...
+# Line 1: This is the first line of our s...
+# Line 2: This is the second line with so...
+# Line 3: Here's a third line with more t...
+# Line 4: And finally a fourth line to gi...
+# ...
+
+# Try with a nonexistent file
+process_data_file('nonexistent_file.txt')
+# Error: File nonexistent_file.txt not found!
+```
+
+## 2.2 Error Handling with try/except
+
+In data engineering pipelines, many things can go wrong: files may be missing, data formats could be incorrect, or connections might fail. Proper error handling is essential for building robust data pipelines that can recover from failures.
+
+### 2.2.1 Basic try/except Structure
+
+Let's start with the basic structure of error handling in Python:
+
+```python
+# Basic try/except structure
+try:
+    # Code that might cause an error
+    x = 10 / 0  # Division by zero will cause an error
+    print("This line won't execute because of the error above")
+except:
+    # This block runs if there's an error in the try block
+    print("An error occurred!")
+
+print("Program continues execution")
+
+# An error occurred!
+# Program continues execution
+```
+
+### 2.2.2 Handling Specific Exceptions
+
+It's better to catch specific exceptions rather than using a blanket `except` statement:
+
+```python
+# Handling specific exception types
+try:
+    # Attempt to open a file
+    with open('nonexistent_file.txt', 'r') as file:
+        content = file.read()
+        print(content)
+except FileNotFoundError:
+    # This block runs only for FileNotFoundError
+    print("Error: File not found!")
+except PermissionError:
+    # This block runs only for PermissionError
+    print("Error: No permission to read the file!")
+
+print("Program continues execution")
+
+# Error: File not found!
+# Program continues execution
+```
+
+### 2.2.3 Trying Different Error Scenarios
+
+Let's create a function that demonstrates different types of errors and how to handle them:
+
+```python
+# Function to demonstrate different exception types
+def process_file_with_errors(file_path):
+    """Process a file with comprehensive error handling."""
+    try:
+        print(f"Attempting to process {file_path}...")
+
+        # Check if file exists (could cause FileNotFoundError)
+        with open(file_path, 'r') as file:
+            # Try to convert content to a number (could cause ValueError)
+            content = file.read().strip()
+            number = int(content)
+
+            # Try to perform a calculation (could cause ZeroDivisionError)
+            result = 100 / number
+
+            print(f"Result: {result}")
+
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except ValueError:
+        print(f"Error: The file doesn't contain a valid number.")
+    except ZeroDivisionError:
+        print(f"Error: The file contains zero, and we can't divide by zero.")
+    except Exception as e:
+        # A catch-all for other exceptions, with access to the error message
+        print(f"An unexpected error occurred: {e}")
+
+# Create test files with different error scenarios
+with open('valid_number.txt', 'w') as f:
+    f.write("25")  # Valid number, should work fine
+
+with open('invalid_number.txt', 'w') as f:
+    f.write("not a number")  # Will cause ValueError
+
+with open('zero.txt', 'w') as f:
+    f.write("0")  # Will cause ZeroDivisionError
+
+# Test with different files
+process_file_with_errors('valid_number.txt')
+process_file_with_errors('invalid_number.txt')
+process_file_with_errors('zero.txt')
+process_file_with_errors('nonexistent_file.txt')
+
+# Attempting to process valid_number.txt...
+# Result: 4.0
+# Attempting to process invalid_number.txt...
+# Error: The file doesn't contain a valid number.
+# Attempting to process zero.txt...
+# Error: The file contains zero, and we can't divide by zero.
+# Attempting to process nonexistent_file.txt...
+# Error: The file 'nonexistent_file.txt' was not found.
+```
+
+### 2.2.4 Using else and finally Clauses
+
+The `try/except` block can be extended with `else` (runs if no exception occurs) and `finally` (always runs, regardless of whether an exception occurred):
+
+```python
+# Using else and finally in error handling
+def process_file_with_else_finally(file_path):
+    """Process a file with else and finally blocks."""
+    try:
+        print(f"Attempting to process {file_path}...")
+        with open(file_path, 'r') as file:
+            content = file.read().strip()
+
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+        return False
+
+    else:
+        # This runs only if no exception was raised in the try block
+        print(f"File read successfully. Content length: {len(content)} characters.")
+
+        # In a real system, you'd do your main processing here
+        print(f"Processing content: {content[:20]}..." if len(content) > 20 else content)
+        return True
+
+    finally:
+        # This always runs, regardless of whether an exception occurred
+        print(f"Finished handling {file_path}.")
+
+# Create a test file
+with open('test_file.txt', 'w') as f:
+    f.write("This is some test content for our error handling example.")
+
+# Test with existing and nonexistent files
+process_file_with_else_finally('test_file.txt')
+print("\n")  # Separator
+process_file_with_else_finally('nonexistent_file.txt')
+
+# Attempting to process test_file.txt...
+# File read successfully. Content length: 53 characters.
+# Processing content: This is some test co...
+# Finished handling test_file.txt.
+#
+#
+# Attempting to process nonexistent_file.txt...
+# Error: The file 'nonexistent_file.txt' was not found.
+# Finished handling nonexistent_file.txt.
+```
+
+### 2.2.5 Raising Exceptions
+
+Sometimes you'll want to raise your own exceptions when you encounter problems in your code:
+
+```python
+# Raising your own exceptions
+def validate_data_record(record):
+    """Validate that a data record contains required fields."""
+    # Make sure the record is a dictionary
+    if not isinstance(record, dict):
+        raise TypeError("Record must be a dictionary")
+
+    # Check for required fields
+    required_fields = ['id', 'name', 'timestamp']
+    for field in required_fields:
+        if field not in record:
+            raise ValueError(f"Missing required field: {field}")
+
+    # Add other validations as needed
+    if record['id'] <= 0:
+        raise ValueError("ID must be positive")
+
+    print(f"Record {record['id']} ({record['name']}) is valid.")
+    return True
+
+# Test with different records
+try:
+    # Valid record
+    valid_record = {'id': 101, 'name': 'Test Record', 'timestamp': '2023-04-15'}
+    validate_data_record(valid_record)
+
+    # Invalid record (missing field)
+    invalid_record = {'id': 102, 'name': 'Missing Timestamp'}
+    validate_data_record(invalid_record)
+
+except (TypeError, ValueError) as e:
+    print(f"Validation error: {e}")
+
+# Record 101 (Test Record) is valid.
+# Validation error: Missing required field: timestamp
+```
+
+### 2.2.6 Common Error Handling Patterns in Data Engineering
+
+Let's look at some common error handling patterns that are particularly useful in data engineering:
+
+```python
+# 1. Handling file operations with retry logic
+def read_file_with_retry(file_path, max_retries=3):
+    """Read a file with retry logic for transient errors."""
+    retries = 0
+
+    while retries < max_retries:
+        try:
+            with open(file_path, 'r') as file:
+                return file.read()
+
+        except (IOError, OSError) as e:
+            retries += 1
+            print(f"Error reading file (attempt {retries}/{max_retries}): {e}")
+
+            if retries >= max_retries:
+                print(f"Failed after {max_retries} attempts.")
+                return None
+
+            print("Retrying...")
+            # In real code, you might want to add a delay here
+            # import time
+            # time.sleep(1)  # Wait 1 second before retry
+
+# Test the retry function with a file that doesn't exist
+content = read_file_with_retry('missing_file.txt', max_retries=2)
+print(f"Result: {'Content read successfully' if content else 'Failed to read content'}")
+
+# Error reading file (attempt 1/2): [Errno 2] No such file or directory: 'missing_file.txt'
+# Retrying...
+# Error reading file (attempt 2/2): [Errno 2] No such file or directory: 'missing_file.txt'
+# Failed after 2 attempts.
+# Result: Failed to read content
+```
+
+```python
+# 2. Graceful degradation for partial failures
+def process_multiple_files(file_paths):
+    """Process multiple files, continuing even if some fail."""
+    results = {'successful': [], 'failed': []}
+
+    for file_path in file_paths:
+        try:
+            print(f"Processing {file_path}...")
+
+            # Attempt to read the file
+            with open(file_path, 'r') as file:
+                content = file.read()
+
+            # For this example, just count the lines
+            line_count = len(content.splitlines())
+
+            # Record success
+            results['successful'].append({
+                'file': file_path,
+                'lines': line_count
+            })
+            print(f"Successfully processed {file_path}: {line_count} lines")
+
+        except Exception as e:
+            # Record failure but continue with next file
+            results['failed'].append({
+                'file': file_path,
+                'error': str(e)
+            })
+            print(f"Failed to process {file_path}: {e}")
+
+    # Report on overall results
+    success_count = len(results['successful'])
+    fail_count = len(results['failed'])
+    total = success_count + fail_count
+
+    print(f"\nSummary: Processed {total} files - {success_count} successful, {fail_count} failed")
+    return results
+
+# Test with a mix of existing and non-existing files
+files_to_process = [
+    'sample_data.txt',  # Should exist from earlier
+    'nonexistent_file.txt',  # Should fail
+    'output.txt'  # Should exist from earlier
+]
+
+results = process_multiple_files(files_to_process)
+
+# Processing sample_data.txt...
+# Successfully processed sample_data.txt: 4 lines
+# Processing nonexistent_file.txt...
+# Failed to process nonexistent_file.txt: [Errno 2] No such file or directory: 'nonexistent_file.txt'
+# Processing output.txt...
+# Successfully processed output.txt: 5 lines
+#
+# Summary: Processed 3 files - 2 successful, 1 failed
+```
+
+## 2.3 List Comprehensions for Data Transformation
+
+List comprehensions provide a concise way to create lists from other sequences. They're particularly useful in data engineering for transforming data in a readable and efficient way.
+
+### 2.3.1 Basic List Comprehension Syntax
+
+Let's compare the traditional approach to the list comprehension approach:
+
+```python
+# Traditional approach with a for loop
+numbers = [1, 2, 3, 4, 5]
+
+# Create a new list with the squared values
+squares_traditional = []
+for num in numbers:
+    squares_traditional.append(num ** 2)
+
+print("Squares (traditional):", squares_traditional)
+
+# Equivalent list comprehension
+squares_comprehension = [num ** 2 for num in numbers]
+print("Squares (comprehension):", squares_comprehension)
+
+# Both produce the same result:
+# Squares (traditional): [1, 4, 9, 16, 25]
+# Squares (comprehension): [1, 4, 9, 16, 25]
+```
+
+### 2.3.2 List Comprehension with Conditional Filtering
+
+List comprehensions can include a condition to filter elements:
+
+```python
+# Traditional approach for filtering
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Get even numbers
+even_traditional = []
+for num in numbers:
+    if num % 2 == 0:  # Only include even numbers
+        even_traditional.append(num)
+
+print("Even numbers (traditional):", even_traditional)
+
+# Equivalent list comprehension with condition
+even_comprehension = [num for num in numbers if num % 2 == 0]
+print("Even numbers (comprehension):", even_comprehension)
+
+# Both produce the same result:
+# Even numbers (traditional): [2, 4, 6, 8, 10]
+# Even numbers (comprehension): [2, 4, 6, 8, 10]
+```
+
+### 2.3.3 Performance Comparison
+
+Let's see the performance difference between traditional loops and list comprehensions:
+
+```python
+import time
+
+# Function to measure execution time
+def measure_time(func, *args, **kwargs):
+    """Measure the execution time of a function."""
+    start_time = time.time()
+    result = func(*args, **kwargs)
+    end_time = time.time()
+    return result, end_time - start_time
+
+# Test with a larger dataset
+test_size = 1000000
+
+# Traditional approach
+def traditional_squares(n):
+    result = []
+    for i in range(n):
+        result.append(i ** 2)
+    return result
+
+# List comprehension approach
+def comprehension_squares(n):
+    return [i ** 2 for i in range(n)]
+
+# Measure performance
+traditional_result, traditional_time = measure_time(traditional_squares, test_size)
+comprehension_result, comprehension_time = measure_time(comprehension_squares, test_size)
+
+print(f"Traditional loop: {traditional_time:.4f} seconds")
+print(f"List comprehension: {comprehension_time:.4f} seconds")
+print(f"List comprehension is {traditional_time/comprehension_time:.2f}x faster")
+
+# The output will vary by system, but typically shows list comprehensions are faster:
+# Traditional loop: 0.2123 seconds
+# List comprehension: 0.1564 seconds
+# List comprehension is 1.36x faster
+```
+
+### 2.3.4 Nested List Comprehensions
+
+List comprehensions can be nested for more complex transformations:
+
+```python
+# Nested list comprehension example
+# Create a 3x3 multiplication table
+multiplication_table = [[i * j for j in range(1, 4)] for i in range(1, 4)]
+
+print("Multiplication table:")
+for row in multiplication_table:
+    print(row)
+
+# Multiplication table:
+# [1, 2, 3]
+# [2, 4, 6]
+# [3, 6, 9]
+
+# The equivalent using traditional loops would be:
+table_traditional = []
+for i in range(1, 4):
+    row = []
+    for j in range(1, 4):
+        row.append(i * j)
+    table_traditional.append(row)
+
+print("\nTable using traditional loops:")
+for row in table_traditional:
+    print(row)
+
+# Table using traditional loops:
+# [1, 2, 3]
+# [2, 4, 6]
+# [3, 6, 9]
+```
+
+### 2.3.5 Data Engineering Applications of List Comprehensions
+
+Let's see some practical data engineering examples:
+
+```python
+# Sample data: list of records (similar to a database query result)
+customer_data = [
+    {"id": 1, "name": "Alice", "age": 32, "balance": 100.50},
+    {"id": 2, "name": "Bob", "age": 45, "balance": 250.25},
+    {"id": 3, "name": "Charlie", "age": 28, "balance": 0.00},
+    {"id": 4, "name": "Diana", "age": 39, "balance": 175.75},
+    {"id": 5, "name": "Eve", "age": 22, "balance": 50.20}
+]
+
+# Example 1: Extract just the names
+names = [customer["name"] for customer in customer_data]
+print("Customer names:", names)
+# Customer names: ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve']
+
+# Example 2: Filter customers with positive balances
+positive_balances = [
+    customer for customer in customer_data if customer["balance"] > 0
+]
+print(f"Customers with positive balances: {len(positive_balances)}")
+for customer in positive_balances:
+    print(f"  - {customer['name']}: ${customer['balance']:.2f}")
+# Customers with positive balances: 4
+#   - Alice: $100.50
+#   - Bob: $250.25
+#   - Diana: $175.75
+#   - Eve: $50.20
+
+# Example 3: Create a new list of customer info strings
+customer_info = [
+    f"ID: {c['id']}, Name: {c['name']}, Age: {c['age']}"
+    for c in customer_data if c['age'] < 40
+]
+print("\nYounger customers:")
+for info in customer_info:
+    print(f"  {info}")
+# Younger customers:
+#   ID: 1, Name: Alice, Age: 32
+#   ID: 3, Name: Charlie, Age: 28
+#   ID: 5, Name: Eve, Age: 22
+
+# Example 4: Data transformation - calculate age brackets
+age_brackets = [
+    {**customer, "age_bracket": "Senior" if customer["age"] >= 40 else "Adult"}
+    for customer in customer_data
+]
+print("\nCustomers with age brackets:")
+for customer in age_brackets:
+    print(f"  {customer['name']}: {customer['age_bracket']}")
+# Customers with age brackets:
+#   Alice: Adult
+#   Bob: Senior
+#   Charlie: Adult
+#   Diana: Adult
+#   Eve: Adult
+```
+
+### 2.3.6 Dictionary Comprehensions
+
+Similar to list comprehensions, Python also supports dictionary comprehensions:
+
+```python
+# Dictionary comprehension syntax
+# {key_expr: value_expr for item in iterable}
+
+# Example: Create a dictionary mapping customer IDs to names
+customer_id_to_name = {c["id"]: c["name"] for c in customer_data}
+print("Customer ID to name mapping:", customer_id_to_name)
+# Customer ID to name mapping: {1: 'Alice', 2: 'Bob', 3: 'Charlie', 4: 'Diana', 5: 'Eve'}
+
+# Example: Create a dictionary of customers with balances over $100
+high_balance_customers = {
+    c["name"]: c["balance"] for c in customer_data if c["balance"] > 100
+}
+print("High balance customers:", high_balance_customers)
+# High balance customers: {'Bob': 250.25, 'Diana': 175.75}
+
+# Example: Calculate age distribution
+age_counts = {}
+for customer in customer_data:
+    age = customer["age"]
+    if age in age_counts:
+        age_counts[age] += 1
+    else:
+        age_counts[age] = 1
+
+print("Age distribution (traditional):", age_counts)
+
+# Using dictionary comprehension with defaultdict for the same task
+from collections import defaultdict
+ages = [c["age"] for c in customer_data]
+unique_ages = set(ages)
+age_distribution = {age: ages.count(age) for age in unique_ages}
+print("Age distribution (comprehension):", age_distribution)
+
+# Age distribution (traditional): {32: 1, 45: 1, 28: 1, 39: 1, 22: 1}
+# Age distribution (comprehension): {32: 1, 45: 1, 28: 1, 39: 1, 22: 1}
+```
+
+## 2.4 Working with Common Data Formats
+
+Data engineers frequently work with standardized data formats like CSV (Comma-Separated Values) and JSON (JavaScript Object Notation). Python's standard library provides modules for working with these formats.
+
+### 2.4.1 CSV Files
+
+CSV is one of the most common formats for tabular data. Let's see how to work with CSV files in Python:
+
+```python
+import csv
+
+# First, let's create a sample CSV file
+with open('sample_sales.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    # Write the header row
+    writer.writerow(['Date', 'Product', 'Quantity', 'Price'])
+    # Write some data rows
+    writer.writerows([
+        ['2023-01-15', 'Widget A', 5, 19.99],
+        ['2023-01-16', 'Widget B', 3, 24.99],
+        ['2023-01-16', 'Widget A', 2, 19.99],
+        ['2023-01-17', 'Widget C', 10, 14.99],
+        ['2023-01-18', 'Widget B', 1, 24.99]
+    ])
 
 print("Sample CSV file created.")
-
-# Output:
 # Sample CSV file created.
 ```
 
-Now, let's read the CSV file:
+#### Reading CSV Files
 
 ```python
-# Reading a CSV file manually (basic approach)
-print("\nReading CSV manually (basic):")
-with open('sales_data.csv', 'r') as file:
-    header = file.readline().strip().split(',')
-    print(f"Header: {header}")
+# Reading a CSV file
+with open('sample_sales.csv', 'r', newline='') as file:
+    # Create a CSV reader
+    csv_reader = csv.reader(file)
 
-    # Process each data row
-    for line in file:
-        values = line.strip().split(',')
-        # Create a dictionary for this row
-        row_dict = dict(zip(header, values))
-        print(f"Row: {row_dict}")
+    # Read the header row
+    header = next(csv_reader)
+    print(f"CSV header: {header}")
 
-# Output:
-# Reading CSV manually (basic):
-# Header: ['date', 'product', 'quantity', 'price']
-# Row: {'date': '2023-01-15', 'product': 'Widget A', 'quantity': '5', 'price': '19.99'}
-# Row: {'date': '2023-01-16', 'product': 'Widget B', 'quantity': '3', 'price': '24.99'}
-# Row: {'date': '2023-01-16', 'product': 'Widget A', 'quantity': '2', 'price': '19.99'}
-# Row: {'date': '2023-01-17', 'product': 'Widget C', 'quantity': '10', 'price': '14.99'}
-# Row: {'date': '2023-01-18', 'product': 'Widget B', 'quantity': '1', 'price': '24.99'}
+    # Read and process each data row
+    print("\nCSV data rows:")
+    for row_number, row in enumerate(csv_reader, 1):
+        print(f"Row {row_number}: {row}")
+
+# CSV header: ['Date', 'Product', 'Quantity', 'Price']
+#
+# CSV data rows:
+# Row 1: ['2023-01-15', 'Widget A', '5', '19.99']
+# Row 2: ['2023-01-16', 'Widget B', '3', '24.99']
+# Row 3: ['2023-01-16', 'Widget A', '2', '19.99']
+# Row 4: ['2023-01-17', 'Widget C', '10', '14.99']
+# Row 5: ['2023-01-18', 'Widget B', '1', '24.99']
 ```
 
-For more complex scenarios, Python's built-in `csv` module is better:
+#### Using DictReader for Named Fields
+
+The `DictReader` class makes it easier to work with CSV files by using the header row to create dictionaries:
 
 ```python
-# Using the csv module (more robust approach)
-import csv
+# Reading CSV with DictReader
+with open('sample_sales.csv', 'r', newline='') as file:
+    # Create a CSV DictReader (uses first row as field names)
+    dict_reader = csv.DictReader(file)
 
-print("\nReading CSV with csv module:")
-with open('sales_data.csv', 'r') as file:
-    csv_reader = csv.DictReader(file)
-    for row in csv_reader:
-        # The csv.DictReader automatically creates dictionaries
-        # Note that all values are strings and may need conversion
-        quantity = int(row['quantity'])
-        price = float(row['price'])
-        total = quantity * price
-        print(f"Sale: {row['date']}, {row['product']}, {quantity} units at ${price}, total: ${total:.2f}")
+    print("Reading CSV with DictReader:")
+    for row_number, row in enumerate(dict_reader, 1):
+        # Each row is now a dictionary with column names as keys
+        print(f"Row {row_number}:")
+        print(f"  Date: {row['Date']}")
+        print(f"  Product: {row['Product']}")
+        print(f"  Quantity: {row['Quantity']}")
+        print(f"  Price: {row['Price']}")
+        print(f"  Total: ${float(row['Quantity']) * float(row['Price']):.2f}")
 
-# Output:
-# Reading CSV with csv module:
-# Sale: 2023-01-15, Widget A, 5 units at $19.99, total: $99.95
-# Sale: 2023-01-16, Widget B, 3 units at $24.99, total: $74.97
-# Sale: 2023-01-16, Widget A, 2 units at $19.99, total: $39.98
-# Sale: 2023-01-17, Widget C, 10 units at $14.99, total: $149.90
-# Sale: 2023-01-18, Widget B, 1 units at $24.99, total: $24.99
+# Reading CSV with DictReader:
+# Row 1:
+#   Date: 2023-01-15
+#   Product: Widget A
+#   Quantity: 5
+#   Price: 19.99
+#   Total: $99.95
+# Row 2:
+#   Date: 2023-01-16
+#   Product: Widget B
+#   Quantity: 3
+#   Price: 24.99
+#   Total: $74.97
+# ... (similar output for remaining rows)
 ```
 
-Writing to CSV:
+#### Writing CSV Data
 
 ```python
-# Writing to a CSV file
+# Writing data to CSV
 sales_summary = [
-    {'date': '2023-01-15', 'total_sales': 99.95, 'items_sold': 5},
-    {'date': '2023-01-16', 'total_sales': 114.95, 'items_sold': 5},
-    {'date': '2023-01-17', 'total_sales': 149.90, 'items_sold': 10},
-    {'date': '2023-01-18', 'total_sales': 24.99, 'items_sold': 1}
+    {'Date': '2023-01-15', 'Total_Sales': 99.95, 'Items_Sold': 5},
+    {'Date': '2023-01-16', 'Total_Sales': 114.95, 'Items_Sold': 5},
+    {'Date': '2023-01-17', 'Total_Sales': 149.90, 'Items_Sold': 10},
+    {'Date': '2023-01-18', 'Total_Sales': 24.99, 'Items_Sold': 1}
 ]
 
-print("\nWriting sales summary to CSV:")
 with open('sales_summary.csv', 'w', newline='') as file:
-    # Define the CSV columns
-    fieldnames = ['date', 'total_sales', 'items_sold']
+    # Define the field names
+    fieldnames = ['Date', 'Total_Sales', 'Items_Sold']
+
+    # Create a DictWriter
     writer = csv.DictWriter(file, fieldnames=fieldnames)
 
     # Write the header row
     writer.writeheader()
 
-    # Write data rows
-    for row in sales_summary:
-        writer.writerow(row)
+    # Write the data rows
+    writer.writerows(sales_summary)
 
-print("Sales summary written to CSV file.")
+print("Sales summary written to CSV.")
+# Sales summary written to CSV.
 
-# Output:
-# Writing sales summary to CSV:
-# Sales summary written to CSV file.
+# Read back and verify the file
+with open('sales_summary.csv', 'r', newline='') as file:
+    reader = csv.reader(file)
+    print("\nContents of sales_summary.csv:")
+    for row in reader:
+        print(row)
+
+# Contents of sales_summary.csv:
+# ['Date', 'Total_Sales', 'Items_Sold']
+# ['2023-01-15', '99.95', '5']
+# ['2023-01-16', '114.95', '5']
+# ['2023-01-17', '149.9', '10']
+# ['2023-01-18', '24.99', '1']
 ```
 
-### JSON (JavaScript Object Notation)
+### 2.4.2 JSON Files
 
-JSON is perfect for hierarchical data. Let's create and read some JSON:
+JSON (JavaScript Object Notation) is perfect for hierarchical data and is commonly used in web APIs and configuration files.
 
 ```python
-# Working with JSON
 import json
 
-# Sample Python dictionary representing product information
+# Create a sample Python dictionary to convert to JSON
 product_data = {
     "product_id": "WDG-A",
     "name": "Widget A",
@@ -548,32 +985,93 @@ product_data = {
     }
 }
 
-# Writing to a JSON file
+# Write the dictionary to a JSON file
 with open('product.json', 'w') as file:
-    json.dump(product_data, file, indent=4)  # indent for pretty formatting
+    # The indent parameter makes the output nicely formatted
+    json.dump(product_data, file, indent=4)
 
-print("Product data written to JSON file. Let's read it back:")
+print("Product data written to JSON file.")
+# Product data written to JSON file.
 
-# Reading from a JSON file
+# Read back the file to see how it looks
 with open('product.json', 'r') as file:
+    content = file.read()
+    print("\nJSON file content:")
+    print(content)
+
+# JSON file content:
+# {
+#     "product_id": "WDG-A",
+#     "name": "Widget A",
+#     "price": 19.99,
+#     "in_stock": true,
+#     "variants": [
+#         "Red",
+#         "Blue",
+#         "Green"
+#     ],
+#     "dimensions": {
+#         "length": 10.2,
+#         "width": 5.1,
+#         "height": 2.0,
+#         "unit": "cm"
+#     }
+# }
+```
+
+#### Reading JSON Data
+
+```python
+# Reading JSON data from a file
+with open('product.json', 'r') as file:
+    # Parse JSON into a Python data structure
     loaded_data = json.load(file)
 
+# Let's work with the loaded data
 print(f"Product name: {loaded_data['name']}")
 print(f"Price: ${loaded_data['price']}")
 print(f"Available colors: {', '.join(loaded_data['variants'])}")
-print(f"Dimensions: {loaded_data['dimensions']['length']} x {loaded_data['dimensions']['width']} x {loaded_data['dimensions']['height']} {loaded_data['dimensions']['unit']}")
+print(f"Dimensions: {loaded_data['dimensions']['length']} x "
+      f"{loaded_data['dimensions']['width']} x "
+      f"{loaded_data['dimensions']['height']} "
+      f"{loaded_data['dimensions']['unit']}")
 
-# Output:
-# Product data written to JSON file. Let's read it back:
 # Product name: Widget A
 # Price: $19.99
 # Available colors: Red, Blue, Green
 # Dimensions: 10.2 x 5.1 x 2.0 cm
 ```
 
-### Working with JSON Errors
+#### Working with JSON Strings
 
-JSON parsing often needs error handling:
+You can also work with JSON as strings, which is common when receiving data from APIs:
+
+```python
+# Working with JSON strings
+json_string = '{"name": "Widget B", "price": 24.99, "in_stock": true}'
+
+# Parse the JSON string
+parsed_data = json.loads(json_string)
+print(f"Parsed from string - Name: {parsed_data['name']}, Price: ${parsed_data['price']}")
+
+# Convert back to a JSON string
+updated_data = {**parsed_data, "price": 29.99}  # Create a new dict with updated price
+json_updated = json.dumps(updated_data, indent=2)
+print(f"\nUpdated JSON string:\n{json_updated}")
+
+# Parsed from string - Name: Widget B, Price: $24.99
+#
+# Updated JSON string:
+# {
+#   "name": "Widget B",
+#   "price": 29.99,
+#   "in_stock": true
+# }
+```
+
+#### Handling JSON Errors
+
+JSON parsing can sometimes fail with invalid input:
 
 ```python
 # Handling JSON parsing errors
@@ -587,11 +1085,10 @@ for i, json_str in enumerate(invalid_json_strings, 1):
     print(f"\nTrying to parse invalid JSON #{i}: {json_str}")
     try:
         parsed_data = json.loads(json_str)
-        print(f"Parsed successfully: {parsed_data}")
+        print(f"Successfully parsed: {parsed_data}")
     except json.JSONDecodeError as e:
         print(f"Error parsing JSON: {e}")
 
-# Output:
 # Trying to parse invalid JSON #1: {"name": "Widget A", price: 19.99}
 # Error parsing JSON: Expecting property name enclosed in double quotes: line 1 column 22 (char 21)
 #
@@ -602,1307 +1099,1423 @@ for i, json_str in enumerate(invalid_json_strings, 1):
 # Error parsing JSON: Expecting ':' delimiter: line 1 column 49 (char 48)
 ```
 
-## 2.5 Integrating File Operations and Error Handling
+### 2.4.3 Combining CSV and JSON with Error Handling
 
-Now, let's apply what we've learned to create a more robust data processing function:
+Now, let's create a more complex example that combines CSV and JSON handling with proper error handling:
 
 ```python
-# A robust function to load and process sales data
-def load_sales_data(filename):
+def convert_csv_to_json(csv_filename, json_filename):
     """
-    Load sales data from a CSV file, handling potential errors.
-    Returns list of dictionaries with proper type conversion.
-    """
-    sales_data = []
+    Convert a CSV file to a JSON file with robust error handling.
 
+    Args:
+        csv_filename: Path to the input CSV file
+        json_filename: Path to the output JSON file
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
     try:
-        with open(filename, 'r') as file:
-            import csv
-            reader = csv.DictReader(file)
+        print(f"Converting {csv_filename} to JSON format...")
 
-            for row in reader:
+        # Verify the input file exists
+        if not os.path.exists(csv_filename):
+            print(f"Error: Input file '{csv_filename}' not found.")
+            return False
+
+        # Read the CSV file
+        records = []
+        with open(csv_filename, 'r', newline='') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+
+            # Process each row
+            for row_num, row in enumerate(csv_reader, 1):
                 try:
-                    # Convert string values to appropriate types
-                    processed_row = {
-                        'date': row['date'],
-                        'product': row['product'],
-                        'quantity': int(row['quantity']),
-                        'price': float(row['price']),
-                        # Add the total as a calculated field
-                        'total': int(row['quantity']) * float(row['price'])
-                    }
-                    sales_data.append(processed_row)
-                except (ValueError, KeyError) as e:
-                    print(f"Error processing row {row}: {e}")
-                    # Continue processing the next row
-                    continue
+                    # Perform data conversions (strings to appropriate types)
+                    processed_row = {}
+                    for key, value in row.items():
+                        # Try to convert numeric values
+                        if key in ('Quantity', 'Items_Sold'):
+                            processed_row[key] = int(value)
+                        elif key in ('Price', 'Total_Sales'):
+                            processed_row[key] = float(value)
+                        else:
+                            processed_row[key] = value
 
-    except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found.")
-    except PermissionError:
-        print(f"Error: No permission to read '{filename}'.")
+                    records.append(processed_row)
+                except (ValueError, TypeError) as e:
+                    print(f"Warning: Error processing row {row_num}: {e}")
+                    print(f"  Row data: {row}")
+                    # Still include the row but with original values
+                    records.append(row)
+
+        # Create the output JSON structure
+        output_data = {
+            "metadata": {
+                "source": csv_filename,
+                "record_count": len(records),
+                "generated_at": time.strftime("%Y-%m-%d %H:%M:%S")
+            },
+            "records": records
+        }
+
+        # Write to the JSON file
+        with open(json_filename, 'w') as json_file:
+            json.dump(output_data, json_file, indent=2)
+
+        print(f"Successfully converted {len(records)} records to {json_filename}")
+        return True
+
+    except (IOError, csv.Error, json.JSONDecodeError) as e:
+        print(f"Error during conversion: {e}")
+        return False
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print(f"Unexpected error: {e}")
+        return False
 
-    return sales_data
+# Test the conversion function with our sample file
+import time  # For timestamp in metadata
+convert_csv_to_json('sample_sales.csv', 'sales_data.json')
 
-# Let's test our function
-sales = load_sales_data('sales_data.csv')
+# Read back and print part of the JSON file to verify
+with open('sales_data.json', 'r') as file:
+    data = json.load(file)
+    print("\nJSON output preview:")
+    print(f"Metadata: {data['metadata']}")
+    print(f"First record: {data['records'][0]}")
 
-# Print the results
-if sales:
-    print(f"Successfully loaded {len(sales)} sales records:")
-    for sale in sales:
-        print(f"{sale['date']}: {sale['quantity']} x {sale['product']} at ${sale['price']} each, total: ${sale['total']:.2f}")
-else:
-    print("No sales data was loaded.")
-
-# Output:
-# Successfully loaded 5 sales records:
-# 2023-01-15: 5 x Widget A at $19.99 each, total: $99.95
-# 2023-01-16: 3 x Widget B at $24.99 each, total: $74.97
-# 2023-01-16: 2 x Widget A at $19.99 each, total: $39.98
-# 2023-01-17: 10 x Widget C at $14.99 each, total: $149.90
-# 2023-01-18: 1 x Widget B at $24.99 each, total: $24.99
+# Converting sample_sales.csv to JSON format...
+# Successfully converted 5 records to sales_data.json
+#
+# JSON output preview:
+# Metadata: {'source': 'sample_sales.csv', 'record_count': 5, 'generated_at': '2023-04-18 14:30:45'}
+# First record: {'Date': '2023-01-15', 'Product': 'Widget A', 'Quantity': 5, 'Price': 19.99}
 ```
 
-## 2.6 Putting It All Together: Micro-Project
+## 2.5 Integrating Concepts: A Robust Data Processor
 
-### Robust Data Processor
+Now, let's put together all the concepts we've learned to create a comprehensive data processing utility:
 
-In this micro-project, we'll enhance our sales data analyzer with proper error handling, multiple export formats, and more sophisticated data transformations.
+```python
+def process_sales_data(input_file, output_json=None, output_report=None):
+    """
+    Process a sales data CSV file, calculate statistics, and output results.
 
-#### Project Requirements:
+    Args:
+        input_file: Path to input CSV file
+        output_json: Optional path for JSON output
+        output_report: Optional path for text report output
 
-1. Read sales data from a CSV file
-2. Apply proper error handling for all operations
-3. Transform data in at least two ways (e.g., grouping by products, calculating daily totals)
-4. Export results to both JSON and formatted text report
-5. Add appropriate logging to track execution
+    Returns:
+        dict: Processing results and statistics
+    """
+    # Initialize results
+    results = {
+        "status": "failed",
+        "message": "",
+        "processed_records": 0,
+        "error_records": 0,
+        "total_sales": 0.0,
+        "total_items": 0,
+        "sales_by_product": {},
+        "sales_by_date": {}
+    }
 
-#### Acceptance Criteria:
+    try:
+        # Check if input file exists
+        if not os.path.exists(input_file):
+            results["message"] = f"Input file '{input_file}' not found."
+            return results
 
-- Gracefully handles all errors (file not found, malformed data, etc.)
-- Successfully implements at least two data transformations
-- Correctly exports results to both JSON and text formats
-- Includes appropriate error handling with specific exception types
-- Successfully processes test files, including one with intentional errors
+        # Read and process the CSV file
+        with open(input_file, 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
 
-#### Common Pitfalls and Solutions:
+            # Process each row
+            for row_num, row in enumerate(reader, 1):
+                try:
+                    # Validate required fields
+                    if not row.get('Product') or not row.get('Date'):
+                        raise ValueError("Missing required fields: Product or Date")
 
-- **Pitfall**: Too broad exception handling (catching all exceptions at once)  
-  **Solution**: Catch specific exception types (FileNotFoundError, ValueError, etc.)
+                    # Convert to appropriate types
+                    quantity = int(row.get('Quantity', 0))
+                    price = float(row.get('Price', 0.0))
 
-- **Pitfall**: File handles left open after exceptions  
-  **Solution**: Always use context managers (with statements) for all file operations
+                    # Skip records with zero quantity or price
+                    if quantity <= 0 or price <= 0:
+                        raise ValueError("Invalid quantity or price (must be positive)")
 
-- **Pitfall**: JSON serialization errors with complex objects  
-  **Solution**: Convert non-serializable objects (like dates) to strings first
+                    # Calculate row total
+                    row_total = quantity * price
+
+                    # Update totals
+                    results["total_sales"] += row_total
+                    results["total_items"] += quantity
+                    results["processed_records"] += 1
+
+                    # Update product statistics
+                    product = row['Product']
+                    if product not in results["sales_by_product"]:
+                        results["sales_by_product"][product] = {
+                            "quantity": 0,
+                            "revenue": 0.0
+                        }
+                    results["sales_by_product"][product]["quantity"] += quantity
+                    results["sales_by_product"][product]["revenue"] += row_total
+
+                    # Update date statistics
+                    date = row['Date']
+                    if date not in results["sales_by_date"]:
+                        results["sales_by_date"][date] = {
+                            "transactions": 0,
+                            "revenue": 0.0,
+                            "items": 0
+                        }
+                    results["sales_by_date"][date]["transactions"] += 1
+                    results["sales_by_date"][date]["revenue"] += row_total
+                    results["sales_by_date"][date]["items"] += quantity
+
+                except (ValueError, TypeError) as e:
+                    results["error_records"] += 1
+                    print(f"Error in row {row_num}: {e}")
+
+        # Set success status
+        results["status"] = "success"
+        results["message"] = f"Processed {results['processed_records']} records with {results['error_records']} errors."
+
+        # Calculate average values if we have records
+        if results["processed_records"] > 0:
+            results["average_sale"] = results["total_sales"] / results["processed_records"]
+            results["average_item_price"] = results["total_sales"] / results["total_items"]
+
+        # Write JSON output if requested
+        if output_json:
+            with open(output_json, 'w') as jsonfile:
+                # Include metadata in the output
+                output_data = {
+                    "metadata": {
+                        "source_file": input_file,
+                        "processed_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                        "record_count": results["processed_records"],
+                        "error_count": results["error_records"]
+                    },
+                    "results": results
+                }
+                json.dump(output_data, jsonfile, indent=2)
+                print(f"JSON output written to {output_json}")
+
+        # Write text report if requested
+        if output_report:
+            with open(output_report, 'w') as reportfile:
+                # Create a formatted report
+                report = f"""
+SALES DATA ANALYSIS REPORT
+==========================
+Source: {input_file}
+Generated: {time.strftime("%Y-%m-%d %H:%M:%S")}
+
+SUMMARY
+-------
+Total Records Processed: {results["processed_records"]}
+Records with Errors: {results["error_records"]}
+Total Sales Revenue: ${results["total_sales"]:.2f}
+Total Items Sold: {results["total_items"]}
+"""
+
+                # Add average values if we have records
+                if results["processed_records"] > 0:
+                    report += f"""
+Average Sale Amount: ${results["average_sale"]:.2f}
+Average Item Price: ${results["average_item_price"]:.2f}
+"""
+
+                # Add product breakdown
+                report += """
+PRODUCT BREAKDOWN
+----------------
+"""
+                for product, stats in sorted(results["sales_by_product"].items()):
+                    report += f"{product}:\n"
+                    report += f"  Quantity: {stats['quantity']}\n"
+                    report += f"  Revenue: ${stats['revenue']:.2f}\n"
+                    report += f"  Average Price: ${stats['revenue']/stats['quantity']:.2f}\n\n"
+
+                # Add date breakdown
+                report += """
+DAILY SALES
+----------
+"""
+                for date, stats in sorted(results["sales_by_date"].items()):
+                    report += f"{date}:\n"
+                    report += f"  Transactions: {stats['transactions']}\n"
+                    report += f"  Items Sold: {stats['items']}\n"
+                    report += f"  Revenue: ${stats['revenue']:.2f}\n\n"
+
+                # Write the report
+                reportfile.write(report)
+                print(f"Text report written to {output_report}")
+
+        return results
+
+    except (IOError, csv.Error) as e:
+        results["message"] = f"Error processing file: {e}"
+        return results
+    except Exception as e:
+        results["message"] = f"Unexpected error: {e}"
+        return results
+
+# Test the function with our sample file - includes both corrupted and valid data
+# Let's add some corrupted data to our sample file
+with open('test_sales_with_errors.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    # Write the header row
+    writer.writerow(['Date', 'Product', 'Quantity', 'Price'])
+    # Write data rows, including some with errors
+    writer.writerows([
+        ['2023-01-15', 'Widget A', 5, 19.99],
+        ['2023-01-16', 'Widget B', 3, 24.99],
+        ['2023-01-16', 'Widget A', 2, 19.99],
+        ['2023-01-17', 'Widget C', 10, 14.99],
+        ['2023-01-18', 'Widget B', 1, 24.99],
+        ['2023-01-19', 'Widget A', 'invalid', 19.99],  # Invalid quantity
+        ['2023-01-20', '', 3, 22.50],  # Missing product
+        ['2023-01-21', 'Widget C', 5, -10.00]  # Negative price
+    ])
+
+print("Test sales file with errors created.")
+# Test sales file with errors created.
+
+# Process the file with our comprehensive function
+results = process_sales_data(
+    'test_sales_with_errors.csv',
+    output_json='sales_analysis.json',
+    output_report='sales_report.txt'
+)
+
+# Display the summary results
+print("\nProcessing Summary:")
+print(f"Status: {results['status']}")
+print(f"Message: {results['message']}")
+print(f"Total Sales: ${results['total_sales']:.2f}")
+print(f"Products: {list(results['sales_by_product'].keys())}")
+
+# Error in row 6: invalid literal for int() with base 10: 'invalid'
+# Error in row 7: Missing required fields: Product or Date
+# Error in row 8: Invalid quantity or price (must be positive)
+# JSON output written to sales_analysis.json
+# Text report written to sales_report.txt
+#
+# Processing Summary:
+# Status: success
+# Message: Processed 5 records with 3 errors.
+# Total Sales: $389.85
+# Products: ['Widget A', 'Widget B', 'Widget C']
+```
+
+## 2.6 Micro-Project: Robust Data Processor
+
+### Project Requirements
+
+Now, let's develop a more structured micro-project based on what we've learned. We'll create a robust data processor that can:
+
+1. Read data from a CSV file
+2. Apply proper error handling and validation
+3. Perform data transformations
+4. Export results to both JSON and formatted text formats
+5. Include appropriate logging to track execution
+
+### Acceptance Criteria
+
+- The script should gracefully handle all potential errors (file not found, malformed data, etc.)
+- Successfully implement at least two data transformations (e.g., grouping by products, calculating daily totals)
+- Correctly export results to both JSON and formatted text outputs
+- Include appropriate validation with specific exception types
+- Successfully process test files, including those with intentional errors
+- Include clear documentation and comments
+
+### Common Pitfalls to Avoid
+
+1. **Too broad exception handling**:
+
+   - Problem: Catching all exceptions together (`except Exception`) without specific handling
+   - Solution: Catch specific exception types (FileNotFoundError, ValueError, etc.) with appropriate responses
+
+2. **File handles left open after exceptions**:
+
+   - Problem: Not closing files properly when errors occur
+   - Solution: Always use context managers (with statements) for all file operations
+
+3. **JSON serialization errors with complex objects**:
+
+   - Problem: Trying to serialize Python objects that aren't JSON-compatible (like datetime objects)
+   - Solution: Convert non-serializable objects to strings or basic types before JSON serialization
+
+4. **Ignoring edge cases in data**:
+   - Problem: Assuming all data will be valid and well-formed
+   - Solution: Add validation for missing fields, incorrect types, and business rule violations
+
+### How This Differs from Production-Grade Solutions
+
+In a professional data engineering environment, this solution would differ in several ways:
+
+1. **Configuration Management**:
+
+   - Production: Uses external configuration files or environment variables
+   - Micro-project: Hardcoded paths and settings
+
+2. **Logging Infrastructure**:
+
+   - Production: Structured logging to files or centralized systems
+   - Micro-project: Simple print statements for visibility
+
+3. **Error Recovery**:
+
+   - Production: More sophisticated retry logic and failure recovery
+   - Micro-project: Basic error handling with limited recovery
+
+4. **Performance**:
+
+   - Production: Optimized for large datasets with chunking and memory management
+   - Micro-project: Simpler implementation focused on correctness
+
+5. **Testing**:
+   - Production: Comprehensive test suite with unit, integration, and system tests
+   - Micro-project: Manual testing with simple test cases
 
 ### Implementation
 
-First, let's create a sample data file with some intentional errors:
-
 ```python
-# Create a test sales file with some intentional errors
-with open('test_sales.csv', 'w') as file:
-    file.write("date,product,quantity,price\n")
-    file.write("2023-01-15,Widget A,5,19.99\n")
-    file.write("2023-01-16,Widget B,three,24.99\n")  # Error: quantity is not a number
-    file.write("2023-01-16,Widget A,2,19.99\n")
-    file.write("2023-01-17,Widget C,10,invalid\n")   # Error: price is not a number
-    file.write("2023-01-18,Widget B,1,24.99\n")
-    file.write("2023-01-19,,0,0\n")  # Error: missing product
-
-print("Test sales file created with intentional errors.")
-
-# Output:
-# Test sales file created with intentional errors.
-```
-
-Now, let's implement our robust data processor:
-
-```python
+import os
 import csv
 import json
+import time
 from datetime import datetime
+from typing import Dict, List, Any, Optional, Union
 
-def process_sales_data(input_filename, json_output_filename, text_output_filename):
+def process_sales_data(
+    input_file: str,
+    output_json: Optional[str] = None,
+    output_report: Optional[str] = None,
+    log_file: Optional[str] = None
+) -> Dict[str, Any]:
     """
-    Process sales data from CSV, handling errors, and output to JSON and text.
+    Process a sales data CSV file, perform transformations, and export results.
 
     Args:
-        input_filename: CSV file with sales data
-        json_output_filename: Where to write JSON output
-        text_output_filename: Where to write text report
+        input_file: Path to input CSV file
+        output_json: Optional path for JSON output
+        output_report: Optional path for text report output
+        log_file: Optional path for log file
 
     Returns:
-        bool: True if processing was successful, False otherwise
+        Dict containing processing results and statistics
     """
-    # Initialize variables
-    sales_data = []
-    successful_rows = 0
-    error_count = 0
+    start_time = time.time()
 
-    print(f"Starting to process {input_filename} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    # Initialize results dictionary
+    results = {
+        "status": "failed",
+        "message": "",
+        "processed_records": 0,
+        "error_records": 0,
+        "total_sales": 0.0,
+        "sales_by_product": {},
+        "sales_by_date": {},
+        "processing_time": 0
+    }
 
-    # Step 1: Read and process the CSV file with error handling
+    # Set up logging
+    log_messages = []
+
+    def log(message: str, level: str = "INFO") -> None:
+        """Add a log message with timestamp and level."""
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_entry = f"[{timestamp}] {level}: {message}"
+        log_messages.append(log_entry)
+        print(log_entry)  # Also print to console
+
     try:
-        with open(input_filename, 'r') as file:
-            reader = csv.DictReader(file)
-            row_num = 0
+        log(f"Starting to process file: {input_file}")
 
-            for row in reader:
-                row_num += 1
-                try:
-                    # Validate fields
-                    if not row['product']:
-                        raise ValueError("Product name is missing")
+        # Validate input file
+        if not os.path.exists(input_file):
+            raise FileNotFoundError(f"Input file '{input_file}' not found")
 
-                    # Convert data types
-                    quantity = int(row['quantity'])
-                    price = float(row['price'])
-
-                    # Create processed row
-                    processed_row = {
-                        'date': row['date'],
-                        'product': row['product'],
-                        'quantity': quantity,
-                        'price': price,
-                        'total': quantity * price
-                    }
-
-                    sales_data.append(processed_row)
-                    successful_rows += 1
-
-                except (ValueError, KeyError) as e:
-                    error_count += 1
-                    print(f"Error in row {row_num}: {e} - Data: {row}")
-                    continue
-
-    except FileNotFoundError:
-        print(f"Error: The file '{input_filename}' was not found.")
-        return False
-    except PermissionError:
-        print(f"Error: No permission to read '{input_filename}'.")
-        return False
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return False
-
-    print(f"Processed {successful_rows} rows successfully with {error_count} errors.")
-
-    # If no data was processed successfully, stop here
-    if not sales_data:
-        print("No valid data to process.")
-        return False
-
-    # Step 2: Perform data transformations
-    try:
-        # Transformation 1: Group sales by product
+        # Initialize data structures for transformations
         sales_by_product = {}
-        for sale in sales_data:
-            product = sale['product']
-            if product not in sales_by_product:
-                sales_by_product[product] = {
-                    'total_quantity': 0,
-                    'total_revenue': 0.0,
-                    'sales_count': 0
-                }
-
-            sales_by_product[product]['total_quantity'] += sale['quantity']
-            sales_by_product[product]['total_revenue'] += sale['total']
-            sales_by_product[product]['sales_count'] += 1
-
-        # Transformation 2: Calculate daily totals
         sales_by_date = {}
-        for sale in sales_data:
-            date = sale['date']
-            if date not in sales_by_date:
-                sales_by_date[date] = {
-                    'total_revenue': 0.0,
-                    'items_sold': 0,
-                    'transactions': 0
+        daily_totals = {}
+
+        # Read and process the CSV file
+        log("Reading CSV file...")
+        with open(input_file, 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+
+            # Verify required columns
+            required_columns = {'Date', 'Product', 'Quantity', 'Price'}
+            if not required_columns.issubset(set(reader.fieldnames or [])):
+                missing = required_columns - set(reader.fieldnames or [])
+                raise ValueError(f"CSV file is missing required columns: {missing}")
+
+            # Process each row
+            for row_num, row in enumerate(reader, 1):
+                try:
+                    # Validate required fields
+                    if not row.get('Product'):
+                        raise ValueError("Missing product name")
+
+                    if not row.get('Date'):
+                        raise ValueError("Missing date")
+
+                    # Convert to appropriate types
+                    try:
+                        quantity = int(row.get('Quantity', 0))
+                    except ValueError:
+                        raise ValueError(f"Invalid quantity: {row.get('Quantity')}")
+
+                    try:
+                        price = float(row.get('Price', 0))
+                    except ValueError:
+                        raise ValueError(f"Invalid price: {row.get('Price')}")
+
+                    # Apply business rules
+                    if quantity <= 0:
+                        raise ValueError("Quantity must be positive")
+
+                    if price < 0:
+                        raise ValueError("Price cannot be negative")
+
+                    # Calculate row total
+                    row_total = quantity * price
+                    date = row['Date']
+                    product = row['Product']
+
+                    # Update running totals
+                    results["total_sales"] += row_total
+                    results["processed_records"] += 1
+
+                    # Transformation 1: Group by product
+                    if product not in sales_by_product:
+                        sales_by_product[product] = {
+                            "quantity": 0,
+                            "revenue": 0.0,
+                            "transactions": 0
+                        }
+                    sales_by_product[product]["quantity"] += quantity
+                    sales_by_product[product]["revenue"] += row_total
+                    sales_by_product[product]["transactions"] += 1
+
+                    # Transformation 2: Group by date
+                    if date not in sales_by_date:
+                        sales_by_date[date] = {
+                            "items_sold": 0,
+                            "revenue": 0.0,
+                            "transactions": 0
+                        }
+                    sales_by_date[date]["items_sold"] += quantity
+                    sales_by_date[date]["revenue"] += row_total
+                    sales_by_date[date]["transactions"] += 1
+
+                except ValueError as e:
+                    results["error_records"] += 1
+                    log(f"Error in row {row_num}: {e}", "ERROR")
+
+        # Store transformed data in results
+        results["sales_by_product"] = sales_by_product
+        results["sales_by_date"] = sales_by_date
+
+        # Calculate additional metrics
+        if results["processed_records"] > 0:
+            # Find top selling product
+            top_product = ""
+            top_revenue = 0
+            for product, data in sales_by_product.items():
+                if data["revenue"] > top_revenue:
+                    top_product = product
+                    top_revenue = data["revenue"]
+
+            results["top_product"] = {
+                "name": top_product,
+                "revenue": top_revenue
+            }
+
+            # Calculate average order value
+            total_transactions = sum(data["transactions"] for data in sales_by_date.values())
+            results["average_order_value"] = results["total_sales"] / total_transactions
+
+        # Success status
+        results["status"] = "success"
+        results["message"] = f"Successfully processed {results['processed_records']} records with {results['error_records']} errors."
+
+        # Export to JSON if path provided
+        if output_json:
+            try:
+                log(f"Writing JSON output to {output_json}")
+
+                # Prepare output data with metadata
+                output_data = {
+                    "metadata": {
+                        "source_file": input_file,
+                        "processed_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "record_count": results["processed_records"],
+                        "error_count": results["error_records"]
+                    },
+                    "summary": {
+                        "total_sales": results["total_sales"],
+                        "average_order_value": results.get("average_order_value", 0),
+                        "top_product": results.get("top_product", {})
+                    },
+                    "sales_by_product": results["sales_by_product"],
+                    "sales_by_date": results["sales_by_date"]
                 }
 
-            sales_by_date[date]['total_revenue'] += sale['total']
-            sales_by_date[date]['items_sold'] += sale['quantity']
-            sales_by_date[date]['transactions'] += 1
+                # Write to file
+                with open(output_json, 'w') as jsonfile:
+                    json.dump(output_data, jsonfile, indent=2)
 
-        print("Data transformations completed successfully.")
+                log(f"JSON output successfully written")
 
+            except (IOError, TypeError) as e:
+                log(f"Error writing JSON output: {e}", "ERROR")
+
+        # Export to text report if path provided
+        if output_report:
+            try:
+                log(f"Writing text report to {output_report}")
+
+                # Create report content
+                report_lines = [
+                    "SALES DATA ANALYSIS REPORT",
+                    "==========================",
+                    f"Source: {input_file}",
+                    f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+                    "",
+                    "SUMMARY",
+                    "-------",
+                    f"Total Records Processed: {results['processed_records']}",
+                    f"Records with Errors: {results['error_records']}",
+                    f"Total Sales Revenue: ${results['total_sales']:.2f}",
+                    ""
+                ]
+
+                # Add average order value if available
+                if "average_order_value" in results:
+                    report_lines.append(f"Average Order Value: ${results['average_order_value']:.2f}")
+
+                # Add top product if available
+                if "top_product" in results:
+                    report_lines.extend([
+                        "",
+                        "TOP SELLING PRODUCT",
+                        "-----------------",
+                        f"Product: {results['top_product']['name']}",
+                        f"Revenue: ${results['top_product']['revenue']:.2f}"
+                    ])
+
+                # Add sales by product
+                report_lines.extend([
+                    "",
+                    "SALES BY PRODUCT",
+                    "---------------"
+                ])
+
+                for product, data in sorted(results["sales_by_product"].items()):
+                    report_lines.extend([
+                        f"{product}:",
+                        f"  Quantity Sold: {data['quantity']}",
+                        f"  Total Revenue: ${data['revenue']:.2f}",
+                        f"  Average Price: ${data['revenue']/data['quantity']:.2f}",
+                        ""
+                    ])
+
+                # Add sales by date
+                report_lines.extend([
+                    "SALES BY DATE",
+                    "------------"
+                ])
+
+                for date, data in sorted(results["sales_by_date"].items()):
+                    report_lines.extend([
+                        f"{date}:",
+                        f"  Transactions: {data['transactions']}",
+                        f"  Items Sold: {data['items_sold']}",
+                        f"  Revenue: ${data['revenue']:.2f}",
+                        ""
+                    ])
+
+                # Write to file
+                with open(output_report, 'w') as reportfile:
+                    reportfile.write("\n".join(report_lines))
+
+                log(f"Text report successfully written")
+
+            except IOError as e:
+                log(f"Error writing text report: {e}", "ERROR")
+
+    except FileNotFoundError as e:
+        log(f"File error: {e}", "ERROR")
+        results["message"] = str(e)
+    except ValueError as e:
+        log(f"Data validation error: {e}", "ERROR")
+        results["message"] = str(e)
+    except (csv.Error, json.JSONDecodeError) as e:
+        log(f"Format error: {e}", "ERROR")
+        results["message"] = str(e)
     except Exception as e:
-        print(f"Error during data transformation: {e}")
-        return False
+        log(f"Unexpected error: {e}", "ERROR")
+        results["message"] = str(e)
 
-    # Step 3: Export to JSON
-    try:
-        output_data = {
-            'summary': {
-                'total_sales': sum(sale['total'] for sale in sales_data),
-                'total_items_sold': sum(sale['quantity'] for sale in sales_data),
-                'total_transactions': len(sales_data),
-                'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            },
-            'sales_by_product': sales_by_product,
-            'sales_by_date': sales_by_date,
-            'raw_data': sales_data
-        }
+    # Calculate processing time
+    end_time = time.time()
+    processing_time = end_time - start_time
+    results["processing_time"] = processing_time
 
-        with open(json_output_filename, 'w') as f:
-            json.dump(output_data, f, indent=4)
+    log(f"Processing completed in {processing_time:.2f} seconds. Status: {results['status']}")
 
-        print(f"JSON output written to {json_output_filename}")
+    # Write log file if specified
+    if log_file:
+        try:
+            with open(log_file, 'w') as logfile:
+                for entry in log_messages:
+                    logfile.write(f"{entry}\n")
+        except IOError as e:
+            print(f"Warning: Could not write to log file: {e}")
 
-    except (IOError, TypeError) as e:
-        print(f"Error writing JSON output: {e}")
-        return False
+    return results
 
-    # Step 4: Export to formatted text report
-    try:
-        with open(text_output_filename, 'w') as f:
-            f.write("SALES DATA ANALYSIS REPORT\n")
-            f.write("==========================\n\n")
-            f.write(f"Report generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(f"Source data: {input_filename}\n\n")
+# Create test data with some intentional errors
+def create_test_data(filename):
+    """Create a test CSV file with both valid and invalid records."""
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        # Write header
+        writer.writerow(['Date', 'Product', 'Quantity', 'Price'])
+        # Write data rows
+        writer.writerows([
+            ['2023-01-15', 'Laptop', '2', '999.99'],
+            ['2023-01-16', 'Mouse', '10', '24.99'],
+            ['2023-01-16', 'Keyboard', '5', '49.99'],
+            ['2023-01-17', 'Monitor', '3', '149.99'],
+            ['2023-01-18', 'Laptop', '1', '999.99'],
+            ['2023-01-18', 'Headphones', '4', '59.99'],
+            ['2023-01-19', 'Mouse', '5', '24.99'],
+            ['2023-01-19', '', '2', '29.99'],  # Missing product
+            ['2023-01-20', 'Keyboard', '0', '49.99'],  # Zero quantity
+            ['2023-01-20', 'Monitor', '2', 'invalid_price'],  # Invalid price
+            ['2023-01-21', 'Laptop', '1', '899.99']
+        ])
+    print(f"Test data created in {filename}")
+    return filename
 
-            f.write("SUMMARY\n")
-            f.write("-------\n")
-            f.write(f"Total sales: ${output_data['summary']['total_sales']:.2f}\n")
-            f.write(f"Total items sold: {output_data['summary']['total_items_sold']}\n")
-            f.write(f"Total transactions: {output_data['summary']['total_transactions']}\n\n")
-
-            f.write("SALES BY PRODUCT\n")
-            f.write("--------------\n")
-            for product, data in sales_by_product.items():
-                f.write(f"{product}:\n")
-                f.write(f"  Total quantity sold: {data['total_quantity']}\n")
-                f.write(f"  Total revenue: ${data['total_revenue']:.2f}\n")
-                f.write(f"  Number of sales: {data['sales_count']}\n\n")
-
-            f.write("DAILY SALES\n")
-            f.write("-----------\n")
-            for date, data in sales_by_date.items():
-                f.write(f"{date}:\n")
-                f.write(f"  Revenue: ${data['total_revenue']:.2f}\n")
-                f.write(f"  Items sold: {data['items_sold']}\n")
-                f.write(f"  Transactions: {data['transactions']}\n\n")
-
-            f.write("PROCESSING INFORMATION\n")
-            f.write("----------------------\n")
-            f.write(f"Rows successfully processed: {successful_rows}\n")
-            f.write(f"Rows with errors: {error_count}\n")
-
-        print(f"Text report written to {text_output_filename}")
-
-    except IOError as e:
-        print(f"Error writing text report: {e}")
-        return False
-
-    print("Processing completed successfully.")
-    return True
-
-# Run the processor on our test file
-result = process_sales_data(
-    'test_sales.csv',
-    'sales_analysis.json',
-    'sales_report.txt'
+# Run the processor on test data
+test_file = create_test_data('sales_test_data.csv')
+results = process_sales_data(
+    test_file,
+    output_json='sales_analysis_output.json',
+    output_report='sales_analysis_report.txt',
+    log_file='sales_processing.log'
 )
 
-if result:
-    print("\nFull process completed successfully!")
-else:
-    print("\nProcess completed with errors.")
-
-# Output example (will vary based on the data):
-# Starting to process test_sales.csv at 2023-08-15 14:32:45
-# Error in row 2: invalid literal for int() with base 10: 'three' - Data: {'date': '2023-01-16', 'product': 'Widget B', 'quantity': 'three', 'price': '24.99'}
-# Error in row 4: could not convert string to float: 'invalid' - Data: {'date': '2023-01-17', 'product': 'Widget C', 'quantity': '10', 'price': 'invalid'}
-# Error in row 6: Product name is missing - Data: {'date': '2023-01-19', 'product': '', 'quantity': '0', 'price': '0'}
-# Processed 3 rows successfully with 3 errors.
-# Data transformations completed successfully.
-# JSON output written to sales_analysis.json
-# Text report written to sales_report.txt
-# Processing completed successfully.
-#
-# Full process completed successfully!
+# Display summary of results
+print("\n" + "="*50)
+print("PROCESSING SUMMARY")
+print("="*50)
+print(f"Status: {results['status']}")
+print(f"Processed records: {results['processed_records']}")
+print(f"Error records: {results['error_records']}")
+print(f"Total sales: ${results['total_sales']:.2f}")
+if 'top_product' in results:
+    print(f"Top selling product: {results['top_product']['name']} (${results['top_product']['revenue']:.2f})")
+print(f"Processing time: {results['processing_time']:.2f} seconds")
+print("="*50)
 ```
-
-Let's examine the JSON output file:
-
-```python
-# Display the contents of the JSON output file
-try:
-    with open('sales_analysis.json', 'r') as file:
-        analysis_data = json.load(file)
-
-    print("\nSummary from JSON output:")
-    print(f"Total sales: ${analysis_data['summary']['total_sales']:.2f}")
-    print(f"Products analyzed: {', '.join(analysis_data['sales_by_product'].keys())}")
-    print(f"Dates analyzed: {', '.join(analysis_data['sales_by_date'].keys())}")
-except FileNotFoundError:
-    print("Could not find the JSON output file.")
-except json.JSONDecodeError:
-    print("Error parsing the JSON output file.")
-
-# Output:
-# Summary from JSON output:
-# Total sales: $164.92
-# Products analyzed: Widget A, Widget B
-# Dates analyzed: 2023-01-15, 2023-01-16, 2023-01-18
-```
-
-And let's examine the text report too:
-
-```python
-# Display the beginning of the text report
-try:
-    with open('sales_report.txt', 'r') as file:
-        # Read the first 15 lines to see the format
-        for i, line in enumerate(file):
-            if i < 15:
-                print(line.rstrip())
-            else:
-                print("...")
-                break
-except FileNotFoundError:
-    print("Could not find the text report file.")
-
-# Output:
-# SALES DATA ANALYSIS REPORT
-# ==========================
-#
-# Report generated on: 2023-08-15 14:32:45
-# Source data: test_sales.csv
-#
-# SUMMARY
-# -------
-# Total sales: $164.92
-# Total items sold: 8
-# Total transactions: 3
-#
-# SALES BY PRODUCT
-# --------------
-# Widget A:
-#   Total quantity sold: 7
-# ...
-```
-
-### Differences Between Micro-Project and Production-Grade Solution
-
-While our micro-project demonstrates key concepts, a production-grade solution would include additional components:
-
-1. **Logging Framework**: Instead of print statements, use the `logging` module to write to structured log files with different severity levels.
-
-2. **Configuration Management**: External configuration files to specify file paths, processing rules, etc.
-
-3. **Input Validation**: More comprehensive data validation including type checking, range validation, and business rule enforcement.
-
-4. **Performance Optimization**: Techniques for handling larger datasets efficiently.
-
-5. **Testing Framework**: Comprehensive unit and integration tests.
-
-6. **Documentation**: Detailed API documentation and user guides.
 
 ### How to Run and Test the Solution
 
-To run the solution:
+To run this solution:
 
-1. Ensure Python is installed on your system
-2. Create the necessary input files as shown in the code examples
-3. Run the final script, which will:
-   - Process the test_sales.csv file
-   - Handle the intentional errors
-   - Generate sales_analysis.json and sales_report.txt
-   - Display processing statistics
+1. Save the above code to a file (e.g., `data_processor.py`)
+2. Run the script: `python data_processor.py`
+3. The script will automatically:
+   - Create a test CSV file with both valid and invalid data
+   - Process the file with our robust data processor
+   - Generate three output files:
+     - `sales_analysis_output.json` - The JSON results
+     - `sales_analysis_report.txt` - A formatted text report
+     - `sales_processing.log` - A processing log file
+   - Display a summary of the processing results
 
-To test error handling:
+To test different scenarios:
 
-- Try with a non-existent input file
-- Try with a file that has permission issues
-- Try with various malformed data formats
+1. **Test with a file that doesn't exist**:
+
+   - Modify the input file argument to a non-existent file:
+
+   ```python
+   results = process_sales_data('nonexistent_file.csv', ...)
+   ```
+
+2. **Test with invalid CSV format**:
+
+   - Create a test file with missing columns or incorrectly formatted CSV
+
+3. **Test with extreme values**:
+
+   - Add test data with very large numbers or edge cases
+
+4. **Test error recovery**:
+   - Create a test file with a mix of valid and invalid records to verify that processing continues after errors
 
 ## 2.7 Practice Exercises
 
-To reinforce the concepts learned in this chapter, try these exercises:
+To reinforce your understanding of the concepts in this chapter, try these exercises:
 
 ### Exercise 1: File Operations
 
-Create a script that:
+Write a program that:
 
-1. Reads lines from a text file
-2. Counts the number of words in each line
-3. Writes the results to a new file in the format: "Line X: Y words"
+1. Creates a text file with 10 random numbers, one per line
+2. Reads the file and calculates the sum and average of the numbers
+3. Writes the results to a new file called "stats.txt"
+4. Uses appropriate error handling throughout
 
 ### Exercise 2: Error Handling
 
-Enhance the previous script to handle:
+Enhance the previous program to:
 
-1. Missing input file
-2. Permission errors
-3. Empty lines in the input file
+1. Handle file not found errors gracefully
+2. Deal with cases where the file contains non-numeric data
+3. Create a log of any errors encountered
+4. Continue processing even after errors
 
-### Exercise 3: CSV Processing
+### Exercise 3: List Comprehensions
 
 Write a function that:
 
-1. Reads a CSV file containing student grades (name, subject, score)
-2. Calculates the average score for each student
-3. Identifies students with scores below 60 (failing)
-4. Exports the results to both JSON and a formatted text report
+1. Takes a list of strings (representing dates, product names, and prices)
+2. Uses list comprehensions to filter out invalid entries (e.g., empty strings)
+3. Uses list comprehensions to extract only the prices and convert them to floats
+4. Returns the average price
 
-### Exercise 4: List Comprehensions
+### Exercise 4: CSV Processing
 
-Rewrite the following code using list comprehensions:
+Create a script that:
 
-```python
-result = []
-for i in range(1, 51):
-    if i % 3 == 0 and i % 5 != 0:
-        result.append(i * 2)
-```
+1. Reads a CSV file with columns: id, name, email, subscription_status
+2. Uses a dictionary comprehension to create a lookup table of user emails to subscription status
+3. Writes a new CSV with only active subscribers (subscription_status = "active")
+4. Includes proper error handling
 
-### Exercise 5: Robust Data Processing
+### Exercise 5: JSON Transformation
 
-Create a function that:
+Write a program that:
 
-1. Reads weather data from a CSV file (date, temperature, humidity, precipitation)
-2. Validates that temperature is between -50 and 50 degrees Celsius
-3. Validates that humidity is between 0 and 100 percent
-4. Validates that precipitation is non-negative
-5. Handles and logs any validation errors
-6. Calculates monthly averages for valid data points
-7. Exports the results to JSON
+1. Reads a JSON file containing product data (id, name, price, category)
+2. Groups the products by category using a dictionary comprehension
+3. Calculates the average price per category
+4. Writes the results to a new JSON file with a structure like:
+   ```json
+   {
+     "category1": {
+       "count": 5,
+       "avg_price": 19.99,
+       "products": ["product1", "product2", ...]
+     },
+     ...
+   }
+   ```
 
 ## 2.8 Exercise Solutions
 
-Let's go through the solutions to the practice exercises:
+Here are the solutions to the practice exercises:
 
 ### Solution to Exercise 1: File Operations
 
 ```python
-# First, let's create a sample text file
-with open('sample_text.txt', 'w') as file:
-    file.write("This is the first line of the file.\n")
-    file.write("This is the second line with more words than the first.\n")
-    file.write("And here is a third line that contains even more words than before.\n")
-    file.write("\n")  # Empty line
-    file.write("Finally, this is the last line of our sample file.\n")
+import random
 
-print("Sample text file created for Exercise 1.")
+def create_number_file(filename, count=10, min_val=1, max_val=100):
+    """Create a file with random numbers."""
+    try:
+        with open(filename, 'w') as file:
+            for _ in range(count):
+                number = random.randint(min_val, max_val)
+                file.write(f"{number}\n")
+        print(f"Created file {filename} with {count} random numbers")
+        return True
+    except IOError as e:
+        print(f"Error creating file: {e}")
+        return False
 
-# Now, let's read the file and count words
-with open('sample_text.txt', 'r') as input_file:
-    with open('word_counts.txt', 'w') as output_file:
-        for line_num, line in enumerate(input_file, 1):
-            # Strip whitespace and count words
-            line = line.strip()
-            if line:  # Check if line is not empty
-                word_count = len(line.split())
-            else:
-                word_count = 0
+def calculate_stats(filename):
+    """Calculate statistics from a file of numbers."""
+    try:
+        numbers = []
+        with open(filename, 'r') as file:
+            for line in file:
+                # Strip whitespace and convert to integer
+                number = int(line.strip())
+                numbers.append(number)
 
-            # Write result to output file
-            output_file.write(f"Line {line_num}: {word_count} words\n")
+        # Calculate statistics
+        if numbers:
+            total = sum(numbers)
+            average = total / len(numbers)
+            return {
+                "count": len(numbers),
+                "sum": total,
+                "average": average,
+                "min": min(numbers),
+                "max": max(numbers)
+            }
+        else:
+            return None
 
-            # Also print to console
-            print(f"Line {line_num}: {word_count} words")
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found")
+        return None
+    except ValueError as e:
+        print(f"Error: Could not convert data to integer: {e}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return None
 
-print("Word counts written to word_counts.txt")
+def write_stats_file(stats, output_filename):
+    """Write statistics to a file."""
+    try:
+        with open(output_filename, 'w') as file:
+            file.write("STATISTICS REPORT\n")
+            file.write("=================\n\n")
+            file.write(f"Count: {stats['count']}\n")
+            file.write(f"Sum: {stats['sum']}\n")
+            file.write(f"Average: {stats['average']:.2f}\n")
+            file.write(f"Minimum: {stats['min']}\n")
+            file.write(f"Maximum: {stats['max']}\n")
+        print(f"Statistics written to {output_filename}")
+        return True
+    except IOError as e:
+        print(f"Error writing statistics: {e}")
+        return False
+
+# Execute the complete workflow
+data_file = "random_numbers.txt"
+stats_file = "stats.txt"
+
+if create_number_file(data_file):
+    stats = calculate_stats(data_file)
+    if stats:
+        write_stats_file(stats, stats_file)
+        print("Process completed successfully")
+    else:
+        print("Could not calculate statistics")
+else:
+    print("Process failed")
 
 # Output:
-# Sample text file created for Exercise 1.
-# Line 1: 8 words
-# Line 2: 11 words
-# Line 3: 13 words
-# Line 4: 0 words
-# Line 5: 10 words
-# Word counts written to word_counts.txt
+# Created file random_numbers.txt with 10 random numbers
+# Statistics written to stats.txt
+# Process completed successfully
 ```
 
 ### Solution to Exercise 2: Error Handling
 
 ```python
-def count_words_in_file(input_filename, output_filename):
-    """
-    Read lines from a file, count words, and write results to another file.
-    Includes robust error handling.
-    """
+import random
+import os
+
+def create_test_files():
+    """Create test files including some with errors."""
+    # Create a file with valid numbers
+    with open("valid_numbers.txt", 'w') as file:
+        for _ in range(10):
+            file.write(f"{random.randint(1, 100)}\n")
+
+    # Create a file with some non-numeric data
+    with open("mixed_data.txt", 'w') as file:
+        for i in range(10):
+            if i % 3 == 0:
+                file.write("not_a_number\n")
+            else:
+                file.write(f"{random.randint(1, 100)}\n")
+
+    print("Test files created: valid_numbers.txt, mixed_data.txt")
+
+def process_number_file(filename, stats_file="stats.txt", log_file="error_log.txt"):
+    """Process a file of numbers with comprehensive error handling."""
+    # Initialize variables
+    numbers = []
+    errors = []
+    line_num = 0
+
     try:
-        with open(input_filename, 'r') as input_file:
-            try:
-                with open(output_filename, 'w') as output_file:
-                    for line_num, line in enumerate(input_file, 1):
-                        # Strip whitespace and count words
-                        line = line.strip()
-                        if line:  # Check if line is not empty
-                            word_count = len(line.split())
-                        else:
-                            word_count = 0
+        # Check if file exists
+        if not os.path.exists(filename):
+            raise FileNotFoundError(f"File '{filename}' not found")
 
-                        # Write result to output file
-                        output_file.write(f"Line {line_num}: {word_count} words\n")
+        # Process the file
+        with open(filename, 'r') as file:
+            for line in file:
+                line_num += 1
+                line = line.strip()
 
-                        # Also print to console
-                        print(f"Line {line_num}: {word_count} words")
-
-                print(f"Word counts written to {output_filename}")
-                return True
-
-            except PermissionError:
-                print(f"Error: No permission to write to {output_filename}")
-                return False
-            except IOError as e:
-                print(f"Error writing to output file: {e}")
-                return False
-
-    except FileNotFoundError:
-        print(f"Error: The file '{input_filename}' was not found.")
-        return False
-    except PermissionError:
-        print(f"Error: No permission to read '{input_filename}'")
-        return False
-    except IOError as e:
-        print(f"Error reading input file: {e}")
-        return False
-
-# Test with existing file
-print("Testing with existing file:")
-count_words_in_file('sample_text.txt', 'word_counts.txt')
-
-# Test with non-existent file
-print("\nTesting with non-existent file:")
-count_words_in_file('nonexistent_file.txt', 'word_counts.txt')
-
-# Output:
-# Testing with existing file:
-# Line 1: 8 words
-# Line 2: 11 words
-# Line 3: 13 words
-# Line 4: 0 words
-# Line 5: 10 words
-# Word counts written to word_counts.txt
-#
-# Testing with non-existent file:
-# Error: The file 'nonexistent_file.txt' was not found.
-```
-
-### Solution to Exercise 3: CSV Processing
-
-```python
-import csv
-import json
-from datetime import datetime
-
-# First, let's create a sample grades CSV file
-with open('student_grades.csv', 'w') as file:
-    file.write("name,subject,score\n")
-    file.write("Alice,Math,92\n")
-    file.write("Alice,Science,88\n")
-    file.write("Alice,History,76\n")
-    file.write("Bob,Math,65\n")
-    file.write("Bob,Science,72\n")
-    file.write("Bob,History,58\n")
-    file.write("Charlie,Math,55\n")
-    file.write("Charlie,Science,64\n")
-    file.write("Charlie,History,72\n")
-
-print("Sample student grades CSV created.")
-
-def process_student_grades(input_filename, json_output_filename, text_output_filename):
-    """
-    Process student grades from a CSV file, calculate averages, and identify failing students.
-    Export results to both JSON and a text report.
-    """
-    try:
-        # Read and process the CSV
-        with open(input_filename, 'r') as file:
-            reader = csv.DictReader(file)
-
-            # Dictionary to store grades by student
-            student_grades = {}
-
-            for row in reader:
-                try:
-                    name = row['name']
-                    subject = row['subject']
-                    score = float(row['score'])
-
-                    # Initialize student data if not already done
-                    if name not in student_grades:
-                        student_grades[name] = {
-                            'grades': [],
-                            'subjects': {}
-                        }
-
-                    # Add the grade
-                    student_grades[name]['grades'].append(score)
-                    student_grades[name]['subjects'][subject] = score
-
-                except (ValueError, KeyError) as e:
-                    print(f"Error processing row {row}: {e}")
+                # Skip empty lines
+                if not line:
                     continue
 
-        # Calculate statistics for each student
-        results = {
-            'students': {},
-            'summary': {
-                'total_students': 0,
-                'failing_students': 0,
-                'highest_average': {
-                    'name': '',
-                    'average': 0
-                },
-                'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            }
-        }
+                # Try to convert to a number
+                try:
+                    number = float(line)
+                    numbers.append(number)
+                except ValueError:
+                    error_msg = f"Line {line_num}: '{line}' is not a valid number"
+                    errors.append(error_msg)
+                    print(f"Warning: {error_msg}")
 
-        failing_students = []
-        highest_avg = 0
-        highest_name = ''
-
-        for name, data in student_grades.items():
-            # Calculate average
-            average_score = sum(data['grades']) / len(data['grades'])
-
-            # Determine if failing (below 60)
-            is_failing = average_score < 60
-            if is_failing:
-                failing_students.append(name)
-
-            # Check if highest average
-            if average_score > highest_avg:
-                highest_avg = average_score
-                highest_name = name
-
-            # Store in results
-            results['students'][name] = {
-                'average_score': average_score,
-                'individual_scores': data['subjects'],
-                'is_failing': is_failing
+        # Calculate statistics if we have valid numbers
+        if numbers:
+            total = sum(numbers)
+            average = total / len(numbers)
+            stats = {
+                "filename": filename,
+                "valid_count": len(numbers),
+                "error_count": len(errors),
+                "sum": total,
+                "average": average,
+                "min": min(numbers),
+                "max": max(numbers)
             }
 
-        # Update summary
-        results['summary']['total_students'] = len(student_grades)
-        results['summary']['failing_students'] = len(failing_students)
-        results['summary']['highest_average']['name'] = highest_name
-        results['summary']['highest_average']['average'] = highest_avg
+            # Write statistics to output file
+            with open(stats_file, 'w') as out_file:
+                out_file.write(f"STATISTICS FOR {filename}\n")
+                out_file.write("="*30 + "\n\n")
+                out_file.write(f"Valid numbers: {stats['valid_count']}\n")
+                out_file.write(f"Errors: {stats['error_count']}\n")
+                out_file.write(f"Sum: {stats['sum']}\n")
+                out_file.write(f"Average: {stats['average']:.2f}\n")
+                out_file.write(f"Minimum: {stats['min']}\n")
+                out_file.write(f"Maximum: {stats['max']}\n")
 
-        # Write to JSON
-        with open(json_output_filename, 'w') as f:
-            json.dump(results, f, indent=4)
+            print(f"Statistics written to {stats_file}")
 
-        # Write text report
-        with open(text_output_filename, 'w') as f:
-            f.write("STUDENT GRADES ANALYSIS\n")
-            f.write("======================\n\n")
-            f.write(f"Report generated on: {results['summary']['generated_at']}\n\n")
+        else:
+            print(f"No valid numbers found in {filename}")
+            stats = {
+                "filename": filename,
+                "valid_count": 0,
+                "error_count": len(errors)
+            }
 
-            f.write("STUDENT SUMMARIES\n")
-            f.write("----------------\n")
-            for name, data in results['students'].items():
-                f.write(f"\n{name}:\n")
-                f.write(f"  Average Score: {data['average_score']:.2f}\n")
+        # Write error log if there were errors
+        if errors:
+            with open(log_file, 'w') as log:
+                log.write(f"ERROR LOG FOR {filename}\n")
+                log.write("="*30 + "\n\n")
+                for error in errors:
+                    log.write(f"{error}\n")
+            print(f"Error log written to {log_file}")
 
-                # List individual subject scores
-                f.write("  Subject Scores:\n")
-                for subject, score in data['individual_scores'].items():
-                    f.write(f"    - {subject}: {score}\n")
+        return stats
 
-                # Note if failing
-                if data['is_failing']:
-                    f.write("  ** THIS STUDENT IS FAILING **\n")
-
-            f.write("\n\nSUMMARY STATISTICS\n")
-            f.write("-----------------\n")
-            f.write(f"Total students: {results['summary']['total_students']}\n")
-            f.write(f"Failing students: {results['summary']['failing_students']}\n")
-            f.write(f"Student with highest average: {results['summary']['highest_average']['name']} ")
-            f.write(f"({results['summary']['highest_average']['average']:.2f})\n\n")
-
-            # List failing students
-            if failing_students:
-                f.write("List of failing students:\n")
-                for student in failing_students:
-                    f.write(f"- {student}\n")
-            else:
-                f.write("No failing students!\n")
-
-        print(f"Processing complete. Results written to {json_output_filename} and {text_output_filename}")
-        return True
-
-    except FileNotFoundError:
-        print(f"Error: The file '{input_filename}' was not found.")
-        return False
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        return {"filename": filename, "error": "File not found"}
+    except IOError as e:
+        print(f"I/O error: {e}")
+        return {"filename": filename, "error": f"I/O error: {e}"}
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return False
+        print(f"Unexpected error: {e}")
+        return {"filename": filename, "error": f"Unexpected error: {e}"}
 
-# Process the student grades
-process_student_grades('student_grades.csv', 'grades_analysis.json', 'grades_report.txt')
+# Create test files
+create_test_files()
 
-# Display a sample of the results
-try:
-    with open('grades_analysis.json', 'r') as file:
-        data = json.load(file)
+# Process the files
+print("\nProcessing valid file:")
+process_number_file("valid_numbers.txt", "valid_stats.txt", "valid_errors.txt")
 
-    print("\nSummary from JSON output:")
-    print(f"Total students: {data['summary']['total_students']}")
-    print(f"Failing students: {data['summary']['failing_students']}")
-    print(f"Student with highest average: {data['summary']['highest_average']['name']}")
+print("\nProcessing mixed data file:")
+process_number_file("mixed_data.txt", "mixed_stats.txt", "mixed_errors.txt")
 
-    print("\nSample student data:")
-    # Show data for first student
-    first_student = list(data['students'].keys())[0]
-    print(f"{first_student}:")
-    print(f"  Average score: {data['students'][first_student]['average_score']:.2f}")
-    print(f"  Failing: {data['students'][first_student]['is_failing']}")
-
-except FileNotFoundError:
-    print("Could not find the JSON output file.")
+print("\nProcessing nonexistent file:")
+process_number_file("nonexistent.txt")
 
 # Output:
-# Sample student grades CSV created.
-# Processing complete. Results written to grades_analysis.json and grades_report.txt
+# Test files created: valid_numbers.txt, mixed_data.txt
 #
-# Summary from JSON output:
-# Total students: 3
-# Failing students: 1
-# Student with highest average: Alice
+# Processing valid file:
+# Statistics written to valid_stats.txt
 #
-# Sample student data:
-# Alice:
-#   Average score: 85.33
-#   Failing: False
+# Processing mixed data file:
+# Warning: Line 1: 'not_a_number' is not a valid number
+# Warning: Line 4: 'not_a_number' is not a valid number
+# Warning: Line 7: 'not_a_number' is not a valid number
+# Warning: Line 10: 'not_a_number' is not a valid number
+# Statistics written to mixed_stats.txt
+# Error log written to mixed_errors.txt
+#
+# Processing nonexistent file:
+# Error: File 'nonexistent.txt' not found
 ```
 
-### Solution to Exercise 4: List Comprehensions
+### Solution to Exercise 3: List Comprehensions
 
 ```python
-# Original code:
-result = []
-for i in range(1, 51):
-    if i % 3 == 0 and i % 5 != 0:
-        result.append(i * 2)
-
-print("Original result:", result)
-
-# Rewritten with list comprehension:
-result_comprehension = [i * 2 for i in range(1, 51) if i % 3 == 0 and i % 5 != 0]
-
-print("Result using list comprehension:", result_comprehension)
-
-# Let's verify they're identical
-print("Results are identical:", result == result_comprehension)
-
-# Output:
-# Original result: [6, 12, 18, 24, 36, 42, 48, 54, 66, 72, 78, 84, 96]
-# Result using list comprehension: [6, 12, 18, 24, 36, 42, 48, 54, 66, 72, 78, 84, 96]
-# Results are identical: True
-```
-
-### Solution to Exercise 5: Robust Data Processing
-
-```python
-import csv
-import json
-from datetime import datetime
-
-# First, let's create a sample weather data CSV file
-with open('weather_data.csv', 'w') as file:
-    file.write("date,temperature,humidity,precipitation\n")
-    file.write("2023-01-01,12.5,65,0.0\n")
-    file.write("2023-01-02,-5.0,45,1.2\n")
-    file.write("2023-01-03,8.7,60,0.5\n")
-    file.write("2023-01-15,22.3,70,0.0\n")
-    file.write("2023-01-16,25.1,80,0.0\n")
-    file.write("2023-01-31,-2.3,50,2.1\n")
-    file.write("2023-02-01,3.5,55,0.8\n")
-    file.write("2023-02-02,6.1,58,0.2\n")
-    file.write("2023-02-15,14.2,62,0.0\n")
-    # Add some invalid data for testing
-    file.write("2023-02-16,55.7,95,0.0\n")  # Temperature too high
-    file.write("2023-02-17,15.3,110,0.0\n")  # Humidity too high
-    file.write("2023-02-18,18.5,75,-0.5\n")  # Negative precipitation
-
-print("Sample weather data CSV created.")
-
-def process_weather_data(input_filename, output_filename):
+def process_price_data(data_list):
     """
-    Process weather data with validation, error handling, and monthly averages.
+    Process a list of strings to extract and calculate average price.
 
     Args:
-        input_filename: CSV file with weather data
-        output_filename: Where to write JSON output
+        data_list: List of strings with format: 'date,product,price'
 
     Returns:
-        bool: True if processing was successful
+        float: Average price of valid entries
     """
-    # Initialize variables
-    weather_data = []
-    monthly_data = {}
-    error_count = 0
+    # Filter out empty or invalid strings
+    valid_entries = [entry for entry in data_list if entry and entry.count(',') >= 2]
 
-    print(f"Starting to process {input_filename} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-
+    # Extract prices using list comprehension and split
     try:
-        with open(input_filename, 'r') as file:
-            reader = csv.DictReader(file)
-            row_num = 0
+        # Split each entry and extract the price (third part)
+        prices = [float(entry.split(',')[2]) for entry in valid_entries]
 
-            for row in reader:
-                row_num += 1
-                try:
-                    # Extract date and parse into month identifier
-                    date = row['date']
-                    year_month = date[:7]  # Extract YYYY-MM part
+        # Calculate average if we have prices
+        if prices:
+            average = sum(prices) / len(prices)
+            return average
+        else:
+            return 0.0
+    except (ValueError, IndexError) as e:
+        print(f"Error processing prices: {e}")
+        return 0.0
 
-                    # Convert and validate data types
-                    temperature = float(row['temperature'])
-                    humidity = float(row['humidity'])
-                    precipitation = float(row['precipitation'])
+# Test with sample data
+sample_data = [
+    "2023-01-15,Laptop,999.99",
+    "2023-01-16,Mouse,24.99",
+    "",  # Empty entry
+    "2023-01-17,Keyboard,59.99",
+    "2023-01-18,incomplete_entry",  # Invalid format
+    "2023-01-19,Monitor,149.99",
+    "2023-01-20,Headphones,89.99"
+]
 
-                    # Validate ranges
-                    if temperature < -50 or temperature > 50:
-                        raise ValueError(f"Temperature {temperature} is outside valid range (-50 to 50)")
+average_price = process_price_data(sample_data)
+print(f"Sample data entries: {len(sample_data)}")
+print(f"Average price: ${average_price:.2f}")
 
-                    if humidity < 0 or humidity > 100:
-                        raise ValueError(f"Humidity {humidity} is outside valid range (0 to 100)")
+# Output:
+# Sample data entries: 7
+# Average price: $265.00
+```
 
-                    if precipitation < 0:
-                        raise ValueError(f"Precipitation {precipitation} cannot be negative")
+### Solution to Exercise 4: CSV Processing
 
-                    # Create processed record
-                    processed_record = {
-                        'date': date,
-                        'year_month': year_month,
-                        'temperature': temperature,
-                        'humidity': humidity,
-                        'precipitation': precipitation
-                    }
+```python
+import csv
+import os
 
-                    weather_data.append(processed_record)
+def filter_active_subscribers(input_file, output_file):
+    """
+    Read a CSV of users and write a new CSV with only active subscribers.
 
-                    # Update monthly aggregates
-                    if year_month not in monthly_data:
-                        monthly_data[year_month] = {
-                            'temperature_sum': 0,
-                            'humidity_sum': 0,
-                            'precipitation_sum': 0,
-                            'day_count': 0
-                        }
+    Args:
+        input_file: Path to input CSV with columns id,name,email,subscription_status
+        output_file: Path to output CSV file
 
-                    monthly_data[year_month]['temperature_sum'] += temperature
-                    monthly_data[year_month]['humidity_sum'] += humidity
-                    monthly_data[year_month]['precipitation_sum'] += precipitation
-                    monthly_data[year_month]['day_count'] += 1
-
-                except ValueError as e:
-                    error_count += 1
-                    print(f"Error in row {row_num}: {e} - Data: {row}")
-                    continue
-
-    except FileNotFoundError:
-        print(f"Error: The file '{input_filename}' was not found.")
-        return False
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return False
-
-    # Calculate monthly averages
-    monthly_averages = {}
-    for month, data in monthly_data.items():
-        monthly_averages[month] = {
-            'avg_temperature': data['temperature_sum'] / data['day_count'],
-            'avg_humidity': data['humidity_sum'] / data['day_count'],
-            'total_precipitation': data['precipitation_sum'],
-            'days_recorded': data['day_count']
-        }
-
-    # Generate output
-    output_data = {
-        'summary': {
-            'total_records_processed': len(weather_data),
-            'error_count': error_count,
-            'months_analyzed': len(monthly_data),
-            'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        },
-        'monthly_averages': monthly_averages,
-        'daily_records': weather_data
+    Returns:
+        dict: Processing statistics
+    """
+    # Initialize statistics
+    stats = {
+        "total_users": 0,
+        "active_users": 0,
+        "error_count": 0
     }
 
-    # Write to JSON
     try:
-        with open(output_filename, 'w') as f:
-            json.dump(output_data, f, indent=4)
-        print(f"Weather data analysis written to {output_filename}")
-        return True
-    except Exception as e:
-        print(f"Error writing output file: {e}")
-        return False
+        # Check if input file exists
+        if not os.path.exists(input_file):
+            raise FileNotFoundError(f"Input file '{input_file}' not found")
 
-# Process the weather data
-process_weather_data('weather_data.csv', 'weather_analysis.json')
+        # Read the input CSV
+        user_statuses = {}  # Will hold email -> status mapping
 
-# Display a summary of the results
-try:
-    with open('weather_analysis.json', 'r') as file:
-        data = json.load(file)
+        with open(input_file, 'r', newline='') as infile:
+            reader = csv.DictReader(infile)
 
-    print("\nWeather Data Analysis Summary:")
-    print(f"Records processed: {data['summary']['total_records_processed']}")
-    print(f"Error count: {data['summary']['error_count']}")
-    print(f"Months analyzed: {data['summary']['months_analyzed']}")
+            # Verify required columns
+            required_columns = {'id', 'name', 'email', 'subscription_status'}
+            if not required_columns.issubset(set(reader.fieldnames or [])):
+                missing = required_columns - set(reader.fieldnames or [])
+                raise ValueError(f"CSV is missing required columns: {missing}")
 
-    print("\nMonthly Average Temperatures:")
-    for month, stats in data['monthly_averages'].items():
-        print(f"{month}: {stats['avg_temperature']:.1f}°C, {stats['total_precipitation']:.1f}mm precipitation")
+            # Process each row
+            for row_num, row in enumerate(reader, 1):
+                stats["total_users"] += 1
 
-except FileNotFoundError:
-    print("Could not find the JSON output file.")
+                try:
+                    # Extract email and status
+                    email = row['email']
+                    status = row['subscription_status']
+
+                    # Skip rows with missing email
+                    if not email:
+                        raise ValueError("Missing email")
+
+                    # Add to our dictionary
+                    user_statuses[email] = status
+
+                    # Count active users
+                    if status.lower() == 'active':
+                        stats["active_users"] += 1
+
+                except (KeyError, ValueError) as e:
+                    stats["error_count"] += 1
+                    print(f"Error in row {row_num}: {e}")
+
+        # Create dictionary of only active users using comprehension
+        active_users = {
+            email: status for email, status in user_statuses.items()
+            if status.lower() == 'active'
+        }
+
+        # Write active users to output CSV
+        with open(output_file, 'w', newline='') as outfile:
+            # Define the field names for output
+            fieldnames = ['id', 'name', 'email', 'subscription_status']
+            writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+
+            # Write header
+            writer.writeheader()
+
+            # Write active users
+            with open(input_file, 'r', newline='') as infile:
+                reader = csv.DictReader(infile)
+                for row in reader:
+                    if row['email'] in active_users:
+                        writer.writerow(row)
+
+        print(f"Processing complete. {stats['active_users']} active users out of {stats['total_users']} total users.")
+        return stats
+
+    except (IOError, csv.Error) as e:
+        print(f"Error processing CSV: {e}")
+        return {"error": str(e)}
+
+# Create a sample CSV for testing
+def create_sample_users_csv(filename):
+    """Create a sample CSV file with user data."""
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        # Write header
+        writer.writerow(['id', 'name', 'email', 'subscription_status'])
+        # Write data rows
+        writer.writerows([
+            ['1', 'Alice Smith', 'alice@example.com', 'active'],
+            ['2', 'Bob Johnson', 'bob@example.com', 'inactive'],
+            ['3', 'Charlie Brown', 'charlie@example.com', 'active'],
+            ['4', 'Diana Lee', 'diana@example.com', 'active'],
+            ['5', 'Edward Wilson', 'edward@example.com', 'cancelled'],
+            ['6', 'Fiona Davis', 'fiona@example.com', 'active'],
+            ['7', 'George Miller', '', 'active'],  # Missing email
+            ['8', 'Hannah Clark', 'hannah@example.com', 'inactive']
+        ])
+    print(f"Sample users CSV created: {filename}")
+
+# Test the function
+sample_file = "users.csv"
+output_file = "active_users.csv"
+
+create_sample_users_csv(sample_file)
+stats = filter_active_subscribers(sample_file, output_file)
+
+# Display the results
+print("\nActive subscribers written to:", output_file)
+print("Statistics:")
+for key, value in stats.items():
+    print(f"  {key}: {value}")
 
 # Output:
-# Sample weather data CSV created.
-# Starting to process weather_data.csv at 2023-08-15 15:45:32
-# Error in row 10: Temperature 55.7 is outside valid range (-50 to 50) - Data: {'date': '2023-02-16', 'temperature': '55.7', 'humidity': '95', 'precipitation': '0.0'}
-# Error in row 11: Humidity 110.0 is outside valid range (0 to 100) - Data: {'date': '2023-02-17', 'temperature': '15.3', 'humidity': '110', 'precipitation': '0.0'}
-# Error in row 12: Precipitation -0.5 cannot be negative - Data: {'date': '2023-02-18', 'temperature': '18.5', 'humidity': '75', 'precipitation': '-0.5'}
-# Weather data analysis written to weather_analysis.json
+# Sample users CSV created: users.csv
+# Error in row 7: Missing email
+# Processing complete. 4 active users out of 8 total users.
 #
-# Weather Data Analysis Summary:
-# Records processed: 9
-# Error count: 3
-# Months analyzed: 2
+# Active subscribers written to: active_users.csv
+# Statistics:
+#   total_users: 8
+#   active_users: 4
+#   error_count: 1
+```
+
+### Solution to Exercise 5: JSON Transformation
+
+```python
+import json
+import os
+from collections import defaultdict
+
+def group_products_by_category(input_file, output_file):
+    """
+    Group products by category and calculate statistics.
+
+    Args:
+        input_file: Path to input JSON file with product data
+        output_file: Path to output JSON file
+
+    Returns:
+        dict: Processing statistics
+    """
+    stats = {
+        "total_products": 0,
+        "categories": 0,
+        "status": "failed"
+    }
+
+    try:
+        # Check if input file exists
+        if not os.path.exists(input_file):
+            raise FileNotFoundError(f"Input file '{input_file}' not found")
+
+        # Read the input JSON
+        with open(input_file, 'r') as infile:
+            products = json.load(infile)
+
+        # Ensure products is a list
+        if not isinstance(products, list):
+            raise ValueError("JSON must contain a list of products")
+
+        stats["total_products"] = len(products)
+
+        # Initialize data structure for categories
+        categories = defaultdict(lambda: {
+            "count": 0,
+            "total_price": 0.0,
+            "products": []
+        })
+
+        # Group products by category
+        for product in products:
+            # Validate product structure
+            if not all(key in product for key in ['id', 'name', 'price', 'category']):
+                print(f"Warning: Product missing required fields: {product}")
+                continue
+
+            category = product['category']
+
+            # Skip products with missing category
+            if not category:
+                print(f"Warning: Product has no category: {product}")
+                continue
+
+            # Extract price as float
+            try:
+                price = float(product['price'])
+            except (ValueError, TypeError):
+                print(f"Warning: Invalid price for product: {product}")
+                continue
+
+            # Update category data
+            categories[category]["count"] += 1
+            categories[category]["total_price"] += price
+            categories[category]["products"].append(product['name'])
+
+        # Calculate average prices
+        for category_data in categories.values():
+            if category_data["count"] > 0:
+                category_data["avg_price"] = category_data["total_price"] / category_data["count"]
+            else:
+                category_data["avg_price"] = 0.0
+
+            # Remove the total price (we only need the average)
+            category_data.pop("total_price")
+
+        stats["categories"] = len(categories)
+
+        # Write the grouped data to output JSON
+        with open(output_file, 'w') as outfile:
+            json.dump(dict(categories), outfile, indent=2)
+
+        stats["status"] = "success"
+        print(f"Processing complete. Grouped {stats['total_products']} products into {stats['categories']} categories.")
+        return stats
+
+    except (IOError, json.JSONDecodeError) as e:
+        print(f"Error processing JSON: {e}")
+        return {"error": str(e), "status": "failed"}
+
+# Create a sample product JSON for testing
+def create_sample_products_json(filename):
+    """Create a sample JSON file with product data."""
+    products = [
+        {"id": 1, "name": "Laptop", "price": 999.99, "category": "Electronics"},
+        {"id": 2, "name": "Mouse", "price": 24.99, "category": "Electronics"},
+        {"id": 3, "name": "Keyboard", "price": 49.99, "category": "Electronics"},
+        {"id": 4, "name": "Coffee Mug", "price": 9.99, "category": "Kitchen"},
+        {"id": 5, "name": "Headphones", "price": 79.99, "category": "Electronics"},
+        {"id": 6, "name": "Blender", "price": 39.99, "category": "Kitchen"},
+        {"id": 7, "name": "T-shirt", "price": 19.99, "category": "Clothing"},
+        {"id": 8, "name": "Jeans", "price": 59.99, "category": "Clothing"},
+        {"id": 9, "name": "Socks", "price": 4.99, "category": "Clothing"},
+        {"id": 10, "name": "Plate Set", "price": 29.99, "category": "Kitchen"}
+    ]
+
+    with open(filename, 'w') as file:
+        json.dump(products, file, indent=2)
+    print(f"Sample products JSON created: {filename}")
+
+# Test the function
+sample_file = "products.json"
+output_file = "products_by_category.json"
+
+create_sample_products_json(sample_file)
+stats = group_products_by_category(sample_file, output_file)
+
+# Display the results
+print("\nProducts grouped by category written to:", output_file)
+print("Statistics:")
+for key, value in stats.items():
+    print(f"  {key}: {value}")
+
+# Output:
+# Sample products JSON created: products.json
+# Processing complete. Grouped 10 products into 3 categories.
 #
-# Monthly Average Temperatures:
-# 2023-01: 10.2°C, 3.8mm precipitation
-# 2023-02: 7.9°C, 1.0mm precipitation
+# Products grouped by category written to: products_by_category.json
+# Statistics:
+#   total_products: 10
+#   categories: 3
+#   status: success
 ```
 
-## 2.9 Common Troubleshooting Guide
+## 2.9 Chapter Summary and Connection to Chapter 3
 
-When working with files and data formats, you'll likely encounter some common issues. Here's a quick troubleshooting guide:
+In this chapter, we've covered essential data handling techniques that form the foundation of robust data engineering:
 
-### File Operation Issues
+- **File Operations** - We learned how to safely read from and write to files using context managers, which is crucial for data ingestion and export
+- **Error Handling** - We explored how to create resilient code that can recover from failures, a must-have for production data pipelines
+- **Data Transformations** - We discovered how to use list comprehensions for efficient data processing
+- **Data Formats** - We gained experience working with common formats like CSV and JSON
 
-| Problem              | Possible Cause                                | Solution                                                                |
-| -------------------- | --------------------------------------------- | ----------------------------------------------------------------------- |
-| `FileNotFoundError`  | Incorrect file path or file doesn't exist     | Double-check file path, use `os.path.exists()` to verify before opening |
-| `PermissionError`    | No read/write permission for the file         | Check file permissions, run with appropriate privileges                 |
-| `UnicodeDecodeError` | File encoding doesn't match expected encoding | Specify encoding: `open('file.txt', 'r', encoding='utf-8')`             |
-| `IOError`            | General input/output error                    | Use more specific exception handling, check disk space                  |
+These skills are directly applicable to real-world data engineering tasks. Consider how a typical ETL (Extract, Transform, Load) pipeline uses these concepts:
 
-### CSV Issues
+1. **Extract** - File operations to read from data sources
+2. **Transform** - List comprehensions and data validation with error handling
+3. **Load** - File operations to write to data destinations, with proper error recovery
 
-| Problem                | Possible Cause                     | Solution                                                                  |
-| ---------------------- | ---------------------------------- | ------------------------------------------------------------------------- |
-| Incorrect field count  | Delimiters within fields           | Use `csv.reader` with proper `quotechar` and `delimiter` settings         |
-| Type conversion errors | Non-numeric data in numeric fields | Add validation before conversion, use try/except for each conversion      |
-| Empty fields           | Missing data in CSV                | Check for empty strings before processing, use defaults where appropriate |
+In the next chapter, we'll build on these foundations with more powerful data processing tools:
 
-### JSON Issues
+- NumPy for efficient numerical computations
+- Pandas for sophisticated data manipulation
+- DataFrame operations that simplify common data tasks
 
-| Problem                   | Possible Cause                                  | Solution                                                                    |
-| ------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------- |
-| `JSONDecodeError`         | Malformed JSON                                  | Validate JSON structure before parsing, use online validators for debugging |
-| Nested data access errors | Incorrectly navigating JSON structure           | Use `.get()` method for dictionaries with default values                    |
-| Serialization errors      | Trying to serialize non-JSON-compatible objects | Convert complex objects to strings or basic types before serialization      |
+The skills you've learned in this chapter will be directly applied in Chapter 3:
 
-### Error Handling Issues
+- Your understanding of context managers will help with safely loading and saving data
+- Error handling patterns will be essential for robust data processing
+- List comprehensions will be used alongside (and eventually replaced by) vectorized operations
+- Knowledge of CSV and JSON will prepare you for Pandas' powerful I/O capabilities
 
-| Problem              | Possible Cause                       | Solution                                                        |
-| -------------------- | ------------------------------------ | --------------------------------------------------------------- |
-| Exception not caught | Too specific exception type in catch | Use appropriate exception hierarchy, add multiple except blocks |
-| Swallowed exceptions | Empty except block                   | Always log or handle exceptions meaningfully                    |
-| Resource leaks       | Not using context managers           | Use `with` statement for all resource management                |
-
-## 2.10 Performance Considerations for File Operations
-
-When working with files and data formats, you'll likely encounter some common issues. Here's a quick troubleshooting guide:
-
-### File Operation Issues
-
-| Problem              | Possible Cause                                | Solution                                                                |
-| -------------------- | --------------------------------------------- | ----------------------------------------------------------------------- |
-| `FileNotFoundError`  | Incorrect file path or file doesn't exist     | Double-check file path, use `os.path.exists()` to verify before opening |
-| `PermissionError`    | No read/write permission for the file         | Check file permissions, run with appropriate privileges                 |
-| `UnicodeDecodeError` | File encoding doesn't match expected encoding | Specify encoding: `open('file.txt', 'r', encoding='utf-8')`             |
-| `IOError`            | General input/output error                    | Use more specific exception handling, check disk space                  |
-
-### CSV Issues
-
-| Problem                | Possible Cause                     | Solution                                                                  |
-| ---------------------- | ---------------------------------- | ------------------------------------------------------------------------- |
-| Incorrect field count  | Delimiters within fields           | Use `csv.reader` with proper `quotechar` and `delimiter` settings         |
-| Type conversion errors | Non-numeric data in numeric fields | Add validation before conversion, use try/except for each conversion      |
-| Empty fields           | Missing data in CSV                | Check for empty strings before processing, use defaults where appropriate |
-
-### JSON Issues
-
-| Problem                   | Possible Cause                                  | Solution                                                                    |
-| ------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------- |
-| `JSONDecodeError`         | Malformed JSON                                  | Validate JSON structure before parsing, use online validators for debugging |
-| Nested data access errors | Incorrectly navigating JSON structure           | Use `.get()` method for dictionaries with default values                    |
-| Serialization errors      | Trying to serialize non-JSON-compatible objects | Convert complex objects to strings or basic types before serialization      |
-
-### Error Handling Issues
-
-| Problem              | Possible Cause                       | Solution                                                        |
-| -------------------- | ------------------------------------ | --------------------------------------------------------------- |
-| Exception not caught | Too specific exception type in catch | Use appropriate exception hierarchy, add multiple except blocks |
-| Swallowed exceptions | Empty except block                   | Always log or handle exceptions meaningfully                    |
-| Resource leaks       | Not using context managers           | Use `with` statement for all resource management                |
-
-## 2.10 Performance Considerations for File Operations
-
-When working with larger files, efficiency becomes important. Here are some key considerations:
-
-### Reading Large Files Efficiently
-
-```python
-# INEFFICIENT for large files - loads entire file into memory
-with open('large_file.txt', 'r') as file:
-    content = file.read()  # Could cause memory issues with very large files
-    # Process content...
-
-# EFFICIENT - process one line at a time
-with open('large_file.txt', 'r') as file:
-    for line in file:  # File is read line by line, using minimal memory
-        # Process line...
-        print(f"Processing line: {line[:20]}...")  # Show first 20 chars
-
-# Output:
-# Processing line: This is the first pa...
-```
-
-### CSV Processing for Large Files
-
-```python
-import csv
-
-# INEFFICIENT - loads all rows into memory
-with open('large_data.csv', 'r') as file:
-    reader = csv.reader(file)
-    rows = list(reader)  # Loads everything into memory
-    # Process rows...
-
-# EFFICIENT - process one row at a time
-with open('large_data.csv', 'r') as file:
-    reader = csv.reader(file)
-    for row in reader:  # Process each row without storing all in memory
-        # Process row...
-        print(f"Processing row with {len(row)} fields")
-
-# Output:
-# Processing row with 5 fields
-```
-
-### Writing in Batches
-
-For very large datasets, write results in batches rather than accumulating everything in memory:
-
-```python
-# Example of batch processing
-batch_size = 1000
-current_batch = []
-
-# Process data in batches
-for i in range(10000):  # Simulating processing 10,000 items
-    # Process item and add to current batch
-    result = f"Processed item {i}"
-    current_batch.append(result)
-
-    # When batch is full, write it and clear
-    if len(current_batch) >= batch_size:
-        with open('output.txt', 'a') as file:  # Append mode
-            for item in current_batch:
-                file.write(item + '\n')
-        print(f"Wrote batch of {len(current_batch)} items")
-        current_batch = []  # Reset the batch
-
-# Don't forget the last partial batch
-if current_batch:
-    with open('output.txt', 'a') as file:
-        for item in current_batch:
-            file.write(item + '\n')
-    print(f"Wrote final batch of {len(current_batch)} items")
-
-# Output:
-# Wrote batch of 1000 items
-# Wrote batch of 1000 items
-# ... (repeated)
-# Wrote batch of 1000 items
-# Wrote final batch of 0 items
-```
-
-### Memory Usage Awareness
-
-Always be conscious of memory usage when dealing with large files. Choose appropriate strategies based on file size:
-
-- For small files (<100MB): Loading the entire file into memory is usually fine
-- For medium files (100MB-1GB): Line-by-line or chunked processing is recommended
-- For large files (>1GB): Consider specialized tools (e.g., pandas with chunksize parameter, which we'll cover in future chapters)
-
-## 2.11 Connection to Chapter 3: From Basic Data Handling to NumPy and Pandas
-
-When working with larger files, efficiency becomes important. Here are some key considerations:
-
-### Reading Large Files Efficiently
-
-```python
-# INEFFICIENT for large files - loads entire file into memory
-with open('large_file.txt', 'r') as file:
-    content = file.read()  # Could cause memory issues with very large files
-    # Process content...
-
-# EFFICIENT - process one line at a time
-with open('large_file.txt', 'r') as file:
-    for line in file:  # File is read line by line, using minimal memory
-        # Process line...
-        print(f"Processing line: {line[:20]}...")  # Show first 20 chars
-
-# Output:
-# Processing line: This is the first pa...
-```
-
-### CSV Processing for Large Files
-
-```python
-import csv
-
-# INEFFICIENT - loads all rows into memory
-with open('large_data.csv', 'r') as file:
-    reader = csv.reader(file)
-    rows = list(reader)  # Loads everything into memory
-    # Process rows...
-
-# EFFICIENT - process one row at a time
-with open('large_data.csv', 'r') as file:
-    reader = csv.reader(file)
-    for row in reader:  # Process each row without storing all in memory
-        # Process row...
-        print(f"Processing row with {len(row)} fields")
-
-# Output:
-# Processing row with 5 fields
-```
-
-### Writing in Batches
-
-For very large datasets, write results in batches rather than accumulating everything in memory:
-
-```python
-# Example of batch processing
-batch_size = 1000
-current_batch = []
-
-# Process data in batches
-for i in range(10000):  # Simulating processing 10,000 items
-    # Process item and add to current batch
-    result = f"Processed item {i}"
-    current_batch.append(result)
-
-    # When batch is full, write it and clear
-    if len(current_batch) >= batch_size:
-        with open('output.txt', 'a') as file:  # Append mode
-            for item in current_batch:
-                file.write(item + '\n')
-        print(f"Wrote batch of {len(current_batch)} items")
-        current_batch = []  # Reset the batch
-
-# Don't forget the last partial batch
-if current_batch:
-    with open('output.txt', 'a') as file:
-        for item in current_batch:
-            file.write(item + '\n')
-    print(f"Wrote final batch of {len(current_batch)} items")
-
-# Output:
-# Wrote batch of 1000 items
-# Wrote batch of 1000 items
-# ... (repeated)
-# Wrote batch of 1000 items
-# Wrote final batch of 0 items
-```
-
-### Memory Usage Awareness
-
-Always be conscious of memory usage when dealing with large files. Choose appropriate strategies based on file size:
-
-- For small files (<100MB): Loading the entire file into memory is usually fine
-- For medium files (100MB-1GB): Line-by-line or chunked processing is recommended
-- For large files (>1GB): Consider specialized tools (e.g., pandas with chunksize parameter, which we'll cover in future chapters)
-
-## 2.11 Connection to Chapter 3: From Basic Data Handling to NumPy and Pandas
-
-This chapter has equipped you with fundamental Python skills for data handling. In Chapter 3, we'll expand on these foundations by introducing specialized libraries that make data processing even more powerful and efficient:
-
-### What's Coming in Chapter 3
-
-- **NumPy**: A library for efficient numerical operations that provides:
-
-  - Multi-dimensional array objects
-  - Vectorized operations (much faster than Python loops)
-  - Sophisticated mathematical functions
-
-- **Pandas**: A data analysis library built on NumPy that provides:
-  - DataFrame objects (like spreadsheets in Python)
-  - Powerful data manipulation capabilities
-  - Built-in functions for reading/writing various data formats
-  - Efficient handling of missing data
-
-### How Chapter 2 Skills Will Apply
-
-The skills you've learned in this chapter will still be relevant:
-
-- **Context managers**: You'll use these for file operations with Pandas
-- **Error handling**: Essential for robust data pipeline development
-- **List comprehensions**: Useful for preparing data before loading into DataFrames
-- **CSV/JSON knowledge**: Helps you understand Pandas' handling of these formats
-- **Module imports**: You'll use these to import NumPy and Pandas
-
-In essence, Chapter 3 will introduce specialized tools that make the data operations you've learned in this chapter more efficient and powerful, especially at scale.
-
-## 2.12 Summary
-
-This chapter has equipped you with fundamental Python skills for data handling. In Chapter 3, we'll expand on these foundations by introducing specialized libraries that make data processing even more powerful and efficient:
-
-### What's Coming in Chapter 3
-
-- **NumPy**: A library for efficient numerical operations that provides:
-
-  - Multi-dimensional array objects
-  - Vectorized operations (much faster than Python loops)
-  - Sophisticated mathematical functions
-
-- **Pandas**: A data analysis library built on NumPy that provides:
-  - DataFrame objects (like spreadsheets in Python)
-  - Powerful data manipulation capabilities
-  - Built-in functions for reading/writing various data formats
-  - Efficient handling of missing data
-
-### How Chapter 2 Skills Will Apply
-
-The skills you've learned in this chapter will still be relevant:
-
-- **Context managers**: You'll use these for file operations with Pandas
-- **Error handling**: Essential for robust data pipeline development
-- **List comprehensions**: Useful for preparing data before loading into DataFrames
-- **CSV/JSON knowledge**: Helps you understand Pandas' handling of these formats
-- **Module imports**: You'll use these to import NumPy and Pandas
-
-In essence, Chapter 3 will introduce specialized tools that make the data operations you've learned in this chapter more efficient and powerful, especially at scale.
-
-## 2.8 Exercise Solutions
-
-In this chapter, we learned essential data handling techniques that form the foundation of robust data engineering:
-
-- **File Handling**: Reading and writing files safely with context managers
-- **Error Handling**: Using try/except blocks to gracefully handle exceptions
-- **List Comprehensions**: Creating concise, readable data transformations
-- **Data Formats**: Working with common formats like CSV and JSON
-- **Robust Processing**: Combining these techniques to create reliable data pipelines
-
-These skills will be invaluable as we progress through the curriculum and work with more complex data systems like SQLite, PostgreSQL, and BigQuery.
-
-In the next chapter, we'll build on these fundamentals by exploring NumPy and Pandas, powerful libraries that will greatly enhance our data processing capabilities.
+The transition from basic Python data handling to specialized data libraries represents a significant leap in your data engineering capabilities. You'll be able to accomplish much more with less code, but the underlying principles of robust error handling and clean data processing will remain essential.
