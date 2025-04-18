@@ -11,3 +11,4 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [01 - Python Core Language Essentials](./ch01-python-core-language-essentials/)
 - [02 - Python Data Handling and Error Management](./ch02-python-data-handling-and-error-management/)
 - [03 - Essential Data Libraries: Numpy and Pandas Basics](./ch03-essential-data-libraries-numpy-and-pandas-basics/)
+- [04 - Web Integration and APIs](./ch04-web-integration-and-apis/)
