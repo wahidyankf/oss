@@ -13,3 +13,4 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [03 - Essential Data Libraries: Numpy and Pandas Basics](./ch03-essential-data-libraries-numpy-and-pandas-basics/)
 - [04 - Web Integration and APIs](./ch04-web-integration-and-apis/)
 - [05 - Object-Oriented Programming for Data Engineering](./ch05-object-oriented-programming-for-data-engineering/)
+- [06 - Checkpoint 1: Python Foundation Review](./ch06-checkpoint-1-python-foundation-review/)
