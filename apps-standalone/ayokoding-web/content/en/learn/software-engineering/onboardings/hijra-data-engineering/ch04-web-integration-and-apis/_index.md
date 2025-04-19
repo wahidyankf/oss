@@ -7,1157 +7,1167 @@ weight: 5
 
 **Complexity: Moderate (M)**
 
-## 4.0 Introduction: Why Web Integration Matters for Data Engineering
+## 4.0 Introduction: Why This Matters for Data Engineering
 
-As a data engineer, your sources of data extend far beyond local files. Modern data pipelines frequently need to connect to web services, external APIs, and cloud-based data sources. API integration skills allow you to access vast amounts of real-time data from services across the internet, significantly expanding your data collection capabilities.
+As a data engineer, your job often involves gathering data from various sources. While we've learned how to work with local files in previous chapters, the reality is that much of the world's data lives on the web behind APIs (Application Programming Interfaces).
 
-Let's visualize how web APIs fit into the data engineering ecosystem:
+Being able to access and integrate data from web sources is a critical skill that enables you to:
+
+- Pull data from cloud services and SaaS platforms
+- Connect to public data sources like government databases and weather services
+- Integrate with internal microservices within your organization
+- Automate data collection that would otherwise require manual downloading
+
+Let's visualize how web APIs fit into a typical data engineering workflow:
 
 ```mermaid
 flowchart TD
-    A[Data Sources] --> B[Data Extraction]
-    B --> C[Data Transformation]
-    C --> D[Data Loading]
+    A[External Data Sources] --> B[Web APIs]
+    B --> C[Python API Client]
+    C --> D{Error Handling}
+    D -->|Error| E[Error Logs]
+    D -->|Success| F[Data Transformation]
+    F --> G[Local Storage or Database]
+    G --> H[Analysis and Reporting]
 
-    subgraph "Data Sources"
-    A1[Local Files]
-    A2[Databases]
-    A3[Web APIs]
-    A4[Streaming Data]
-    end
+    classDef external fill:#f9f9f9,stroke:#333,stroke-width:2px
+    classDef processing fill:#d0e0ff,stroke:#336,stroke-width:1px
+    classDef errors fill:#ffdddd,stroke:#633,stroke-width:1px
+    classDef storage fill:#ddffdd,stroke:#363,stroke-width:1px
 
-    subgraph "API Integration"
-    B1[HTTP Requests]
-    B2[Authentication]
-    B3[Response Parsing]
-    B4[Error Handling]
-    end
-
-    A3 --> B1
-    B1 --> B2
-    B2 --> B3
-    B3 --> B4
-    B4 --> B
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B,C,D fill:#bbf,stroke:#336,stroke-width:1px
-    style A3 fill:#f96,stroke:#333,stroke-width:2px
-    style B1,B2,B3,B4 fill:#dfd,stroke:#333,stroke-width:1px
+    class A external
+    class B,C,F processing
+    class D,E errors
+    class G,H storage
 ```
 
-This chapter builds on your Python fundamentals from Chapter 1, error handling from Chapter 2, and data processing from Chapter 3. Now we'll extend these skills to interact with data sources available through web APIs.
+In this chapter, we'll learn how to:
 
-In this chapter, you'll learn:
+1. Understand the fundamentals of HTTP and RESTful APIs
+2. Use the requests library to communicate with web APIs
+3. Process and parse JSON data from API responses
+4. Handle errors that occur during API communication
+5. Implement basic security practices when working with APIs
 
-- How HTTP and REST APIs work
-- Making API requests using Python's `requests` library
-- Handling different types of API responses
-- Working with authentication and API keys
-- Implementing error handling for network operations
-- Processing and transforming API data
-
-By the end of this chapter, you'll be able to confidently integrate external API data into your data pipelines—a critical skill for modern data engineering.
+These skills will build directly on the Python fundamentals and error handling techniques from Chapters 1-2, and will prepare you for working with more complex data integration scenarios in later chapters.
 
 ## 4.1 HTTP and REST Fundamentals
 
-Before diving into code, let's understand the basic concepts that power web APIs.
+Before diving into code, let's understand the foundational concepts of web communication.
 
 ### 4.1.1 What is HTTP?
 
-HTTP (Hypertext Transfer Protocol) is the foundation of data communication on the web. It defines how messages are formatted and transmitted, and how web servers and browsers should respond to various commands.
+HTTP (Hypertext Transfer Protocol) is the protocol that powers the web. It defines how messages are formatted and transmitted between clients (like your Python script) and servers (like an API provider).
 
-Key features of HTTP:
+The HTTP protocol works through a request-response cycle:
 
-- **Client-server model**: The client (e.g., your Python script) makes requests to a server
-- **Stateless protocol**: Each request is independent; the server doesn't retain session information
-- **Request-response structure**: Client sends a request, server returns a response
-- **Standardized methods**: GET, POST, PUT, DELETE, etc.
+1. A client sends a request to a server
+2. The server processes the request
+3. The server sends back a response
+
+Each HTTP request includes:
+
+- A method (verb) indicating the desired action
+- A URL (endpoint) specifying the resource location
+- Headers containing metadata about the request
+- Optionally, a body containing data to send to the server
 
 ### 4.1.2 HTTP Methods
 
-HTTP defines several methods (sometimes called "verbs") that indicate the desired action to be performed:
+HTTP defines several methods (or verbs) that indicate what action you want to perform:
 
-| Method | Purpose               | Example Use Case              |
-| ------ | --------------------- | ----------------------------- |
-| GET    | Retrieve data         | Fetch weather data for a city |
-| POST   | Submit data           | Create a new customer record  |
-| PUT    | Update data           | Update an existing record     |
-| DELETE | Remove data           | Delete a record               |
-| PATCH  | Partially update data | Update only specific fields   |
+```python
+# Common HTTP methods and their purposes
+http_methods = {
+    'GET': 'Retrieve data from a specified resource',
+    'POST': 'Submit data to be processed to a specified resource',
+    'PUT': 'Update a specified resource with the provided data',
+    'DELETE': 'Delete a specified resource',
+    'PATCH': 'Partially update a resource',
+    'HEAD': 'Same as GET but retrieves only headers (no body)',
+    'OPTIONS': 'Returns the HTTP methods that the server supports'
+}
 
-In data engineering, GET is the most common method as we're typically retrieving data from external sources.
+# Print each method and its purpose
+for method, purpose in http_methods.items():
+    print(f"{method}: {purpose}")
+
+# Output:
+# GET: Retrieve data from a specified resource
+# POST: Submit data to be processed to a specified resource
+# PUT: Update a specified resource with the provided data
+# DELETE: Delete a specified resource
+# PATCH: Partially update a resource
+# HEAD: Same as GET but retrieves only headers (no body)
+# OPTIONS: Returns the HTTP methods that the server supports
+```
+
+As data engineers, we'll primarily use GET to retrieve data and occasionally POST to send data or authentication information.
 
 ### 4.1.3 HTTP Status Codes
 
-When you make an HTTP request, the server responds with a status code that indicates whether the request was successful:
+When a server responds to an HTTP request, it includes a status code that indicates the outcome:
 
-| Code Range | Category     | Meaning                                                         |
-| ---------- | ------------ | --------------------------------------------------------------- |
-| 200-299    | Success      | Request was successful                                          |
-| 300-399    | Redirection  | Further action needed to complete the request                   |
-| 400-499    | Client Error | Problem with the request (e.g., authentication, bad parameters) |
-| 500-599    | Server Error | Server failed to fulfill a valid request                        |
+```python
+# Common HTTP status codes and their meanings
+status_codes = {
+    # 2xx: Success
+    200: 'OK - The request was successful',
+    201: 'Created - The request was successful and a resource was created',
+    204: 'No Content - The request was successful but there is no data to return',
 
-Common status codes you'll encounter:
+    # 3xx: Redirection
+    301: 'Moved Permanently - The resource has moved to a new URL',
+    302: 'Found - The resource is temporarily at a different URL',
 
-- **200 OK**: Request succeeded
-- **401 Unauthorized**: Authentication required
-- **403 Forbidden**: Client doesn't have permission
-- **404 Not Found**: Resource doesn't exist
-- **429 Too Many Requests**: Rate limit exceeded
-- **500 Internal Server Error**: Server-side error
+    # 4xx: Client Error
+    400: 'Bad Request - The server could not understand the request',
+    401: 'Unauthorized - Authentication is required and has failed',
+    403: 'Forbidden - The server understood but refuses the request',
+    404: 'Not Found - The requested resource could not be found',
+    429: 'Too Many Requests - Rate limit exceeded',
+
+    # 5xx: Server Error
+    500: 'Internal Server Error - The server encountered an unexpected condition',
+    502: 'Bad Gateway - The server received an invalid response from an upstream server',
+    503: 'Service Unavailable - The server is temporarily unavailable'
+}
+
+# Print each status code and its meaning
+print("Important HTTP Status Codes:")
+for code in sorted([200, 201, 400, 401, 403, 404, 429, 500, 503]):
+    print(f"{code}: {status_codes[code]}")
+
+# Output:
+# Important HTTP Status Codes:
+# 200: OK - The request was successful
+# 201: Created - The request was successful and a resource was created
+# 400: Bad Request - The server could not understand the request
+# 401: Unauthorized - Authentication is required and has failed
+# 403: Forbidden - The server understood but refuses the request
+# 404: Not Found - The requested resource could not be found
+# 429: Too Many Requests - Rate limit exceeded
+# 500: Internal Server Error - The server encountered an unexpected condition
+# 503: Service Unavailable - The server is temporarily unavailable
+```
+
+Understanding these status codes will help you debug issues with API requests and implement proper error handling.
 
 ### 4.1.4 What is REST?
 
-REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs use HTTP requests to perform CRUD operations (Create, Read, Update, Delete).
+REST (Representational State Transfer) is an architectural style for designing networked applications. RESTful APIs use HTTP requests to perform CRUD (Create, Read, Update, Delete) operations on resources.
 
-Key principles of RESTful APIs:
+Key principles of RESTful design include:
 
-1. **Resource-based**: Each resource (e.g., a user, a product) has a unique URL
-2. **Stateless**: Each request contains all the information needed to process it
-3. **Standard HTTP methods**: Uses GET, POST, PUT, DELETE appropriately
-4. **Representation**: Resources can be represented in different formats (JSON, XML, etc.)
-
-Most modern APIs are RESTful and return data in JSON format, which we learned about in Chapter 2.
-
-### 4.1.5 API Endpoints
-
-An API endpoint is a specific URL that a client can access to interact with a resource. Endpoints are structured to represent the data they provide access to.
-
-Examples of API endpoints:
-
-- `https://api.weather.com/v1/current/city/newyork` - Current weather in New York
-- `https://api.example.com/v2/users/42` - Data for user with ID 42
-- `https://api.example.com/v2/products?category=electronics` - List of electronic products
-
-Many APIs organize their endpoints hierarchically, with common patterns like:
-
-- Version identifier (`/v1/`, `/v2/`)
-- Resource type (`/users/`, `/products/`)
-- Specific instance (`/users/42`)
-- Query parameters (`?category=electronics&limit=10`)
-
-## 4.2 Making HTTP Requests with Python
-
-Now let's learn how to make HTTP requests in Python using the `requests` library, which has become the standard for HTTP operations in Python.
-
-### 4.2.1 Installing the Requests Library
-
-First, we need to install the `requests` library. In a real environment, you'd use:
-
-```
-pip install requests
-```
-
-For this chapter, we'll assume the library is already installed.
-
-### 4.2.2 Making a Simple GET Request
-
-Let's start with a basic GET request to a public API:
+- **Stateless**: Each request contains all the information needed to complete it
+- **Resource-based**: APIs are organized around resources (e.g., users, products)
+- **Standard methods**: Uses standard HTTP methods for operations
+- **Representations**: Resources can have multiple representations (JSON, XML, etc.)
 
 ```python
-import requests
-
-# Make a GET request to a public API
-response = requests.get('https://jsonplaceholder.typicode.com/posts/1')
-
-# Print the status code
-print(f"Status code: {response.status_code}")
-# Status code: 200
-
-# Print the response content
-print("Response content:")
-print(response.text)
-# Response content:
-# {
-#   "userId": 1,
-#   "id": 1,
-#   "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-#   "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-# }
-
-# Print the response headers
-print("\nResponse headers:")
-for key, value in response.headers.items():
-    print(f"{key}: {value}")
-# Response headers:
-# Date: Wed, 17 Aug 2023 12:00:00 GMT
-# Content-Type: application/json; charset=utf-8
-# ...other headers...
-```
-
-The `requests.get()` function sends a GET request to the specified URL and returns a `Response` object. This object contains the server's response, including the status code, headers, and content.
-
-### 4.2.3 Working with JSON Responses
-
-Most modern APIs return data in JSON format. The `requests` library makes it easy to work with JSON responses:
-
-```python
-import requests
-
-# Make a GET request to a public API that returns JSON
-response = requests.get('https://jsonplaceholder.typicode.com/posts/1')
-
-# Check if the request was successful
-if response.status_code == 200:
-    # Parse the JSON response
-    data = response.json()
-
-    # Work with the parsed data as a Python dictionary
-    print(f"Post title: {data['title']}")
-    print(f"Post body: {data['body']}")
-    print(f"User ID: {data['userId']}")
-else:
-    print(f"Request failed with status code: {response.status_code}")
-
-# Post title: sunt aut facere repellat provident occaecati excepturi optio reprehenderit
-# Post body: quia et suscipit
-# suscipit recusandae consequuntur expedita et cum
-# reprehenderit molestiae ut ut quas totam
-# nostrum rerum est autem sunt rem eveniet architecto
-# User ID: 1
-```
-
-The `response.json()` method automatically parses the JSON response into a Python dictionary or list, which we can then work with using standard Python operations.
-
-### 4.2.4 Query Parameters
-
-Many APIs use query parameters to filter, sort, or paginate results. The `requests` library allows you to pass these parameters as a dictionary:
-
-```python
-import requests
-
-# Define query parameters
-params = {
-    'userId': 1,
-    'completed': 'false'
+# Example of a RESTful API structure
+weather_api = {
+    'base_url': 'https://api.weather.example',
+    'resources': {
+        'current': '/v1/current?location={city}',
+        'forecast': '/v1/forecast?location={city}&days={days}',
+        'historical': '/v1/historical?location={city}&date={date}'
+    },
+    'methods': {
+        'current': 'GET',
+        'forecast': 'GET',
+        'historical': 'GET'
+    }
 }
 
-# Make a GET request with query parameters
-response = requests.get('https://jsonplaceholder.typicode.com/todos', params=params)
+# Show how you might access these endpoints
+city = "New York"
+print(f"To get current weather: {weather_api['methods']['current']} {weather_api['base_url']}{weather_api['resources']['current'].format(city=city)}")
+print(f"To get 5-day forecast: {weather_api['methods']['forecast']} {weather_api['base_url']}{weather_api['resources']['forecast'].format(city=city, days=5)}")
 
-# Print the full URL that was requested
-print(f"Requested URL: {response.url}")
-# Requested URL: https://jsonplaceholder.typicode.com/todos?userId=1&completed=false
+# Output:
+# To get current weather: GET https://api.weather.example/v1/current?location=New York
+# To get 5-day forecast: GET https://api.weather.example/v1/forecast?location=New York&days=5
+```
+
+Now that we understand the fundamentals of HTTP and REST, let's learn how to interact with APIs using Python.
+
+## 4.2 Working with the requests Library
+
+The `requests` library is the standard for making HTTP requests in Python. It provides a simple, elegant interface for sending HTTP requests and handling responses.
+
+### 4.2.1 Installing the requests Library
+
+First, let's make sure the requests library is installed:
+
+```python
+# This would typically be done at the command line, but for completeness:
+# pip install requests
+
+# Let's verify the installation by importing requests
+import requests
+
+print(f"Successfully imported requests library (version: {requests.__version__})")
+# Output:
+# Successfully imported requests library (version: 2.28.1)  # Your version may differ
+```
+
+### 4.2.2 Making Your First GET Request
+
+Let's start by making a simple GET request to a public API that doesn't require authentication:
+
+```python
+import requests
+
+# Make a GET request to a public API that returns JSON data
+response = requests.get('https://jsonplaceholder.typicode.com/todos/1')
+
+# Print the response details
+print(f"Response status code: {response.status_code}")
+print(f"Response headers: {dict(response.headers)}")
+print(f"Response content type: {response.headers.get('Content-Type')}")
+print(f"Response body: {response.text}")
+
+# Output:
+# Response status code: 200
+# Response headers: {'Date': 'Mon, 01 May 2023 12:34:56 GMT', 'Content-Type': 'application/json; charset=utf-8', ...}
+# Response content type: application/json; charset=utf-8
+# Response body: {
+#   "userId": 1,
+#   "id": 1,
+#   "title": "delectus aut autem",
+#   "completed": false
+# }
+```
+
+The response object contains all the information about the server's response, including status code, headers, and the response body.
+
+### 4.2.3 Working with Response Objects
+
+The `requests` library provides several convenient properties and methods for working with responses:
+
+```python
+import requests
+
+# Make a request to GitHub's API to get information about Python
+response = requests.get('https://api.github.com/search/repositories?q=language:python&sort=stars&per_page=5')
 
 # Check if the request was successful
 if response.status_code == 200:
-    # Parse the JSON response
-    todos = response.json()
+    print("Request successful!")
 
-    # Print the number of todos returned
-    print(f"Found {len(todos)} incomplete todos for user 1")
+    # Access the response body in different ways
+    print(f"Response as text: {response.text[:100]}...")  # First 100 chars
 
-    # Print the first few todos
-    for i, todo in enumerate(todos[:3], 1):
-        print(f"Todo {i}: {todo['title']}")
+    # Parse JSON response
+    data = response.json()  # Convert JSON response to Python dictionary
 
-    # Print ellipsis if there are more todos
-    if len(todos) > 3:
-        print("...")
+    # Access specific data from the response
+    print(f"Total Python repositories: {data['total_count']}")
+    print("\nTop 5 Python repositories:")
+
+    for i, repo in enumerate(data['items'], 1):
+        print(f"{i}. {repo['name']} - ⭐ {repo['stargazers_count']} - {repo['html_url']}")
 else:
     print(f"Request failed with status code: {response.status_code}")
 
-# Found 11 incomplete todos for user 1
-# Todo 1: delectus aut autem
-# Todo 2: quis ut nam facilis et officia qui
-# Todo 3: fugiat veniam minus
-# ...
+# Output:
+# Request successful!
+# Response as text: {"total_count":5854786,"incomplete_results":false,"items":[{"id":83222441,"node_id":"MDEwOlJlcG9za...
+# Total Python repositories: 5854786
+#
+# Top 5 Python repositories:
+# 1. system-design-primer - ⭐ 209412 - https://github.com/donnemartin/system-design-primer
+# 2. public-apis - ⭐ 201283 - https://github.com/public-apis/public-apis
+# 3. Python - ⭐ 165280 - https://github.com/TheAlgorithms/Python
+# 4. Python-100-Days - ⭐ 127767 - https://github.com/jackfrued/Python-100-Days
+# 5. youtube-dl - ⭐ 115801 - https://github.com/ytdl-org/youtube-dl
 ```
 
-The `params` dictionary is converted to query parameters in the URL. In this case, `{'userId': 1, 'completed': 'false'}` becomes `?userId=1&completed=false` in the URL.
+The `.json()` method is especially useful because it automatically parses the JSON response into Python data structures. This builds on our JSON knowledge from Chapter 2.
 
-### 4.2.5 Request Headers
+### 4.2.4 Passing Query Parameters
 
-HTTP headers provide additional information about the request or response. Headers can be used for authentication, content negotiation, caching, and more:
+Many APIs require query parameters to filter or customize the response. The `requests` library makes it easy to include these parameters:
+
+```python
+import requests
+
+# Define parameters as a dictionary
+params = {
+    'q': 'data engineering',  # Search query
+    'sort': 'stars',          # Sort by stars
+    'per_page': 3             # Limit to 3 results
+}
+
+# Make a request with parameters
+response = requests.get('https://api.github.com/search/repositories', params=params)
+
+# Show the actual URL that was requested
+print(f"Request URL: {response.url}")
+
+# Parse the response
+if response.status_code == 200:
+    data = response.json()
+    print(f"Found {data['total_count']} repositories related to 'data engineering'")
+    print("\nTop 3 results:")
+
+    for i, repo in enumerate(data['items'], 1):
+        print(f"{i}. {repo['name']} by {repo['owner']['login']}")
+        print(f"   Description: {repo['description']}")
+        print(f"   Stars: {repo['stargazers_count']}")
+        print()
+else:
+    print(f"Request failed with status code: {response.status_code}")
+
+# Output:
+# Request URL: https://api.github.com/search/repositories?q=data+engineering&sort=stars&per_page=3
+# Found 29145 repositories related to 'data engineering'
+#
+# Top 3 results:
+# 1. data-engineering-zoomcamp by DataTalksClub
+#    Description: Free Data Engineering course!
+#    Stars: 12574
+#
+# 2. analytics-engineering-handbook by getdbt
+#    Description: A handbook and crash course on Analytics Engineering. Fork and contribute!
+#    Stars: 3102
+#
+# 3. the-data-engineering-handbook by dataeducation
+#    Description: A handbook on Data Engineering covering fundamentals, architecture, modern data stack, data mesh and much more!
+#    Stars: 2564
+```
+
+Using the `params` argument is not only more convenient but also safer than manually constructing URLs, as it properly encodes the parameters.
+
+### 4.2.5 Working with HTTP Headers
+
+HTTP headers provide additional information about the request or response. Some APIs require specific headers for authentication, content type specification, or other purposes:
 
 ```python
 import requests
 
 # Define custom headers
 headers = {
-    'User-Agent': 'DataEngineeringTutorial/1.0',
+    'User-Agent': 'Python-Requests/Data-Engineering-Tutorial',
     'Accept': 'application/json'
 }
 
-# Make a GET request with custom headers
-response = requests.get('https://httpbin.org/headers', headers=headers)
+# Make a request with custom headers
+response = requests.get('https://api.github.com/users/python', headers=headers)
 
-# Check if the request was successful
+# Print the headers we sent
+print(f"Request headers: {headers}")
+
+# Print response details
 if response.status_code == 200:
-    # Parse the JSON response
-    data = response.json()
-
-    # Print the headers that the server received
-    print("Headers received by the server:")
-    for key, value in data['headers'].items():
-        print(f"{key}: {value}")
+    user_data = response.json()
+    print(f"\nGitHub user: {user_data['login']}")
+    print(f"Name: {user_data['name']}")
+    print(f"Location: {user_data['location']}")
+    print(f"Followers: {user_data['followers']}")
 else:
     print(f"Request failed with status code: {response.status_code}")
 
-# Headers received by the server:
-# Accept: application/json
-# Host: httpbin.org
-# User-Agent: DataEngineeringTutorial/1.0
-# X-Amzn-Trace-Id: Root=1-60a1b2c3-4d5e6f7891011121314151617
+# Output:
+# Request headers: {'User-Agent': 'Python-Requests/Data-Engineering-Tutorial', 'Accept': 'application/json'}
+#
+# GitHub user: python
+# Name: Python
+# Location: Netherlands
+# Followers: 13528
 ```
-
-In this example, we're sending custom headers with our request and using the httpbin.org service to echo back the headers it received.
 
 ### 4.2.6 Making POST Requests
 
-While GET is used to retrieve data, POST is typically used to submit data to an API:
-
-```python
-import requests
-
-# Define the data to send
-data = {
-    'title': 'Data Engineering with Python',
-    'body': 'APIs are an essential part of modern data pipelines',
-    'userId': 1
-}
-
-# Make a POST request
-response = requests.post('https://jsonplaceholder.typicode.com/posts', json=data)
-
-# Check if the request was successful
-if response.status_code == 201:  # 201 Created
-    # Parse the JSON response
-    new_post = response.json()
-
-    # Print the created post
-    print("Successfully created a new post:")
-    print(f"ID: {new_post['id']}")
-    print(f"Title: {new_post['title']}")
-    print(f"Body: {new_post['body']}")
-    print(f"User ID: {new_post['userId']}")
-else:
-    print(f"Failed to create post. Status code: {response.status_code}")
-
-# Successfully created a new post:
-# ID: 101
-# Title: Data Engineering with Python
-# Body: APIs are an essential part of modern data pipelines
-# User ID: 1
-```
-
-When using `requests.post()` with the `json` parameter, the library automatically sets the Content-Type header to application/json and serializes the Python dictionary to JSON.
-
-## 4.3 Error Handling for API Requests
-
-API requests can fail for many reasons: network issues, authentication problems, server errors, etc. Proper error handling is essential for robust API integration.
-
-### 4.3.1 Handling HTTP Status Codes
-
-The first level of error handling is checking the HTTP status code:
-
-```python
-import requests
-
-def get_user_data(user_id):
-    """Retrieve data for a specific user."""
-    url = f'https://jsonplaceholder.typicode.com/users/{user_id}'
-
-    # Make the request
-    response = requests.get(url)
-
-    # Check status code
-    if response.status_code == 200:
-        return response.json()
-    elif response.status_code == 404:
-        print(f"User with ID {user_id} not found")
-        return None
-    elif 400 <= response.status_code < 500:
-        print(f"Client error: {response.status_code}")
-        return None
-    elif 500 <= response.status_code < 600:
-        print(f"Server error: {response.status_code}")
-        return None
-    else:
-        print(f"Unexpected status code: {response.status_code}")
-        return None
-
-# Try with a valid user ID
-user_data = get_user_data(1)
-if user_data:
-    print(f"Found user: {user_data['name']} ({user_data['email']})")
-
-# Try with an invalid user ID
-user_data = get_user_data(999)
-if user_data:
-    print(f"Found user: {user_data['name']} ({user_data['email']})")
-
-# Found user: Leanne Graham (Sincere@april.biz)
-# User with ID 999 not found
-```
-
-This approach handles different status codes with appropriate actions, making our code more robust.
-
-### 4.3.2 Exception Handling
-
-Network operations can throw exceptions for reasons unrelated to HTTP status codes, such as connection issues or timeouts:
-
-```python
-import requests
-
-def get_weather(city):
-    """Get weather data for a city, with error handling."""
-    url = f'https://api.example.com/weather/{city}'
-
-    try:
-        response = requests.get(url, timeout=5)  # 5 second timeout
-        response.raise_for_status()  # Raises HTTPError for bad status codes
-
-        return response.json()
-
-    except requests.exceptions.HTTPError as e:
-        print(f"HTTP Error: {e}")
-    except requests.exceptions.ConnectionError:
-        print(f"Connection Error: Unable to connect to the API")
-    except requests.exceptions.Timeout:
-        print(f"Timeout Error: Request timed out after 5 seconds")
-    except requests.exceptions.RequestException as e:
-        print(f"Request Exception: {e}")
-    except ValueError as e:
-        print(f"JSON parsing error: {e}")
-
-    return None
-
-# Try with a non-existent domain
-weather = get_weather('new_york')
-if weather:
-    print(f"Weather data: {weather}")
-
-# Connection Error: Unable to connect to the API
-```
-
-Here, we're using `response.raise_for_status()` to raise an exception for error status codes, and we're catching various exceptions that the `requests` library might raise.
-
-### 4.3.3 Retry Logic
-
-For transient failures, we might want to retry the request a few times:
-
-```python
-import requests
-import time
-
-def get_with_retry(url, max_retries=3, backoff_factor=0.5):
-    """Make a GET request with retry logic."""
-    retries = 0
-
-    while retries < max_retries:
-        try:
-            response = requests.get(url, timeout=5)
-            response.raise_for_status()
-            return response.json()
-
-        except (requests.exceptions.RequestException, ValueError) as e:
-            retries += 1
-            wait_time = backoff_factor * (2 ** (retries - 1))  # Exponential backoff
-
-            if retries < max_retries:
-                print(f"Request failed: {e}. Retrying in {wait_time:.2f} seconds...")
-                time.sleep(wait_time)
-            else:
-                print(f"Request failed after {max_retries} attempts: {e}")
-                return None
-
-# Try with a URL that might occasionally fail
-data = get_with_retry('https://httpbin.org/status/500')
-if data:
-    print(f"Received data: {data}")
-
-# Request failed: 500 Server Error: Internal Server Error for url: https://httpbin.org/status/500. Retrying in 0.50 seconds...
-# Request failed: 500 Server Error: Internal Server Error for url: https://httpbin.org/status/500. Retrying in 1.00 seconds...
-# Request failed after 3 attempts: 500 Server Error: Internal Server Error for url: https://httpbin.org/status/500
-```
-
-Exponential backoff is a strategy where each retry waits longer than the previous one, reducing load on the API and increasing the chance of success for transient failures.
-
-## 4.4 Working with API Authentication
-
-Most APIs require authentication to access their resources. Let's explore common authentication methods.
-
-### 4.4.1 API Keys
-
-The simplest form of authentication is an API key, which is typically included in the request as a header or query parameter:
-
-```python
-import requests
-
-def get_weather_by_api_key(city, api_key):
-    """Get weather data using an API key in a query parameter."""
-    # Define the API endpoint
-    url = 'https://api.example.com/weather'
-
-    # Include the API key in the query parameters
-    params = {
-        'q': city,
-        'appid': api_key,
-        'units': 'metric'
-    }
-
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching weather data: {e}")
-        return None
-
-# Example with a fictional API key
-api_key = 'abc123xyz789'  # In a real app, this would be from environment variables
-weather = get_weather_by_api_key('London', api_key)
-
-if weather:
-    print(f"Weather in London: {weather}")
-else:
-    print("Failed to retrieve weather data")
-
-# API Key as a header
-def get_weather_by_api_key_header(city, api_key):
-    """Get weather data using an API key in a header."""
-    url = f'https://api.example.com/weather?q={city}&units=metric'
-
-    # Include the API key in the headers
-    headers = {
-        'X-API-Key': api_key
-    }
-
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching weather data: {e}")
-        return None
-
-# Error fetching weather data: 404 Client Error: Not Found for url: https://api.example.com/weather?q=London&appid=abc123xyz789&units=metric
-# Failed to retrieve weather data
-```
-
-Note that we're using a fictional API endpoint, so the request fails. In a real application, you would use a valid API endpoint and key.
-
-### 4.4.2 API Key Security
-
-API keys should be treated as sensitive credentials. Best practices include:
-
-1. Never hardcode API keys in your source code
-2. Store API keys in environment variables or a secure configuration file
-3. Keep API keys out of version control systems
-4. Implement access controls and rotate keys periodically
-
-Here's how to use an environment variable for an API key:
-
-```python
-import os
-import requests
-
-def get_weather_secure(city):
-    """Get weather data using an API key from an environment variable."""
-    # Get the API key from an environment variable
-    api_key = os.environ.get('WEATHER_API_KEY')
-
-    if not api_key:
-        print("API key not found. Set the WEATHER_API_KEY environment variable.")
-        return None
-
-    url = 'https://api.example.com/weather'
-    params = {
-        'q': city,
-        'appid': api_key,
-        'units': 'metric'
-    }
-
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching weather data: {e}")
-        return None
-
-# In a real application, you would set the environment variable before running your script:
-# export WEATHER_API_KEY="your_api_key_here"
-
-# For demonstration purposes only, we'll set it programmatically
-# (don't do this in production code)
-os.environ['WEATHER_API_KEY'] = 'abc123xyz789'
-
-# Now try to get the weather
-weather = get_weather_secure('Paris')
-if weather:
-    print(f"Weather in Paris: {weather}")
-else:
-    print("Failed to retrieve weather data")
-
-# Error fetching weather data: 404 Client Error: Not Found for url: https://api.example.com/weather?q=Paris&appid=abc123xyz789&units=metric
-# Failed to retrieve weather data
-```
-
-### 4.4.3 Other Authentication Methods
-
-While API keys are common, many APIs use more sophisticated authentication:
-
-1. **Basic Authentication**: Username and password encoded in a header
-2. **OAuth**: A token-based protocol for secure API access
-3. **JWT (JSON Web Tokens)**: Encoded tokens with claims about the user
-
-Here's an example of basic authentication:
-
-```python
-import requests
-from requests.auth import HTTPBasicAuth
-
-def get_data_with_basic_auth(url, username, password):
-    """Get data from an API using basic authentication."""
-    try:
-        response = requests.get(
-            url,
-            auth=HTTPBasicAuth(username, password)
-        )
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        return None
-
-# Example with httpbin, which echoes back authentication info
-url = 'https://httpbin.org/basic-auth/user/pass'
-data = get_data_with_basic_auth(url, 'user', 'pass')
-
-if data:
-    print(f"Authenticated successfully: {data}")
-else:
-    print("Authentication failed")
-
-# Authenticated successfully: {'authenticated': True, 'user': 'user'}
-```
-
-## 4.5 Processing and Transforming API Data
-
-Once you've retrieved data from an API, you'll typically need to process and transform it for further use in your data pipeline.
-
-### 4.5.1 Extracting Specific Fields
-
-APIs often return more data than we need. We can extract just the fields we're interested in:
-
-```python
-import requests
-
-# Get a list of users
-response = requests.get('https://jsonplaceholder.typicode.com/users')
-
-if response.status_code == 200:
-    users = response.json()
-
-    # Extract specific fields for each user
-    user_contacts = []
-    for user in users:
-        contact_info = {
-            'name': user['name'],
-            'email': user['email'],
-            'phone': user['phone'],
-            'website': user['website']
-        }
-        user_contacts.append(contact_info)
-
-    # Print the extracted data
-    print(f"Extracted contact information for {len(user_contacts)} users:")
-    for i, contact in enumerate(user_contacts[:3], 1):
-        print(f"User {i}: {contact['name']} - {contact['email']}")
-
-    if len(user_contacts) > 3:
-        print("...")
-else:
-    print(f"Failed to fetch users: {response.status_code}")
-
-# Extracted contact information for 10 users:
-# User 1: Leanne Graham - Sincere@april.biz
-# User 2: Ervin Howell - Shanna@melissa.tv
-# User 3: Clementine Bauch - Nathan@yesenia.net
-# ...
-```
-
-### 4.5.2 Transforming API Data with List Comprehensions
-
-We can use list comprehensions (which we learned in Chapter 2) to transform API data concisely:
-
-```python
-import requests
-
-# Get a list of todos
-response = requests.get('https://jsonplaceholder.typicode.com/todos')
-
-if response.status_code == 200:
-    todos = response.json()
-
-    # Extract completed tasks with list comprehension
-    completed_tasks = [
-        {
-            'id': todo['id'],
-            'title': todo['title'],
-            'userId': todo['userId']
-        }
-        for todo in todos if todo['completed']
-    ]
-
-    # Print statistics
-    print(f"Total tasks: {len(todos)}")
-    print(f"Completed tasks: {len(completed_tasks)}")
-
-    # Print a sample of completed tasks
-    print("\nSample completed tasks:")
-    for task in completed_tasks[:3]:
-        print(f"Task {task['id']}: {task['title']}")
-
-    if len(completed_tasks) > 3:
-        print("...")
-else:
-    print(f"Failed to fetch todos: {response.status_code}")
-
-# Total tasks: 200
-# Completed tasks: 100
-#
-# Sample completed tasks:
-# Task 2: quis ut nam facilis et officia qui
-# Task 4: et porro tempora
-# Task 6: qui ullam ratione quibusdam voluptatem quia omnis
-# ...
-```
-
-### 4.5.3 Converting API Data to Pandas DataFrames
-
-Using our knowledge from Chapter 3, we can convert API data to Pandas DataFrames for advanced analysis:
-
-```python
-import requests
-import pandas as pd
-
-# Get a list of posts
-response = requests.get('https://jsonplaceholder.typicode.com/posts')
-
-if response.status_code == 200:
-    posts = response.json()
-
-    # Convert to DataFrame
-    posts_df = pd.DataFrame(posts)
-
-    # Display basic information
-    print("Posts DataFrame Info:")
-    print(f"Shape: {posts_df.shape}")
-    print(f"Columns: {posts_df.columns.tolist()}")
-
-    # Basic statistics
-    print("\nUser Post Counts:")
-    user_post_counts = posts_df['userId'].value_counts()
-    print(user_post_counts)
-
-    # Filter posts by a specific user
-    user_id = 1
-    user_posts = posts_df[posts_df['userId'] == user_id]
-
-    print(f"\nPosts by User {user_id}:")
-    print(f"Number of posts: {len(user_posts)}")
-    print("Sample posts:")
-    for _, post in user_posts.head(3).iterrows():
-        print(f"- {post['title']}")
-
-    # Add a new column: title length
-    posts_df['title_length'] = posts_df['title'].apply(len)
-
-    print("\nTitle Length Statistics:")
-    print(f"Mean title length: {posts_df['title_length'].mean():.2f} characters")
-    print(f"Max title length: {posts_df['title_length'].max()} characters")
-    print(f"Min title length: {posts_df['title_length'].min()} characters")
-else:
-    print(f"Failed to fetch posts: {response.status_code}")
-
-# Posts DataFrame Info:
-# Shape: (100, 4)
-# Columns: ['userId', 'id', 'title', 'body']
-#
-# User Post Counts:
-# 1    10
-# 2    10
-# 3    10
-# 4    10
-# 5    10
-# 6    10
-# 7    10
-# 8    10
-# 9    10
-# 10   10
-# Name: userId, dtype: int64
-#
-# Posts by User 1:
-# Number of posts: 10
-# Sample posts:
-# - sunt aut facere repellat provident occaecati excepturi optio reprehenderit
-# - qui est esse
-# - ea molestias quasi exercitationem repellat qui ipsa sit aut
-#
-# Title Length Statistics:
-# Mean title length: 46.43 characters
-# Max title length: 88 characters
-# Min title length: 12 characters
-```
-
-### 4.5.4 Saving API Data to File
-
-Once we've processed the API data, we often need to save it for later use or pass it to the next stage in our data pipeline:
+While GET requests are used to retrieve data, POST requests are commonly used to submit data to an API:
 
 ```python
 import requests
 import json
-import csv
-import pandas as pd
 
-def get_users():
-    """Get a list of users from the API."""
-    response = requests.get('https://jsonplaceholder.typicode.com/users')
+# URL for a service that echoes back what you POST to it
+url = 'https://httpbin.org/post'
 
-    if response.status_code == 200:
-        return response.json()
-    else:
-        print(f"Failed to fetch users: {response.status_code}")
-        return []
+# Data to send
+data = {
+    'name': 'Data Engineering Project',
+    'description': 'Learning to use APIs with Python',
+    'values': [1, 2, 3, 4, 5]
+}
 
-# Get the user data
-users = get_users()
+# Make the POST request
+# We need to convert our Python dictionary to a JSON string
+response = requests.post(
+    url,
+    data=json.dumps(data),
+    headers={'Content-Type': 'application/json'}
+)
 
-if users:
-    # 1. Save as JSON
-    with open('users.json', 'w') as json_file:
-        json.dump(users, json_file, indent=2)
-    print(f"Saved {len(users)} users to users.json")
+# Check response
+print(f"Response status code: {response.status_code}")
 
-    # 2. Save as CSV
-    # Extract the fields we want to include in the CSV
-    user_data = [
-        {
-            'id': user['id'],
-            'name': user['name'],
-            'email': user['email'],
-            'city': user['address']['city'],
-            'company': user['company']['name']
-        }
-        for user in users
-    ]
+# Parse response
+if response.status_code == 200:
+    response_data = response.json()
+    print(f"\nServer received our data:")
 
-    # Write to CSV
-    with open('users.csv', 'w', newline='') as csv_file:
-        # Get field names from the first user (assuming all have the same structure)
-        fieldnames = user_data[0].keys() if user_data else []
+    # httpbin.org returns what we sent in the 'data' field
+    received_data = json.loads(response_data['data'])
+    print(f"Name: {received_data['name']}")
+    print(f"Description: {received_data['description']}")
+    print(f"Values: {received_data['values']}")
+else:
+    print(f"Request failed with status code: {response.status_code}")
 
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-        # Write header
-        writer.writeheader()
-
-        # Write data
-        writer.writerows(user_data)
-
-    print(f"Saved {len(user_data)} users to users.csv")
-
-    # 3. Save using Pandas
-    df = pd.DataFrame(user_data)
-    df.to_csv('users_pandas.csv', index=False)
-    print(f"Saved {len(df)} users to users_pandas.csv using Pandas")
-
-    # 4. Save as Excel (if openpyxl is installed)
-    try:
-        df.to_excel('users.xlsx', index=False)
-        print(f"Saved {len(df)} users to users.xlsx")
-    except Exception as e:
-        print(f"Could not save as Excel: {e}")
-
-# Saved 10 users to users.json
-# Saved 10 users to users.csv
-# Saved 10 users to users_pandas.csv using Pandas
-# Could not save as Excel: No module named 'openpyxl'
+# Output:
+# Response status code: 200
+#
+# Server received our data:
+# Name: Data Engineering Project
+# Description: Learning to use APIs with Python
+# Values: [1, 2, 3, 4, 5]
 ```
 
-## 4.6 Building a Complete API Client
-
-Now let's put everything together to build a complete API client that handles authentication, error handling, rate limiting, and data processing:
+Instead of using `json.dumps()` and setting the Content-Type header manually, we can use the more convenient `json` parameter:
 
 ```python
 import requests
-import pandas as pd
-import time
-import os
-from datetime import datetime
 
-class APIClient:
-    """A client for interacting with a RESTful API."""
+url = 'https://httpbin.org/post'
 
-    def __init__(self, base_url, api_key=None):
-        """
-        Initialize the API client.
+# Data to send
+data = {
+    'name': 'Data Engineering Project',
+    'description': 'Learning to use APIs with Python',
+    'values': [1, 2, 3, 4, 5]
+}
 
-        Args:
-            base_url: The base URL for the API
-            api_key: API key for authentication (optional)
-        """
-        self.base_url = base_url
-        self.api_key = api_key
-        self.session = requests.Session()
+# Make the POST request with the json parameter
+response = requests.post(url, json=data)
 
-        # Set default headers
-        self.session.headers.update({
-            'User-Agent': 'DataEngineeringAPIClient/1.0',
-            'Accept': 'application/json'
-        })
+# Check response
+if response.status_code == 200:
+    response_data = response.json()
+    print(f"Request was successful. Server received:")
+    print(f"JSON data: {response_data['json']}")
+else:
+    print(f"Request failed with status code: {response.status_code}")
 
-        # Set API key if provided
-        if api_key:
-            self.session.headers.update({'X-API-Key': api_key})
-
-    def get(self, endpoint, params=None, max_retries=3, retry_delay=1):
-        """
-        Make a GET request to the API.
-
-        Args:
-            endpoint: The API endpoint to request
-            params: Query parameters (optional)
-            max_retries: Maximum number of retry attempts
-            retry_delay: Delay between retries in seconds
-
-        Returns:
-            Parsed JSON response or None if the request failed
-        """
-        url = f"{self.base_url}/{endpoint}"
-        retries = 0
-
-        while retries < max_retries:
-            try:
-                response = self.session.get(url, params=params, timeout=10)
-
-                # Check for rate limiting
-                if response.status_code == 429:
-                    # Get retry delay from header or use default
-                    retry_after = int(response.headers.get('Retry-After', retry_delay))
-                    print(f"Rate limited. Retrying after {retry_after} seconds...")
-                    time.sleep(retry_after)
-                    retries += 1
-                    continue
-
-                # Raise for other error status codes
-                response.raise_for_status()
-
-                # Parse JSON response
-                return response.json()
-
-            except requests.exceptions.RequestException as e:
-                retries += 1
-                if retries < max_retries:
-                    print(f"Request failed: {e}. Retrying ({retries}/{max_retries})...")
-                    time.sleep(retry_delay)
-                else:
-                    print(f"Request failed after {max_retries} attempts: {e}")
-                    return None
-
-            except ValueError as e:
-                print(f"JSON parsing error: {e}")
-                return None
-
-    def get_all_pages(self, endpoint, params=None, page_param='page', limit_param='per_page', limit=100):
-        """
-        Fetch all pages of paginated results.
-
-        Args:
-            endpoint: The API endpoint
-            params: Base query parameters
-            page_param: The query parameter name for the page number
-            limit_param: The query parameter name for the page size
-            limit: Number of items per page
-
-        Returns:
-            List of all items across all pages
-        """
-        all_items = []
-        current_page = 1
-
-        # Initialize params if None
-        if params is None:
-            params = {}
-
-        # Continue fetching until we get a page with fewer items than the limit
-        while True:
-            page_params = {
-                **params,
-                page_param: current_page,
-                limit_param: limit
-            }
-
-            results = self.get(endpoint, params=page_params)
-
-            if not results:
-                break
-
-            # Handle different pagination formats
-            items = results if isinstance(results, list) else results.get('data', [])
-
-            if not items:
-                break
-
-            all_items.extend(items)
-
-            # If we got fewer items than the limit, we've reached the last page
-            if len(items) < limit:
-                break
-
-            current_page += 1
-
-        return all_items
-
-    def to_dataframe(self, data):
-        """
-        Convert API response to a Pandas DataFrame.
-
-        Args:
-            data: JSON response data (list of dictionaries)
-
-        Returns:
-            Pandas DataFrame
-        """
-        return pd.DataFrame(data)
-
-    def save_to_csv(self, data, filename):
-        """
-        Save API data to a CSV file.
-
-        Args:
-            data: Data to save (list or DataFrame)
-            filename: Name of the output file
-
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            # Convert to DataFrame if it's not already
-            if not isinstance(data, pd.DataFrame):
-                df = self.to_dataframe(data)
-            else:
-                df = data
-
-            # Save to CSV
-            df.to_csv(filename, index=False)
-            print(f"Data saved to {filename}")
-            return True
-
-        except Exception as e:
-            print(f"Error saving data to {filename}: {e}")
-            return False
-
-# Example usage with JSONPlaceholder API
-def main():
-    # Create API client
-    api = APIClient('https://jsonplaceholder.typicode.com')
-
-    # Get all users
-    print("Fetching users...")
-    users = api.get('users')
-
-    if users:
-        print(f"Found {len(users)} users")
-
-        # Convert to DataFrame
-        users_df = api.to_dataframe(users)
-
-        # Print user information
-        print("\nUser summary:")
-        user_summary = users_df[['id', 'name', 'email']].head()
-        print(user_summary)
-
-        # Save to CSV
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = f"users_{timestamp}.csv"
-        api.save_to_csv(users_df, filename)
-
-        # Get posts for a specific user
-        user_id = 1
-        print(f"\nFetching posts for user {user_id}...")
-        posts = api.get('posts', params={'userId': user_id})
-
-        if posts:
-            print(f"Found {len(posts)} posts")
-
-            # Convert to DataFrame
-            posts_df = api.to_dataframe(posts)
-
-            # Print post titles
-            print("\nPost titles:")
-            for i, title in enumerate(posts_df['title'].head(), 1):
-                print(f"{i}. {title}")
-
-            # Save to CSV
-            filename = f"user_{user_id}_posts_{timestamp}.csv"
-            api.save_to_csv(posts_df, filename)
-
-    print("\nDone!")
-
-if __name__ == "__main__":
-    main()
-
-# Fetching users...
-# Found 10 users
-#
-# User summary:
-#    id                  name                  email
-# 0   1        Leanne Graham    Sincere@april.biz
-# 1   2          Ervin Howell      Shanna@melissa.tv
-# 2   3      Clementine Bauch      Nathan@yesenia.net
-# 3   4      Patricia Lebsack  Julianne.OConner@kory.org
-# 4   5        Chelsey Dietrich    Lucio_Hettinger@annie.ca
-#
-# Data saved to users_20230817_120000.csv
-#
-# Fetching posts for user 1...
-# Found 10 posts
-#
-# Post titles:
-# 1. sunt aut facere repellat provident occaecati excepturi optio reprehenderit
-# 2. qui est esse
-# 3. ea molestias quasi exercitationem repellat qui ipsa sit aut
-# 4. eum et est occaecati
-# 5. nesciunt quas odio
-#
-# Data saved to user_1_posts_20230817_120000.csv
-#
-# Done!
+# Output:
+# Request was successful. Server received:
+# JSON data: {'name': 'Data Engineering Project', 'description': 'Learning to use APIs with Python', 'values': [1, 2, 3, 4, 5]}
 ```
 
-This `APIClient` class provides a reusable foundation for interacting with APIs. It handles:
+Using the `json` parameter automatically:
 
-- Authentication with API keys
-- Error handling and retries
-- Rate limiting
-- Pagination
-- Converting data to Pandas DataFrames
-- Saving data to CSV files
+- Serializes the data as JSON
+- Sets the Content-Type header to 'application/json'
+- Handles the encoding of the data
 
-You can extend this class for specific APIs by adding methods for particular endpoints or custom processing logic.
+## 4.3 Parsing API Data
 
-## 4.7 Micro-Project: Weather Data API Integrator
+In Chapter 2, we learned about working with JSON data. APIs commonly return data in JSON format, which we need to parse and process for our data engineering pipelines.
 
-Now, let's put our API knowledge to work by building a Weather Data API Integrator. This project will connect to a weather API, retrieve data for multiple cities, process the responses, and save the results to a CSV file.
+### 4.3.1 Working with JSON API Responses
 
-### 4.7.1 Project Requirements
+Let's explore how to work with more complex JSON responses:
 
-1. Connect to a public weather API (we'll use OpenWeatherMap's API)
-2. Retrieve weather data for 5-10 major cities
-3. Process the JSON responses to extract relevant information
-4. Transform the data into a structured format
-5. Save the processed results to a CSV file
-6. Implement proper error handling for API failures
-7. Handle API keys securely
+```python
+import requests
 
-### 4.7.2 Acceptance Criteria
+# Make a request to an API that returns complex nested JSON
+response = requests.get('https://api.github.com/repos/python/cpython/contributors?per_page=5')
 
-- Successfully authenticates with the chosen API (using secure key management)
+if response.status_code == 200:
+    contributors = response.json()
+
+    print(f"Top {len(contributors)} contributors to CPython:")
+
+    # Process the list of contributors
+    for i, contributor in enumerate(contributors, 1):
+        # Extract specific fields from each contributor
+        username = contributor['login']
+        contributions = contributor['contributions']
+        profile_url = contributor['html_url']
+
+        print(f"{i}. {username} - {contributions} contributions - {profile_url}")
+
+    # Calculate total contributions from these top contributors
+    total_contributions = sum(c['contributions'] for c in contributors)
+    print(f"\nTotal contributions from top {len(contributors)}: {total_contributions}")
+
+    # Find the contributor with the most contributions
+    most_contributions = max(contributors, key=lambda c: c['contributions'])
+    print(f"Most prolific contributor: {most_contributions['login']} with {most_contributions['contributions']} contributions")
+else:
+    print(f"Request failed with status code: {response.status_code}")
+
+# Output:
+# Top 5 contributors to CPython:
+# 1. vstinner - 3987 contributions - https://github.com/vstinner
+# 2. erlendaasland - 1926 contributions - https://github.com/erlendaasland
+# 3. AlexWaygood - 1593 contributions - https://github.com/AlexWaygood
+# 4. pablogsal - 1443 contributions - https://github.com/pablogsal
+# 5. iritkatriel - 1347 contributions - https://github.com/iritkatriel
+#
+# Total contributions from top 5: 10296
+# Most prolific contributor: vstinner with 3987 contributions
+```
+
+This example demonstrates how to:
+
+1. Parse a JSON array response into a Python list
+2. Extract fields from nested structures
+3. Process the data using list comprehension (from Chapter 2)
+4. Find specific information within the dataset
+
+### 4.3.2 Handling Pagination
+
+Many APIs limit the amount of data returned in a single response, using pagination to split results across multiple requests. Let's see how to handle this:
+
+```python
+import requests
+
+def get_all_pages(base_url, params=None, max_pages=5):
+    """
+    Fetch all pages of results from a paginated API.
+
+    Args:
+        base_url (str): The API endpoint URL
+        params (dict): Query parameters
+        max_pages (int): Maximum number of pages to fetch
+
+    Returns:
+        list: All items from all pages
+    """
+    if params is None:
+        params = {}
+
+    # Ensure we have a per_page parameter
+    if 'per_page' not in params:
+        params['per_page'] = 10
+
+    page = 1
+    all_items = []
+
+    while page <= max_pages:
+        # Update params with current page
+        params['page'] = page
+
+        print(f"Fetching page {page}...")
+        response = requests.get(base_url, params=params)
+
+        if response.status_code == 200:
+            # Parse the current page of results
+            page_items = response.json()
+
+            # If we got an empty list, we've run out of items
+            if not page_items:
+                break
+
+            print(f"  Received {len(page_items)} items")
+            all_items.extend(page_items)
+            page += 1
+        else:
+            print(f"  Error fetching page {page}: Status code {response.status_code}")
+            break
+
+    return all_items
+
+# Use our function to get multiple pages of Python repositories
+url = 'https://api.github.com/users/python/repos'
+all_repos = get_all_pages(url, params={'per_page': 5}, max_pages=3)
+
+print(f"\nFetched a total of {len(all_repos)} repositories")
+print("\nRepository names:")
+for repo in all_repos:
+    print(f"- {repo['name']}")
+
+# Output:
+# Fetching page 1...
+#   Received 5 items
+# Fetching page 2...
+#   Received 5 items
+# Fetching page 3...
+#   Received 5 items
+#
+# Fetched a total of 15 repositories
+#
+# Repository names:
+# - bedevere
+# - core-workflow
+# - cpython-emailer-webhook
+# - cpython-builder-docker
+# - python-docs-theme
+# - psf-salt
+# - pypi-salt
+# - community-starter-kit
+# - peps
+# - python-docs-tr
+# - pythondotorg
+# - docsbuild-scripts
+# - typing-council
+# - schemapi
+# - gh-migration
+```
+
+This function handles page-by-page fetching, which is a common pattern when working with APIs that return large result sets.
+
+### 4.3.3 Working with Different API Response Formats
+
+While JSON is the most common format, some APIs may return other formats like XML. In those cases, you might need additional libraries:
+
+```python
+import requests
+import xml.etree.ElementTree as ET
+
+# A very simple example with an API that can return XML
+url = 'https://httpbin.org/xml'
+
+# Request XML data
+response = requests.get(url)
+
+if response.status_code == 200:
+    # Parse XML content
+    root = ET.fromstring(response.text)
+
+    # Find specific elements (using XPath)
+    title = root.find('.//title').text
+    slide_title = root.find('.//slide/title').text
+    slide_type = root.find('.//slide').attrib.get('type')
+
+    print(f"Document title: {title}")
+    print(f"Slide title: {slide_title}")
+    print(f"Slide type: {slide_type}")
+
+    # Count all items
+    items = root.findall('.//item')
+    print(f"\nFound {len(items)} items in the document:")
+
+    for i, item in enumerate(items, 1):
+        print(f"{i}. {item.text}")
+else:
+    print(f"Request failed with status code: {response.status_code}")
+
+# Output:
+# Document title: Sample Slide Show
+# Slide title: Wake up to WonderWidgets!
+# Slide type: all
+#
+# Found 6 items in the document:
+# 1. Why WonderWidgets are great
+# 2. Who buys WonderWidgets
+# 3. Overview
+# 4. Sales Forecast
+# 5. Cost of Ownership
+# 6. Where to find more information
+```
+
+While XML responses are less common in modern APIs, it's good to be aware that not all APIs use JSON, and you may need to adapt your parsing strategy accordingly.
+
+## 4.4 Basic Error Handling for APIs
+
+When working with APIs, many things can go wrong: the server might be down, you might hit rate limits, or your request might be invalid. Proper error handling is essential for building robust data pipelines.
+
+### 4.4.1 Handling HTTP Error Status Codes
+
+Let's implement basic error handling for HTTP status codes:
+
+```python
+import requests
+
+def get_repository_info(owner, repo):
+    """
+    Get information about a GitHub repository with error handling.
+
+    Args:
+        owner (str): The repository owner
+        repo (str): The repository name
+
+    Returns:
+        dict: Repository information or error details
+    """
+    url = f"https://api.github.com/repos/{owner}/{repo}"
+
+    try:
+        response = requests.get(url)
+
+        # Check for successful response
+        if response.status_code == 200:
+            data = response.json()
+            return {
+                'success': True,
+                'data': {
+                    'name': data['name'],
+                    'description': data['description'],
+                    'stars': data['stargazers_count'],
+                    'forks': data['forks_count'],
+                    'open_issues': data['open_issues_count'],
+                    'created_at': data['created_at']
+                }
+            }
+
+        # Handle common error status codes
+        elif response.status_code == 404:
+            return {
+                'success': False,
+                'error': f"Repository '{owner}/{repo}' not found"
+            }
+        elif response.status_code == 403:
+            return {
+                'success': False,
+                'error': "API rate limit exceeded"
+            }
+        else:
+            return {
+                'success': False,
+                'error': f"API request failed with status code: {response.status_code}"
+            }
+
+    except requests.exceptions.RequestException as e:
+        # Handle network/connection errors
+        return {
+            'success': False,
+            'error': f"Request failed: {str(e)}"
+        }
+
+# Test with valid and invalid repositories
+repos_to_check = [
+    ('python', 'cpython'),        # Valid repository
+    ('python', 'nonexistent'),    # Non-existent repository
+    ('invaliduser123456', 'repo') # Invalid user
+]
+
+for owner, repo in repos_to_check:
+    print(f"\nChecking {owner}/{repo}:")
+    result = get_repository_info(owner, repo)
+
+    if result['success']:
+        data = result['data']
+        print(f"✅ Repository found:")
+        print(f"  Name: {data['name']}")
+        print(f"  Description: {data['description']}")
+        print(f"  Stars: {data['stars']}")
+        print(f"  Created: {data['created_at']}")
+    else:
+        print(f"❌ Error: {result['error']}")
+
+# Output:
+# Checking python/cpython:
+# ✅ Repository found:
+#   Name: cpython
+#   Description: The Python programming language
+#   Stars: 49823
+#   Created: 2017-02-10T18:51:46Z
+#
+# Checking python/nonexistent:
+# ❌ Error: Repository 'python/nonexistent' not found
+#
+# Checking invaliduser123456/repo:
+# ❌ Error: Repository 'invaliduser123456/repo' not found
+```
+
+This function demonstrates how to:
+
+1. Make a request and check the status code
+2. Handle specific error cases differently
+3. Use a try/except block to catch network-level errors
+4. Return structured results that contain success/failure information
+
+### 4.4.2 Implementing Retry Logic
+
+APIs can sometimes fail temporarily due to network issues or server load. Retry logic helps make your code more resilient:
+
+```python
+import requests
+import time
+
+def request_with_retries(url, max_retries=3, backoff_factor=1):
+    """
+    Make a request with retry logic for transient failures.
+
+    Args:
+        url (str): The URL to request
+        max_retries (int): Maximum number of retry attempts
+        backoff_factor (int): Multiplier for the delay between retries
+
+    Returns:
+        Response object or None if all retries fail
+    """
+    retries = 0
+
+    while retries <= max_retries:
+        try:
+            print(f"Attempt {retries + 1}/{max_retries + 1}...")
+
+            response = requests.get(url, timeout=5)
+
+            # If we get a successful response, return it
+            if response.status_code == 200:
+                return response
+
+            # If we get a 429 (Too Many Requests), retry after waiting
+            elif response.status_code == 429:
+                retry_after = int(response.headers.get('Retry-After', 1))
+                print(f"Rate limited. Waiting {retry_after} seconds...")
+                time.sleep(retry_after)
+                retries += 1
+                continue
+
+            # For server errors (5xx), retry with backoff
+            elif 500 <= response.status_code < 600:
+                print(f"Server error: {response.status_code}. Retrying...")
+                retries += 1
+                if retries <= max_retries:
+                    # Exponential backoff: 1s, 2s, 4s, ...
+                    wait_time = backoff_factor * (2 ** (retries - 1))
+                    print(f"Waiting {wait_time} seconds before next attempt...")
+                    time.sleep(wait_time)
+                continue
+
+            # For other status codes, don't retry
+            else:
+                print(f"Request failed with status code: {response.status_code}")
+                return response
+
+        except requests.exceptions.Timeout:
+            print("Request timed out")
+            retries += 1
+            if retries <= max_retries:
+                wait_time = backoff_factor * (2 ** (retries - 1))
+                print(f"Waiting {wait_time} seconds before next attempt...")
+                time.sleep(wait_time)
+            continue
+
+        except requests.exceptions.ConnectionError:
+            print("Connection error")
+            retries += 1
+            if retries <= max_retries:
+                wait_time = backoff_factor * (2 ** (retries - 1))
+                print(f"Waiting {wait_time} seconds before next attempt...")
+                time.sleep(wait_time)
+            continue
+
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {str(e)}")
+            return None
+
+    print("All retry attempts failed")
+    return None
+
+# Test with a URL that should work
+response = request_with_retries('https://api.github.com/zen')
+if response:
+    print(f"\nSuccess! Response: {response.text}")
+else:
+    print("\nFailed to get a response after retries")
+
+# Output:
+# Attempt 1/4...
+# Success! Response: Favor focus over features.
+```
+
+Retry logic is essential for production environments where network reliability can't be guaranteed and external services may have occasional outages.
+
+### 4.4.3 Handling Rate Limits
+
+Many APIs implement rate limiting to prevent abuse. Let's see how to handle and respect these limits:
+
+```python
+import requests
+import time
+
+def check_rate_limits():
+    """Check GitHub API rate limits and display usage."""
+    response = requests.get('https://api.github.com/rate_limit')
+
+    if response.status_code == 200:
+        limits = response.json()
+        core = limits['resources']['core']
+        search = limits['resources']['search']
+
+        # Calculate reset times
+        core_reset = time.strftime('%H:%M:%S', time.localtime(core['reset']))
+        search_reset = time.strftime('%H:%M:%S', time.localtime(search['reset']))
+
+        print("GitHub API Rate Limits:")
+        print(f"Core: {core['remaining']}/{core['limit']} requests remaining (resets at {core_reset})")
+        print(f"Search: {search['remaining']}/{search['limit']} requests remaining (resets at {search_reset})")
+
+        return limits
+    else:
+        print(f"Failed to check rate limits: {response.status_code}")
+        return None
+
+# Function that respects rate limits
+def make_rate_limited_request(url, headers=None):
+    """
+    Make a request that respects rate limits.
+
+    Args:
+        url (str): The URL to request
+        headers (dict): Optional headers
+
+    Returns:
+        Response object or None if rate limited
+    """
+    # Check rate limits first
+    limits = check_rate_limits()
+
+    if limits and limits['resources']['core']['remaining'] > 0:
+        print("\nMaking request...")
+        response = requests.get(url, headers=headers)
+
+        # Check if we got rate limited despite our check
+        if response.status_code == 403 and 'rate limit exceeded' in response.text.lower():
+            reset_time = int(response.headers.get('X-RateLimit-Reset', 0))
+            wait_time = max(reset_time - time.time(), 0)
+
+            print(f"Rate limit exceeded. Reset in {wait_time:.0f} seconds.")
+            return None
+
+        return response
+    else:
+        print("\nRate limit already exceeded. Try again later.")
+        return None
+
+# Check current rate limits
+check_rate_limits()
+
+# Make a request that respects rate limits
+response = make_rate_limited_request('https://api.github.com/users/python')
+if response:
+    print(f"Request successful! Status code: {response.status_code}")
+    # Check updated rate limits
+    check_rate_limits()
+
+# Output:
+# GitHub API Rate Limits:
+# Core: 58/60 requests remaining (resets at 13:45:17)
+# Search: 10/10 requests remaining (resets at 13:45:17)
+#
+# Making request...
+# Request successful! Status code: 200
+# GitHub API Rate Limits:
+# Core: 57/60 requests remaining (resets at 13:45:17)
+# Search: 10/10 requests remaining (resets at 13:45:17)
+```
+
+Understanding and respecting rate limits is crucial for sustainable API usage, especially in production data pipelines that might run frequently.
+
+## 4.5 API Security Considerations
+
+Security is a critical aspect of working with APIs, especially those that require authentication or handle sensitive data.
+
+### 4.5.1 Authentication Methods
+
+APIs use various authentication methods to verify identity and control access:
+
+```python
+import requests
+import os
+
+# Common API authentication methods
+auth_methods = {
+    'API Key': 'A simple key string sent in headers, query params, or request body',
+    'Basic Auth': 'Base64-encoded username and password sent in an Authorization header',
+    'Bearer Token': 'A token (like JWT) sent in an Authorization header',
+    'OAuth': 'A protocol for secure authorization, often used for third-party access',
+    'API Key + Secret': 'A combination of public key and private secret, used for signing requests'
+}
+
+print("Common API Authentication Methods:")
+for method, description in auth_methods.items():
+    print(f"{method}: {description}")
+
+# The following examples show how to use each method but don't include actual credentials
+# In a real environment, these would be stored securely (not in your code)
+
+# Example: API Key in query parameters
+api_key = "YOUR_API_KEY"  # This would come from a secure source
+weather_url = f"https://api.weatherapi.com/v1/current.json?key={api_key}&q=London"
+print(f"\nAPI Key example URL: {weather_url}")
+
+# Example: API Key in header
+headers_with_key = {
+    "X-API-Key": "YOUR_API_KEY"  # This would come from a secure source
+}
+print(f"Headers with API Key: {headers_with_key}")
+
+# Example: Basic Authentication
+from requests.auth import HTTPBasicAuth
+basic_auth = HTTPBasicAuth('username', 'password')  # These would come from a secure source
+print(f"Basic Auth object: {basic_auth}")
+
+# Example: Bearer Token
+token = "YOUR_ACCESS_TOKEN"  # This would come from a secure source
+headers_with_token = {
+    "Authorization": f"Bearer {token}"
+}
+print(f"Headers with Bearer token: {headers_with_token}")
+
+# Output:
+# Common API Authentication Methods:
+# API Key: A simple key string sent in headers, query params, or request body
+# Basic Auth: Base64-encoded username and password sent in an Authorization header
+# Bearer Token: A token (like JWT) sent in an Authorization header
+# OAuth: A protocol for secure authorization, often used for third-party access
+# API Key + Secret: A combination of public key and private secret, used for signing requests
+#
+# API Key example URL: https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=London
+# Headers with API Key: {'X-API-Key': 'YOUR_API_KEY'}
+# Basic Auth object: <requests.auth.HTTPBasicAuth object at 0x7f8a6b4f2d90>
+# Headers with Bearer token: {'Authorization': 'Bearer YOUR_ACCESS_TOKEN'}
+```
+
+### 4.5.2 Secure Credential Management
+
+Never hardcode credentials in your scripts! Here's a better approach:
+
+```python
+import os
+import requests
+
+def get_api_credentials(source='environment'):
+    """
+    Get API credentials from a secure source.
+
+    Args:
+        source (str): Where to get credentials from ('environment', 'file', etc.)
+
+    Returns:
+        dict: Dictionary containing credentials
+    """
+    if source == 'environment':
+        # Get credentials from environment variables
+        # In a real scenario, these would be set in your environment
+        api_key = os.environ.get('API_KEY', 'demo_key_for_educational_purposes')
+        return {'api_key': api_key}
+
+    elif source == 'file':
+        # Read from a secure file (not in version control)
+        # In a real scenario, this file would be .gitignore'd and have restricted permissions
+        try:
+            with open('.api_credentials.txt', 'r') as f:
+                api_key = f.read().strip()
+            return {'api_key': api_key}
+        except:
+            print("Couldn't read credentials file")
+            return {'api_key': 'demo_key_for_educational_purposes'}
+    else:
+        # In production, you might use a secrets manager service
+        # For this example, we'll just use a demo key
+        return {'api_key': 'demo_key_for_educational_purposes'}
+
+# Get credentials
+credentials = get_api_credentials()
+print(f"Got credentials: {credentials}")
+
+# Use credentials in a request
+def make_secure_request(url, credentials):
+    """Make a request using credentials from a secure source."""
+    params = {'api_key': credentials['api_key']}
+    return requests.get(url, params=params)
+
+# NASA APOD API - works with demo key (but has strict rate limits)
+response = make_secure_request('https://api.nasa.gov/planetary/apod', credentials)
+
+if response.status_code == 200:
+    data = response.json()
+    print(f"\nNASA Astronomy Picture of the Day:")
+    print(f"Title: {data['title']}")
+    print(f"Date: {data['date']}")
+    print(f"Explanation: {data['explanation'][:100]}...")
+else:
+    print(f"\nRequest failed: {response.status_code}")
+    print(response.text)
+
+# Output:
+# Got credentials: {'api_key': 'demo_key_for_educational_purposes'}
+#
+# NASA Astronomy Picture of the Day:
+# Title: A Partial Eclipse of the Flower Moon
+# Date: 2023-05-01
+# Explanation: You couldn't see this flower. The usually full flower moon was partially eclipsed during the early m...
+```
+
+### 4.5.3 HTTPS and Data Protection
+
+Always use HTTPS URLs for API requests to ensure data is encrypted in transit:
+
+```python
+import requests
+
+# Compare HTTP vs HTTPS
+http_url = 'http://example.com'
+https_url = 'https://example.com'
+
+def check_protocol(url):
+    """Check if a URL uses HTTPS and is secure."""
+    protocol = url.split('://')[0]
+    is_secure = protocol.lower() == 'https'
+
+    print(f"URL: {url}")
+    print(f"Protocol: {protocol}")
+    print(f"Secure: {'✅ Yes' if is_secure else '❌ No'}")
+
+    if not is_secure:
+        print("⚠️ Warning: Unencrypted HTTP connection. Data may be intercepted.")
+
+    return is_secure
+
+print("Checking protocols:")
+check_protocol(http_url)
+print("\n")
+check_protocol(https_url)
+
+# Demonstrate using sessions with SSL verification
+session = requests.Session()
+print("\nDefault SSL verification setting:", session.verify)
+
+# Output:
+# Checking protocols:
+# URL: http://example.com
+# Protocol: http
+# Secure: ❌ No
+# ⚠️ Warning: Unencrypted HTTP connection. Data may be intercepted.
+#
+#
+# URL: https://example.com
+# Protocol: https
+# Secure: ✅ Yes
+#
+# Default SSL verification setting: True
+```
+
+The `requests` library verifies SSL certificates by default, which helps prevent man-in-the-middle attacks.
+
+## 4.6 Micro-Project: Weather Data API Integrator
+
+Now let's put everything together in a complete micro-project that:
+
+1. Connects to a public weather API
+2. Retrieves weather data for multiple cities
+3. Processes the JSON responses
+4. Transforms the data into a structured format
+5. Saves the results to a CSV file
+6. Implements proper error handling
+
+### Project Requirements
+
+Create a Python script that:
+
+- Connects to the OpenWeatherMap API (free tier)
+- Retrieves current weather data for 5-10 cities
+- Extracts relevant information (temperature, humidity, weather conditions, etc.)
+- Formats the data consistently
+- Writes the processed data to a CSV file
+- Handles API failures, rate limits, and other errors gracefully
+
+### Acceptance Criteria
+
+- Successfully authenticates with the chosen API using secure key management
 - Correctly handles API response codes and potential errors
 - Processes JSON data into a structured format
 - Implements at least one meaningful transformation of the raw data
@@ -1165,1075 +1175,1079 @@ Now, let's put our API knowledge to work by building a Weather Data API Integrat
 - Includes timeout handling and retry logic for failed requests
 - Documentation includes instructions for obtaining and securely using an API key
 
-### 4.7.3 Common Pitfalls
+### Common Pitfalls and Solutions
 
-1. **Exposing API keys in code**:
+1. **Exposing API Keys in Code**
 
-   - Problem: Hardcoding API keys in the script
-   - Solution: Use environment variables or a configuration file not committed to version control
+   - Problem: Hardcoding API keys in your scripts is a security risk, especially if you share your code.
+   - Solution: Store API keys in environment variables or a configuration file that isn't committed to version control.
 
-2. **Hitting API rate limits**:
+2. **Hitting API Rate Limits**
 
-   - Problem: Making too many requests too quickly
-   - Solution: Implement delayed requests or proper retry handling with exponential backoff
+   - Problem: Free tier APIs often have strict rate limits that can cause your requests to fail.
+   - Solution: Implement delayed requests and proper retry handling with exponential backoff.
 
-3. **API structure changes**:
+3. **API Structure Changes**
 
-   - Problem: Relying on a specific API structure that may change
-   - Solution: Add validation checks for expected data structure and fallback options
+   - Problem: APIs can change their response structure without notice.
+   - Solution: Add validation checks for expected data structure and fallback options.
 
-4. **Neglecting error handling**:
-   - Problem: Assuming API requests will always succeed
-   - Solution: Implement robust error handling for network issues, API errors, and parsing errors
+4. **No Error Handling**
+   - Problem: Simple scripts often ignore potential API errors.
+   - Solution: Implement comprehensive error handling for network issues, timeouts, and API errors.
 
-### 4.7.4 Differences from Production Grade Solutions
+### How This Differs from Production-Grade Solutions
 
-In a production environment, a weather data integrator would differ in several ways:
+In a production environment, this solution would differ in several ways:
 
-1. **Infrastructure**:
+1. **Configuration Management**:
 
-   - Production: Deployed on cloud infrastructure with monitoring and logging
-   - Our version: Runs locally as a standalone script
+   - Production: Would use a proper secrets manager or environment variables in a controlled environment.
+   - Micro-project: Uses a simple config file approach for educational purposes.
 
-2. **Data Volume**:
+2. **Retry Mechanisms**:
 
-   - Production: Handles large volumes of data with efficient processing
-   - Our version: Processes a small set of cities for demonstration
+   - Production: Would include more sophisticated retry logic, possibly using libraries like tenacity.
+   - Micro-project: Uses a simple custom retry function.
 
-3. **Scheduling**:
+3. **Logging**:
 
-   - Production: Runs on a schedule using Airflow or similar orchestration tools
-   - Our version: Runs once when executed
+   - Production: Would implement structured logging to files or centralized logging systems.
+   - Micro-project: Uses simple print statements.
 
-4. **Data Storage**:
+4. **Performance**:
 
-   - Production: Stores data in a database or data warehouse
-   - Our version: Saves to a local CSV file
+   - Production: Might use async requests to fetch multiple cities in parallel.
+   - Micro-project: Uses synchronous requests for simplicity.
 
-5. **Security**:
-   - Production: Uses secure key management services (e.g., AWS Secrets Manager)
-   - Our version: Uses environment variables for API keys
+5. **Monitoring**:
 
-### 4.7.5 Implementation
+   - Production: Would include monitoring for API health, performance metrics, and alerting.
+   - Micro-project: Minimal monitoring via console output.
 
-Let's implement our Weather Data API Integrator:
+6. **Data Validation**:
+   - Production: Would have comprehensive schema validation and data quality checks.
+   - Micro-project: Basic validation of response structure.
+
+### Implementation
 
 ```python
-import os
 import requests
-import pandas as pd
+import csv
 import time
+import os
+import json
 from datetime import datetime
 
 class WeatherDataIntegrator:
-    """A class to retrieve, process, and save weather data from an API."""
+    """A class to fetch, process, and store weather data from OpenWeatherMap API."""
 
-    def __init__(self, api_key=None):
+    def __init__(self, config_file='weather_config.json'):
         """
-        Initialize the Weather Data Integrator.
+        Initialize the integrator with configuration.
 
         Args:
-            api_key: API key for authentication (optional)
+            config_file (str): Path to the configuration file
         """
-        # Try to get API key from environment variable if not provided
-        self.api_key = api_key or os.environ.get('OPENWEATHERMAP_API_KEY')
+        self.config = self._load_config(config_file)
+        self.api_key = self._get_api_key()
+        self.base_url = "https://api.openweathermap.org/data/2.5/weather"
 
-        if not self.api_key:
-            print("Warning: No API key provided. Please set OPENWEATHERMAP_API_KEY environment variable.")
-
-        # Base URL for OpenWeatherMap API
-        self.base_url = "https://api.openweathermap.org/data/2.5"
-
-        # Default parameters
-        self.default_params = {
-            'appid': self.api_key,
-            'units': 'metric'  # Use metric units (Celsius, meters/sec)
-        }
-
-    def get_current_weather(self, city, max_retries=3, timeout=10):
-        """
-        Get current weather for a specific city.
-
-        Args:
-            city: Name or ID of the city
-            max_retries: Maximum number of retry attempts
-            timeout: Request timeout in seconds
-
-        Returns:
-            Processed weather data dictionary or None if request failed
-        """
-        endpoint = f"{self.base_url}/weather"
-        params = {
-            **self.default_params,
-            'q': city
-        }
-
-        retries = 0
-        while retries < max_retries:
-            try:
-                print(f"Fetching weather data for {city}...")
-                response = requests.get(endpoint, params=params, timeout=timeout)
-
-                # Special case for rate limiting
-                if response.status_code == 429:
-                    retry_after = int(response.headers.get('Retry-After', 60))
-                    print(f"Rate limited. Retrying after {retry_after} seconds...")
-                    time.sleep(retry_after)
-                    retries += 1
-                    continue
-
-                # Check for successful response
-                if response.status_code == 200:
-                    weather_data = response.json()
-                    return self._process_weather_data(city, weather_data)
-                else:
-                    print(f"Error fetching weather for {city}: {response.status_code} - {response.text}")
-
-            except requests.exceptions.RequestException as e:
-                print(f"Request error for {city}: {e}")
-
-            # Increment retry counter and wait before retrying
-            retries += 1
-            if retries < max_retries:
-                wait_time = 2 ** retries  # Exponential backoff
-                print(f"Retrying in {wait_time} seconds... (Attempt {retries+1}/{max_retries})")
-                time.sleep(wait_time)
-
-        print(f"Failed to fetch weather data for {city} after {max_retries} attempts")
-        return None
-
-    def _process_weather_data(self, city, data):
-        """
-        Process the raw weather data into a structured format.
-
-        Args:
-            city: City name
-            data: Raw weather data from the API
-
-        Returns:
-            Dictionary with processed weather data
-        """
-        try:
-            # Extract relevant fields
-            processed_data = {
-                'city': city,
-                'country': data.get('sys', {}).get('country', ''),
-                'temperature': data.get('main', {}).get('temp', 0),
-                'feels_like': data.get('main', {}).get('feels_like', 0),
-                'humidity': data.get('main', {}).get('humidity', 0),
-                'pressure': data.get('main', {}).get('pressure', 0),
-                'wind_speed': data.get('wind', {}).get('speed', 0),
-                'wind_direction': data.get('wind', {}).get('deg', 0),
-                'cloudiness': data.get('clouds', {}).get('all', 0),
-                'weather_main': data.get('weather', [{}])[0].get('main', ''),
-                'weather_description': data.get('weather', [{}])[0].get('description', ''),
-                'timestamp': datetime.fromtimestamp(data.get('dt', 0)).strftime('%Y-%m-%d %H:%M:%S'),
-                'sunrise': datetime.fromtimestamp(data.get('sys', {}).get('sunrise', 0)).strftime('%H:%M:%S'),
-                'sunset': datetime.fromtimestamp(data.get('sys', {}).get('sunset', 0)).strftime('%H:%M:%S'),
-                'timezone': data.get('timezone', 0) // 3600  # Convert seconds to hours
+    def _load_config(self, config_file):
+        """Load configuration from a JSON file."""
+        # Create a default config if file doesn't exist
+        if not os.path.exists(config_file):
+            default_config = {
+                'api_key_source': 'file',  # 'file', 'env', or 'direct'
+                'api_key_file': '.openweathermap_key.txt',
+                'api_key_env': 'OPENWEATHERMAP_API_KEY',
+                'api_key': '',  # Only used if api_key_source is 'direct'
+                'units': 'metric',  # 'metric', 'imperial', or 'standard'
+                'cities': [
+                    'London,UK',
+                    'New York,US',
+                    'Tokyo,JP',
+                    'Sydney,AU',
+                    'Rio de Janeiro,BR'
+                ],
+                'retry_attempts': 3,
+                'retry_delay': 2,
+                'timeout': 10
             }
 
-            # Add derived fields
-            processed_data['temperature_fahrenheit'] = (processed_data['temperature'] * 9/5) + 32
+            with open(config_file, 'w') as f:
+                json.dump(default_config, f, indent=4)
 
-            # Classify temperature
-            if processed_data['temperature'] < 10:
-                temp_category = 'Cold'
-            elif processed_data['temperature'] < 20:
-                temp_category = 'Mild'
-            elif processed_data['temperature'] < 30:
-                temp_category = 'Warm'
+            print(f"Created default configuration file: {config_file}")
+            print("Please update it with your API key before running.")
+
+            # For educational purposes, we'll create a dummy API key file
+            with open(default_config['api_key_file'], 'w') as f:
+                f.write('your_api_key_here')
+            print(f"Created placeholder API key file: {default_config['api_key_file']}")
+            print("Please replace the placeholder with your actual API key.")
+
+        # Load the configuration
+        try:
+            with open(config_file, 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"Error: {config_file} is not valid JSON")
+            return {}
+        except Exception as e:
+            print(f"Error loading configuration: {e}")
+            return {}
+
+    def _get_api_key(self):
+        """Get the API key from the configured source."""
+        source = self.config.get('api_key_source', 'file')
+
+        if source == 'file':
+            key_file = self.config.get('api_key_file', '.openweathermap_key.txt')
+            try:
+                with open(key_file, 'r') as f:
+                    return f.read().strip()
+            except Exception as e:
+                print(f"Error reading API key file: {e}")
+                return None
+
+        elif source == 'env':
+            env_var = self.config.get('api_key_env', 'OPENWEATHERMAP_API_KEY')
+            return os.environ.get(env_var)
+
+        elif source == 'direct':
+            return self.config.get('api_key', '')
+
+        return None
+
+    def fetch_weather(self, city):
+        """
+        Fetch weather data for a single city with retry logic.
+
+        Args:
+            city (str): City name and optional country code (e.g., 'London,UK')
+
+        Returns:
+            dict: Weather data or None if failed
+        """
+        if not self.api_key:
+            print("Error: API key not configured")
+            return None
+
+        params = {
+            'q': city,
+            'appid': self.api_key,
+            'units': self.config.get('units', 'metric')
+        }
+
+        retry_attempts = self.config.get('retry_attempts', 3)
+        retry_delay = self.config.get('retry_delay', 2)
+        timeout = self.config.get('timeout', 10)
+
+        for attempt in range(retry_attempts):
+            try:
+                print(f"Fetching weather for {city} (Attempt {attempt + 1}/{retry_attempts})...")
+                response = requests.get(
+                    self.base_url,
+                    params=params,
+                    timeout=timeout
+                )
+
+                if response.status_code == 200:
+                    print(f"✅ Successfully fetched data for {city}")
+                    return response.json()
+
+                elif response.status_code == 404:
+                    print(f"❌ City not found: {city}")
+                    return None
+
+                elif response.status_code == 401:
+                    print(f"❌ Invalid API key")
+                    return None
+
+                elif response.status_code == 429:
+                    print(f"⚠️ Rate limited. Waiting before retry...")
+                    time.sleep(retry_delay * (attempt + 1))  # Exponential backoff
+
+                else:
+                    print(f"⚠️ API returned status code {response.status_code}. Retrying...")
+                    time.sleep(retry_delay)
+
+            except requests.exceptions.Timeout:
+                print(f"⚠️ Request timed out. Retrying...")
+                time.sleep(retry_delay)
+
+            except requests.exceptions.ConnectionError:
+                print(f"⚠️ Connection error. Retrying...")
+                time.sleep(retry_delay)
+
+            except Exception as e:
+                print(f"❌ Unexpected error: {e}")
+                return None
+
+        print(f"❌ Failed to fetch weather for {city} after {retry_attempts} attempts")
+        return None
+
+    def process_weather_data(self, weather_data):
+        """
+        Extract and transform relevant information from weather data.
+
+        Args:
+            weather_data (dict): Raw weather data from API
+
+        Returns:
+            dict: Processed weather data with consistent format
+        """
+        if not weather_data:
+            return None
+
+        try:
+            # Basic validation of expected structure
+            required_fields = ['main', 'weather', 'wind', 'name']
+            for field in required_fields:
+                if field not in weather_data:
+                    print(f"❌ Missing required field: {field}")
+                    return None
+
+            # Extract and transform data
+            weather = weather_data['weather'][0]  # First weather condition
+            main = weather_data['main']
+            wind = weather_data['wind']
+
+            # Calculate additional metrics
+            # - Convert temperature to a "feels like" description
+            # - Add a wind chill or heat index based on conditions
+            feels_like = main.get('feels_like')
+            temp = main.get('temp')
+
+            if feels_like is not None and temp is not None:
+                temp_difference = feels_like - temp
+                if temp_difference < -2:
+                    feels_like_description = "colder than it looks"
+                elif temp_difference > 2:
+                    feels_like_description = "warmer than it looks"
+                else:
+                    feels_like_description = "similar to actual temperature"
             else:
-                temp_category = 'Hot'
-            processed_data['temperature_category'] = temp_category
+                feels_like_description = "unknown"
+
+            # Process wind data for cardinal direction
+            if 'deg' in wind:
+                directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"]
+                index = round(wind['deg'] / 45)
+                wind_direction = directions[index]
+            else:
+                wind_direction = "unknown"
+
+            # Create processed data structure
+            processed_data = {
+                'city': weather_data['name'],
+                'country': weather_data.get('sys', {}).get('country', 'Unknown'),
+                'latitude': weather_data.get('coord', {}).get('lat'),
+                'longitude': weather_data.get('coord', {}).get('lon'),
+                'description': weather['description'],
+                'temperature_c': main.get('temp'),
+                'feels_like_c': main.get('feels_like'),
+                'feels_like_description': feels_like_description,
+                'humidity_percent': main.get('humidity'),
+                'pressure_hPa': main.get('pressure'),
+                'wind_speed_mps': wind.get('speed'),
+                'wind_direction': wind_direction,
+                'cloudiness_percent': weather_data.get('clouds', {}).get('all'),
+                'timestamp': datetime.fromtimestamp(weather_data['dt']).strftime('%Y-%m-%d %H:%M:%S')
+            }
 
             return processed_data
 
-        except (KeyError, IndexError, TypeError) as e:
-            print(f"Error processing weather data: {e}")
-            print(f"Raw data: {data}")
+        except KeyError as e:
+            print(f"❌ KeyError while processing data: {e}")
+            return None
+        except Exception as e:
+            print(f"❌ Error processing weather data: {e}")
             return None
 
-    def get_weather_for_cities(self, cities):
+    def fetch_all_cities(self):
         """
-        Get weather data for multiple cities.
-
-        Args:
-            cities: List of city names
+        Fetch weather data for all configured cities.
 
         Returns:
-            List of processed weather data dictionaries
+            list: Processed weather data for each city
         """
-        weather_data = []
+        cities = self.config.get('cities', [])
+        results = []
 
         for city in cities:
-            city_data = self.get_current_weather(city)
-            if city_data:
-                weather_data.append(city_data)
-                # Add a small delay to avoid hitting rate limits
-                time.sleep(1)
+            raw_data = self.fetch_weather(city)
+            if raw_data:
+                processed_data = self.process_weather_data(raw_data)
+                if processed_data:
+                    results.append(processed_data)
 
-        return weather_data
+        return results
 
-    def save_to_csv(self, data, filename):
+    def save_to_csv(self, data, filename='weather_data.csv'):
         """
-        Save weather data to a CSV file.
+        Save processed weather data to a CSV file.
 
         Args:
-            data: List of weather data dictionaries
-            filename: Output file name
+            data (list): List of weather data dictionaries
+            filename (str): Output filename
 
         Returns:
-            True if successful, False otherwise
+            bool: True if successful, False otherwise
         """
         if not data:
             print("No data to save")
             return False
 
         try:
-            # Convert to DataFrame
-            df = pd.DataFrame(data)
+            # Get field names from the first data item
+            fieldnames = data[0].keys()
 
-            # Save to CSV
-            df.to_csv(filename, index=False)
-            print(f"Weather data saved to {filename}")
+            with open(filename, 'w', newline='') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(data)
+
+            print(f"✅ Successfully saved data to {filename}")
             return True
 
         except Exception as e:
-            print(f"Error saving data to {filename}: {e}")
+            print(f"❌ Error saving to CSV: {e}")
             return False
 
-    def run(self, cities, output_file="weather_data.csv"):
+    def run(self, output_file='weather_data.csv'):
         """
-        Run the weather data integration process.
+        Run the complete process: fetch, process, and save weather data.
 
         Args:
-            cities: List of cities to get weather for
-            output_file: Name of the output file
+            output_file (str): Path to the output CSV file
 
         Returns:
-            True if successful, False otherwise
+            bool: True if successful, False otherwise
         """
-        print(f"Starting weather data integration for {len(cities)} cities...")
+        print(f"🌤️  Weather Data Integrator")
+        print(f"==========================")
+        print(f"Starting at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"Units: {self.config.get('units', 'metric')}")
+        print(f"Cities: {', '.join(self.config.get('cities', []))}")
+        print(f"Output file: {output_file}")
+        print(f"==========================")
 
-        # Check if API key is available
-        if not self.api_key:
-            print("Error: API key is required")
-            return False
+        # Fetch and process data
+        weather_data = self.fetch_all_cities()
 
-        # Get weather data for all cities
-        weather_data = self.get_weather_for_cities(cities)
-
-        # Check if we got any data
         if not weather_data:
-            print("No weather data retrieved")
+            print("❌ No weather data was collected")
             return False
 
         # Save to CSV
         success = self.save_to_csv(weather_data, output_file)
 
         if success:
-            print(f"Successfully retrieved and saved weather data for {len(weather_data)} cities")
+            print(f"✅ Successfully collected weather data for {len(weather_data)} cities")
+            print(f"Data saved to: {output_file}")
+
+            # Print a sample of the data
+            if weather_data:
+                print("\nSample data from first city:")
+                sample = weather_data[0]
+                print(f"City: {sample['city']}, {sample['country']}")
+                print(f"Weather: {sample['description']}")
+                print(f"Temperature: {sample['temperature_c']}°C (Feels like: {sample['feels_like_c']}°C - {sample['feels_like_description']})")
+                print(f"Wind: {sample['wind_speed_mps']} m/s from {sample['wind_direction']}")
+                print(f"Humidity: {sample['humidity_percent']}%")
+
+            return True
         else:
-            print("Failed to save weather data")
+            print("❌ Failed to save weather data")
+            return False
 
-        return success
-
-def main():
-    # List of cities to get weather data for
-    cities = [
-        "London",
-        "New York",
-        "Tokyo",
-        "Paris",
-        "Sydney",
-        "Cairo",
-        "Rio de Janeiro",
-        "Moscow",
-        "Singapore",
-        "Mumbai"
-    ]
-
-    # Timestamp for the output file
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    output_file = f"weather_data_{timestamp}.csv"
-
-    # Create the integrator
-    # In a real application, you would set the OPENWEATHERMAP_API_KEY environment variable
-    # For demonstration purposes, we'll check if it's set and provide instructions if not
-    api_key = os.environ.get('OPENWEATHERMAP_API_KEY')
-
-    if not api_key:
-        print("No API key found in environment variables.")
-        print("For this demo, we'll use a placeholder, but API requests will fail.")
-        print("\nTo use this script with a real API key:")
-        print("1. Sign up at https://openweathermap.org/ to get a free API key")
-        print("2. Set the OPENWEATHERMAP_API_KEY environment variable")
-        print("   - On Windows: set OPENWEATHERMAP_API_KEY=your_api_key_here")
-        print("   - On macOS/Linux: export OPENWEATHERMAP_API_KEY=your_api_key_here")
-        api_key = "placeholder_api_key"  # This will cause API requests to fail
-
-    integrator = WeatherDataIntegrator(api_key)
-
-    # Run the integration process
-    integrator.run(cities, output_file)
-
+# Run the integrator if this script is executed directly
 if __name__ == "__main__":
-    main()
+    integrator = WeatherDataIntegrator()
+    integrator.run()
 ```
 
-### 4.7.6 How to Run and Test the Solution
+### How to Run and Test the Solution
 
-To run this solution, follow these steps:
+1. Save the above code to a file (e.g., `weather_integrator.py`)
 
-1. **Set up the API Key**:
+2. Get an API key:
 
-   - Sign up for a free account at [OpenWeatherMap](https://openweathermap.org/)
-   - Navigate to the API Keys section in your account
-   - Generate a new API key (note that it may take a few hours to activate)
-   - Set the API key as an environment variable:
-     - Windows: `set OPENWEATHERMAP_API_KEY=your_api_key_here`
-     - macOS/Linux: `export OPENWEATHERMAP_API_KEY=your_api_key_here`
+   - Go to [OpenWeatherMap](https://openweathermap.org/) and create a free account
+   - Navigate to the API Keys section of your account
+   - Copy your API key
 
-2. **Run the Script**:
+3. Configure the API key:
 
-   - Save the code to a file named `weather_integrator.py`
-   - Run the script: `python weather_integrator.py`
-   - The script will retrieve weather data for the specified cities and save it to a CSV file
+   - The first time you run the script, it will create a default configuration file (`weather_config.json`) and a placeholder API key file (`.openweathermap_key.txt`)
+   - Edit the `.openweathermap_key.txt` file and replace the placeholder text with your actual API key
 
-3. **Verify the Results**:
+4. Run the script:
 
-   - Check the console output for the integration progress
-   - Open the generated CSV file to verify that the weather data was correctly saved
-   - The file name will include a timestamp to avoid overwriting previous results
+   ```bash
+   python weather_integrator.py
+   ```
 
-4. **Test Error Handling**:
-   - To test error handling, you can try:
-     - Using an invalid API key
-     - Modifying the list of cities to include invalid city names
-     - Temporarily disconnecting from the internet during execution
+5. Examine the output:
 
-The solution successfully meets all the project requirements:
+   - The script will print detailed information about each step of the process
+   - After completion, check the generated CSV file (`weather_data.csv`)
 
-- Connects to the OpenWeatherMap API
-- Retrieves weather data for multiple cities
-- Processes the JSON responses to extract relevant information
-- Transforms the data (adds derived fields like temperature in Fahrenheit and temperature categories)
-- Saves the processed results to a CSV file
-- Implements proper error handling and retry logic
-- Handles API keys securely through environment variables
+6. To test different scenarios:
+   - Edit `weather_config.json` to change cities, units, or other settings
+   - Try with an invalid API key to test error handling
+   - Try with a non-existent city to test error handling
+   - Add a city with special characters to test encoding handling
 
-## 4.8 Practice Exercises
+## 4.7 Practice Exercises
 
-Reinforce your understanding of web integration and APIs with these exercises:
+To reinforce your understanding of APIs and web integration, try these exercises:
 
-### Exercise 1: Basic API Integration
+### Exercise 1: Simple API Request
+
+Write a script that:
+
+1. Makes a GET request to https://jsonplaceholder.typicode.com/posts
+2. Prints the total number of posts
+3. Finds the post with the most words in its body
+4. Prints the title and body of that post
+
+### Exercise 2: API with Query Parameters
+
+Write a script that:
+
+1. Takes a search term as input (e.g., "python")
+2. Makes a request to GitHub's search API (https://api.github.com/search/repositories) with the search term
+3. Sorts the results by number of stars
+4. Prints the top 5 repositories with their names, descriptions, and star counts
+
+### Exercise 3: Error Handling
+
+Modify your script from Exercise 2 to:
+
+1. Handle rate limiting by checking the X-RateLimit-Remaining header
+2. Implement retry logic if a request fails (up to 3 attempts)
+3. Print a helpful error message if the API returns an error status code
+
+### Exercise 4: Working with Multiple APIs
 
 Create a script that:
 
-1. Connects to the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to get a list of users
-2. Extracts their name, email, city, and company name
-3. Prints a formatted summary of the users
+1. Fetches cryptocurrency price data from a public API (e.g., CoinGecko)
+2. Fetches exchange rate data from another API (e.g., ExchangeRate-API)
+3. Calculates the value of a specified cryptocurrency in different currencies
+4. Prints the results in a formatted table
 
-### Exercise 2: Error Handling
-
-Modify your solution to Exercise 1 to include:
-
-1. Proper error handling for connection issues
-2. Retry logic with exponential backoff
-3. Validation of the response structure
-
-### Exercise 3: API Data Transformation
+### Exercise 5: Data Transformation and Export
 
 Write a script that:
 
-1. Fetches posts from the JSONPlaceholder API
-2. Groups them by user ID
-3. Calculates statistics for each user (number of posts, average post length)
-4. Outputs the results as a structured report
+1. Fetches user data from https://jsonplaceholder.typicode.com/users
+2. Fetches all posts by each user
+3. Creates a report showing how many posts each user has made
+4. Exports the report to both CSV and JSON formats
 
-### Exercise 4: API Client Class
+## 4.8 Exercise Solutions
 
-Create a reusable API client class for the JSONPlaceholder API that:
+Here are the solutions to the practice exercises:
 
-1. Has methods for different endpoints (users, posts, comments)
-2. Includes pagination support
-3. Handles errors consistently
-4. Provides utility methods for common tasks (e.g., finding a user by username)
-
-### Exercise 5: Combining APIs
-
-Write a script that:
-
-1. Gets a list of users from the JSONPlaceholder API
-2. For each user, fetches their posts
-3. For each post, fetches the comments
-4. Creates a hierarchical structure of users -> posts -> comments
-5. Saves the result to a JSON file
-
-## 4.9 Exercise Solutions
-
-Here are solutions to the practice exercises:
-
-### Solution to Exercise 1: Basic API Integration
+### Solution to Exercise 1: Simple API Request
 
 ```python
 import requests
 
-def get_user_summary():
-    """Get and print a summary of users from JSONPlaceholder API."""
-    # API endpoint for users
-    url = 'https://jsonplaceholder.typicode.com/users'
+def analyze_posts():
+    """
+    Fetch posts from JSONPlaceholder API and find the post with the longest body.
+    """
+    print("Fetching posts from JSONPlaceholder API...")
+    response = requests.get('https://jsonplaceholder.typicode.com/posts')
 
-    try:
-        # Make the request
-        response = requests.get(url)
+    if response.status_code != 200:
+        print(f"Error: API returned status code {response.status_code}")
+        return
 
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Parse the JSON response
-            users = response.json()
+    # Parse the JSON response
+    posts = response.json()
 
-            # Print summary information
-            print(f"Found {len(users)} users:")
-            print("-" * 50)
+    # Print the total number of posts
+    print(f"Total number of posts: {len(posts)}")
 
-            for user in users:
-                # Extract needed fields
-                name = user.get('name', 'Unknown')
-                email = user.get('email', 'No email')
-                city = user.get('address', {}).get('city', 'Unknown location')
-                company = user.get('company', {}).get('name', 'No company')
+    # Find the post with the most words in its body
+    post_with_most_words = max(posts, key=lambda post: len(post['body'].split()))
 
-                # Print formatted summary
-                print(f"Name: {name}")
-                print(f"Email: {email}")
-                print(f"City: {city}")
-                print(f"Company: {company}")
-                print("-" * 50)
+    # Count the words in the longest post
+    word_count = len(post_with_most_words['body'].split())
 
-            return users
-        else:
-            print(f"Request failed with status code {response.status_code}")
-            return None
-
-    except requests.exceptions.RequestException as e:
-        print(f"Request error: {e}")
-        return None
+    print(f"\nPost with the most words (ID: {post_with_most_words['id']}, Word count: {word_count}):")
+    print(f"Title: {post_with_most_words['title']}")
+    print(f"Body: {post_with_most_words['body']}")
 
 # Run the function
-if __name__ == "__main__":
-    get_user_summary()
+analyze_posts()
+
+# Output:
+# Fetching posts from JSONPlaceholder API...
+# Total number of posts: 100
+#
+# Post with the most words (ID: 100, Word count: 94):
+# Title: at nam consequatur ea labore ea harum
+# Body: cupiditate quo est a modi nesciunt soluta
+# ipsa voluptas error itaque dicta in
+# autem qui minus magnam et distinctio eum
+# accusamus ratione error aut
 ```
 
-### Solution to Exercise 2: Error Handling
+### Solution to Exercise 2: API with Query Parameters
+
+```python
+import requests
+
+def search_github_repositories(search_term):
+    """
+    Search for repositories on GitHub and display top results.
+
+    Args:
+        search_term (str): Term to search for
+    """
+    print(f"Searching GitHub for repositories matching '{search_term}'...")
+
+    # Define parameters
+    params = {
+        'q': search_term,
+        'sort': 'stars',
+        'order': 'desc',
+        'per_page': 5
+    }
+
+    # Make the request
+    response = requests.get('https://api.github.com/search/repositories', params=params)
+
+    # Check for successful response
+    if response.status_code != 200:
+        print(f"Error: API returned status code {response.status_code}")
+        print(response.text)
+        return
+
+    # Parse the response
+    data = response.json()
+
+    # Print the results
+    print(f"Found {data['total_count']} repositories matching '{search_term}'")
+    print("\nTop 5 repositories by star count:")
+
+    for i, repo in enumerate(data['items'], 1):
+        print(f"{i}. {repo['name']} by {repo['owner']['login']}")
+        print(f"   Description: {repo['description'] or 'No description'}")
+        print(f"   Stars: {repo['stargazers_count']:,}")
+        print(f"   URL: {repo['html_url']}")
+        print()
+
+# Get search term from user
+search_term = input("Enter a search term for GitHub repositories: ")
+search_github_repositories(search_term)
+
+# Sample Output (for search term "data engineering"):
+# Searching GitHub for repositories matching 'data engineering'...
+# Found 29145 repositories matching 'data engineering'
+#
+# Top 5 repositories by star count:
+# 1. data-engineering-zoomcamp by DataTalksClub
+#    Description: Free Data Engineering course!
+#    Stars: 12,574
+#    URL: https://github.com/DataTalksClub/data-engineering-zoomcamp
+#
+# 2. analytics-engineering-handbook by getdbt
+#    Description: A handbook and crash course on Analytics Engineering. Fork and contribute!
+#    Stars: 3,102
+#    URL: https://github.com/getdbt/analytics-engineering-handbook
+#
+# ...and so on for the remaining repositories
+```
+
+### Solution to Exercise 3: Error Handling
 
 ```python
 import requests
 import time
 
-def get_user_summary_with_retries(max_retries=3, backoff_factor=0.5):
+def search_github_repositories_with_retry(search_term):
     """
-    Get and print a summary of users from JSONPlaceholder API
-    with retry logic and error handling.
-    """
-    # API endpoint for users
-    url = 'https://jsonplaceholder.typicode.com/users'
+    Search for repositories on GitHub with retry logic and rate limit handling.
 
-    retries = 0
-    while retries <= max_retries:
+    Args:
+        search_term (str): Term to search for
+    """
+    print(f"Searching GitHub for repositories matching '{search_term}'...")
+
+    # Define parameters
+    params = {
+        'q': search_term,
+        'sort': 'stars',
+        'order': 'desc',
+        'per_page': 5
+    }
+
+    # Retry configuration
+    max_retries = 3
+    retry_delay = 2  # seconds
+
+    # Make the request with retry logic
+    for attempt in range(max_retries):
         try:
-            # Make the request with timeout
-            response = requests.get(url, timeout=10)
+            print(f"Attempt {attempt + 1}/{max_retries}...")
 
-            # Check if the request was successful
+            # Make the request
+            response = requests.get(
+                'https://api.github.com/search/repositories',
+                params=params,
+                timeout=10
+            )
+
+            # Check rate limit
+            remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
+
+            print(f"Rate limit remaining: {remaining}")
+
+            if remaining == 0:
+                reset_time = int(response.headers.get('X-RateLimit-Reset', 0))
+                wait_time = max(reset_time - time.time(), 0)
+
+                print(f"Rate limit exceeded. Resets in {wait_time:.0f} seconds.")
+
+                if attempt < max_retries - 1 and wait_time < 60:  # Only wait if it's a short time
+                    print(f"Waiting for rate limit reset...")
+                    time.sleep(wait_time + 1)  # Add 1 second buffer
+                    continue
+                else:
+                    print("Rate limit wait time too long or out of retries.")
+                    return
+
+            # Check for successful response
             if response.status_code == 200:
-                # Parse the JSON response
-                users = response.json()
+                # Parse the response
+                data = response.json()
 
-                # Validate the response structure
-                if not isinstance(users, list):
-                    print("Error: Unexpected response format - expected a list of users")
-                    return None
+                # Print the results
+                print(f"Found {data['total_count']} repositories matching '{search_term}'")
+                print("\nTop 5 repositories by star count:")
 
-                if len(users) > 0 and not all(isinstance(user, dict) for user in users):
-                    print("Error: Response doesn't contain user objects")
-                    return None
+                for i, repo in enumerate(data['items'], 1):
+                    print(f"{i}. {repo['name']} by {repo['owner']['login']}")
+                    print(f"   Description: {repo['description'] or 'No description'}")
+                    print(f"   Stars: {repo['stargazers_count']:,}")
+                    print(f"   URL: {repo['html_url']}")
+                    print()
 
-                required_fields = ['name', 'email', 'address', 'company']
-                if len(users) > 0 and not all(all(field in user for field in required_fields) for user in users):
-                    print("Warning: Some users are missing required fields")
+                return
 
-                # Print summary information
-                print(f"Found {len(users)} users:")
-                print("-" * 50)
+            elif response.status_code == 403 and 'rate limit exceeded' in response.text.lower():
+                print("Rate limit exceeded. Trying again later...")
+                if attempt < max_retries - 1:
+                    time.sleep(retry_delay * (2 ** attempt))  # Exponential backoff
+                    continue
+                else:
+                    print("Out of retries. Please try again later.")
+                    return
 
-                for user in users:
-                    # Extract needed fields (with safe nested access)
-                    name = user.get('name', 'Unknown')
-                    email = user.get('email', 'No email')
+            elif response.status_code == 404:
+                print(f"Error: Resource not found (404)")
+                return
 
-                    # Get city with nested dictionary safe access
-                    address = user.get('address', {})
-                    city = address.get('city', 'Unknown location') if isinstance(address, dict) else 'Unknown location'
-
-                    # Get company name with nested dictionary safe access
-                    company_dict = user.get('company', {})
-                    company = company_dict.get('name', 'No company') if isinstance(company_dict, dict) else 'No company'
-
-                    # Print formatted summary
-                    print(f"Name: {name}")
-                    print(f"Email: {email}")
-                    print(f"City: {city}")
-                    print(f"Company: {company}")
-                    print("-" * 50)
-
-                return users
-
-            elif response.status_code == 429:  # Too Many Requests
-                retry_after = int(response.headers.get('Retry-After', backoff_factor * (2 ** retries)))
-                print(f"Rate limited. Retrying after {retry_after} seconds...")
-                time.sleep(retry_after)
-                retries += 1
+            elif response.status_code >= 500:
+                print(f"Server error: {response.status_code}. Retrying...")
+                if attempt < max_retries - 1:
+                    time.sleep(retry_delay * (2 ** attempt))  # Exponential backoff
+                    continue
+                else:
+                    print("Out of retries. Please try again later.")
+                    return
 
             else:
-                print(f"Request failed with status code {response.status_code}")
-
-                # Determine if we should retry based on status code
-                if 500 <= response.status_code < 600:  # Server errors
-                    retries += 1
-                    if retries <= max_retries:
-                        wait_time = backoff_factor * (2 ** (retries - 1))
-                        print(f"Server error. Retrying in {wait_time:.2f} seconds...")
-                        time.sleep(wait_time)
-                    else:
-                        print(f"Maximum retries ({max_retries}) reached. Giving up.")
-                        return None
-                else:
-                    # Don't retry client errors (except 429)
-                    return None
+                print(f"Error: API returned status code {response.status_code}")
+                print(f"Response: {response.text}")
+                return
 
         except requests.exceptions.Timeout:
-            retries += 1
-            if retries <= max_retries:
-                wait_time = backoff_factor * (2 ** (retries - 1))
-                print(f"Request timed out. Retrying in {wait_time:.2f} seconds...")
-                time.sleep(wait_time)
+            print("Request timed out. Retrying...")
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+                continue
             else:
-                print(f"Maximum retries ({max_retries}) reached. Giving up.")
-                return None
+                print("Out of retries after timeouts.")
+                return
 
         except requests.exceptions.ConnectionError:
-            retries += 1
-            if retries <= max_retries:
-                wait_time = backoff_factor * (2 ** (retries - 1))
-                print(f"Connection error. Retrying in {wait_time:.2f} seconds...")
-                time.sleep(wait_time)
+            print("Connection error. Retrying...")
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+                continue
             else:
-                print(f"Maximum retries ({max_retries}) reached. Giving up.")
-                return None
+                print("Out of retries after connection errors.")
+                return
 
-        except requests.exceptions.RequestException as e:
-            print(f"Request error: {e}")
-            return None
+        except Exception as e:
+            print(f"Unexpected error: {str(e)}")
+            return
 
-        except ValueError as e:
-            print(f"JSON parsing error: {e}")
-            return None
+# Get search term from user
+search_term = input("Enter a search term for GitHub repositories: ")
+search_github_repositories_with_retry(search_term)
 
-# Run the function
-if __name__ == "__main__":
-    get_user_summary_with_retries()
+# Sample Output (for search term "python"):
+# Searching GitHub for repositories matching 'python'...
+# Attempt 1/3...
+# Rate limit remaining: 9
+# Found 5854786 repositories matching 'python'
+#
+# Top 5 repositories by star count:
+# 1. system-design-primer by donnemartin
+#    Description: Learn how to design large-scale systems. Prep for the system design interview.  Includes Anki flashcards.
+#    Stars: 209,412
+#    URL: https://github.com/donnemartin/system-design-primer
+#
+# ... and so on for the remaining repositories
 ```
 
-### Solution to Exercise 3: API Data Transformation
+### Solution to Exercise 4: Working with Multiple APIs
 
 ```python
 import requests
-import pandas as pd
+from tabulate import tabulate  # You might need to pip install tabulate
 
-def analyze_posts():
+def get_crypto_exchange_rates(crypto_id='bitcoin', currencies=None):
     """
-    Fetch posts from JSONPlaceholder API, group by user,
-    and calculate statistics.
+    Get cryptocurrency prices and convert to multiple currencies.
+
+    Args:
+        crypto_id (str): ID of the cryptocurrency to fetch
+        currencies (list): List of currency codes to convert to
+
+    Returns:
+        dict: Exchange rates for the cryptocurrency
     """
-    # API endpoint for posts
-    url = 'https://jsonplaceholder.typicode.com/posts'
+    if currencies is None:
+        currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD']
+
+    # Step 1: Fetch cryptocurrency price in USD from CoinGecko API
+    print(f"Fetching {crypto_id} price data from CoinGecko...")
 
     try:
-        # Make the request
-        print("Fetching posts data...")
-        response = requests.get(url)
+        crypto_url = f"https://api.coingecko.com/api/v3/simple/price"
+        crypto_params = {
+            'ids': crypto_id,
+            'vs_currencies': 'usd'
+        }
 
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Parse the JSON response
-            posts = response.json()
-            print(f"Successfully retrieved {len(posts)} posts")
+        crypto_response = requests.get(crypto_url, params=crypto_params)
 
-            # Convert to DataFrame
-            posts_df = pd.DataFrame(posts)
-
-            # Calculate post length
-            posts_df['title_length'] = posts_df['title'].str.len()
-            posts_df['body_length'] = posts_df['body'].str.len()
-            posts_df['total_length'] = posts_df['title_length'] + posts_df['body_length']
-
-            # Group by user ID
-            user_stats = posts_df.groupby('userId').agg({
-                'id': 'count',
-                'title_length': 'mean',
-                'body_length': 'mean',
-                'total_length': 'mean'
-            }).reset_index()
-
-            # Rename columns for clarity
-            user_stats.rename(columns={
-                'id': 'post_count',
-                'title_length': 'avg_title_length',
-                'body_length': 'avg_body_length',
-                'total_length': 'avg_total_length'
-            }, inplace=True)
-
-            # Round averages for readability
-            user_stats['avg_title_length'] = user_stats['avg_title_length'].round(1)
-            user_stats['avg_body_length'] = user_stats['avg_body_length'].round(1)
-            user_stats['avg_total_length'] = user_stats['avg_total_length'].round(1)
-
-            # Print the report
-            print("\nUser Posting Statistics:")
-            print("=" * 80)
-            print(f"{'User ID':<10}{'Post Count':<15}{'Avg Title Length':<20}{'Avg Body Length':<20}{'Avg Total Length':<20}")
-            print("-" * 80)
-
-            for _, row in user_stats.iterrows():
-                print(f"{row['userId']:<10}{row['post_count']:<15}{row['avg_title_length']:<20}{row['avg_body_length']:<20}{row['avg_total_length']:<20}")
-
-            # Calculate overall statistics
-            total_posts = user_stats['post_count'].sum()
-            avg_posts_per_user = user_stats['post_count'].mean()
-            avg_title_length = posts_df['title_length'].mean()
-            avg_body_length = posts_df['body_length'].mean()
-
-            print("\nOverall Statistics:")
-            print(f"Total Posts: {total_posts}")
-            print(f"Average Posts per User: {avg_posts_per_user:.1f}")
-            print(f"Average Title Length: {avg_title_length:.1f} characters")
-            print(f"Average Body Length: {avg_body_length:.1f} characters")
-
-            return user_stats
-
-        else:
-            print(f"Request failed with status code {response.status_code}")
+        if crypto_response.status_code != 200:
+            print(f"Error fetching crypto data: {crypto_response.status_code}")
             return None
+
+        crypto_data = crypto_response.json()
+
+        if crypto_id not in crypto_data:
+            print(f"Cryptocurrency '{crypto_id}' not found")
+            return None
+
+        crypto_usd_price = crypto_data[crypto_id]['usd']
+        print(f"Current {crypto_id} price: ${crypto_usd_price:,.2f} USD")
+
+        # Step 2: Fetch exchange rates from ExchangeRate API
+        print("Fetching exchange rates from ExchangeRate API...")
+
+        # Using a free exchange rate API that doesn't require keys for this example
+        # In production, you'd want to use a more reliable API with authentication
+        exchange_url = "https://open.er-api.com/v6/latest/USD"
+
+        exchange_response = requests.get(exchange_url)
+
+        if exchange_response.status_code != 200:
+            print(f"Error fetching exchange rate data: {exchange_response.status_code}")
+            return None
+
+        exchange_data = exchange_response.json()
+
+        if 'rates' not in exchange_data:
+            print("Exchange rate data is not in expected format")
+            return None
+
+        rates = exchange_data['rates']
+
+        # Step 3: Calculate cryptocurrency value in each currency
+        results = {}
+
+        for currency in currencies:
+            if currency in rates:
+                crypto_value = crypto_usd_price * rates[currency]
+                results[currency] = crypto_value
+            else:
+                print(f"Exchange rate for {currency} not found")
+
+        return {
+            'crypto_id': crypto_id,
+            'usd_price': crypto_usd_price,
+            'last_updated': exchange_data.get('time_last_update_utc', 'Unknown'),
+            'values': results
+        }
 
     except requests.exceptions.RequestException as e:
         print(f"Request error: {e}")
         return None
     except Exception as e:
-        print(f"Error processing data: {e}")
+        print(f"Unexpected error: {e}")
         return None
 
-# Run the function
-if __name__ == "__main__":
-    analyze_posts()
+def print_crypto_values(crypto_data):
+    """Print cryptocurrency values in a formatted table."""
+    if not crypto_data:
+        print("No data to display")
+        return
+
+    print(f"\n{crypto_data['crypto_id'].upper()} Exchange Rates")
+    print(f"Last updated: {crypto_data['last_updated']}")
+
+    # Prepare data for table
+    table_data = []
+
+    for currency, value in crypto_data['values'].items():
+        # Format the value based on currency
+        if currency == 'JPY':
+            formatted_value = f"¥{value:,.0f}"
+        elif currency == 'EUR':
+            formatted_value = f"€{value:,.2f}"
+        elif currency == 'GBP':
+            formatted_value = f"£{value:,.2f}"
+        elif currency == 'CAD':
+            formatted_value = f"C${value:,.2f}"
+        else:
+            formatted_value = f"${value:,.2f}"
+
+        table_data.append([currency, formatted_value])
+
+    # Print the table
+    print(tabulate(table_data, headers=["Currency", "Value"], tablefmt="grid"))
+
+# Get user input for cryptocurrency
+crypto_id = input("Enter a cryptocurrency ID (e.g., bitcoin, ethereum): ").lower() or "bitcoin"
+
+# Get exchange rates and print results
+crypto_data = get_crypto_exchange_rates(crypto_id)
+if crypto_data:
+    print_crypto_values(crypto_data)
+
+# Sample Output (for bitcoin):
+# Fetching bitcoin price data from CoinGecko...
+# Current bitcoin price: $63,209.00 USD
+# Fetching exchange rates from ExchangeRate API...
+#
+# BITCOIN Exchange Rates
+# Last updated: Fri, 19 Apr 2024 00:00:02 +0000
+# +----------+-------------+
+# | Currency | Value       |
+# +==========+=============+
+# | USD      | $63,209.00  |
+# +----------+-------------+
+# | EUR      | €59,107.22  |
+# +----------+-------------+
+# | GBP      | £50,567.20  |
+# +----------+-------------+
+# | JPY      | ¥9,665,978  |
+# +----------+-------------+
+# | CAD      | C$86,195.08 |
+# +----------+-------------+
 ```
 
-### Solution to Exercise 4: API Client Class
-
-```python
-import requests
-import time
-import pandas as pd
-
-class JSONPlaceholderClient:
-    """A client for interacting with the JSONPlaceholder API."""
-
-    def __init__(self):
-        """Initialize the client with the base URL."""
-        self.base_url = 'https://jsonplaceholder.typicode.com'
-        self.session = requests.Session()
-
-    def _make_request(self, endpoint, method='get', params=None, data=None, max_retries=3):
-        """
-        Make an HTTP request to the API.
-
-        Args:
-            endpoint: API endpoint (without base URL)
-            method: HTTP method (get, post, put, delete)
-            params: Query parameters
-            data: Request body for POST/PUT
-            max_retries: Maximum number of retry attempts
-
-        Returns:
-            Parsed JSON response or None if failed
-        """
-        url = f"{self.base_url}/{endpoint}"
-        retries = 0
-
-        while retries <= max_retries:
-            try:
-                if method.lower() == 'get':
-                    response = self.session.get(url, params=params, timeout=10)
-                elif method.lower() == 'post':
-                    response = self.session.post(url, json=data, timeout=10)
-                elif method.lower() == 'put':
-                    response = self.session.put(url, json=data, timeout=10)
-                elif method.lower() == 'delete':
-                    response = self.session.delete(url, timeout=10)
-                else:
-                    raise ValueError(f"Unsupported HTTP method: {method}")
-
-                # Handle status codes
-                if 200 <= response.status_code < 300:
-                    return response.json()
-
-                elif response.status_code == 429:  # Rate limiting
-                    retry_after = int(response.headers.get('Retry-After', 1))
-                    print(f"Rate limited. Retrying after {retry_after} seconds...")
-                    time.sleep(retry_after)
-                    retries += 1
-
-                elif 500 <= response.status_code < 600:  # Server errors
-                    retries += 1
-                    if retries <= max_retries:
-                        wait_time = 0.5 * (2 ** (retries - 1))
-                        print(f"Server error ({response.status_code}). Retrying in {wait_time:.2f} seconds...")
-                        time.sleep(wait_time)
-                    else:
-                        print(f"Maximum retries reached. Server error: {response.status_code}")
-                        return None
-
-                else:
-                    print(f"Request failed with status code {response.status_code}")
-                    return None
-
-            except requests.exceptions.RequestException as e:
-                retries += 1
-                if retries <= max_retries:
-                    wait_time = 0.5 * (2 ** (retries - 1))
-                    print(f"Request error: {e}. Retrying in {wait_time:.2f} seconds...")
-                    time.sleep(wait_time)
-                else:
-                    print(f"Maximum retries reached. Request error: {e}")
-                    return None
-
-        return None
-
-    def get_users(self):
-        """Get all users."""
-        return self._make_request('users')
-
-    def get_user(self, user_id):
-        """Get a specific user by ID."""
-        return self._make_request(f'users/{user_id}')
-
-    def find_user_by_username(self, username):
-        """Find a user by username."""
-        users = self.get_users()
-        if users:
-            for user in users:
-                if user.get('username').lower() == username.lower():
-                    return user
-        return None
-
-    def get_posts(self, user_id=None):
-        """
-        Get posts, optionally filtered by user ID.
-
-        Args:
-            user_id: Optional user ID to filter posts
-
-        Returns:
-            List of posts
-        """
-        if user_id:
-            return self._make_request('posts', params={'userId': user_id})
-        else:
-            return self._make_request('posts')
-
-    def get_comments(self, post_id=None):
-        """
-        Get comments, optionally filtered by post ID.
-
-        Args:
-            post_id: Optional post ID to filter comments
-
-        Returns:
-            List of comments
-        """
-        if post_id:
-            return self._make_request(f'posts/{post_id}/comments')
-        else:
-            return self._make_request('comments')
-
-    def create_post(self, user_id, title, body):
-        """
-        Create a new post.
-
-        Args:
-            user_id: User ID for the post
-            title: Post title
-            body: Post body
-
-        Returns:
-            Created post data
-        """
-        data = {
-            'userId': user_id,
-            'title': title,
-            'body': body
-        }
-        return self._make_request('posts', method='post', data=data)
-
-    def update_post(self, post_id, data):
-        """
-        Update an existing post.
-
-        Args:
-            post_id: ID of the post to update
-            data: Dictionary of fields to update
-
-        Returns:
-            Updated post data
-        """
-        return self._make_request(f'posts/{post_id}', method='put', data=data)
-
-    def delete_post(self, post_id):
-        """
-        Delete a post.
-
-        Args:
-            post_id: ID of the post to delete
-
-        Returns:
-            Response data
-        """
-        return self._make_request(f'posts/{post_id}', method='delete')
-
-    def get_paginated_results(self, endpoint, page_size=10):
-        """
-        Get paginated results for an endpoint.
-
-        Args:
-            endpoint: API endpoint
-            page_size: Number of items per page
-
-        Returns:
-            Generator yielding pages of results
-        """
-        all_results = self._make_request(endpoint)
-
-        if all_results:
-            # JSONPlaceholder doesn't have real pagination, so we simulate it
-            for i in range(0, len(all_results), page_size):
-                yield all_results[i:i+page_size]
-
-    def to_dataframe(self, data):
-        """
-        Convert API response to a Pandas DataFrame.
-
-        Args:
-            data: JSON response data
-
-        Returns:
-            Pandas DataFrame
-        """
-        return pd.DataFrame(data)
-
-# Test the client
-def test_client():
-    """Test the JSONPlaceholder client."""
-    client = JSONPlaceholderClient()
-
-    print("Testing user retrieval...")
-    users = client.get_users()
-    print(f"Found {len(users)} users")
-
-    print("\nTesting user lookup by username...")
-    user = client.find_user_by_username('Bret')
-    if user:
-        print(f"Found user: {user['name']} (@{user['username']})")
-
-    print("\nTesting post retrieval...")
-    posts = client.get_posts(user_id=1)
-    print(f"Found {len(posts)} posts for user 1")
-
-    print("\nTesting comment retrieval...")
-    comments = client.get_comments(post_id=1)
-    print(f"Found {len(comments)} comments for post 1")
-
-    print("\nTesting pagination...")
-    for i, page in enumerate(client.get_paginated_results('posts', page_size=10), 1):
-        print(f"Page {i}: {len(page)} posts")
-        if i >= 3:  # Just show the first 3 pages
-            print("...")
-            break
-
-    print("\nTesting DataFrame conversion...")
-    users_df = client.to_dataframe(users)
-    print(users_df[['id', 'name', 'email']].head())
-
-    print("\nTesting post creation...")
-    new_post = client.create_post(
-        user_id=1,
-        title="Test Post",
-        body="This is a test post created by the API client."
-    )
-    print(f"Created post with ID: {new_post['id']}")
-
-    print("\nAll tests completed")
-
-if __name__ == "__main__":
-    test_client()
-```
-
-### Solution to Exercise 5: Combining APIs
+### Solution to Exercise 5: Data Transformation and Export
 
 ```python
 import requests
 import json
-import time
-from datetime import datetime
+import csv
+from collections import defaultdict
 
-def get_data_with_retry(url, max_retries=3, delay=1):
-    """Make a GET request with retry logic."""
-    for attempt in range(max_retries):
-        try:
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            if attempt < max_retries - 1:
-                wait_time = delay * (2 ** attempt)
-                print(f"Request failed: {e}. Retrying in {wait_time:.2f} seconds...")
-                time.sleep(wait_time)
-            else:
-                print(f"Request failed after {max_retries} attempts: {e}")
-                return None
-
-def build_user_hierarchy():
+def fetch_users_and_posts():
     """
-    Fetch users, their posts, and comments to build a hierarchical structure.
+    Fetch users and their posts from JSONPlaceholder,
+    and create a report on post counts per user.
     """
-    base_url = 'https://jsonplaceholder.typicode.com'
+    print("Fetching users from JSONPlaceholder API...")
 
-    print("Fetching users...")
-    users = get_data_with_retry(f"{base_url}/users")
+    try:
+        # Step 1: Fetch all users
+        users_response = requests.get('https://jsonplaceholder.typicode.com/users')
 
-    if not users:
-        print("Failed to fetch users. Exiting.")
+        if users_response.status_code != 200:
+            print(f"Error fetching users: {users_response.status_code}")
+            return None
+
+        users = users_response.json()
+        print(f"Found {len(users)} users")
+
+        # Step 2: Fetch all posts
+        posts_response = requests.get('https://jsonplaceholder.typicode.com/posts')
+
+        if posts_response.status_code != 200:
+            print(f"Error fetching posts: {posts_response.status_code}")
+            return None
+
+        posts = posts_response.json()
+        print(f"Found {len(posts)} posts")
+
+        # Step 3: Count posts by user
+        user_posts = defaultdict(list)
+
+        for post in posts:
+            user_id = post['userId']
+            user_posts[user_id].append(post)
+
+        # Step 4: Create the report
+        report = []
+
+        for user in users:
+            user_id = user['id']
+            posts_by_user = user_posts.get(user_id, [])
+
+            # Find the longest post by this user
+            longest_post = None
+            if posts_by_user:
+                longest_post = max(posts_by_user, key=lambda p: len(p['body']))
+
+            report.append({
+                'user_id': user_id,
+                'name': user['name'],
+                'username': user['username'],
+                'email': user['email'],
+                'company': user['company']['name'],
+                'post_count': len(posts_by_user),
+                'longest_post_title': longest_post['title'] if longest_post else None,
+                'longest_post_word_count': len(longest_post['body'].split()) if longest_post else 0
+            })
+
+        return report
+
+    except requests.exceptions.RequestException as e:
+        print(f"Request error: {e}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error: {e}")
         return None
 
-    print(f"Found {len(users)} users")
+def export_to_csv(data, filename):
+    """Export data to a CSV file."""
+    if not data:
+        print("No data to export")
+        return False
 
-    # Create a hierarchical structure
-    user_hierarchy = []
-
-    for user in users:
-        # Extract user data
-        user_data = {
-            'id': user['id'],
-            'name': user['name'],
-            'username': user['username'],
-            'email': user['email'],
-            'posts': []
-        }
-
-        print(f"Fetching posts for user {user['name']}...")
-        posts = get_data_with_retry(f"{base_url}/posts?userId={user['id']}")
-
-        if posts:
-            for post in posts:
-                # Extract post data
-                post_data = {
-                    'id': post['id'],
-                    'title': post['title'],
-                    'body': post['body'],
-                    'comments': []
-                }
-
-                print(f"  Fetching comments for post {post['id']}...")
-                comments = get_data_with_retry(f"{base_url}/posts/{post['id']}/comments")
-
-                if comments:
-                    for comment in comments:
-                        # Extract comment data
-                        comment_data = {
-                            'id': comment['id'],
-                            'name': comment['name'],
-                            'email': comment['email'],
-                            'body': comment['body']
-                        }
-                        post_data['comments'].append(comment_data)
-
-                    print(f"    Added {len(comments)} comments")
-
-                # Add post to user's posts
-                user_data['posts'].append(post_data)
-
-            print(f"  Added {len(posts)} posts")
-
-        # Add user to hierarchy
-        user_hierarchy.append(user_data)
-
-        # Add a short delay to avoid API rate limiting
-        time.sleep(0.1)
-
-    # Generate output filename with timestamp
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    output_file = f"user_hierarchy_{timestamp}.json"
-
-    # Save to JSON file
     try:
-        with open(output_file, 'w') as f:
-            json.dump(user_hierarchy, f, indent=2)
-        print(f"\nHierarchical data saved to {output_file}")
+        with open(filename, 'w', newline='') as csvfile:
+            fieldnames = data[0].keys()
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        # Print summary statistics
-        total_posts = sum(len(user.get('posts', [])) for user in user_hierarchy)
-        total_comments = sum(
-            sum(len(post.get('comments', [])) for post in user.get('posts', []))
-            for user in user_hierarchy
-        )
+            writer.writeheader()
+            writer.writerows(data)
 
-        print("\nSummary:")
-        print(f"Users: {len(user_hierarchy)}")
-        print(f"Posts: {total_posts}")
-        print(f"Comments: {total_comments}")
-
-        return output_file
+        print(f"Data exported to CSV: {filename}")
+        return True
 
     except Exception as e:
-        print(f"Error saving JSON file: {e}")
-        return None
+        print(f"Error exporting to CSV: {e}")
+        return False
 
-if __name__ == "__main__":
-    build_user_hierarchy()
+def export_to_json(data, filename):
+    """Export data to a JSON file."""
+    if not data:
+        print("No data to export")
+        return False
+
+    try:
+        with open(filename, 'w') as jsonfile:
+            json.dump(data, jsonfile, indent=2)
+
+        print(f"Data exported to JSON: {filename}")
+        return True
+
+    except Exception as e:
+        print(f"Error exporting to JSON: {e}")
+        return False
+
+def print_report(data):
+    """Print the report to the console."""
+    if not data:
+        print("No data to display")
+        return
+
+    print("\nUser Post Report:")
+    print("-" * 80)
+    print(f"{'User ID':<8} {'Name':<20} {'Username':<15} {'Post Count':<10} {'Longest Post Words':<20}")
+    print("-" * 80)
+
+    for user in data:
+        print(f"{user['user_id']:<8} {user['name'][:20]:<20} {user['username'][:15]:<15} {user['post_count']:<10} {user['longest_post_word_count']:<20}")
+
+# Run the complete process
+report_data = fetch_users_and_posts()
+
+if report_data:
+    # Print the report
+    print_report(report_data)
+
+    # Export to CSV and JSON
+    export_to_csv(report_data, 'user_post_report.csv')
+    export_to_json(report_data, 'user_post_report.json')
+
+    print("\nExport complete!")
+
+# Sample Output:
+# Fetching users from JSONPlaceholder API...
+# Found 10 users
+# Found 100 posts
+#
+# User Post Report:
+# --------------------------------------------------------------------------------
+# User ID  Name                 Username        Post Count Longest Post Words
+# --------------------------------------------------------------------------------
+# 1        Leanne Graham        Bret            10         101
+# 2        Ervin Howell         Antonette       10         94
+# 3        Clementine Bauch     Samantha        10         85
+# 4        Patricia Lebsack     Karianne        10         76
+# 5        Chelsey Dietrich     Kamren          10         82
+# 6        Mrs. Dennis Schulist Leopoldo_Corkery 10         84
+# 7        Kurtis Weissnat      Elwyn.Skiles    10         89
+# 8        Nicholas Runolfsdottir V Maxime_Nienow   10         89
+# 9        Glenna Reichert      Delphine        10         94
+# 10       Clementina DuBuque   Moriah.Stanton  10         88
+#
+# Data exported to CSV: user_post_report.csv
+# Data exported to JSON: user_post_report.json
+#
+# Export complete!
 ```
 
-## 4.10 Connection to Chapter 5: Object-Oriented Programming for Data Engineering
+## 4.9 Chapter Summary and Connection to Chapter 5
 
-Now that you've mastered web integration and APIs, the next step is to structure your code more effectively using object-oriented programming (OOP). In Chapter 5, we'll explore how to use OOP principles to create maintainable, modular data engineering code.
+In this chapter, we've explored how to integrate external data sources into our Python applications through web APIs. We've learned:
 
-The API client classes we've developed in this chapter are a great introduction to OOP concepts:
+- **HTTP and REST Fundamentals**: Understanding the request-response cycle, HTTP methods, and status codes that form the foundation of web communication
+- **Working with the requests Library**: Making GET and POST requests, passing parameters, and handling responses
+- **Parsing API Data**: Extracting and transforming data from JSON responses
+- **Error Handling for APIs**: Implementing retry logic, handling rate limits, and managing common API errors
+- **API Security**: Authenticating with APIs securely and protecting sensitive credentials
 
-- They encapsulate related functionality (data and behavior) in a class
-- They hide implementation details behind a clean interface
-- They make code more reusable and maintainable
+These skills enable you to access a vast array of external data sources, which is essential for modern data engineering workflows.
 
-In Chapter 5, we'll build on these concepts to:
+### Connection to Chapter 5: Object-Oriented Programming for Data Engineering
 
-- Create proper class hierarchies with inheritance
-- Use encapsulation to protect data and enforce constraints
-- Implement polymorphism for flexible, extensible code
-- Structure data pipelines using OOP design patterns
+In the next chapter, we'll explore Object-Oriented Programming (OOP) and how it can help us structure our data engineering code more effectively. The concepts you've learned in this chapter will serve as building blocks:
 
-The API skills you've learned in this chapter will be particularly useful when combined with OOP. You'll be able to:
+- We'll create classes that encapsulate API interactions, making our code more maintainable and reusable
+- We'll implement inheritance to create specialized API client classes for different data sources
+- We'll use encapsulation to hide implementation details and protect sensitive data like API keys
+- We'll design more sophisticated retry and error handling mechanisms using OOP principles
 
-- Create hierarchies of API clients for different services
-- Build reusable data source adapters
-- Implement the adapter pattern for different APIs
-- Design extensible data transformation pipelines
+The weather data integrator from our micro-project already demonstrated some OOP concepts through the use of a class. In Chapter 5, we'll expand on these ideas and create a more robust framework for data fetching that can be extended to work with multiple data sources.
 
-By combining web integration with OOP, you'll be able to build more sophisticated, maintainable data engineering solutions that can scale with your needs.
+By combining the API integration skills from this chapter with the OOP principles in the next, you'll be able to build scalable, maintainable data pipelines that can reliably pull data from diverse sources.
