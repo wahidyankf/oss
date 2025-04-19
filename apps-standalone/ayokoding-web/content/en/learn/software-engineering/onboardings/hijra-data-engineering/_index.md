@@ -15,3 +15,4 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [05 - Object-Oriented Programming for Data Engineering](./ch05-object-oriented-programming-for-data-engineering/)
 - [06 - Checkpoint 1: Python Foundation Review](./ch06-checkpoint-1-python-foundation-review/)
 - [07 - Static Typing with Python](./ch07-static-typing-with-python/)
+- [08 - Data Engineering Code Quality](./ch08-data-engineering-code-quality/)
