@@ -198,10 +198,10 @@ You can integrate Black into your workflow by:
    black your_file.py
    ```
 
-2. Running it on your entire project:
+2. Running Ruff on your entire project:
 
    ```bash
-   black your_project_directory/
+   ruff check your_project_directory/
    ```
 
 3. Setting up automatic running in your editor (most modern editors have Black integrations)
@@ -454,7 +454,7 @@ A better approach is to use environment variables or a secure credentials manage
 from typing import Dict, Union, Optional, TypedDict, Literal
 import os
 import requests
-
+from typing import List
 
 class WeatherResponse(TypedDict):
     """Type definition for weather API response."""
@@ -1356,11 +1356,10 @@ repos:
       - id: ruff
         args: [--fix]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.3.0
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.354
     hooks:
-      - id: mypy
-        additional_dependencies: [types-requests]
+      - id: pyright
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
@@ -1376,7 +1375,7 @@ Create a `pyproject.toml` file for tool configuration:
 [tool.black]
 line-length = 88
 target-version = ["py38"]
-include = '\.pyi?$'
+include = '\.pyi?
 
 [tool.ruff]
 line-length = 88
@@ -1762,7 +1761,7 @@ All code must pass our automated quality checks:
 
 1. **Formatting**: We use Black for code formatting
 2. **Linting**: We use Ruff to check for common issues
-3. **Type Checking**: All code must be properly typed and pass Mypy checks
+3. **Type Checking**: All code must be properly typed and pass Pyright checks
 4. **Security**: Code must not contain hardcoded secrets or credentials
 
 These checks are enforced through pre-commit hooks that run automatically when you commit code.
@@ -2549,7 +2548,7 @@ if __name__ == "__main__":
     # Would print:
     # Valid configuration is valid: True
     # Invalid configuration is valid: False
-    # Errors: ['Value for host does not match pattern ^[a-zA-Z0-9\.\-]+$', 'Value 100000 for port is above maximum 65535', 'Unknown fields in configuration: unknown_field']
+    # Errors: ['Value for host does not match pattern ^[a-zA-Z0-9\.\-]+, 'Value 100000 for port is above maximum 65535', 'Unknown fields in configuration: unknown_field']
 ```
 
 ## 8.10 Chapter Summary and Connection to Chapter 9
