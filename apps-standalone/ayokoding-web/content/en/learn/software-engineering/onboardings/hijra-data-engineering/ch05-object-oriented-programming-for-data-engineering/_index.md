@@ -5,8 +5,6 @@ draft: false
 weight: 6
 ---
 
-# Chapter 5: Object-Oriented Programming for Data Engineering
-
 **Complexity: Moderate (M)**
 
 ## 5.0 Introduction: Why This Matters for Data Engineering
