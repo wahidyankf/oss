@@ -544,7 +544,8 @@ class WeatherDataFetcher(DataFetcher):
                 processed = {
                     "city": raw_data["name"],
                     "temperature": raw_data["main"]["temp"],
-                    "humidity": raw_data["main"]["humidity"]
+                    "humidity": raw_data["main"]["humidity"],
+                    "description": raw_data["weather"][0]["description"]
                 }
                 self.data.append(processed)
                 logging.info(f"Fetched weather for {city}")
@@ -677,10 +678,10 @@ if __name__ == "__main__":
 - **weather_data.csv** (Full Version):
 
 ```
-city,temperature,humidity
-London,283.15,81
-New York,288.15,65
-Tokyo,293.15,70
+city,temperature,humidity,description
+London,283.15,81,light rain
+New York,288.15,65,clear sky
+Tokyo,293.15,70,scattered clouds
 ```
 
 - **simple_weather.csv** (Simplified Version):
@@ -754,28 +755,27 @@ Outputs `weather_data.csv` and `weather_pipeline.log`.
 
 Use `simple_weather.py` for a single-class version (30–45 minutes).
 
+````
+
+---
+
 ## 5.7 Practice Exercises
 
 Reinforce OOP concepts with these exercises, focusing on data engineering applications.
 
 ### Exercise 1: Data Source Class
-
 Create a `DataSource` class with attributes for `name` and `file_path`, and a method `describe()` to return a string like "Source: Sales, Path: sales.csv".
 
 ### Exercise 2: Data Validator
-
 Write a `DataValidator` class that validates sales records (dictionaries with keys `product`, `price`, `quantity`). Store valid records in a list if `price` and `quantity` are positive numbers and `product` is non-empty.
 
 ### Exercise 3: Inherited Processor
-
 Define a `BaseProcessor` class with a `process()` method that converts a string to uppercase. Create a `SalesProcessor` child class that overrides `process()` to calculate the total (`price * quantity`) from a sales record.
 
 ### Exercise 4: Simple Pipeline
-
-Create a `SimplePipeline` class that uses a `WeatherDataFetcher` (from the micro-project) to fetch data for a single city and save it to CSV. Implement a `run()` method taking a city and file path.
+Create a `SimplePipeline` class that uses a `WeatherDataFetcher` (from the simplified version of the micro-project in 5.6) to fetch data for a single city and save it to CSV. Implement a `run()` method taking a city and file path.
 
 ### Exercise 5: Config Manager
-
 Build a `ConfigManager` class that loads API configuration (`base_url`, `api_key`) from environment variables, with defaults if not set. Add a `get_config()` method to access values securely.
 
 ---
@@ -797,7 +797,7 @@ class DataSource:
 source = DataSource("Sales", "sales.csv")
 print(source.describe())
 # Source: Sales, Path: sales.csv
-```
+````
 
 ### Solution to Exercise 2: Data Validator
 
@@ -876,7 +876,7 @@ class SimplePipeline:
             return self.fetcher.save_to_csv([data], output_path)
         return False
 
-# Test (using micro-project fetcher)
+# Test (using micro-project fetcher from simplified version)
 fetcher = WeatherDataFetcher("http://api.example.com", "key123")
 pipeline = SimplePipeline(fetcher)
 print(pipeline.run("London", "output.csv"))
