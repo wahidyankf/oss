@@ -1094,6 +1094,47 @@ class DataFetcher:
         """
         raise NotImplementedError("Subclasses must implement fetch method")
 
+    def fetch_with_retry(self, query_params=None, max_retries=3, retry_delay=1):
+        """
+        Fetch data with automatic retry logic for transient failures.
+
+        Args:
+            query_params: Optional parameters for the data query
+            max_retries: Maximum number of retry attempts
+            retry_delay: Delay between retries in seconds
+
+        Returns:
+            The fetched data or None if all retries fail
+        """
+        attempts = 0
+
+        while attempts < max_retries:
+            try:
+                print(f"Fetch attempt {attempts + 1}/{max_retries}...")
+                result = self.fetch(query_params)
+
+                # If fetch was successful, return the result
+                if result is not None:
+                    if attempts > 0:
+                        print(f"Succeeded after {attempts + 1} attempts")
+                    return result
+
+                # If result is None but no exception was raised, still count as a failure
+                attempts += 1
+
+            except Exception as e:
+                attempts += 1
+                error_message = f"Attempt {attempts}/{max_retries} failed: {str(e)}"
+                self._handle_error(error_message, e)
+
+                # If we have more attempts, wait before retrying
+                if attempts < max_retries:
+                    print(f"Retrying in {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+
+        print(f"Failed after {max_retries} attempts")
+        return None
+
     def _handle_error(self, error_message, exception=None):
         """
         Handle and log an error during data fetching.

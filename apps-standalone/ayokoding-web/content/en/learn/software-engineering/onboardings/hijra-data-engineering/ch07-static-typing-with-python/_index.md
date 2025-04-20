@@ -38,6 +38,8 @@ Python is traditionally a dynamically-typed language, where variable types are d
 4. **Safer Refactoring**: Change code with confidence, knowing the type checker will catch issues
 5. **Self-Documenting Code**: Make your intentions explicit through type annotations
 
+**Important Note on Performance**: Type annotations have no impact on runtime performance because Python ignores them during execution. Type checking happens entirely during development, either in your IDE or when you run tools like pyright. Once your code runs, the type annotations are essentially just documentation. This means you can add comprehensive type safety without worrying about slowing down your data pipelines.
+
 **Python Version Requirements:**
 
 - Function type annotations: Python 3.5+
@@ -374,93 +376,181 @@ display_length([1, 2, 3, 4])
 # List length: 4
 ```
 
-## 7.4 TypedDict and NamedTuple
+## 7.4 Generics with TypeVar
 
-For data engineering, we often need to define structured types for dictionaries and tuples. Python's typing module provides `TypedDict` and `NamedTuple` to help with this.
+In data engineering, we often need to write functions and classes that can operate on different types while maintaining type safety. Python's typing module provides generics through the `TypeVar` class to address this need.
 
-### 7.4.1 TypedDict
+### 7.4.1 Basic Generic Functions
 
-`TypedDict` (introduced in **Python 3.8+**, but available earlier through `typing_extensions`) lets us define the expected structure of a dictionary:
+Generic functions can work with multiple types while preserving type information. Here's a simple example using `TypeVar` (available since **Python 3.5+**):
 
 ```python
-from typing import TypedDict, List  # TypedDict requires Python 3.8+
+from typing import TypeVar, List, Dict, Any  # Python 3.5+
 
-# Define a structured dictionary type
-class UserDict(TypedDict):
-    id: int
-    name: str
-    email: str
-    active: bool
-    tags: List[str]
+# Define a type variable
+T = TypeVar('T')  # T can be any type
 
-# Create a user with the expected structure
-user: UserDict = {
-    "id": 1,
-    "name": "Alice Smith",
-    "email": "alice@example.com",
-    "active": True,
-    "tags": ["admin", "developer"]
-}
+# A generic function that works with any type
+def first_element(items: List[T]) -> T:
+    """Return the first element from a list of any type."""
+    if not items:
+        raise ValueError("List is empty")
+    return items[0]
 
-def format_user(user: UserDict) -> str:
-    """Format a user for display."""
-    status = "Active" if user["active"] else "Inactive"
-    tags = ", ".join(user["tags"]) if user["tags"] else "No tags"
-    return f"User {user['id']}: {user['name']} ({user['email']}) - {status} - Tags: {tags}"
+# The function works with different types
+numbers = [1, 2, 3, 4, 5]
+names = ["Alice", "Bob", "Charlie"]
+records = [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]
 
-print(format_user(user))
+first_num = first_element(numbers)
+first_name = first_element(names)
+first_record = first_element(records)
+
+print(f"First number: {first_num}")
+print(f"First name: {first_name}")
+print(f"First record: {first_record}")
 
 # Output:
-# User 1: Alice Smith (alice@example.com) - Active - Tags: admin, developer
+# First number: 1
+# First name: Alice
+# First record: {'id': 1, 'name': 'Alice'}
 ```
 
-**Note for Python 3.5-3.7:** If you're using an older Python version, you can install the `typing_extensions` package and import TypedDict from there:
+The key benefit here is that `first_element` preserves the type information. When you call it with a `List[int]`, the return type is correctly inferred as `int`.
+
+### 7.4.2 Multiple Type Variables
+
+You can use multiple type variables in a single function:
 
 ```python
-from typing_extensions import TypedDict  # For Python 3.5-3.7
-```
+from typing import TypeVar, Dict, List, Tuple  # Python 3.5+
 
-`TypedDict` is especially useful for working with JSON data or API responses in data engineering.
+K = TypeVar('K')  # Key type
+V = TypeVar('V')  # Value type
 
-### 7.4.2 NamedTuple
+def get_keys_and_values(data: Dict[K, V]) -> Tuple[List[K], List[V]]:
+    """Extract keys and values from a dictionary."""
+    keys = list(data.keys())
+    values = list(data.values())
+    return keys, values
 
-`NamedTuple` with type annotations (available since **Python 3.6+**) creates a tuple with named fields, making it more readable than a regular tuple:
+# Use with different dictionary types
+user_scores = {"Alice": 95, "Bob": 87, "Charlie": 92}
+keys, values = get_keys_and_values(user_scores)
 
-```python
-from typing import NamedTuple, List  # Typed NamedTuple requires Python 3.6+
-
-# Define a named tuple type
-class DataPoint(NamedTuple):
-    timestamp: str
-    value: float
-    tags: List[str]
-
-# Create a data point
-temperature = DataPoint(
-    timestamp="2023-04-15T12:30:00",
-    value=72.5,
-    tags=["temperature", "indoor"]
-)
-
-# Access fields by name instead of index
-print(f"Time: {temperature.timestamp}")
-print(f"Value: {temperature.value}°F")
-print(f"Tags: {', '.join(temperature.tags)}")
-
-# Named tuples are still tuples and support unpacking
-time, value, tags = temperature
-print(f"Unpacked - Time: {time}, Value: {value}, Tags: {tags}")
+print(f"Keys: {keys}")
+print(f"Values: {values}")
 
 # Output:
-# Time: 2023-04-15T12:30:00
-# Value: 72.5°F
-# Tags: temperature, indoor
-# Unpacked - Time: 2023-04-15T12:30:00, Value: 72.5, Tags: ['temperature', 'indoor']
+# Keys: ['Alice', 'Bob', 'Charlie']
+# Values: [95, 87, 92]
 ```
 
-**Note:** The regular `collections.namedtuple` has been available since Python 2.6, but the typed version that works with type annotations was introduced in Python 3.6 with the typing module.
+The type checker would infer that `keys` is a `List[str]` and `values` is a `List[int]` in this example.
 
-`NamedTuple` is similar to a simple dataclass and is great for immutable records. It makes your code more readable than using regular tuples with numeric indices.
+### 7.4.3 Bounded Type Variables
+
+Sometimes you may want to restrict the types that a generic function can accept. You can do this with bounded type variables:
+
+```python
+from typing import TypeVar, List, Callable  # Python 3.5+
+from numbers import Number  # For numeric type constraint
+
+# TypeVar with constraints
+T = TypeVar('T', str, int)  # T can only be str or int
+
+# TypeVar with bound
+N = TypeVar('N', bound=Number)  # N can be any numeric type
+
+def process_items(items: List[T]) -> List[T]:
+    """Process a list of strings or integers."""
+    return [item for item in items if item]  # Remove empty/zero values
+
+def calculate_average(numbers: List[N]) -> N:
+    """Calculate the average of a list of numbers."""
+    if not numbers:
+        raise ValueError("Empty list")
+    total: N = numbers[0] * 0  # Initialize with zero of the same type
+    for num in numbers:
+        total += num
+    return total / len(numbers)
+
+# Test the constrained function
+int_list = [1, 0, 3, 0, 5]
+str_list = ["apple", "", "banana", "", "cherry"]
+processed_ints = process_items(int_list)
+processed_strs = process_items(str_list)
+
+print(f"Processed integers: {processed_ints}")
+print(f"Processed strings: {processed_strs}")
+
+# Test the bounded function
+float_list = [1.5, 2.5, 3.5, 4.5]
+avg = calculate_average(float_list)
+print(f"Average: {avg}")
+
+# Output:
+# Processed integers: [1, 3, 5]
+# Processed strings: ['apple', 'banana', 'cherry']
+# Average: 3.0
+```
+
+### 7.4.4 Generic Classes for Data Engineering
+
+Generic classes are particularly useful in data engineering for creating reusable data structures:
+
+```python
+from typing import TypeVar, Generic, List, Dict, Any, Callable  # Python 3.5+
+
+T = TypeVar('T')
+
+class DataBatch(Generic[T]):
+    """A batch of data items of a specific type."""
+
+    def __init__(self, items: List[T]):
+        self.items = items
+
+    def size(self) -> int:
+        """Get the number of items in the batch."""
+        return len(self.items)
+
+    def process(self, transform_fn: Callable[[T], T]) -> 'DataBatch[T]':
+        """Apply a transformation to each item."""
+        transformed = [transform_fn(item) for item in self.items]
+        return DataBatch(transformed)
+
+    def __str__(self) -> str:
+        return f"DataBatch({self.items})"
+
+# Example usage with different types
+# A batch of numbers
+number_batch = DataBatch([1, 2, 3, 4, 5])
+doubled_batch = number_batch.process(lambda x: x * 2)
+print(f"Original: {number_batch}")
+print(f"Doubled: {doubled_batch}")
+
+# A batch of records
+record_batch = DataBatch([
+    {"id": 1, "name": "Alice"},
+    {"id": 2, "name": "Bob"}
+])
+
+def uppercase_name(record: Dict[str, Any]) -> Dict[str, Any]:
+    """Transform a record by uppercasing the name."""
+    return {**record, "name": record["name"].upper()}
+
+uppercase_batch = record_batch.process(uppercase_name)
+print(f"Records: {record_batch}")
+print(f"Uppercase: {uppercase_batch}")
+
+# Output:
+# Original: DataBatch([1, 2, 3, 4, 5])
+# Doubled: DataBatch([2, 4, 6, 8, 10])
+# Records: DataBatch([{'id': 1, 'name': 'Alice'}, {'id': 2, 'name': 'Bob'}])
+# Uppercase: DataBatch([{'id': 1, 'name': 'ALICE'}, {'id': 2, 'name': 'BOB'}])
+```
+
+Generics are powerful for creating reusable data processing components that maintain type safety. They're extensively used in real-world data engineering libraries and frameworks, and understanding them will help you both use these libraries effectively and write your own type-safe code.
 
 ## 7.5 Type Checking with Pyright
 
@@ -676,7 +766,104 @@ for input_data in test_inputs:
 # Input: 42 -> Result: [{'value': '42'}]
 ```
 
-Remember that while `Any` is useful, it effectively opts out of type checking for that value. Use it sparingly and try to replace it with more specific types when possible.
+**Best Practice: Use `Any` as a Last Resort**
+
+While `Any` is useful in certain situations, it effectively opts out of type checking for that value, undermining many of the benefits of static typing. Before using `Any`, consider these more type-safe alternatives:
+
+1. **Generic types with TypeVar**: When your function works with multiple types in a consistent way
+
+   ```python
+   T = TypeVar('T')
+   def first(items: List[T]) -> Optional[T]:
+       return items[0] if items else None
+   ```
+
+2. **Union types**: When a value could be one of several specific types
+
+   ```python
+   # Better than: def process(data: Any) -> Dict[str, Any]:
+   def process(data: Union[Dict[str, Any], List[Dict[str, Any]], str]) -> Dict[str, Any]:
+   ```
+
+3. **Type overloads**: When a function behaves differently based on parameter types
+
+   ```python
+   from typing import overload
+
+   @overload
+   def process(data: str) -> Dict[str, str]: ...
+
+   @overload
+   def process(data: Dict[str, Any]) -> Dict[str, Any]: ...
+
+   def process(data):
+       # Implementation...
+   ```
+
+Here's how we might refactor our `parse_data` function to use more specific types:
+
+```python
+from typing import Union, Dict, List, TypeVar, cast
+
+T = TypeVar('T', Dict[str, Any], List[Dict[str, Any]])
+
+def parse_data(raw_data: Union[T, str, int, float, bool]) -> List[Dict[str, Any]]:
+    """Parse data that could be in various formats."""
+    if isinstance(raw_data, list):
+        return raw_data  # Already a list
+    elif isinstance(raw_data, dict):
+        return [raw_data]  # Single dictionary
+    elif isinstance(raw_data, str):
+        try:
+            import json
+            parsed = json.loads(raw_data)
+            # We know this must be a dict or list of dicts if it parses properly
+            if isinstance(parsed, (dict, list)):
+                return parse_data(cast(T, parsed))
+            else:
+                return [{"value": parsed}]
+        except json.JSONDecodeError:
+            return [{"value": raw_data}]
+    else:
+        # Must be int, float, or bool at this point
+        return [{"value": str(raw_data)}]
+```
+
+This version uses more specific types, providing better type safety while still handling the required flexibility.
+
+### 7.6.3 Type Stubs for Third-Party Libraries
+
+When working with third-party libraries that don't include type annotations, you might encounter issues with type checking. Python offers a solution called "stub files" (with a `.pyi` extension) that provide type information separately from the implementation:
+
+```python
+# example_stubs.pyi - A stub file for a library without type annotations
+def connect_to_database(host: str, port: int) -> Connection: ...
+class Connection:
+    def execute(self, query: str) -> List[Dict[str, Any]]: ...
+    def close(self) -> None: ...
+```
+
+For data engineering tasks, this can be particularly valuable when working with older data processing libraries, database connectors, or proprietary systems that don't yet support type annotations. You can:
+
+1. Use existing stub packages: Many popular libraries have stub packages available on PyPI (often named `types-packagename`)
+2. Create your own stub files: For internal or custom libraries you work with regularly
+3. Use inline type ignores: For one-off cases where creating stubs isn't practical
+
+Here's an example of using a hypothetical database connector with a stub file:
+
+```python
+# Your application code
+from legacy_db_connector import connect_to_database  # Untyped library
+
+def fetch_user_data(user_id: int) -> Dict[str, Any]:
+    """Fetch user data from the database."""
+    connection = connect_to_database("localhost", 5432)  # Type checker knows the types from stub
+    results = connection.execute(f"SELECT * FROM users WHERE id = {user_id}")
+    connection.close()
+    return results[0] if results else {}
+```
+
+This approach lets you gain type safety even when working with libraries that weren't designed with type annotations in mind—a common scenario in data engineering where you might need to interact with a variety of systems.
 
 ## 7.7 Type Safety for Data Engineering
 
@@ -1537,8 +1724,10 @@ In this chapter, we've learned how to use Python's type annotations to improve c
 1. **Basic Type Annotation Syntax** - How to add types to variables, functions, and return values
 2. **Collection Types** - How to specify types for lists, dictionaries, and other collections
 3. **Optional and Union Types** - How to handle variables that might be None or of different types
-4. **TypedDict and NamedTuple** - How to create structured types for dictionaries and tuples
-5. **Type Checking with Pyright** - How to verify type correctness in our code
+4. **Generics with TypeVar** - How to create flexible, reusable typed components
+5. **TypedDict and NamedTuple** - How to create structured types for dictionaries and tuples
+6. **Type Checking with Pyright** - How to verify type correctness in our code
+7. **Type Stubs** - How to work with third-party libraries that lack native type annotations
 
 Adding static typing to our Python code provides several benefits for data engineering projects:
 
@@ -1546,6 +1735,7 @@ Adding static typing to our Python code provides several benefits for data engin
 - It makes code more self-documenting and easier to understand
 - It enables better IDE support with more accurate autocomplete
 - It makes refactoring safer and more predictable
+- It provides these benefits without any runtime performance impact
 
 In the next chapter, we'll build on these concepts as we explore **Data Engineering Code Quality** in Chapter 8. We'll learn about tools and practices for maintaining high-quality, reliable, and secure data engineering code, including:
 
