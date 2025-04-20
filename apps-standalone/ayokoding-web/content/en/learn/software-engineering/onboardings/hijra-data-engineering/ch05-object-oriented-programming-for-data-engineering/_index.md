@@ -59,23 +59,24 @@ Classes are blueprints for creating objects, which are instances of a class. In 
 
 ### 5.1.1 Defining a Simple Class
 
-Let’s start with a basic class to represent a data record, easing you into OOP syntax.
+Let’s start with a basic class to represent a log entry in a data pipeline, a common data engineering task.
 
 ```python
-# Simple class for a data record
-class DataRecord:
-    def __init__(self, value):
-        self.value = value  # Instance attribute
+# Simple class for a log entry in a data pipeline
+class LogEntry:
+    def __init__(self, timestamp, message):
+        self.timestamp = timestamp  # Log timestamp
+        self.message = message      # Log message
     def show(self):
-        """Display the record’s value."""
-        return f"Value: {self.value}"
+        """Display the log entry."""
+        return f"[{self.timestamp}] {self.message}"
 
 # Create an object
-record = DataRecord(42)
-print(record.show())
+log = LogEntry("2025-04-20 03:16:00", "Pipeline started")
+print(log.show())
 
 # Output:
-# Value: 42
+# [2025-04-20 03:16:00] Pipeline started
 ```
 
 **Key Points**:
@@ -156,7 +157,7 @@ print(f"Record count: {processor.record_count()}")
 - **Performance Considerations**:
   - **Time Complexity**: Attribute access is O(1); method execution depends on logic (e.g., `append` is O(1), `len` is O(1)).
   - **Space Complexity**: O(n) for collections (e.g., `records`), O(1) for scalars.
-  - **Implication**: Attributes are efficient for small datasets but require careful management for large collections in pipelines (e.g., use batch processing, Chapter 14).
+  - **Implication**: Attributes are efficient for small datasets but require careful management for large collections in pipelines. For example, storing millions of records in `self.records` can lead to high memory usage; consider batch processing or writing to disk incrementally (Chapter 14).
 
 ### 5.2.2 Class Attributes
 
@@ -207,23 +208,31 @@ Customize `__init__` for data engineering tasks.
 # Class for an API data fetcher
 class APIDataFetcher:
     def __init__(self, base_url, api_key):
-        self.base_url = base_url        # API endpoint
-        self.api_key = api_key          # Authentication key
-        self.fetched_data = []          # Store fetched data
+        self.base_url = base_url    # API endpoint
+        self.api_key = api_key      # Authentication key
+        self.fetched_data = []      # Store fetched data
     def fetch(self, endpoint):
-        """Simulate fetching data (using Chapter 4’s requests)."""
-        # In a real scenario, use requests.get(); here we simulate
-        self.fetched_data.append({"endpoint": endpoint, "data": "sample"})
-        return f"Fetched from {self.base_url}/{endpoint}"
+        """Simulate fetching weather data with error handling."""
+        try:
+            # Simulated API response
+            response = {
+                "city": endpoint,
+                "temperature": 293.15,
+                "humidity": 70
+            }
+            self.fetched_data.append(response)
+            return f"Fetched weather for {endpoint}: Temp {response['temperature']}K"
+        except KeyError as e:
+            return f"Error processing data for {endpoint}: {e}"
 
 # Create and use fetcher
 fetcher = APIDataFetcher("https://api.example.com", "key123")
-print(fetcher.fetch("weather"))
+print(fetcher.fetch("London"))
 print(f"Fetched data: {fetcher.fetched_data}")
 
 # Output:
-# Fetched from https://api.example.com/weather
-# Fetched data: [{'endpoint': 'weather', 'data': 'sample'}]
+# Fetched weather for London: Temp 293.15K
+# Fetched data: [{'city': 'London', 'temperature': 293.15, 'humidity': 70}]
 ```
 
 **Key Points**:
@@ -233,7 +242,7 @@ print(f"Fetched data: {fetcher.fetched_data}")
 - **Performance Considerations**:
   - **Time Complexity**: O(1) for scalar attributes, O(n) for collections (e.g., lists).
   - **Space Complexity**: O(1) for scalars, O(n) for collections.
-  - **Implication**: Initialization is fast, but avoid heavy computations in `__init__` for frequent object creation in pipelines (e.g., fetching data on init, covered in Chapter 14).
+  - **Implication**: Initialization is fast, but avoid heavy computations in `__init__` for frequent object creation in pipelines. For instance, fetching API data during initialization can slow down pipeline startup; defer such operations to methods (covered in Chapter 14).
 
 ---
 
@@ -275,9 +284,14 @@ class WeatherDataFetcher(DataFetcher):
         super().__init__(source)  # Call parent’s __init__
         self.api_key = api_key    # Additional attribute
     def fetch(self):
-        """Override to fetch weather data."""
-        self.data.append({"type": "weather", "source": self.source})
-        return f"Weather data fetched from {self.source} with key {self.api_key}"
+        """Override to fetch weather data with error handling."""
+        try:
+            # Simulated data
+            data = {"type": "weather", "source": self.source}
+            self.data.append(data)
+            return f"Weather data fetched from {self.source} with key {self.api_key}"
+        except Exception as e:
+            return f"Error fetching data: {e}"
 
 # Use the classes
 generic = DataFetcher("generic_source")
@@ -722,6 +736,12 @@ Paris,285.15
    - Verify CSV contains data for two cities.
    - Test error handling with an invalid API key.
 
+### Debugging Tips
+
+- **API Key Errors**: If you see “API key not found,” ensure `WEATHER_API_KEY` is set correctly in your environment (e.g., `echo $WEATHER_API_KEY` on Linux/Mac).
+- **Request Failures**: Check `weather_pipeline.log` or `simple_weather.log` for error messages like “API error” or “Request error,” indicating connectivity issues or invalid cities.
+- **CSV File Empty**: Verify `self.data` is populated before saving; an empty `self.data` list may indicate failed API calls—check the log for details.
+
 ### Documentation (README)
 
 ````
@@ -755,27 +775,28 @@ Outputs `weather_data.csv` and `weather_pipeline.log`.
 
 Use `simple_weather.py` for a single-class version (30–45 minutes).
 
-````
-
----
-
 ## 5.7 Practice Exercises
 
 Reinforce OOP concepts with these exercises, focusing on data engineering applications.
 
 ### Exercise 1: Data Source Class
+
 Create a `DataSource` class with attributes for `name` and `file_path`, and a method `describe()` to return a string like "Source: Sales, Path: sales.csv".
 
 ### Exercise 2: Data Validator
+
 Write a `DataValidator` class that validates sales records (dictionaries with keys `product`, `price`, `quantity`). Store valid records in a list if `price` and `quantity` are positive numbers and `product` is non-empty.
 
-### Exercise 3: Inherited Processor
-Define a `BaseProcessor` class with a `process()` method that converts a string to uppercase. Create a `SalesProcessor` child class that overrides `process()` to calculate the total (`price * quantity`) from a sales record.
+### Exercise 3: Weather Data Transformer
+
+Define a `DataTransformer` base class with a `transform()` method that returns the input data unchanged. Create a `WeatherTransformer` child class that overrides `transform()` to convert a weather record’s temperature from Kelvin to Celsius (C = K - 273.15), rounding to 2 decimal places.
 
 ### Exercise 4: Simple Pipeline
+
 Create a `SimplePipeline` class that uses a `WeatherDataFetcher` (from the simplified version of the micro-project in 5.6) to fetch data for a single city and save it to CSV. Implement a `run()` method taking a city and file path.
 
 ### Exercise 5: Config Manager
+
 Build a `ConfigManager` class that loads API configuration (`base_url`, `api_key`) from environment variables, with defaults if not set. Add a `get_config()` method to access values securely.
 
 ---
@@ -797,7 +818,7 @@ class DataSource:
 source = DataSource("Sales", "sales.csv")
 print(source.describe())
 # Source: Sales, Path: sales.csv
-````
+```
 
 ### Solution to Exercise 2: Data Validator
 
@@ -833,34 +854,28 @@ print(f"Valid records: {validator.valid_records}")
 # Valid records: [{'product': 'Laptop', 'price': '999.99', 'quantity': '2'}]
 ```
 
-### Solution to Exercise 3: Inherited Processor
+### Solution to Exercise 3: Weather Data Transformer
 
 ```python
-class BaseProcessor:
-    def __init__(self):
-        self.results = []
-    def process(self, data):
-        """Base processing method."""
-        return data.upper()
+class DataTransformer:
+    def transform(self, data):
+        """Base transformation method."""
+        return data
 
-class SalesProcessor(BaseProcessor):
-    def __init__(self):
-        super().__init__()
-    def process(self, sale):
-        """Process sales data to calculate total."""
+class WeatherTransformer(DataTransformer):
+    def transform(self, weather_record):
+        """Convert temperature from Kelvin to Celsius."""
         try:
-            total = float(sale["price"]) * int(sale["quantity"])
-            self.results.append(total)
-            return f"Total: ${total:.2f}"
-        except (ValueError, KeyError):
-            return "Invalid sale"
+            weather_record["temperature"] = round(weather_record["temperature"] - 273.15, 2)
+            return weather_record
+        except (KeyError, TypeError):
+            return "Invalid weather record"
 
 # Test
-processor = SalesProcessor()
-print(processor.process({"product": "Laptop", "price": "999.99", "quantity": "2"}))
-print(f"Results: {processor.results}")
-# Total: $1999.98
-# Results: [1999.98]
+transformer = WeatherTransformer()
+record = {"city": "London", "temperature": 293.15}
+print(transformer.transform(record))
+# {'city': 'London', 'temperature': 20.0}
 ```
 
 ### Solution to Exercise 4: Simple Pipeline
