@@ -9,2252 +9,911 @@ weight: 2
 
 ## 1.0 Introduction: Why This Matters for Data Engineering
 
-As a data engineer, your primary job is to build robust systems that extract, transform, and load data reliably. Python has become the lingua franca of data engineering for good reasons:
+Python is the backbone of modern data engineering due to its simplicity, versatility, and extensive ecosystem of libraries. As a data engineer, you'll use Python to build data pipelines, process large datasets, and integrate with databases and cloud systems. Mastering the core language essentials is critical because these fundamentals underpin every data engineering task, from simple data transformations to complex pipeline orchestration.
 
-- **Readability**: Python's clean syntax makes your code easy to understand and maintain
-- **Versatility**: Python works with virtually all data sources and formats
-- **Ecosystem**: Python's rich libraries cover every aspect of the data engineering lifecycle
-- **Community**: Large community means solutions to common problems are readily available
+This chapter lays the foundation for your data engineering journey by introducing Python's core syntax, data structures, and control flow. These skills are essential for writing clean, maintainable code that forms the basis of robust data pipelines.
 
-The fundamentals you'll learn in this chapter form the foundation for all your future data engineering work. Consider how these core concepts translate directly to data tasks:
+### Data Engineering Workflow Context
+
+Here’s how the concepts in this chapter fit into a typical data engineering workflow:
 
 ```mermaid
 flowchart TD
-    A[Data Engineering Workflow] --> B[Data Extraction]
-    A --> C[Data Transformation]
-    A --> D[Data Loading]
+    A[Raw Data] --> B[Python Scripts]
+    B --> C{Data Processing}
+    C -->|Transform| D[Clean Data]
+    C -->|Validate| E[Validated Data]
+    E --> F[Database/Storage]
 
-    B --> B1[Python Concepts Used]
-    B1 --> B11[Functions - Extract APIs]
-    B1 --> B12[Error Handling - Retry Logic]
-    B1 --> B13[Data Structures - Store Results]
+    classDef data fill:#f9f9f9,stroke:#333,stroke-width:2px
+    classDef process fill:#d0e0ff,stroke:#336,stroke-width:1px
+    classDef storage fill:#ddffdd,stroke:#363,stroke-width:1px
 
-    C --> C1[Python Concepts Used]
-    C1 --> C11[Control Flow - Filter Invalid Data]
-    C1 --> C12[String Methods - Parse Text]
-    C1 --> C13[Data Structures - Group Data]
-
-    D --> D1[Python Concepts Used]
-    D1 --> D11[Functions - DB Operations]
-    D1 --> D12[Standard Library - Format Data]
-    D1 --> D13[Data Types - Type Conversion]
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B,C,D fill:#bbf,stroke:#336,stroke-width:1px
-    style B1,C1,D1 fill:#ffd,stroke:#333,stroke-width:1px
-    style B11,B12,B13,C11,C12,C13,D11,D12,D13 fill:#efe,stroke:#363,stroke-width:1px
+    class A,D,E data
+    class B,C process
+    class F storage
 ```
 
-This diagram illustrates how the Python fundamentals you'll learn directly enable essential data engineering tasks. Each concept has a practical application in building data pipelines.
+### Building On and Preparing For
 
-Let's begin building your Python toolkit for data engineering!
+- **Building On**: This chapter assumes basic programming knowledge (variables, loops, functions) and introduces Python-specific implementations. No prior Python experience is required, but familiarity with any programming language will help.
+- **Preparing For**: These fundamentals are critical for Chapter 2 (Python Data Handling and Error Management), where you'll work with files and error handling, and Chapter 3 (NumPy and Pandas Basics), where you'll use Python to manipulate large datasets. Every subsequent chapter relies on these core skills.
+
+### What You'll Learn
+
+This chapter covers:
+
+1. Python syntax and data types
+2. Control flow (if/else, loops)
+3. Functions and their role in reusable code
+4. Data structures (lists, dictionaries, tuples, sets)
+5. String manipulation for data formatting
+
+By the end, you'll be able to write Python scripts to process simple datasets, a foundational skill for data engineering.
+
+---
 
 ## 1.1 Python Syntax and Data Types
 
-### Variables and Assignment
+Python's syntax is clean and readable, making it ideal for data engineering tasks. Let’s start with the basics: variables, data types, and basic operations.
 
-Variables are containers for storing data values. In data engineering, you'll use variables to hold configuration settings, data records, and processing results.
+### 1.1.1 Variables and Primitive Types
 
-```python
-# Assign a value to a variable
-user_id = 10  # An integer
-revenue = 19.99  # A floating-point number
-log_message = "Data pipeline completed"  # A string
-is_successful = True  # A boolean
-
-# Print variables to see their values
-print("user_id:", user_id)  # user_id: 10
-print("revenue:", revenue)  # revenue: 19.99
-print("log_message:", log_message)  # log_message: Data pipeline completed
-print("is_successful:", is_successful)  # is_successful: True
-
-# Variables can be reassigned different values
-user_id = "USR_010"  # Now user_id is a string
-print("Updated user_id:", user_id)  # Updated user_id: USR_010
-```
-
-### Basic Data Types
-
-Python has several built-in data types that you'll use constantly in data engineering:
+Python supports several primitive data types: integers (`int`), floating-point numbers (`float`), booleans (`bool`), and strings (`str`).
 
 ```python
-# Integers - whole numbers
-record_count = 42
-batch_size = 1000
-print("Total records:", record_count * batch_size)  # Total records: 42000
+# Assigning variables with different data types
+record_id = 1001  # int: whole numbers
+price = 29.99     # float: decimal numbers
+is_active = True  # bool: True or False
+product_name = "Widget A"  # str: text
 
-# Floating-point numbers - numbers with decimal points
-average_load_time = 1.25  # seconds
-error_rate = 0.03  # 3%
-print(f"Average load time: {average_load_time} seconds")  # Average load time: 1.25 seconds
-print(f"Error rate: {error_rate * 100}%")  # Error rate: 3.0%
+# Printing variables to see their values
+print(f"Record ID: {record_id}")
+print(f"Price: ${price}")
+print(f"Active: {is_active}")
+print(f"Product: {product_name}")
 
-# Strings - text enclosed in quotes (single or double)
-database_name = "customer_analytics"
-query_status = 'completed'
-print(f"Database '{database_name}' query {query_status}")  # Database 'customer_analytics' query completed
-
-# Multi-line strings with triple quotes
-sql_query = """
-SELECT customer_id, SUM(order_total) as revenue
-FROM orders
-WHERE order_date >= '2023-01-01'
-GROUP BY customer_id
-"""
-print("SQL Query:", sql_query)  # Prints the multi-line query
-
-# Booleans - True or False values
-is_production = True
-needs_refresh = False
-print("Is production environment?", is_production)  # Is production environment? True
-print("Needs data refresh?", needs_refresh)  # Needs data refresh? False
-
-# None - represents the absence of a value (null)
-next_batch = None
-print("Next batch:", next_batch)  # Next batch: None
-print("Is next_batch None?", next_batch is None)  # Is next_batch None? True
+# Output:
+# Record ID: 1001
+# Price: $29.99
+# Active: True
+# Product: Widget A
 ```
 
-### Basic Operators
+**Key Points**:
 
-Python supports various operators for computations and comparisons:
+- Variables are created when you assign a value using `=`.
+- Use `print()` to display output, and `f-strings` (e.g., `f"Price: ${price}"`) for formatted strings.
+- Python is dynamically typed; you don’t need to declare the type explicitly.
+- **Underlying Implementation**:
+  - `int`: Arbitrary-precision integers, with no fixed size, growing as needed to represent large numbers. Useful in data engineering for precise calculations, like counting records.
+  - `float`: 64-bit double-precision numbers (`float64`) per the IEEE 754 standard, balancing precision and memory for numerical data like prices or measurements.
+  - `bool`: A subclass of `int`, stored as 1 (`True`) or 0 (`False`), using minimal memory for flags like data validity.
+  - `str`: Unicode strings, stored as variable-length character arrays, ideal for text processing in datasets (e.g., product names).
+- **Performance Considerations**:
+  - **Time Complexity**:
+    - `int`: Arithmetic operations (e.g., `+`, `*`) are O(1) for small numbers but can be O(log n) for very large numbers due to arbitrary precision, impacting performance in large-scale calculations.
+    - `float`: Arithmetic operations are O(1), as they use fixed `float64` precision, making them fast for numerical data in pipelines.
+    - `bool`: Logical operations (e.g., `and`, `or`) are O(1), with minimal overhead, suitable for frequent condition checks.
+    - `str`: Concatenation (`+`) is O(n), where n is the string length, as it creates a new string. Avoid repeated concatenation in loops for large datasets, as it can slow down data processing.
+  - **Space Complexity**:
+    - `int`: O(log n), where n is the number’s magnitude, due to arbitrary-precision storage, consuming more memory for very large numbers.
+    - `float`: O(1), fixed 64-bit storage, efficient for numerical data.
+    - `bool`: O(1), minimal storage (single bit internally), ideal for flags in large datasets.
+    - `str`: O(n), where n is the string length, for character storage, significant in text-heavy datasets like logs or product descriptions.
+
+### 1.1.2 Basic Operations
+
+You can perform arithmetic and comparison operations on these types:
 
 ```python
-# Arithmetic operators
-records_per_day = 10000
-days_processed = 3
+# Arithmetic operations
+total_price = price * 2  # Multiply float
+quantity = record_id - 1000  # Subtract int
+discount = price / 2  # Divide float
 
-total_records = records_per_day * days_processed
-print("Total records processed:", total_records)  # Total records processed: 30000
+print(f"Total Price: ${total_price}")
+print(f"Quantity: {quantity}")
+print(f"Discount: ${discount}")
 
-# Division - regular vs. integer division
-print("Regular division: 10 / 3 =", 10 / 3)  # Regular division: 10 / 3 = 3.3333333333333335
-print("Integer division: 10 // 3 =", 10 // 3)  # Integer division: 10 // 3 = 3
-print("Remainder (modulo): 10 % 3 =", 10 % 3)  # Remainder (modulo): 10 % 3 = 1
+# Comparison operations
+is_expensive = price > 20.0
+has_stock = quantity > 0
 
-# Division is useful for data partitioning
-records = 1000
-partitions = 4
-print(f"Each partition will process {records // partitions} records")  # Each partition will process 250 records
-print(f"Remaining records: {records % partitions}")  # Remaining records: 0
+print(f"Is Expensive? {is_expensive}")
+print(f"Has Stock? {has_stock}")
 
-# Comparison operators
-throughput = 5000  # records per minute
-sla_throughput = 4500  # SLA requirement
-meets_sla = throughput >= sla_throughput
-print("Meeting throughput SLA?", meets_sla)  # Meeting throughput SLA? True
-
-# Logical operators
-is_production = True
-is_peak_hours = False
-
-# AND operator - both must be True
-should_optimize = is_production and is_peak_hours
-print("Should optimize query?", should_optimize)  # Should optimize query? False
-
-# OR operator - at least one must be True
-should_log = is_production or is_peak_hours
-print("Should log operation?", should_log)  # Should log operation? True
-
-# NOT operator - reverses the boolean
-is_maintenance_window = not is_peak_hours
-print("Is maintenance window?", is_maintenance_window)  # Is maintenance window? True
+# Output:
+# Total Price: $59.98
+# Quantity: 1
+# Discount: $14.995
+# Is Expensive? True
+# Has Stock? True
 ```
 
-### Common Error: Type Confusion
+**Key Points**:
 
-One of the most common errors in Python, especially in data processing, is confusion between data types:
+- Arithmetic operators: `+`, `-`, `*`, `/`, `//` (floor division), `%` (modulus), `**` (exponentiation).
+- Comparison operators: `>`, `<`, `>=`, `<=`, `==`, `!=`.
+- Operations produce results based on the data types involved (e.g., `int * float` yields a `float`).
 
-```python
-# Data often comes in as strings, even when representing numbers
-record_count_str = "1000"
-batch_size = 10
-
-# Common error: treating a string as a number
-try:
-    # This multiplication doesn't perform as expected with a string
-    total = record_count_str * batch_size
-    print("This won't calculate properly:", total)  # This won't calculate properly: 10001000100010001000100010001000100010001000
-except Exception as e:
-    print("Error:", e)
-
-# Correct approach: convert string to numeric type first
-record_count = int(record_count_str)
-total = record_count * batch_size
-print("Correct calculation:", total)  # Correct calculation: 10000
-
-# Another common error: forgetting to convert strings in calculations
-metric1 = "10.5"
-metric2 = "20.3"
-
-# Incorrect: string concatenation instead of numerical addition
-incorrect_sum = metric1 + metric2
-print("Incorrect string concatenation:", incorrect_sum)  # Incorrect string concatenation: 10.520.3
-
-# Correct: convert to float first
-correct_sum = float(metric1) + float(metric2)
-print("Correct numerical addition:", correct_sum)  # Correct numerical addition: 30.8
-```
+---
 
 ## 1.2 Control Flow
 
-Control flow statements allow you to make decisions and repeat actions in your code, which is essential for data processing.
+Control flow allows your code to make decisions and repeat tasks, which is essential for processing datasets conditionally or iteratively.
 
-### Conditional Statements (if/elif/else)
+### 1.2.1 Conditional Statements (if/elif/else)
+
+Conditional statements execute code based on whether a condition is `True` or `False`.
 
 ```python
-# Basic data validation
-record_count = 45
+# Example: Categorize a product based on price
+price = 29.99
 
-if record_count > 1000:
-    print("Large dataset detected, using batch processing")
-elif record_count > 0:
-    print("Normal dataset, using standard processing")  # This will print
+if price > 50:
+    category = "Premium"
+elif price > 20:
+    category = "Standard"
 else:
-    print("No data found, skipping processing")
+    category = "Budget"
 
-# Output: Normal dataset, using standard processing
+print(f"Product Category: {category}")
 
-# Validating a database connection
-connection_string = "postgresql://user:password@localhost:5432/analytics"
-is_active = True
-
-if connection_string and is_active:  # Both must be True (non-empty string and True boolean)
-    print("Database connection valid and active")  # This will print
-else:
-    print("Database connection invalid or inactive")
-
-# Output: Database connection valid and active
-
-# Complex condition for data quality check
-error_rate = 0.03
-warning_threshold = 0.05
-error_threshold = 0.10
-
-if error_rate >= error_threshold:
-    status = "Error: Data quality below threshold"
-elif error_rate >= warning_threshold:
-    status = "Warning: Data quality concerns detected"
-else:
-    status = "Success: Data quality acceptable"
-
-print(f"Data quality status: {status}")  # Data quality status: Success: Data quality acceptable
+# Output:
+# Product Category: Standard
 ```
 
-### For Loops
+**Key Points**:
 
-For loops allow you to iterate through collections, which is essential for processing datasets:
+- Use `if` to check a condition, `elif` for additional conditions, and `else` for the default case.
+- Indentation (typically 4 spaces) defines the scope of each block.
+- Conditions can include logical operators: `and`, `or`, `not`.
+
+### 1.2.2 Loops
+
+Loops allow you to iterate over data, a common task in data engineering for processing records.
+
+#### For Loop
 
 ```python
-# Processing a batch of records
-batch_ids = [1001, 1002, 1003, 1004, 1005]
-print("Processing batch records:")
-for record_id in batch_ids:
-    print(f"Processing record {record_id}")
+# Iterate over a range of numbers to simulate processing records
+for i in range(1, 4):  # range(1, 4) generates 1, 2, 3
+    print(f"Processing record #{i}")
 
 # Output:
-# Processing batch records:
-# Processing record 1001
-# Processing record 1002
-# Processing record 1003
-# Processing record 1004
-# Processing record 1005
-
-# Calculating total data size from a list of files
-file_sizes = [2048, 4096, 1024, 8192, 512]  # sizes in KB
-total_size = 0
-
-for size in file_sizes:
-    total_size += size
-
-print(f"Total data size: {total_size} KB")  # Total data size: 15872 KB
-print(f"Total data size: {total_size / 1024:.2f} MB")  # Total data size: 15.50 MB
-
-# Extracting specific fields from records
-customer_records = [
-    {"id": 101, "name": "Acme Corp", "active": True, "balance": 45000},
-    {"id": 102, "name": "Globex Inc", "active": False, "balance": 12000},
-    {"id": 103, "name": "Initech", "active": True, "balance": 89000}
-]
-
-# Extract just the names of active customers
-active_customer_names = []
-for customer in customer_records:
-    if customer["active"]:
-        active_customer_names.append(customer["name"])
-
-print("Active customers:", active_customer_names)  # Active customers: ['Acme Corp', 'Initech']
-
-# Using range() to generate sequences of numbers
-print("First 5 square numbers:")
-for i in range(1, 6):  # 1, 2, 3, 4, 5
-    print(f"{i} squared = {i**2}")
-
-# Output:
-# First 5 square numbers:
-# 1 squared = 1
-# 2 squared = 4
-# 3 squared = 9
-# 4 squared = 16
-# 5 squared = 25
-
-# Using enumerate() to get index and value - useful for batch processing
-log_entries = ["Started ETL process", "Extracted 1000 records", "Transformed data", "Loaded into warehouse"]
-print("Formatted log:")
-for index, entry in enumerate(log_entries):
-    print(f"[{index}] {entry}")
-
-# Output:
-# Formatted log:
-# [0] Started ETL process
-# [1] Extracted 1000 records
-# [2] Transformed data
-# [3] Loaded into warehouse
+# Processing record #1
+# Processing record #2
+# Processing record #3
 ```
 
-### While Loops
-
-While loops run as long as a condition is true, useful for scenarios where you don't know the exact number of iterations:
+#### While Loop
 
 ```python
-# Simulating a batch processing job
-batch_size = 100
-records_to_process = 340
-processed_count = 0
+# Process records until a condition is met
+stock = 5
+while stock > 0:
+    print(f"Items in stock: {stock}")
+    stock -= 1  # Decrease stock by 1
 
-print("Processing records in batches:")
-batch_num = 0
-while processed_count < records_to_process:
-    # Calculate how many to process in this batch
-    current_batch = min(batch_size, records_to_process - processed_count)
-    processed_count += current_batch
-    batch_num += 1
-    print(f"Batch {batch_num}: Processed {current_batch} records. Total: {processed_count}/{records_to_process}")
+print("Stock depleted!")
 
 # Output:
-# Processing records in batches:
-# Batch 1: Processed 100 records. Total: 100/340
-# Batch 2: Processed 100 records. Total: 200/340
-# Batch 3: Processed 100 records. Total: 300/340
-# Batch 4: Processed 40 records. Total: 340/340
-
-# Retry logic for an API connection
-max_retries = 3
-retry_count = 0
-connected = False
-
-print("\nAttempting API connection:")
-while not connected and retry_count < max_retries:
-    retry_count += 1
-    print(f"Connection attempt {retry_count}...")
-
-    # Simulate connection attempt (would normally be an API call)
-    if retry_count == 3:  # Succeed on third attempt
-        connected = True
-
-    if not connected:
-        print("  Connection failed, retrying...")
-
-if connected:
-    print("Successfully connected to API")
-else:
-    print("Failed to connect after maximum retries")
-
-# Output:
-# Attempting API connection:
-# Connection attempt 1...
-#   Connection failed, retrying...
-# Connection attempt 2...
-#   Connection failed, retrying...
-# Connection attempt 3...
-# Successfully connected to API
+# Items in stock: 5
+# Items in stock: 4
+# Items in stock: 3
+# Items in stock: 2
+# Items in stock: 1
+# Stock depleted!
 ```
 
-### Common Loop Errors
+**Key Points**:
 
-```python
-# Common mistake: Modifying a list while iterating
-records = [1, 2, 3, 4, 5]
+- `for` loops are ideal for iterating over known sequences (e.g., lists, ranges).
+- `while` loops run until a condition becomes `False`.
+- Use `break` to exit a loop early, or `continue` to skip to the next iteration.
 
-print("Incorrect approach to filtering (bug):")
-try:
-    for record in records[:]:  # Using a slice to create a copy for demonstration
-        if record % 2 == 0:  # Remove even numbers
-            records.remove(record)  # WRONG: Modifies the list while iterating
-        print(f"Current record: {record}, List: {records}")
-except Exception as e:
-    print(f"This can cause unexpected behavior: {e}")
-
-# Output would be inconsistent and confusing - we're showing it with a copy
-# to demonstrate the concept safely
-
-# Correct approach
-records = [1, 2, 3, 4, 5]
-filtered_records = []
-
-print("\nCorrect approach:")
-for record in records:
-    if record % 2 != 0:  # Keep odd numbers
-        filtered_records.append(record)
-    print(f"Current record: {record}, Filtered list so far: {filtered_records}")
-
-print("Final filtered list:", filtered_records)  # Final filtered list: [1, 3, 5]
-
-# Output:
-# Correct approach:
-# Current record: 1, Filtered list so far: [1]
-# Current record: 2, Filtered list so far: [1]
-# Current record: 3, Filtered list so far: [1, 3]
-# Current record: 4, Filtered list so far: [1, 3]
-# Current record: 5, Filtered list so far: [1, 3, 5]
-# Final filtered list: [1, 3, 5]
-```
-
-### Performance Tip: Loop Efficiency
-
-```python
-# Performance tip: For very large datasets, be mindful of how you build results
-import time
-
-# Simulating large dataset processing
-print("Processing efficiency demonstration:")
-
-# Inefficient approach: Growing a list with many append operations
-start_time = time.time()
-inefficient_result = []
-for i in range(100000):  # Smaller number for demonstration purpose
-    inefficient_result.append(i)  # Append is efficient for individual items, but can be improved
-inefficient_time = time.time() - start_time
-print(f"Time for inefficient approach: {inefficient_time:.4f} seconds")
-
-# More efficient: Pre-allocate if you know the size
-start_time = time.time()
-efficient_result = [0] * 100000  # Pre-allocate
-for i in range(100000):
-    efficient_result[i] = i  # Direct assignment to pre-allocated slot
-efficient_time = time.time() - start_time
-print(f"Time for efficient approach: {efficient_time:.4f} seconds")
-print(f"Speedup factor: {inefficient_time/efficient_time:.2f}x")
-
-# Output (will vary by machine):
-# Processing efficiency demonstration:
-# Time for inefficient approach: 0.0102 seconds
-# Time for efficient approach: 0.0058 seconds
-# Speedup factor: 1.76x
-```
+---
 
 ## 1.3 Functions
 
-Functions are reusable blocks of code that perform specific tasks. In data engineering, they help organize data transformations, validations, and other operations.
+Functions allow you to encapsulate reusable code, making your data processing scripts modular and maintainable.
 
-### Defining and Calling Functions
-
-```python
-# Basic data validation function
-def is_valid_record(record):
-    """Check if a data record is valid.
-
-    Args:
-        record: Dictionary containing record data
-
-    Returns:
-        Boolean indicating if record is valid
-    """
-    if not record:  # Check if record exists
-        return False
-
-    # Check if required fields exist
-    if "id" not in record or "timestamp" not in record:
-        return False
-
-    # Check if ID is positive
-    if record["id"] <= 0:
-        return False
-
-    return True
-
-# Test the validation function
-test_record1 = {"id": 1001, "timestamp": "2023-01-15", "value": 42}
-test_record2 = {"id": 0, "value": 42}  # Missing timestamp and invalid ID
-
-print("Record 1 valid:", is_valid_record(test_record1))  # Record 1 valid: True
-print("Record 2 valid:", is_valid_record(test_record2))  # Record 2 valid: False
-
-# Function with multiple parameters and default values
-def calculate_metrics(values, exclude_outliers=False, min_threshold=None, max_threshold=None):
-    """
-    Calculate basic statistics for a list of values.
-
-    Args:
-        values: List of numeric values
-        exclude_outliers: Whether to exclude outlier values
-        min_threshold: Minimum value to include
-        max_threshold: Maximum value to include
-
-    Returns:
-        Dictionary of calculated metrics
-    """
-    if not values:
-        return {"count": 0, "sum": 0, "avg": 0, "min": None, "max": None}
-
-    # Filter values if needed
-    filtered_values = []
-    for value in values:
-        # Apply filters
-        if min_threshold is not None and value < min_threshold:
-            continue
-        if max_threshold is not None and value > max_threshold:
-            continue
-        filtered_values.append(value)
-
-    # If we have no values after filtering
-    if not filtered_values:
-        return {"count": 0, "sum": 0, "avg": 0, "min": None, "max": None}
-
-    # Calculate metrics
-    total = sum(filtered_values)
-    count = len(filtered_values)
-    return {
-        "count": count,
-        "sum": total,
-        "avg": total / count,
-        "min": min(filtered_values),
-        "max": max(filtered_values)
-    }
-
-# Test with different parameter combinations
-data_points = [10, 15, 87, 45, 92, 3, 8, 56]
-
-# Default parameters
-basic_metrics = calculate_metrics(data_points)
-print("\nBasic metrics:", basic_metrics)
-# Basic metrics: {'count': 8, 'sum': 316, 'avg': 39.5, 'min': 3, 'max': 92}
-
-# With filtering
-filtered_metrics = calculate_metrics(data_points, min_threshold=10, max_threshold=90)
-print("Filtered metrics:", filtered_metrics)
-# Filtered metrics: {'count': 5, 'sum': 203, 'avg': 40.6, 'min': 10, 'max': 87}
-```
-
-### Function Return Values
+### 1.3.1 Defining and Calling Functions
 
 ```python
-# Function that returns a simple value
-def get_database_status(db_name):
-    """
-    Get the status of a database.
+# Define a function to calculate the total cost of an order
+def calculate_total(price, quantity):
+    total = price * quantity
+    return total
 
-    Args:
-        db_name: Database name to check
+# Call the function with sample data
+item_price = 19.99
+item_quantity = 3
+order_total = calculate_total(item_price, item_quantity)
 
-    Returns:
-        String status code
-    """
-    # In real code, this would check an actual database
-    statuses = {
-        "customers": "online",
-        "products": "maintenance",
-        "orders": "online"
-    }
+print(f"Order Total: ${order_total}")
 
-    return statuses.get(db_name, "unknown")
-
-db_status = get_database_status("customers")
-print(f"Database status: {db_status}")  # Database status: online
-unknown_status = get_database_status("inventory")
-print(f"Unknown database status: {unknown_status}")  # Unknown database status: unknown
-
-# Function that returns multiple values (as a tuple)
-def parse_connection_string(conn_string):
-    """
-    Parse a database connection string into components.
-
-    Args:
-        conn_string: Connection string in format "db_type://user:pass@host:port/db_name"
-
-    Returns:
-        Tuple of (db_type, user, host, port, db_name)
-    """
-    # This is a simplified parser for demonstration
-    if not conn_string or "//" not in conn_string:
-        return (None, None, None, None, None)
-
-    # Split protocol and rest
-    parts = conn_string.split("://")
-    db_type = parts[0]
-
-    # Split credentials and location
-    rest = parts[1]
-    if "@" in rest:
-        creds, location = rest.split("@", 1)
-        if ":" in creds:
-            user, _ = creds.split(":", 1)  # Don't expose the password
-        else:
-            user = creds
-    else:
-        user = None
-        location = rest
-
-    # Split host, port, db_name
-    host_part, db_name = location.split("/", 1) if "/" in location else (location, "")
-    if ":" in host_part:
-        host, port = host_part.split(":")
-        port = int(port)
-    else:
-        host = host_part
-        port = None
-
-    return (db_type, user, host, port, db_name)
-
-# Test the parser
-conn = "postgresql://data_user:secret@analytics.example.com:5432/metrics_db"
-db_type, user, host, port, db_name = parse_connection_string(conn)
-print(f"\nConnection details:")
-print(f"Type: {db_type}, User: {user}, Host: {host}, Port: {port}, DB: {db_name}")
-# Connection details:
-# Type: postgresql, User: data_user, Host: analytics.example.com, Port: 5432, DB: metrics_db
+# Output:
+# Order Total: $59.97
 ```
 
-### Function Scope
+**Key Points**:
+
+- Define functions with `def`, followed by the function name and parameters in parentheses.
+- Use `return` to send a value back to the caller.
+- Functions improve code reusability and readability.
+
+### 1.3.2 Default Parameters and Keyword Arguments
 
 ```python
-# Understanding scope in data processing functions
-total_record_count = 0  # Global variable
+# Function with default tax rate and keyword arguments
+def calculate_total_with_tax(price, quantity, tax_rate=0.1):
+    subtotal = price * quantity
+    tax = subtotal * tax_rate
+    return subtotal + tax
 
-def process_batch(records):
-    """Process a batch of records and update global count."""
-    # This won't modify the global variable unless declared global
-    # total_record_count += len(records)  # Would cause UnboundLocalError
+# Call with default tax rate
+total1 = calculate_total_with_tax(19.99, 3)
+print(f"Total with default tax: ${total1}")
 
-    # Correct way to update global variable
-    global total_record_count
-    total_record_count += len(records)
+# Call with custom tax rate using keyword argument
+total2 = calculate_total_with_tax(price=19.99, quantity=3, tax_rate=0.15)
+print(f"Total with custom tax: ${total2}")
 
-    # Local variable for batch-specific counting
-    error_count = 0
-    for record in records:
-        if not is_valid_record(record):
-            error_count += 1
-
-    return error_count
-
-# Test with sample batches
-batch1 = [{"id": 1, "timestamp": "2023-01-01"}, {"id": 2, "timestamp": "2023-01-02"}]
-batch2 = [{"id": 3, "timestamp": "2023-01-03"}, {"id": 0}]  # Second record is invalid
-
-print("\nProcessing batches:")
-print(f"Batch 1 errors: {process_batch(batch1)}")  # Batch 1 errors: 0
-print(f"Current total count: {total_record_count}")  # Current total count: 2
-
-print(f"Batch 2 errors: {process_batch(batch2)}")  # Batch 2 errors: 1
-print(f"Final total count: {total_record_count}")  # Final total count: 4
-
-# Common error: Trying to access local variable from outside
-def extract_fields(records, field_name):
-    """Extract values of a specific field from records."""
-    values = []
-    for record in records:
-        if field_name in record:
-            values.append(record[field_name])
-    return values
-
-extracted_values = extract_fields(batch1, "timestamp")
-print("\nExtracted timestamps:", extracted_values)  # Extracted timestamps: ['2023-01-01', '2023-01-02']
-
-# This would cause an error - values only exists inside the function
-# print(values)  # NameError: name 'values' is not defined
+# Output:
+# Total with default tax: $65.967
+# Total with custom tax: $68.965
 ```
 
-### Database-Specific Function Example
+**Key Points**:
 
-```python
-def build_sql_query(table_name, columns=None, where_conditions=None, group_by=None, limit=None):
-    """
-    Build a SQL SELECT query with various conditions.
+- Default parameters allow optional arguments with preset values.
+- Keyword arguments improve clarity by specifying parameter names.
 
-    Args:
-        table_name: Table to query
-        columns: List of columns to select, or None for all
-        where_conditions: List of WHERE conditions
-        group_by: List of columns to group by
-        limit: Maximum number of rows to return
-
-    Returns:
-        SQL query string
-    """
-    # Build SELECT clause
-    if columns:
-        select_clause = f"SELECT {', '.join(columns)}"
-    else:
-        select_clause = "SELECT *"
-
-    # Add FROM clause
-    query = f"{select_clause} FROM {table_name}"
-
-    # Add WHERE clause if needed
-    if where_conditions:
-        where_clause = " AND ".join(where_conditions)
-        query += f" WHERE {where_clause}"
-
-    # Add GROUP BY if needed
-    if group_by:
-        group_clause = ", ".join(group_by)
-        query += f" GROUP BY {group_clause}"
-
-    # Add LIMIT if needed
-    if limit is not None:
-        query += f" LIMIT {limit}"
-
-    return query
-
-# Test the query builder for different query types
-print("\nSQL Query Examples:")
-
-# Simple query
-simple_query = build_sql_query("customers")
-print(f"Simple query: {simple_query}")  # Simple query: SELECT * FROM customers
-
-# Complex query
-complex_query = build_sql_query(
-    table_name="orders",
-    columns=["customer_id", "SUM(order_total) as total_revenue"],
-    where_conditions=["order_date >= '2023-01-01'", "status = 'completed'"],
-    group_by=["customer_id"],
-    limit=100
-)
-print(f"Complex query: {complex_query}")
-# Complex query: SELECT customer_id, SUM(order_total) as total_revenue FROM orders WHERE order_date >= '2023-01-01' AND status = 'completed' GROUP BY customer_id LIMIT 100
-```
+---
 
 ## 1.4 Data Structures
 
-Python has several built-in data structures to help organize data. Understanding their characteristics is crucial for effective data engineering.
+Data structures like lists, dictionaries, tuples, and sets are critical for organizing and processing data in data engineering tasks.
 
-### Lists
+### 1.4.1 Lists
 
-Lists are ordered, mutable collections that can hold items of different types. In data engineering, they're commonly used for storing records, batch processing, and intermediate results.
-
-```python
-# Creating a list of log entries
-logs = ["ETL started", "Extraction complete", "Transformation complete", "Load complete"]
-print("Log entries:", logs)  # Log entries: ['ETL started', 'Extraction complete', 'Transformation complete', 'Load complete']
-
-# Accessing elements (indexing starts at 0)
-first_log = logs[0]  # "ETL started"
-last_log = logs[-1]  # "Load complete" (negative indexing starts from the end)
-print("First log entry:", first_log)  # First log entry: ETL started
-print("Last log entry:", last_log)   # Last log entry: Load complete
-
-# Slicing a list [start:stop:step]
-middle_logs = logs[1:3]  # ["Extraction complete", "Transformation complete"] (stop index is exclusive)
-print("Middle log entries:", middle_logs)  # Middle log entries: ['Extraction complete', 'Transformation complete']
-
-# Modifying lists
-logs[1] = "Data extraction complete with 1000 records"  # Replace an element
-print("After updating extraction log:", logs)
-# After updating extraction log: ['ETL started', 'Data extraction complete with 1000 records', 'Transformation complete', 'Load complete']
-
-logs.append("ETL process completed successfully")  # Add to the end
-print("After appending completion message:", logs)
-# After appending completion message: ['ETL started', 'Data extraction complete with 1000 records', 'Transformation complete', 'Load complete', 'ETL process completed successfully']
-
-logs.insert(1, "Beginning extraction phase")  # Insert at specific position
-print("After inserting phase message:", logs)
-# After inserting phase message: ['ETL started', 'Beginning extraction phase', 'Data extraction complete with 1000 records', 'Transformation complete', 'Load complete', 'ETL process completed successfully']
-
-removed_log = logs.pop()  # Remove and return the last element
-print("Removed log:", removed_log)  # Removed log: ETL process completed successfully
-print("Logs after pop():", logs)
-# Logs after pop(): ['ETL started', 'Beginning extraction phase', 'Data extraction complete with 1000 records', 'Transformation complete', 'Load complete']
-
-# Common list methods
-data_samples = [45, 23, 78, 12, 56]
-print("\nData samples:", data_samples)  # Data samples: [45, 23, 78, 12, 56]
-print("Number of samples:", len(data_samples))  # Number of samples: 5
-print("Minimum value:", min(data_samples))  # Minimum value: 12
-print("Maximum value:", max(data_samples))  # Maximum value: 78
-print("Sum of values:", sum(data_samples))  # Sum of values: 214
-print("Average value:", sum(data_samples) / len(data_samples))  # Average value: 42.8
-
-# Sorting lists
-data_samples.sort()  # Sort in-place
-print("Sorted samples:", data_samples)  # Sorted samples: [12, 23, 45, 56, 78]
-
-data_samples.sort(reverse=True)  # Sort in descending order
-print("Reverse sorted:", data_samples)  # Reverse sorted: [78, 56, 45, 23, 12]
-```
-
-### Dictionaries
-
-Dictionaries are collections of key-value pairs, perfect for representing record structures and lookups in data engineering.
+Lists are ordered, mutable collections of items.
 
 ```python
-# Creating a dictionary representing a database record
-customer = {
-    "customer_id": 1001,
-    "name": "Acme Corporation",
-    "industry": "Manufacturing",
-    "active": True,
-    "joined_date": "2022-08-15",
-    "contact_info": {
-        "email": "info@acme.example.com",
-        "phone": "555-123-4567",
-        "address": "123 Main St"
-    }
-}
-print("Customer record:", customer)
-# Customer record: {'customer_id': 1001, 'name': 'Acme Corporation', 'industry': 'Manufacturing', 'active': True, 'joined_date': '2022-08-15', 'contact_info': {'email': 'info@acme.example.com', 'phone': '555-123-4567', 'address': '123 Main St'}}
+# Create a list of product prices
+prices = [19.99, 29.99, 9.99, 49.99]
 
-# Accessing values - essential for data processing
-customer_name = customer["name"]
-print("Customer name:", customer_name)  # Customer name: Acme Corporation
+# Access elements
+first_price = prices[0]  # First element
+last_price = prices[-1]  # Last element
 
-# Access nested dictionary
-contact_email = customer["contact_info"]["email"]
-print("Contact email:", contact_email)  # Contact email: info@acme.example.com
-
-# Alternative access with .get() - safer when key might not exist
-# Common in data processing where fields might be missing
-status = customer.get("status", "unknown")  # Returns "unknown" as default
-print("Status (which doesn't exist):", status)  # Status (which doesn't exist): unknown
-
-# Modifying dictionaries
-customer["active"] = False  # Change a value
-print("After updating active status:", customer["active"])  # After updating active status: False
-
-customer["last_order_date"] = "2023-02-28"  # Add a new key-value pair
-print("After adding last order date:", customer["last_order_date"])  # After adding last order date: 2023-02-28
-
-# Useful dictionary methods
-print("\nDictionary keys:", customer.keys())  # Dictionary keys: dict_keys(['customer_id', 'name', 'industry', 'active', 'joined_date', 'contact_info', 'last_order_date'])
-print("Dictionary values:", list(customer.values())[:3], "...")  # First 3 values for brevity
-
-# Common data engineering pattern: counting occurrences
-event_counts = {}
-events = ["login", "search", "purchase", "login", "logout", "search", "login"]
-
-for event in events:
-    if event in event_counts:
-        event_counts[event] += 1
-    else:
-        event_counts[event] = 1
-
-print("\nEvent frequency counts:", event_counts)
-# Event frequency counts: {'login': 3, 'search': 2, 'purchase': 1, 'logout': 1}
-
-# Alternative using get() with default
-event_counts_alt = {}
-for event in events:
-    event_counts_alt[event] = event_counts_alt.get(event, 0) + 1
-
-print("Event counts (using get method):", event_counts_alt)
-# Event counts (using get method): {'login': 3, 'search': 2, 'purchase': 1, 'logout': 1}
-```
-
-### Tuples
-
-Tuples are ordered, immutable collections, useful for fixed data structures in data pipelines.
-
-```python
-# Using tuples for database connection parameters (fixed structure)
-db_config = ("localhost", 5432, "analytics_db", "data_user", "secure_password")
-print("Database configuration tuple:", db_config)  # Database configuration tuple: ('localhost', 5432, 'analytics_db', 'data_user', 'secure_password')
-
-# Unpacking tuples - common in data engineering for returning multiple values
-host, port, db_name, username, password = db_config
-print(f"Connecting to {db_name} on {host}:{port}")  # Connecting to analytics_db on localhost:5432
-
-# Tuples are immutable - cannot be changed after creation
-try:
-    db_config[0] = "new_host"  # This will cause an error
-except TypeError as e:
-    print("Error when trying to modify tuple:", e)  # Error when trying to modify tuple: 'tuple' object does not support item assignment
-
-# Tuples in a list of records (common data structure)
-data_points = [
-    ("2023-01-01", 23.5, "sensor1"),
-    ("2023-01-01", 22.8, "sensor2"),
-    ("2023-01-02", 24.1, "sensor1"),
-    ("2023-01-02", 23.2, "sensor2")
-]
-
-print("\nSensor readings:")
-for date, temp, sensor in data_points:  # Unpacking in the loop
-    print(f"{sensor} on {date}: {temp}°C")
+print(f"First price: ${first_price}")
+print(f"Last price: ${last_price}")
 
 # Output:
-# Sensor readings:
-# sensor1 on 2023-01-01: 23.5°C
-# sensor2 on 2023-01-01: 22.8°C
-# sensor1 on 2023-01-02: 24.1°C
-# sensor2 on 2023-01-02: 23.2°C
+# First price: $19.99
+# Last price: $49.99
+
+# Modify the list
+prices.append(39.99)  # Add an item
+prices[1] = 24.99     # Update an item
+print(f"Updated prices: {prices}")
+# Updated prices: [19.99, 24.99, 9.99, 49.99, 39.99]
+
+# Iterate over the list
+for price in prices:
+    print(f"Price: ${price}")
+# Price: $19.99
+# Price: $24.99
+# Price: $9.99
+# Price: $49.99
+# Price: $39.99
 ```
 
-### Sets
+**Key Points**:
 
-Sets are unordered collections of unique elements, useful for deduplication and membership testing - common operations in data engineering.
+- Lists are indexed starting at 0.
+- Use methods like `append()`, `remove()`, and `pop()` to modify lists.
+- Lists are versatile for storing ordered data sequences.
+- **Underlying Implementation**: Lists are dynamic arrays, stored as resizable, contiguous memory blocks with pointers to objects. This allows flexible resizing but may require occasional memory reallocation, impacting performance in data engineering tasks with large datasets.
+- **Performance Considerations**:
+  - **Time Complexity**:
+    - Indexing (e.g., `prices[0]`): O(1), fast for accessing elements by position.
+    - Appending (`append()`): O(1) average case, but O(n) worst case if the array needs resizing, where n is the list length.
+    - Iteration: O(n), as it visits each element, important for processing large datasets.
+    - Insertion/Deletion (middle): O(n), as elements must be shifted, slow for large lists in data pipelines.
+  - **Space Complexity**:
+    - Storage: O(n), where n is the number of elements, for the dynamic array storing pointers to objects.
+    - Operations (e.g., appending): O(1) additional space average case, O(n) worst case if resizing requires a new array.
+    - Implication: Memory usage grows linearly with dataset size, suitable for ordered data but less efficient for frequent modifications.
 
-```python
-# Using sets for deduplication (a common data cleaning operation)
-log_sources = {"app-server-1", "database", "app-server-1", "load-balancer", "database", "cache"}
-print("Unique log sources:", log_sources)  # Unique log sources: {'app-server-1', 'database', 'load-balancer', 'cache'}
+### 1.4.2 Dictionaries
 
-# Check if an element exists - very efficient lookup
-has_database_logs = "database" in log_sources
-print("Have database logs?", has_database_logs)  # Have database logs? True
-
-# Set operations for data analysis
-system_a_users = {"user1", "user2", "user3", "user4", "user5"}
-system_b_users = {"user3", "user4", "user5", "user6", "user7"}
-
-# Users in both systems (common in data integration)
-common_users = system_a_users & system_b_users  # Intersection
-print("\nUsers in both systems:", common_users)  # Users in both systems: {'user3', 'user4', 'user5'}
-
-# Users in either system (union)
-all_users = system_a_users | system_b_users
-print("Total unique users:", all_users)  # Total unique users: {'user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7'}
-
-# Users only in system A (difference)
-system_a_only = system_a_users - system_b_users
-print("Users only in system A:", system_a_only)  # Users only in system A: {'user1', 'user2'}
-
-# Users in exactly one system (symmetric difference)
-exclusive_users = system_a_users ^ system_b_users
-print("Users in exactly one system:", exclusive_users)  # Users in exactly one system: {'user1', 'user2', 'user6', 'user7'}
-
-# Common data engineering example: Finding overlapping records
-record_ids_batch1 = {101, 102, 103, 104, 105}
-record_ids_batch2 = {104, 105, 106, 107}
-
-# Check for duplicate processing
-duplicates = record_ids_batch1 & record_ids_batch2
-if duplicates:
-    print(f"\nWarning: Found {len(duplicates)} duplicate records: {duplicates}")
-    # Warning: Found 2 duplicate records: {104, 105}
-```
-
-### Database Record Example
-
-Here's a more data engineering focused example using various data structures to represent database records and operations:
+Dictionaries store key-value pairs, ideal for representing structured data like records.
 
 ```python
-# Database table schema representation using dictionaries
-customer_table = {
-    "name": "customers",
-    "columns": [
-        {"name": "id", "type": "INTEGER", "primary_key": True},
-        {"name": "name", "type": "VARCHAR(100)", "nullable": False},
-        {"name": "email", "type": "VARCHAR(100)", "unique": True},
-        {"name": "signup_date", "type": "DATE", "nullable": True},
-        {"name": "active", "type": "BOOLEAN", "default": True}
-    ],
-    "indexes": [
-        {"name": "idx_customer_email", "columns": ["email"], "unique": True},
-        {"name": "idx_customer_signup", "columns": ["signup_date"]}
-    ]
+# Create a dictionary representing a product
+product = {
+    "id": 1001,
+    "name": "Widget A",
+    "price": 19.99,
+    "in_stock": True
 }
 
-# Sample data as a list of dictionaries (records)
-customers = [
-    {"id": 1001, "name": "Acme Corp", "email": "info@acme.example.com", "signup_date": "2022-01-15", "active": True},
-    {"id": 1002, "name": "Globex Inc", "email": "contact@globex.example.com", "signup_date": "2022-03-20", "active": True},
-    {"id": 1003, "name": "Initech", "email": "info@initech.example.com", "signup_date": "2022-02-28", "active": False}
-]
+# Access values
+product_name = product["name"]
+product_price = product.get("price")  # Safe access
+print(f"Product: {product_name}, Price: ${product_price}")
+# Product: Widget A, Price: $19.99
 
-# Print table schema
-print("Table schema for:", customer_table["name"])
-for column in customer_table["columns"]:
-    constraints = []
-    if column.get("primary_key"):
-        constraints.append("PRIMARY KEY")
-    if column.get("nullable") is False:
-        constraints.append("NOT NULL")
-    if column.get("unique"):
-        constraints.append("UNIQUE")
-    if "default" in column:
-        constraints.append(f"DEFAULT {column['default']}")
+# Modify dictionary
+product["price"] = 24.99
+product["category"] = "Electronics"
+print(f"Updated product: {product}")
+# Updated product: {'id': 1001, 'name': 'Widget A', 'price': 24.99, 'in_stock': True, 'category': 'Electronics'}
 
-    constraints_str = ", ".join(constraints)
-    print(f"  {column['name']} {column['type']} {constraints_str}")
-
-# Function to query our "database"
-def query_customers(customers, where_condition=None):
-    """Simple query function for our in-memory "database"."""
-    results = []
-
-    for customer in customers:
-        # Apply where condition if provided
-        if where_condition:
-            condition_met = where_condition(customer)
-            if not condition_met:
-                continue
-
-        results.append(customer)
-
-    return results
-
-# Query all active customers (using a lambda function as our where condition)
-active_customers = query_customers(customers, lambda c: c["active"])
-print("\nActive customers:")
-for customer in active_customers:
-    print(f"  {customer['id']}: {customer['name']} ({customer['email']})")
-
-# Query by signup date range
-def signup_in_q1_2022(customer):
-    """Check if customer signed up in Q1 2022."""
-    signup = customer["signup_date"]
-    return signup >= "2022-01-01" and signup <= "2022-03-31"
-
-q1_signups = query_customers(customers, signup_in_q1_2022)
-print("\nCustomers who signed up in Q1 2022:")
-for customer in q1_signups:
-    print(f"  {customer['name']} - {customer['signup_date']}")
-
-# Output (partial):
-# Table schema for: customers
-#   id INTEGER PRIMARY KEY
-#   name VARCHAR(100) PRIMARY KEY, NOT NULL
-#   email VARCHAR(100) UNIQUE, NOT NULL
-#   signup_date DATE
-#   active BOOLEAN DEFAULT True
-#
-# Active customers:
-#   1001: Acme Corp (info@acme.example.com)
-#   1002: Globex Inc (contact@globex.example.com)
-#
-# Customers who signed up in Q1 2022:
-#   Acme Corp - 2022-01-15
-#   Globex Inc - 2022-03-20
-#   Initech - 2022-02-28
+# Iterate over keys and values
+for key, value in product.items():
+    print(f"{key}: {value}")
+# id: 1001
+# name: Widget A
+# price: 24.99
+# in_stock: True
+# category: Electronics
 ```
+
+**Key Points**:
+
+- Access values with `dict[key]` or `dict.get(key)` (returns `None` if key is missing).
+- Dictionaries are mutable and ideal for representing structured data.
+- Use `items()` to iterate over key-value pairs.
+- **Underlying Implementation**: Dictionaries are hash tables, storing key-value pairs with fast lookup via hashing. This makes them efficient for data engineering tasks requiring quick access, like mapping product IDs to details, but memory usage grows with the number of entries.
+- **Performance Considerations**:
+  - **Time Complexity**:
+    - Lookup (e.g., `dict[key]`, `get()`): O(1) average case, O(n) worst case (rare, due to hash collisions), making dictionaries ideal for quick queries in data engineering.
+    - Insertion/Deletion: O(1) average case, efficient for updating records.
+    - Iteration: O(n), where n is the number of key-value pairs, relevant for processing large mappings.
+  - **Space Complexity**:
+    - Storage: O(n), where n is the number of key-value pairs, for the hash table, including overhead for empty slots to reduce collisions.
+    - Operations (e.g., `get()`, insertion): O(1) additional space, as they modify the existing table.
+    - Implication: Higher memory overhead than lists due to hashing, but efficient for fast lookups in large datasets.
+
+### 1.4.3 Tuples
+
+Tuples are ordered, immutable collections.
+
+```python
+# Create a tuple representing a coordinate
+coordinate = (10.5, 20.3)
+
+# Access elements
+x = coordinate[0]
+y = coordinate[1]
+print(f"X: {x}, Y: {y}")
+# X: 10.5, Y: 20.3
+
+# Tuples are immutable
+# Attempting to modify would raise an error: coordinate[0] = 15.0
+print("Note: Tuples cannot be modified after creation.")
+# Note: Tuples cannot be modified after creation.
+```
+
+**Key Points**:
+
+- Tuples are immutable, making them suitable for fixed data.
+- Use for lightweight, constant data structures.
+- **Underlying Implementation**: Tuples are fixed-size arrays, stored in contiguous memory with pointers to objects. Their immutability allows compact storage, useful in data engineering for constant data like configuration settings.
+- **Performance Considerations**:
+  - **Time Complexity**:
+    - Indexing: O(1), fast for accessing elements, similar to lists but with less overhead due to immutability.
+    - Iteration: O(n), where n is the tuple length, efficient for small, fixed datasets.
+    - Creation: O(n), but immutability ensures no resizing, saving memory in data pipelines.
+  - **Space Complexity**:
+    - Storage: O(n), where n is the number of elements, for the fixed-size array storing pointers to objects.
+    - Operations (e.g., indexing): O(1) additional space, as no new structures are created.
+    - Implication: More memory-efficient than lists due to immutability, ideal for fixed data in memory-constrained environments.
+
+### 1.4.4 Sets
+
+Sets store unique, unordered items.
+
+```python
+# Create a set of product categories
+categories = {"Electronics", "Clothing", "Books"}
+
+# Add and remove items
+categories.add("Toys")
+categories.remove("Books")
+print(f"Categories: {categories}")
+# Categories: {'Electronics', 'Clothing', 'Toys'}
+
+# Set operations
+available_categories = {"Electronics", "Toys", "Furniture"}
+common_categories = categories.intersection(available_categories)
+print(f"Common categories: {common_categories}")
+# Common categories: {'Electronics', 'Toys'}
+```
+
+**Key Points**:
+
+- Sets ensure uniqueness (duplicates are automatically removed).
+- Use set operations like `union()`, `intersection()`, and `difference()` for data comparisons.
+- **Underlying Implementation**: Sets are hash tables, similar to dictionaries but storing only keys. This ensures fast membership testing and uniqueness, ideal for data engineering tasks like deduplicating categories or IDs.
+- **Performance Considerations**:
+  - **Time Complexity**:
+    - Membership testing (e.g., `in`): O(1) average case, fast for checking if an item exists in large datasets.
+    - Adding/Removing: O(1) average case, efficient for updating sets.
+    - Set operations (e.g., `intersection`): O(min(len(set1), len(set2))), useful for comparing datasets but slower for very large sets.
+  - **Space Complexity**:
+    - Storage: O(n), where n is the number of elements, for the hash table, including overhead for empty slots.
+    - Operations (e.g., membership, adding): O(1) additional space, as they modify the existing table.
+    - Set operations (e.g., `intersection`): O(min(len(set1), len(set2))) for the output set, impacting memory for large operations.
+    - Implication: Similar memory overhead to dictionaries, efficient for unique data but requires careful management in memory-constrained pipelines.
+
+---
 
 ## 1.5 String Manipulation
 
-Strings are sequences of characters, and Python provides many ways to work with them. String manipulation is essential in data engineering for parsing, formatting, and generating reports.
+Strings are critical for formatting and cleaning data in data engineering.
 
-### String Basics
-
-```python
-# String creation with different quotes - useful for SQL queries and file paths
-sql_query = 'SELECT * FROM customers WHERE signup_date > "2023-01-01"'
-file_path = "C:\\data\\exports\\customers.csv"  # Note the escaped backslashes
-multi_line_query = """
-SELECT
-    customer_id,
-    COUNT(*) as order_count,
-    SUM(order_total) as total_revenue
-FROM
-    orders
-WHERE
-    order_date >= '2023-01-01'
-GROUP BY
-    customer_id
-"""
-
-print("SQL query:", sql_query)
-print("File path:", file_path)
-print("Multi-line query:", multi_line_query)
-
-# String concatenation - common in dynamic SQL generation
-table_name = "customers"
-where_clause = "active = true"
-limit_value = 100
-
-# Building a query dynamically
-dynamic_query = "SELECT * FROM " + table_name + " WHERE " + where_clause + " LIMIT " + str(limit_value)
-print("\nDynamically built query:", dynamic_query)
-# Dynamically built query: SELECT * FROM customers WHERE active = true LIMIT 100
-
-# String repetition - useful for report formatting
-separator_line = "-" * 40
-print(separator_line)  # Prints a line of 40 hyphens
-
-# String indexing and slicing
-timestamp = "2023-03-15T14:30:45.123Z"
-date_part = timestamp[:10]  # "2023-03-15"
-time_part = timestamp[11:19]  # "14:30:45"
-
-print("Full timestamp:", timestamp)
-print("Date part:", date_part)
-print("Time part:", time_part)
-```
-
-### String Methods
+### 1.5.1 Basic String Operations
 
 ```python
-# Common string methods for data cleaning and transformation
-log_entry = "  [ERROR] Database connection failed: timeout after 30s  "
-print("Original log entry:", repr(log_entry))  # Shows whitespace with repr()
-# Original log entry: '  [ERROR] Database connection failed: timeout after 30s  '
+# Create a string
+product_name = "Widget A"
 
-# Removing whitespace - essential for data cleaning
-cleaned_entry = log_entry.strip()
-print("After strip():", repr(cleaned_entry))  # After strip(): '[ERROR] Database connection failed: timeout after 30s'
+# String methods
+uppercase_name = product_name.upper()
+cleaned_name = product_name.strip()  # Remove whitespace
+print(f"Uppercase: {uppercase_name}")
+print(f"Cleaned: {cleaned_name}")
+# Uppercase: WIDGET A
+# Cleaned: Widget A
 
-# Case conversion - helpful for standardization
-standardized_entry = cleaned_entry.upper()
-print("Uppercase:", standardized_entry)  # Uppercase: [ERROR] DATABASE CONNECTION FAILED: TIMEOUT AFTER 30S
-
-# Finding and replacing - common in data transformation
-error_type = "ERROR"
-position = cleaned_entry.find(error_type)
-print(f"Position of '{error_type}':", position)  # Position of 'ERROR': 1
-
-# Replace keywords or fix common typos
-fixed_entry = cleaned_entry.replace("ERROR", "CRITICAL")
-print("After replacement:", fixed_entry)  # After replacement: [CRITICAL] Database connection failed: timeout after 30s
-
-# Splitting strings - common for parsing log entries and CSV data
-parts = cleaned_entry.split(":")
-print("\nSplit by ':':", parts)
-# Split by ':': ['[ERROR] Database connection failed', ' timeout after 30s']
-
-# Common pattern: Extracting log level from a standard log format
-if cleaned_entry.startswith("["):
-    log_level = cleaned_entry[1:cleaned_entry.find("]")]
-    message = cleaned_entry[cleaned_entry.find("]")+2:]  # +2 to skip "] "
-    print(f"Log level: {log_level}, Message: {message}")
-    # Log level: ERROR, Message: Database connection failed: timeout after 30s
-
-# Joining strings - useful for building CSV lines or combining path elements
-fields = ["2023-03-15", "SYSTEM", "Database", "Connection established"]
-log_line = " | ".join(fields)
-print("\nJoined log line:", log_line)
-# Joined log line: 2023-03-15 | SYSTEM | Database | Connection established
-
-# Common data cleaning: Handling inconsistent field separators
-raw_data = "customer_id=1001;name=Acme Corp;  status=active"
-# First, standardize separators
-standardized = raw_data.replace(";", ",").replace("=", ":")
-print("Standardized format:", standardized)
-# Standardized format: customer_id:1001,name:Acme Corp,  status:active
-
-# Then parse into key-value pairs
-field_pairs = standardized.split(",")
-record = {}
-for pair in field_pairs:
-    if ":" in pair:
-        key, value = pair.split(":", 1)
-        record[key.strip()] = value.strip()
-
-print("Parsed record:", record)
-# Parsed record: {'customer_id': '1001', 'name': 'Acme Corp', 'status': 'active'}
+# Concatenation
+description = product_name + " - High Quality"
+print(f"Description: {description}")
+# Description: Widget A - High Quality
 ```
 
-### f-strings (formatted string literals)
+**Key Points**:
 
-f-strings provide an easy way to embed expressions inside string literals, extremely useful for report generation and log formatting.
+- Common string methods: `upper()`, `lower()`, `strip()`, `replace()`, `split()`.
+- Concatenate strings with `+` or use f-strings for formatting.
+
+### 1.5.2 F-Strings for Formatting
 
 ```python
-# Basic f-string usage with database fields
-record_id = 1001
-status = "active"
-last_updated = "2023-03-15"
+# Format data using f-strings
+product_id = 1001
+price = 19.99
+quantity = 3
 
-log_message = f"Record {record_id} is {status}, last updated on {last_updated}"
-print(log_message)  # Record 1001 is active, last updated on 2023-03-15
-
-# F-strings with expressions - useful for reporting
-row_count = 45678
-batch_size = 1000
-estimated_batches = (row_count + batch_size - 1) // batch_size  # Ceiling division
-
-progress_report = f"""
-Data Processing Summary:
-=======================
-Total records:     {row_count:,}
-Batch size:        {batch_size:,}
-Estimated batches: {estimated_batches:,}
-Completion:        {(row_count / 50000) * 100:.1f}%
-"""
-print(progress_report)
-# Data Processing Summary:
-# =======================
-# Total records:     45,678
-# Batch size:        1,000
-# Estimated batches: 46
-# Completion:        91.4%
-
-# F-strings with dictionaries - perfect for record formatting
-user = {
-    "id": "user123",
-    "name": "Alice Johnson",
-    "role": "Data Analyst",
-    "access_level": 3,
-    "last_login": "2023-03-14T09:23:51Z"
-}
-
-user_info = f"""
-USER PROFILE: {user['name']}
-------------------------
-ID:          {user['id']}
-Role:        {user['role']}
-Access:      {'Admin' if user['access_level'] >= 5 else 'Standard'}
-Last Login:  {user['last_login']}
-"""
-print(user_info)
-# USER PROFILE: Alice Johnson
-# ------------------------
-# ID:          user123
-# Role:        Data Analyst
-# Access:      Standard
-# Last Login:  2023-03-14T09:23:51Z
-
-# Formatting numbers in different ways
-value = 123456.78
-print(f"Default:       {value}")           # Default:       123456.78
-print(f"With commas:   {value:,}")         # With commas:   123,456.78
-print(f"Two decimals:  {value:.2f}")       # Two decimals:  123456.78
-print(f"Percentage:    {value/1000000:.2%}")  # Percentage:    12.35%
+summary = f"Product ID: {product_id}, Total: ${price * quantity:.2f}"
+print(summary)
+# Product ID: 1001, Total: $59.97
 ```
 
-## 1.6 Standard Library Modules
+**Key Points**:
 
-Python's standard library provides many useful modules for common tasks. Here are some essential ones for data engineering:
+- F-strings (`f"..."`) allow embedding expressions inside strings.
+- Use format specifiers (e.g., `.2f`) for precise number formatting.
 
-### Basic Import Syntax
+---
 
-```python
-# Importing an entire module
-import math
-
-# Now we can use functions from the math module with dot notation
-result = math.sqrt(16)
-print(f"The square root of 16 is: {result}")  # The square root of 16 is: 4.0
-
-# We can also use constants from the module
-print(f"The value of pi is approximately: {math.pi}")  # The value of pi is approximately: 3.141592653589793
-```
-
-### Importing Specific Items
-
-```python
-# Importing specific functions or constants from a module
-from math import sqrt, pi
-
-# Now we can use these directly without the module name
-result = sqrt(16)
-print(f"The square root of 16 is: {result}")  # The square root of 16 is: 4.0
-print(f"The value of pi is approximately: {pi}")  # The value of pi is approximately: 3.141592653589793
-```
-
-### Renaming Imports
-
-```python
-# Renaming modules or functions during import
-import math as m
-from datetime import datetime as dt
-
-# Now we use the shorter names
-print(f"The square root of 25 is: {m.sqrt(25)}")  # The square root of 25 is: 5.0
-print(f"The current time is: {dt.now().strftime('%H:%M:%S')}")  # The current time is: 14:35:22  (time will vary)
-```
-
-### Common Modules for Data Engineering
-
-```python
-# The datetime module for working with dates and times
-from datetime import datetime, timedelta
-
-current_time = datetime.now()
-print(f"Current time: {current_time}")  # Current time: 2023-08-15 14:36:45.123456 (will vary)
-
-yesterday = current_time - timedelta(days=1)
-print(f"Yesterday: {yesterday}")  # Yesterday: 2023-08-14 14:36:45.123456 (will vary)
-
-# Format dates for output
-formatted_date = current_time.strftime("%Y-%m-%d")
-print(f"Formatted date: {formatted_date}")  # Formatted date: 2023-08-15 (will vary)
-
-# Parse date strings
-date_str = "2023-01-15"
-parsed_date = datetime.strptime(date_str, "%Y-%m-%d")
-print(f"Parsed date: {parsed_date}")  # Parsed date: 2023-01-15 00:00:00
-
-# The os module for interacting with the operating system
-import os
-
-# Get the current working directory
-cwd = os.getcwd()
-print(f"\nCurrent working directory: {cwd}")  # Current working directory: /your/current/directory
-
-# List files in the current directory (showing first 3)
-files = os.listdir('.')
-print(f"Files in current directory: {files[:3] if len(files) > 3 else files}")
-
-# Join paths in a platform-independent way
-data_dir = os.path.join("data", "processed", "2023")
-print(f"Platform-independent path: {data_dir}")  # Platform-independent path: data/processed/2023
-
-# The math module for mathematical operations
-import math
-
-# Calculate how many batches we'll need (ceiling division)
-total_records = 1000
-batch_size = 32
-num_batches = math.ceil(total_records / batch_size)
-print(f"\nProcessing {total_records} records in batches of {batch_size}:")
-print(f"Total batches needed: {num_batches}")  # Total batches needed: 32
-
-# Statistical functions
-values = [28.5, 32.1, 29.7, 30.5, 27.8]
-average = sum(values) / len(values)
-variance = sum((x - average) ** 2 for x in values) / len(values)
-std_dev = math.sqrt(variance)
-
-print(f"\nStatistics for data sample:")
-print(f"Average: {average:.2f}")  # Average: 29.72
-print(f"Standard deviation: {std_dev:.2f}")  # Standard deviation: 1.60
-```
-
-### Import Best Practices
-
-1. **Place imports at the top of the file**: Makes dependencies clear
-2. **Group imports**: Standard library first, then third-party modules, then local modules
-3. **Avoid `from module import *`**: Makes it unclear where functions come from
-4. **Use specific imports**: Only import what you need for cleaner namespace
-
-### Database-Specific Example
-
-```python
-# Building a database URL using components
-import os
-from urllib.parse import quote_plus  # For handling special characters in URLs
-
-def build_database_url(db_type, host, port, database, user=None, password=None):
-    """
-    Build a database URL string.
-
-    Args:
-        db_type: Database type (e.g., postgresql, mysql)
-        host: Database host
-        port: Database port
-        database: Database name
-        user: Username (optional)
-        password: Password (optional)
-
-    Returns:
-        URL string for database connection
-    """
-    # Build authentication part if credentials are provided
-    auth = ""
-    if user:
-        if password:
-            # Quote password to handle special characters
-            auth = f"{user}:{quote_plus(password)}@"
-        else:
-            auth = f"{user}@"
-
-    # Assemble the URL
-    url = f"{db_type}://{auth}{host}:{port}/{database}"
-    return url
-
-# Example usage
-host = "db.example.com"
-database = "customer_data"
-user = "db_user"
-password = "Secret@123"  # In real code, get from environment or secure storage
-
-# Build and print the URL (masking password)
-url = build_database_url("postgresql", host, 5432, database, user, password)
-safe_url = url.replace(quote_plus(password), "******")
-print(f"\nDatabase URL: {safe_url}")
-# Database URL: postgresql://db_user:******@db.example.com:5432/customer_data
-
-# In production, you'd typically get credentials from environment variables
-def get_db_url_from_env():
-    """Get database URL from environment variables."""
-    db_type = os.environ.get("DB_TYPE", "postgresql")
-    host = os.environ.get("DB_HOST", "localhost")
-    port = os.environ.get("DB_PORT", "5432")
-    database = os.environ.get("DB_NAME", "app")
-    user = os.environ.get("DB_USER")
-    password = os.environ.get("DB_PASSWORD")
-
-    return build_database_url(db_type, host, port, database, user, password)
-
-# We won't actually run this in our example as it depends on environment variables
-print("In production, use environment variables for database credentials.")
-```
-
-## 1.7 Common Troubleshooting Guide
-
-When working with Python, especially in data engineering contexts, you'll encounter common errors. Here's a quick reference for troubleshooting:
-
-### Syntax Errors
-
-| Problem                                          | Possible Cause                         | Solution                                                    |
-| ------------------------------------------------ | -------------------------------------- | ----------------------------------------------------------- |
-| `SyntaxError: invalid syntax`                    | Missing parentheses, quotes, or colons | Check line for missing syntax elements                      |
-| `IndentationError`                               | Inconsistent indentation               | Use consistent indentation (4 spaces per level recommended) |
-| `SyntaxError: EOL while scanning string literal` | Unclosed string (missing quote)        | Ensure all strings have closing quotes                      |
-
-### Type Errors
-
-| Problem                                                  | Possible Cause                                        | Solution                                                        |
-| -------------------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
-| `TypeError: can only concatenate str (not "int") to str` | Mixing strings and numbers                            | Convert numbers to strings before concatenation (`str(number)`) |
-| `TypeError: 'NoneType' object is not subscriptable`      | Trying to index None as if it were a list or dict     | Check if variable is None before indexing                       |
-| `TypeError: 'dict' object is not callable`               | Using parentheses with dictionary instead of brackets | Use square brackets for dict access: `dict_var[key]`            |
-
-### Logic Errors
-
-| Problem                  | Possible Cause                         | Solution                                                         |
-| ------------------------ | -------------------------------------- | ---------------------------------------------------------------- |
-| Unexpected output values | Logic error in calculations            | Add print statements to debug calculations step by step          |
-| Infinite loop            | Loop condition never becomes False     | Ensure loop has a proper exit condition                          |
-| List not being modified  | Creating new list instead of modifying | Use in-place methods (append, extend) or assign back to variable |
-
-### Performance Issues
-
-| Problem                            | Possible Cause                        | Solution                                                |
-| ---------------------------------- | ------------------------------------- | ------------------------------------------------------- |
-| Script runs slowly with large data | Inefficient loops or algorithms       | Use list comprehensions, more efficient data structures |
-| Memory usage grows over time       | Accumulating data without cleaning up | Process data in chunks, avoid storing entire dataset    |
-| Slow string building in loops      | Using += for string concatenation     | Use list of strings and join() at the end               |
-
-## 1.8 Performance Considerations for Data Engineering
-
-When processing large volumes of data, performance becomes critical. Here are key considerations:
-
-### Efficient List Operations
-
-```python
-# Benchmark different list creation approaches
-import time
-
-# Measure performance of different approaches
-def benchmark_list_creation(size):
-    """Compare different ways to create a list of squares."""
-    print(f"Benchmarking list creation methods for {size} elements:")
-
-    # Approach 1: Growing a list with append in loop
-    start = time.time()
-    result1 = []
-    for i in range(size):
-        result1.append(i ** 2)
-    time1 = time.time() - start
-    print(f"  Append in loop:     {time1:.6f} seconds")
-
-    # Approach 2: Pre-allocate and assign
-    start = time.time()
-    result2 = [0] * size
-    for i in range(size):
-        result2[i] = i ** 2
-    time2 = time.time() - start
-    print(f"  Pre-allocate:       {time2:.6f} seconds")
-
-    # Approach 3: List comprehension
-    start = time.time()
-    result3 = [i ** 2 for i in range(size)]
-    time3 = time.time() - start
-    print(f"  List comprehension: {time3:.6f} seconds")
-
-    return time1, time2, time3
-
-# Run benchmark with moderate size for demonstration
-times = benchmark_list_creation(100000)
-
-# Calculate relative performance
-fastest = min(times)
-print("\nRelative performance (lower is better):")
-print(f"  Append in loop:     {times[0]/fastest:.2f}x")
-print(f"  Pre-allocate:       {times[1]/fastest:.2f}x")
-print(f"  List comprehension: {times[2]/fastest:.2f}x")
-
-# Output (will vary by system):
-# Benchmarking list creation methods for 100000 elements:
-#   Append in loop:     0.012345 seconds
-#   Pre-allocate:       0.009876 seconds
-#   List comprehension: 0.005432 seconds
-#
-# Relative performance (lower is better):
-#   Append in loop:     2.27x
-#   Pre-allocate:       1.82x
-#   List comprehension: 1.00x
-```
-
-### Dictionary Lookups vs. List Searches
-
-```python
-import time
-import random
-
-# Create test data
-size = 10000
-test_data = list(range(size))
-random.shuffle(test_data)  # Randomize order
-
-# Create a dictionary for lookups
-lookup_dict = {value: index for index, value in enumerate(test_data)}
-
-# Define a function to find a value in a list
-def find_in_list(data_list, value):
-    for item in data_list:
-        if item == value:
-            return True
-    return False
-
-# Benchmark lookups
-def benchmark_lookups(num_lookups):
-    """Compare dictionary lookups vs list searches."""
-    print(f"Benchmarking {num_lookups} lookups in list vs dictionary:")
-
-    # Generate lookup values (mix of hits and misses)
-    lookup_values = [random.randint(0, size * 2) for _ in range(num_lookups)]
-
-    # List search
-    start = time.time()
-    list_results = [find_in_list(test_data, value) for value in lookup_values]
-    list_time = time.time() - start
-    print(f"  List search time:   {list_time:.6f} seconds")
-
-    # Dictionary lookup
-    start = time.time()
-    dict_results = [value in lookup_dict for value in lookup_values]
-    dict_time = time.time() - start
-    print(f"  Dict lookup time:   {dict_time:.6f} seconds")
-    print(f"  Dictionary is {list_time/dict_time:.1f}x faster")
-
-    return list_time, dict_time
-
-# Run benchmark
-benchmark_lookups(1000)
-
-# Output (will vary by system):
-# Benchmarking 1000 lookups in list vs dictionary:
-#   List search time:   0.112345 seconds
-#   Dict lookup time:   0.000321 seconds
-#   Dictionary is 349.7x faster
-
-print("\nKey Data Engineering Takeaway:")
-print("Use dictionaries for lookups when you have a large collection and need to frequently check if values exist.")
-```
-
-### Memory Management
-
-```python
-# Python's memory usage can be a concern when processing large datasets
-import sys
-
-# Demonstrate memory usage of different data structures
-integers = list(range(10000))
-floats = [float(i) for i in range(10000)]
-strings = [str(i) for i in range(10000)]
-
-print("Memory usage comparison:")
-print(f"  List of 10000 integers: {sys.getsizeof(integers)} bytes")
-print(f"  List of 10000 floats:   {sys.getsizeof(floats)} bytes")
-print(f"  List of 10000 strings:  {sys.getsizeof(strings)} bytes")
-
-# Note that getsizeof doesn't account for the size of elements themselves
-# Let's check a few individual elements
-print("\nIndividual element sizes:")
-print(f"  Integer (42):        {sys.getsizeof(42)} bytes")
-print(f"  Float (42.0):        {sys.getsizeof(42.0)} bytes")
-print(f"  String ('42'):       {sys.getsizeof('42')} bytes")
-print(f"  String ('hello'):    {sys.getsizeof('hello')} bytes")
-
-print("\nMemory Management Tips:")
-print("1. Process large datasets in chunks rather than loading everything into memory")
-print("2. Use generators instead of lists when possible to avoid storing all data at once")
-print("3. Consider specialized libraries like NumPy for numerical data")
-print("4. Release references to large objects when no longer needed")
-```
-
-## 1.9 Micro-Project: Sales Data Analyzer
-
-In this micro-project, we'll analyze sales data by creating a Python script that calculates key metrics from a dataset.
+## 1.6 Micro-Project: Sales Data Analyzer
 
 ### Project Requirements
 
-1. Read a dataset containing sales records
-2. Calculate key metrics:
-   - Total sales
-   - Average order value
-   - Top selling product
-3. Handle basic data cleaning and validation
-4. Generate formatted output showing the results
+Create a Python script that processes a sales dataset (stored as an in-memory list of dictionaries), calculates key metrics (total sales, average order value, top-selling product), and generates formatted output. This project applies the concepts from this chapter: data structures, functions, control flow, and string manipulation.
 
 ### Acceptance Criteria
 
-- Script runs without errors when provided with sample data
-- Correctly calculates all required statistics
-- Properly handles edge cases (missing data, invalid entries)
-- Uses appropriate Python data structures (lists, dictionaries)
-- Includes comments explaining the code's functionality
-- Produces readable, formatted output
+- **Go Criteria**:
 
-### Common Pitfalls and Solutions
+  - Script runs without errors when provided the dataset.
+  - Correctly calculates total sales, average order value, and identifies the top-selling product.
+  - Handles edge cases (missing data, invalid entries).
+  - Uses appropriate Python data structures (lists, dictionaries).
+  - Includes comments explaining the code’s functionality.
+  - Produces readable, formatted output.
 
-1. **String vs. numeric data confusion**:
+- **No-Go Criteria**:
+  - Script crashes on invalid data.
+  - Incorrect statistical calculations.
+  - No handling for missing or malformed data.
+  - Lack of comments explaining the processing logic.
+  - Disorganized or unreadable output format.
 
-   - Remember that data in files or user input is often stored as strings
-   - Convert strings to numeric types before performing calculations
-   - Use explicit conversion: `int()`, `float()`
+### Common Pitfalls to Avoid
 
-2. **Not checking for invalid data**:
+1. **Missing Dictionary Fields**:
 
-   - Always verify data is valid before using it in calculations
-   - Check for empty strings, zero quantities, or values that can't be converted to numbers
+   - **Problem**: The dataset may have dictionaries missing required fields (e.g., `product`, `price`, `quantity`), causing errors in calculations.
+   - **Solution**: Validate that all required fields are present before processing each record.
 
-3. **Using incorrect aggregation logic**:
-   - Pay attention to how totals and averages should be calculated
-   - For average order value, divide total revenue by number of orders, not number of items
+2. **String vs. Numeric Data Confusion**:
 
-### Implementation
+   - **Problem**: Data values (e.g., `price`, `quantity`) are stored as strings, leading to errors in calculations.
+   - **Solution**: Validate and convert strings to numbers before calculations.
 
-First, let's create a sample dataset:
+3. **Invalid Entries**:
 
-```python
-# Sample sales data (normally this would come from a CSV file)
-# Format: [order_id, product_name, quantity, price_per_unit, date]
-sales_data = [
-    ["1001", "Laptop", "2", "999.99", "2023-01-15"],
-    ["1002", "Mouse", "10", "24.99", "2023-01-16"],
-    ["1003", "Keyboard", "5", "49.99", "2023-01-16"],
-    ["1004", "Monitor", "3", "149.99", "2023-01-17"],
-    ["1005", "Laptop", "1", "999.99", "2023-01-18"],
-    ["1006", "Headphones", "4", "59.99", "2023-01-18"],
-    ["1007", "Mouse", "5", "24.99", "2023-01-19"],
-    ["1008", "", "2", "29.99", "2023-01-19"],  # Missing product name
-    ["1009", "Keyboard", "0", "49.99", "2023-01-20"],  # Zero quantity
-    ["1010", "Monitor", "2", "invalid_price", "2023-01-20"],  # Invalid price
-    ["1011", "Laptop", "1", "899.99", "2023-01-21"]
-]
+   - **Problem**: Invalid data (e.g., non-numeric prices or zero quantities) affects calculations.
+   - **Solution**: Check data validity before processing using string methods.
 
-print("Sample of sales data (first 3 records):")
-for i in range(3):
-    print(f"  Record {i+1}: {sales_data[i]}")
-# Sample of sales data (first 3 records):
-#   Record 1: ['1001', 'Laptop', '2', '999.99', '2023-01-15']
-#   Record 2: ['1002', 'Mouse', '10', '24.99', '2023-01-16']
-#   Record 3: ['1003', 'Keyboard', '5', '49.99', '2023-01-16']
-```
-
-Now, let's write the analysis function:
-
-```python
-def analyze_sales_data(sales_data):
-    """
-    Analyze the provided sales data and return key metrics.
-
-    Args:
-        sales_data: A list of sales records
-
-    Returns:
-        A dictionary containing calculated metrics
-    """
-    # Initialize variables to track metrics
-    total_sales = 0
-    valid_orders = 0
-    product_sales = {}  # Dictionary to track sales by product
-
-    # Process each sales record
-    for record in sales_data:
-        order_id, product_name, quantity_str, price_str, date = record
-
-        # Basic data validation
-        if not product_name:  # Check for missing product name
-            print(f"Warning: Missing product name in order {order_id}. Skipping.")
-            continue
-
-        # Check and convert quantity
-        try:
-            quantity = int(quantity_str)
-        except ValueError:
-            print(f"Warning: Invalid quantity in order {order_id}. Skipping.")
-            continue
-
-        # Skip records with zero or negative quantity
-        if quantity <= 0:
-            print(f"Warning: Zero or negative quantity in order {order_id}. Skipping.")
-            continue
-
-        # Check and convert price
-        try:
-            price = float(price_str)
-        except ValueError:
-            print(f"Warning: Invalid price format in order {order_id}. Skipping.")
-            continue
-
-        # Calculate the order value
-        order_value = quantity * price
-
-        # Update total sales
-        total_sales += order_value
-        valid_orders += 1
-
-        # Update product sales dictionary
-        if product_name in product_sales:
-            product_sales[product_name] += order_value
-        else:
-            product_sales[product_name] = order_value
-
-    # Calculate the average order value
-    if valid_orders > 0:
-        average_order_value = total_sales / valid_orders
-    else:
-        average_order_value = 0
-
-    # Find the top selling product
-    top_product = ""
-    top_product_sales = 0
-
-    for product, sales in product_sales.items():
-        if sales > top_product_sales:
-            top_product = product
-            top_product_sales = sales
-
-    # Return the calculated metrics
-    return {
-        "total_sales": total_sales,
-        "average_order_value": average_order_value,
-        "valid_orders": valid_orders,
-        "top_product": top_product,
-        "top_product_sales": top_product_sales,
-        "product_sales": product_sales
-    }
-```
-
-Let's create a helper function to format currency values:
-
-```python
-def format_as_currency(amount):
-    """Format a number as currency with $ symbol and 2 decimal places."""
-    return f"${amount:.2f}"
-```
-
-Finally, let's run the analysis and display the results:
-
-```python
-# Analyze the sales data
-print("\nAnalyzing sales data...")
-results = analyze_sales_data(sales_data)
-
-# Display the results
-print("\nAnalysis Results:")
-print(f"Total Sales: {format_as_currency(results['total_sales'])}")  # e.g., Total Sales: $4,419.70
-print(f"Number of Valid Orders: {results['valid_orders']}")          # e.g., Number of Valid Orders: 8
-print(f"Average Order Value: {format_as_currency(results['average_order_value'])}")  # e.g., Average Order Value: $552.46
-
-print(f"\nTop Selling Product: {results['top_product']}")  # e.g., Top Selling Product: Laptop
-print(f"Top Product Sales: {format_as_currency(results['top_product_sales'])}")  # e.g., Top Product Sales: $2,899.97
-
-print("\nSales by Product:")
-for product, sales in sorted(results["product_sales"].items()):
-    print(f"  - {product}: {format_as_currency(sales)}")
-# Sales by Product:
-#   - Headphones: $239.96
-#   - Keyboard: $249.95
-#   - Laptop: $2,899.97
-#   - Monitor: $449.97
-#   - Mouse: $374.85
-
-# Generate a formatted report
-report = f"""
-SALES DATA ANALYSIS REPORT
-===========================
-
-Total Sales: {format_as_currency(results["total_sales"])}
-Number of Valid Orders: {results["valid_orders"]}
-Average Order Value: {format_as_currency(results["average_order_value"])}
-
-Top Selling Product: {results["top_product"]}
-Top Product Sales: {format_as_currency(results["top_product_sales"])}
-
-Sales by Product:
-"""
-
-# Add each product's sales to the report
-for product, sales in sorted(results["product_sales"].items()):
-    report += f"  - {product}: {format_as_currency(sales)}\n"
-
-# Print the report
-print("\nFinal formatted report:")
-print(report)
-"""
-Final formatted report:
-
-SALES DATA ANALYSIS REPORT
-===========================
-
-Total Sales: $4,214.70
-Number of Valid Orders: 8
-Average Order Value: $526.84
-
-Top Selling Product: Laptop
-Top Product Sales: $2,899.97
-
-Sales by Product:
-  - Headphones: $239.96
-  - Keyboard: $249.95
-  - Laptop: $2,899.97
-  - Monitor: $449.97
-  - Mouse: $374.85
-"""
-```
+4. **Limited String-Based Validation**:
+   - **Problem**: Checking if a string represents a number (e.g., for prices) can miss some invalid cases, as string methods are less robust than error handling.
+   - **Solution**: Use careful string checks in Chapter 1; Chapter 2 introduces more robust methods for handling invalid data.
 
 ### How This Differs from Production-Grade Solutions
 
-In a real-world data engineering scenario, our solution would differ in several ways:
+In a production environment, this solution would include:
 
-1. **Data Source**:
+- **Robust Error Handling**: Comprehensive exception handling (covered in Chapter 2).
+- **Logging**: Structured logging to track execution (Chapter 2).
+- **File Integration**: Processing data from files instead of in-memory structures (Chapter 2).
+- **Testing**: Unit tests to verify calculations (Chapter 9).
+- **Scalability**: Handling large datasets efficiently (Chapter 3 with Pandas).
 
-   - Production: Data would be read from files, databases, or APIs
-   - Micro-project: Using in-memory data
-
-2. **Error Handling**:
-
-   - Production: Comprehensive error handling with detailed logging
-   - Micro-project: Basic warnings printed to console
-
-3. **Performance Optimization**:
-
-   - Production: Optimized for large datasets using efficient algorithms
-   - Micro-project: Simple loops and basic data structures
-
-4. **Output Formats**:
-
-   - Production: Multiple output formats (JSON, CSV, database) and dashboards
-   - Micro-project: Simple console output and text report
-
-5. **Monitoring**:
-   - Production: Metrics on processing time, error rates, and data quality
-   - Micro-project: No monitoring implementation
-
-### How to Run and Test the Solution
-
-To run this solution:
-
-1. Copy the entire code (all sections) to a Python file (e.g., `sales_analyzer.py`)
-2. Run the file using Python: `python sales_analyzer.py`
-3. The script will process the sample data, display warnings for invalid entries, and generate a formatted report of the sales metrics
-
-To test with different data:
-
-- Modify the `sales_data` list to include different products, quantities, and prices
-- Add more test cases with invalid data to verify error handling
-- Check if the calculations change appropriately with the modified data
-
-## 1.10 Practice Exercises
-
-Reinforce your Python fundamentals with these exercises:
-
-### Exercise 1: Basic Data Types and Functions
-
-Create a function to calculate the total price of items in a shopping cart:
-
-- Takes parameters for a list of prices and a tax rate
-- Returns the total including tax
-- Test it with different inputs
-
-### Exercise 2: Data Transformation
-
-Write a function that:
-
-- Takes a list of product dictionaries (each with 'name' and 'price' keys)
-- Returns a list of only the products with prices greater than $50
-- Use a traditional for loop with appropriate conditionals
-
-### Exercise 3: Data Structures
-
-Create a program that tracks daily sales using:
-
-- A dictionary with dates as keys
-- Lists of products sold as values
-- Functions to add sales and calculate daily totals
-
-### Exercise 4: Standard Library Challenge
-
-Write a program using the datetime module that:
-
-- Calculates and prints the current day of the week
-- Determines the number of days until the end of the current month
-- Formats the current date in "Month Day, Year" format
-
-### Challenge Exercise: Enhanced Sales Analyzer
-
-Extend the Sales Data Analyzer micro-project to:
-
-- Create a filtered list of valid sales records using traditional loops
-- Group sales by product using a dictionary
-- Format the output using string formatting
-
-## 1.11 Exercise Solutions
-
-### Solution to Exercise 1: Basic Data Types and Functions
+### Implementation
 
 ```python
-def calculate_cart_total(prices, tax_rate):
+# Function to provide sales data as an in-memory list of dictionaries
+def read_sales_data():
     """
-    Calculate the total price of items including tax.
-
-    Args:
-        prices: A list of prices
-        tax_rate: The tax rate as a decimal (e.g., 0.08 for 8%)
-
-    Returns:
-        The total price including tax
+    Return a list of dictionaries representing sales data.
+    Each dictionary contains product, price, and quantity.
     """
-    # Calculate subtotal by adding all prices
-    subtotal = 0
-    for price in prices:
-        subtotal = subtotal + price
+    sales = [
+        {'product': 'Laptop', 'price': '999.99', 'quantity': '2'},
+        {'product': 'Mouse', 'price': '24.99', 'quantity': '10'},
+        {'product': 'Keyboard', 'price': '49.99', 'quantity': '5'},
+        {'product': '', 'price': '29.99', 'quantity': '3'},  # Missing product
+        {'product': 'Monitor', 'price': 'invalid', 'quantity': '2'},  # Invalid price
+        {'product': 'Headphones', 'price': '59.99', 'quantity': '0'},  # Zero quantity
+        {'product': 'Laptop', 'price': '899.99', 'quantity': '1'}
+    ]
+    return sales
 
-    # Calculate tax amount
-    tax_amount = subtotal * tax_rate
-
-    # Calculate total
-    total = subtotal + tax_amount
-
-    return total
-
-# Test with different inputs
-cart1 = [10.99, 24.50, 5.95]
-tax_rate1 = 0.08  # 8% tax
-
-cart2 = [199.99, 99.50, 50.00, 17.85]
-tax_rate2 = 0.06  # 6% tax
-
-# Calculate and display results
-total1 = calculate_cart_total(cart1, tax_rate1)
-print(f"Cart 1 Items: {cart1}")  # Cart 1 Items: [10.99, 24.5, 5.95]
-print(f"Tax Rate: {tax_rate1 * 100}%")  # Tax Rate: 8.0%
-print(f"Total with tax: ${total1:.2f}")  # Total with tax: $44.80
-
-total2 = calculate_cart_total(cart2, tax_rate2)
-print(f"\nCart 2 Items: {cart2}")  # Cart 2 Items: [199.99, 99.5, 50.0, 17.85]
-print(f"Tax Rate: {tax_rate2 * 100}%")  # Tax Rate: 6.0%
-print(f"Total with tax: ${total2:.2f}")  # Total with tax: $389.58
-```
-
-### Solution to Exercise 2: Data Transformation
-
-```python
-def find_expensive_products(products, min_price):
+# Function to validate and clean a sale record
+def validate_sale(sale):
     """
-    Find products with prices greater than the minimum price using a traditional loop.
-
-    Args:
-        products: A list of product dictionaries with 'name' and 'price' keys
-        min_price: The minimum price threshold
-
-    Returns:
-        A list of products with prices greater than min_price
+    Validate that price and quantity are numeric and positive.
+    Returns True if valid, False otherwise.
     """
-    expensive_products = []
-
-    for product in products:
-        if product["price"] > min_price:
-            expensive_products.append(product)
-
-    return expensive_products
-
-# Test data
-product_list = [
-    {"name": "Laptop", "price": 999.99},
-    {"name": "Mouse", "price": 24.99},
-    {"name": "Keyboard", "price": 49.99},
-    {"name": "Monitor", "price": 149.99},
-    {"name": "Headphones", "price": 79.99}
-]
-
-# Find products over $50
-min_price = 50.0
-
-# Using traditional loop
-expensive_products = find_expensive_products(product_list, min_price)
-print(f"Products over ${min_price}:")
-for product in expensive_products:
-    print(f"  - {product['name']}: ${product['price']}")
-# Products over $50.0:
-#   - Laptop: $999.99
-#   - Monitor: $149.99
-#   - Headphones: $79.99
-
-# Count expensive products
-num_expensive = len(expensive_products)
-print(f"\nNumber of products over ${min_price}: {num_expensive}")
-# Number of products over $50.0: 3
-```
-
-### Solution to Exercise 3: Data Structures
-
-```python
-def create_sales_tracker():
-    """Create and return an empty sales tracking dictionary."""
-    return {}
-
-def add_sale(sales_tracker, date, product):
-    """
-    Add a product sale to the given date.
-
-    Args:
-        sales_tracker: The sales tracking dictionary
-        date: The date of the sale (string)
-        product: The product that was sold
-    """
-    # If the date already exists in the tracker, append to its list
-    if date in sales_tracker:
-        sales_tracker[date].append(product)
-    # Otherwise, create a new list with this product
-    else:
-        sales_tracker[date] = [product]
-
-    return sales_tracker
-
-def calculate_daily_totals(sales_tracker):
-    """
-    Calculate the number of sales for each day.
-
-    Args:
-        sales_tracker: The sales tracking dictionary
-
-    Returns:
-        A dictionary with dates as keys and total sales as values
-    """
-    daily_totals = {}
-
-    for date, products in sales_tracker.items():
-        daily_totals[date] = len(products)
-
-    return daily_totals
-
-# Test the sales tracker
-tracker = create_sales_tracker()
-print("Initial sales tracker:", tracker)  # Initial sales tracker: {}
-
-# Add some sales
-tracker = add_sale(tracker, "2023-01-15", "Laptop")
-tracker = add_sale(tracker, "2023-01-15", "Mouse")
-tracker = add_sale(tracker, "2023-01-16", "Keyboard")
-tracker = add_sale(tracker, "2023-01-17", "Monitor")
-tracker = add_sale(tracker, "2023-01-17", "Headphones")
-tracker = add_sale(tracker, "2023-01-17", "Mouse")
-
-print("\nSales tracker after adding sales:")
-for date, products in tracker.items():
-    print(f"  {date}: {products}")
-# Sales tracker after adding sales:
-#   2023-01-15: ['Laptop', 'Mouse']
-#   2023-01-16: ['Keyboard']
-#   2023-01-17: ['Monitor', 'Headphones', 'Mouse']
-
-# Calculate daily totals
-totals = calculate_daily_totals(tracker)
-print("\nDaily sales totals:")
-for date, total in totals.items():
-    print(f"  {date}: {total} items")
-# Daily sales totals:
-#   2023-01-15: 2 items
-#   2023-01-16: 1 items
-#   2023-01-17: 3 items
-```
-
-### Solution to Exercise 4: Standard Library Challenge
-
-```python
-import datetime
-
-# Get current date
-current_date = datetime.datetime.now()
-print(f"Current date and time: {current_date}")  # Current date and time: 2023-04-17 15:45:30.123456 (will vary)
-
-# 1. Calculate and print the current day of the week
-day_of_week = current_date.strftime("%A")  # %A gives full weekday name
-print(f"1. Current day of the week: {day_of_week}")  # 1. Current day of the week: Monday (will vary)
-
-# 2. Determine number of days until the end of the current month
-# First, get the last day of the current month
-year = current_date.year
-month = current_date.month
-
-# To get the last day of the month, we'll use the first day of next month and subtract one day
-if month == 12:  # December
-    next_month = datetime.datetime(year + 1, 1, 1)  # January 1 of next year
-else:
-    next_month = datetime.datetime(year, month + 1, 1)  # First day of next month
-
-last_day_of_month = next_month - datetime.timedelta(days=1)
-days_remaining = last_day_of_month.day - current_date.day
-
-print(f"2. Days until the end of {current_date.strftime('%B')}: {days_remaining}")
-# 2. Days until the end of April: 13 (will vary)
-
-# 3. Format the current date as "Month Day, Year"
-formatted_date = current_date.strftime("%B %d, %Y")
-print(f"3. Formatted date: {formatted_date}")  # 3. Formatted date: April 17, 2023 (will vary)
-```
-
-### Solution to Challenge Exercise: Enhanced Sales Analyzer
-
-```python
-def is_valid_record(record):
-    """Check if a sales record is valid."""
-    order_id, product_name, quantity_str, price_str, date = record
-
-    # Check for missing product name
-    if not product_name:
+    # Check if required fields exist
+    if not all(key in sale for key in ['product', 'price', 'quantity']):
         return False
 
-    # Check if quantity is a valid number
-    try:
-        quantity = int(quantity_str)
-    except ValueError:
+    # Check if product is non-empty
+    if not sale['product'].strip():
         return False
 
-    # Check for zero or negative quantity
-    if quantity <= 0:
+    # Check if quantity is a positive integer
+    quantity = sale['quantity'].strip()
+    if not quantity.isdigit():
+        return False
+    quantity_num = int(quantity)
+    if quantity_num <= 0:
         return False
 
-    # Check if price is a valid number
-    try:
-        price = float(price_str)
-    except ValueError:
+    # Check if price is a valid positive float (e.g., "123.45" or "123")
+    price = sale['price'].strip()
+    parts = price.split('.')
+    if len(parts) > 2 or not parts[0].replace('-', '').isdigit():
+        return False
+    if len(parts) == 2 and not parts[1].isdigit():
+        return False
+    price_num = float(price)
+    if price_num <= 0:
         return False
 
     return True
 
-def analyze_sales_enhanced(sales_data):
-    """Analyze sales data with filtering and grouping."""
-    # Filter valid records using traditional loop
-    valid_records = []
-    for record in sales_data:
-        if is_valid_record(record):
-            valid_records.append(record)
+# Function to calculate total sales
+def calculate_total_sales(sales):
+    """Calculate the total sales amount."""
+    total = 0.0
+    for sale in sales:
+        if validate_sale(sale):
+            total += float(sale['price']) * int(sale['quantity'])
+    return total
 
-    print(f"Total records: {len(sales_data)}")  # Total records: 11
-    print(f"Valid records: {len(valid_records)}")  # Valid records: 8
+# Function to calculate average order value
+def calculate_average_order_value(sales):
+    """Calculate the average order value."""
+    valid_sales = []
+    for sale in sales:
+        if validate_sale(sale):
+            valid_sales.append(sale)
+    if not valid_sales:
+        return 0.0
+    total = calculate_total_sales(valid_sales)
+    return total / len(valid_sales)
 
-    # Calculate totals and group by product
-    product_sales = {}
-    total_sales = 0
+# Function to find the top-selling product by quantity
+def find_top_selling_product(sales):
+    """Find the product with the highest total quantity sold."""
+    product_quantities = {}
+    for sale in sales:
+        if validate_sale(sale):
+            product = sale['product']
+            quantity = int(sale['quantity'])
+            product_quantities[product] = product_quantities.get(product, 0) + quantity
 
-    for record in valid_records:
-        _, product_name, quantity_str, price_str, _ = record
-        quantity = int(quantity_str)
-        price = float(price_str)
+    if not product_quantities:
+        return None, 0
 
-        # Calculate order value
-        order_value = quantity * price
+    top_product = max(product_quantities, key=product_quantities.get)
+    return top_product, product_quantities[top_product]
 
-        # Add to total sales
-        total_sales += order_value
+# Function to generate formatted output
+def generate_report(sales):
+    """Generate a formatted report of sales metrics."""
+    total_sales = calculate_total_sales(sales)
+    avg_order_value = calculate_average_order_value(sales)
+    top_product, top_quantity = find_top_selling_product(sales)
 
-        # Group by product (using dictionary)
-        if product_name in product_sales:
-            product_sales[product_name] += order_value
-        else:
-            product_sales[product_name] = order_value
-
-    # Calculate average order value
-    average_order = total_sales / len(valid_records) if valid_records else 0
-
-    # Find top product
-    top_product = ""
-    top_sales = 0
-
-    for product, sales in product_sales.items():
-        if sales > top_sales:
-            top_product = product
-            top_sales = sales
-
-    # Generate a formatted report
-    report = f"""
-ENHANCED SALES ANALYSIS REPORT
-=============================
-
-Summary:
---------
-Total Records: {len(sales_data)}
-Valid Records: {len(valid_records)}
-Total Sales: ${total_sales:.2f}
-Average Order: ${average_order:.2f}
-
-Top Product:
------------
-{top_product}: ${top_sales:.2f}
-
-Sales by Product:
----------------
-"""
-
-    # Add product sales in descending order
-    # First, create a sorted list of (product, sales) tuples
-    sorted_products = sorted(product_sales.items(), key=lambda x: x[1], reverse=True)
-
-    # Add to report
-    for product, sales in sorted_products:
-        report += f"{product}: ${sales:.2f}\n"
-
+    report = "SALES REPORT\n"
+    report += "============\n\n"
+    report += f"Total Sales: ${total_sales:.2f}\n"
+    report += f"Average Order Value: ${avg_order_value:.2f}\n"
+    if top_product:
+        report += f"Top Selling Product: {top_product} ({top_quantity} units)\n"
+    else:
+        report += "Top Selling Product: None\n"
+    report += "\n============\n"
     return report
 
-# Run the enhanced analyzer with our sample data
-enhanced_report = analyze_sales_enhanced(sales_data)
-print(enhanced_report)
-"""
-ENHANCED SALES ANALYSIS REPORT
-=============================
+# Main function to run the analyzer
+def main():
+    sales = read_sales_data()
+    report = generate_report(sales)
+    print(report)
 
-Summary:
---------
-Total Records: 11
-Valid Records: 8
-Total Sales: $4214.70
-Average Order: $526.84
+if __name__ == "__main__":
+    main()
 
-Top Product:
------------
-Laptop: $2899.97
-
-Sales by Product:
----------------
-Laptop: $2899.97
-Monitor: $449.97
-Mouse: $374.85
-Keyboard: $249.95
-Headphones: $239.96
-"""
+# Output:
+# SALES REPORT
+# ============
+#
+# Total Sales: $2499.95
+# Average Order Value: $416.66
+# Top Selling Product: Mouse (10 units)
+#
+# ============
 ```
 
-## 1.12 Connection to Chapter 2: Python Data Handling and Error Management
+### How to Run and Test the Solution
 
-In this chapter, we've established the core Python skills needed for data engineering. In Chapter 2, we'll build on these foundations by focusing on:
+1. **Run the Script**:
 
-### What's Coming in Chapter 2
+   - Save the code as `sales_analyzer.py`.
+   - Run it with: `python sales_analyzer.py`.
+   - The script processes the in-memory sales data and prints a report.
 
-- **File Handling**: Reading from and writing to files, essential for data ingestion and export
-- **Error Handling**: Creating robust code that gracefully recovers from failures
-- **Working with Data Formats**: Processing common formats like CSV and JSON
-- **List Comprehensions**: Creating concise, readable data transformations
-- **Modules and Imports**: Organizing and reusing code effectively
+2. **Test Different Scenarios**:
 
-### How Chapter 1 Skills Will Apply
+   - **Invalid Data**: The script skips invalid records (missing fields, non-numeric values, zero quantities). Verify by checking the output excludes the last three records in the dataset.
+   - **Empty Dataset**: Modify `read_sales_data` to return an empty list (`[]`). Run the script to confirm it outputs:
+     ```
+     Total Sales: $0.00
+     Average Order Value: $0.00
+     Top Selling Product: None
+     ```
+   - **All Invalid Records**: Modify `read_sales_data` to return only invalid records (e.g., missing products, invalid prices). The script should produce the same zeroed output as above.
+   - **Large Dataset**: Add 100 valid records to the list in `read_sales_data` and verify calculations remain correct.
+   - **Edge Cases**: Include negative prices or quantities in the dataset; the script should exclude them.
 
-The skills you've learned in this chapter will be directly applied in Chapter 2:
+3. **Verify Output**:
+   - Check that total sales sum only valid records (e.g., `$999.99*2 + $24.99*10 + $49.99*5 + $899.99*1 = $2499.95`).
+   - Confirm the average order value divides total sales by the number of valid records (6 records: `$2499.95 / 6 ≈ $416.66`).
+   - Ensure the top-selling product (Mouse) has the highest quantity (10 units).
 
-- **Variables and Data Types**: Used for storing and manipulating file contents
-- **Control Flow**: Applied to process files line by line and handle different conditions
-- **Functions**: Used to create reusable file processing operations
-- **Data Structures**: Applied to organize and process data read from files
-- **String Manipulation**: Essential for parsing and formatting text files
+---
 
-In Chapter 2, we'll shift from working with in-memory data to reading and writing external files, a critical skill for data engineering pipelines.
+## 1.7 Practice Exercises
 
-## 1.13 Summary
+These exercises reinforce the concepts from this chapter. Try them to solidify your understanding.
 
-In this chapter, we've built a solid foundation in Python fundamentals, specifically tailored for data engineering:
+### Exercise 1: Product Price Formatter
 
-- **Python Syntax and Data Types**: Variables, basic types, operators, and common errors
-- **Control Flow**: Conditional statements and loops to make decisions and repeat actions
-- **Functions**: Creating reusable code blocks for data operations
-- **Data Structures**: Using lists, dictionaries, tuples, and sets to organize data effectively
-- **String Manipulation**: Working with text data using methods and f-strings
-- **Standard Library Modules**: Leveraging Python's built-in capabilities
-- **Performance Considerations**: Understanding efficiency in data operations
+Write a function that takes a list of product prices and returns a list of formatted strings (e.g., `"$19.99"`). Use string formatting and list iteration.
 
-These fundamentals form the building blocks for all data engineering tasks. We've seen how to apply these concepts to practical data scenarios through our micro-project and exercises.
+### Exercise 2: Sales Record Validator
 
-In the next chapter, we'll extend these skills by learning how to work with external data files, implement robust error handling, and process common data formats like CSV and JSON.
+Write a function that takes a dictionary representing a sale (`product`, `price`, `quantity`) and returns `True` if all fields are present and valid (price and quantity are positive numbers), `False` otherwise.
+
+### Exercise 3: Category Counter
+
+Write a script that takes a list of products (each with a `category` field) and counts how many products belong to each category using a dictionary. Handle cases where the `category` field is missing by assigning an "Unknown" category.
+
+### Exercise 4: Price Range Classifier
+
+Write a function that classifies a price into "Low", "Medium", or "High" based on thresholds (e.g., < $20, $20-$50, > $50) using conditional statements.
+
+### Exercise 5: Unique Product Names
+
+Write a function that takes a list of product names and returns a set of unique names, demonstrating set operations.
+
+---
+
+## 1.8 Exercise Solutions
+
+### Solution to Exercise 1: Product Price Formatter
+
+```python
+def format_prices(prices):
+    """Format a list of prices as dollar amounts with 2 decimal places."""
+    formatted = []
+    for price in prices:
+        formatted.append(f"${price:.2f}")
+    return formatted
+
+# Test the function
+prices = [19.99, 5.0, 123.456, 0.99]
+formatted = format_prices(prices)
+for f in formatted:
+    print(f)
+# $19.99
+# $5.00
+# $123.46
+# $0.99
+```
+
+### Solution to Exercise 2: Sales Record Validator
+
+```python
+def is_valid_sale(sale):
+    """Validate a sale record has all fields and positive numeric values."""
+    # Check if required fields exist
+    if not all(key in sale for key in ['product', 'price', 'quantity']):
+        return False
+
+    # Check if product is non-empty
+    if not sale['product'].strip():
+        return False
+
+    # Check if quantity is a positive integer
+    quantity = sale['quantity'].strip()
+    if not quantity.isdigit():
+        return False
+    quantity_num = int(quantity)
+    if quantity_num <= 0:
+        return False
+
+    # Check if price is a valid positive float
+    price = sale['price'].strip()
+    parts = price.split('.')
+    if len(parts) > 2 or not parts[0].replace('-', '').isdigit():
+        return False
+    if len(parts) == 2 and not parts[1].isdigit():
+        return False
+    price_num = float(price)
+    if price_num <= 0:
+        return False
+
+    return True
+
+# Test the function
+sales = [
+    {"product": "Laptop", "price": "999.99", "quantity": "2"},
+    {"product": "", "price": "29.99", "quantity": "3"},
+    {"product": "Mouse", "price": "invalid", "quantity": "10"},
+    {"product": "Keyboard", "price": "49.99", "quantity": "0"}
+]
+for sale in sales:
+    print(f"{sale}: {is_valid_sale(sale)}")
+# {'product': 'Laptop', 'price': '999.99', 'quantity': '2'}: True
+# {'product': '', 'price': '29.99', 'quantity': '3'}: False
+# {'product': 'Mouse', 'price': 'invalid', 'quantity': '10'}: False
+# {'product': 'Keyboard', 'price': '49.99', 'quantity': '0'}: False
+```
+
+### Solution to Exercise 3: Category Counter
+
+```python
+def count_categories(products):
+    """Count the number of products in each category, handling missing categories."""
+    category_counts = {}
+    for product in products:
+        category = product.get('category', 'Unknown')
+        category_counts[category] = category_counts.get(category, 0) + 1
+    return category_counts
+
+# Test the function
+products = [
+    {"name": "Laptop", "category": "Electronics"},
+    {"name": "T-shirt", "category": "Clothing"},
+    {"name": "Mouse", "category": "Electronics"},
+    {"name": "Jeans", "category": "Clothing"},
+    {"name": "Book"}  # Missing category
+]
+counts = count_categories(products)
+for category, count in counts.items():
+    print(f"{category}: {count}")
+# Electronics: 2
+# Clothing: 2
+# Unknown: 1
+```
+
+### Solution to Exercise 4: Price Range Classifier
+
+```python
+def classify_price(price):
+    """Classify a price into Low, Medium, or High."""
+    # Check if price is a number (int or float)
+    if not isinstance(price, (int, float)):
+        # Check if price is a string representing a valid float
+        price_str = str(price).strip()
+        parts = price_str.split('.')
+        if len(parts) > 2 or not parts[0].replace('-', '').isdigit():
+            return "Invalid"
+        if len(parts) == 2 and not parts[1].isdigit():
+            return "Invalid"
+        price = float(price_str)
+
+    # Classify based on thresholds
+    if price < 0:
+        return "Invalid"
+    elif price < 20:
+        return "Low"
+    elif price <= 50:
+        return "Medium"
+    else:
+        return "High"
+
+# Test the function
+prices = [15.99, 30.00, 75.50, "invalid", 25.99]
+for price in prices:
+    print(f"Price ${price}: {classify_price(price)}")
+# Price $15.99: Low
+# Price $30.00: Medium
+# Price $75.50: High
+# Price $invalid: Invalid
+# Price $25.99: Medium
+```
+
+### Solution to Exercise 5: Unique Product Names
+
+```python
+def get_unique_products(names):
+    """Return a set of unique product names."""
+    return set(names)
+
+# Test the function
+products = ["Laptop", "Mouse", "Laptop", "Keyboard", "Mouse"]
+unique_products = get_unique_products(products)
+print(f"Unique products: {unique_products}")
+# Unique products: {'Laptop', 'Mouse', 'Keyboard'}
+```
+
+---
+
+## 1.9 Chapter Summary and Connection to Chapter 2
+
+In this chapter, you’ve mastered Python’s core essentials:
+
+- **Syntax and Data Types**: Variables, integers, floats, booleans, and strings for basic data representation.
+- **Control Flow**: If statements and loops to process data conditionally and iteratively.
+- **Functions**: Reusable code blocks to modularize logic.
+- **Data Structures**: Lists, dictionaries, tuples, and sets for organizing data.
+- **String Manipulation**: Formatting and cleaning data for output.
+
+These skills, along with an understanding of their time and space complexity, are the foundation for data engineering tasks like data cleaning, transformation, and reporting. The micro-project demonstrated how to combine these concepts to process a sales dataset, a simplified version of real-world data pipeline tasks.
+
+### Connection to Chapter 2
+
+Chapter 2 builds on these fundamentals by introducing:
+
+- **File Handling**: Reading from and writing to files (e.g., CSVs) using context managers, extending your ability to work with external data.
+- **Error Handling**: Using try/except to make your code robust against invalid data, enhancing the basic validation in this chapter’s micro-project.
+- **List Comprehensions**: A concise way to transform data, building on list operations.
+- **Data Formats**: Processing CSV and JSON, applying your dictionary and string skills to structured data.
+
+The sales analyzer from this chapter will be enhanced in Chapter 2 with robust error handling, file I/O, and export capabilities, preparing you for more complex data processing tasks in Chapter 3 (NumPy and Pandas). Your understanding of data structures, their performance characteristics (time and space complexity), and functions will be critical for handling larger datasets and integrating with libraries.
