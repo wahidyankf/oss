@@ -7,8 +7,6 @@ weight: 4
 
 **Complexity: Moderate (M)**
 
----
-
 ## 3.0 Introduction: Why This Matters for Data Engineering
 
 In data engineering, processing large datasets efficiently is a core requirement. While Python’s built-in data structures (lists, dictionaries) are versatile, they can be slow and cumbersome for numerical and tabular data operations. NumPy and Pandas are foundational libraries that address these limitations, enabling fast, scalable data manipulation critical for building data pipelines.
