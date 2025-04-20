@@ -344,7 +344,7 @@ Skip the inheritance hierarchy and create a single comprehensive WeatherDataFetc
 - Pitfall: Forgetting to initialize parent class in child classes  
   Solution: Always call super().\_\_init\_\_() in child class constructors
 
-## **Checkpoint 1: Python Foundations Review**
+## **Chapter 6: Checkpoint 1 - Python Foundations Review**
 
 **Complexity: Easy (E)**
 
@@ -1021,7 +1021,7 @@ Set up a PostgreSQL container using Docker Compose with persistent storage, but 
 - Pitfall: Hardcoding passwords in Docker Compose file  
   Solution: Use environment files (.env) excluded from version control to pass sensitive variables.
 
-## **Checkpoint 2: Database Fundamentals Review**
+## **Chapter 17: Checkpoint 2 - Database Fundamentals Review**
 
 **Complexity: Easy (E)**
 
@@ -2355,7 +2355,7 @@ Deploy PostgreSQL using a Helm chart (like Bitnami's) with custom values for per
 - Pitfall: Incomplete backup solutions  
   Solution: Ensure backups are stored outside the cluster (e.g., cloud storage bucket) and regularly tested for restoration.
 
-## **Checkpoint 3: Infrastructure and Deployment Review**
+## **Chapter 51: Checkpoint 3 - Infrastructure and Deployment Review**
 
 **Complexity: Moderate (M)**
 
