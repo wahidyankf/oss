@@ -9,911 +9,925 @@ weight: 2
 
 ## 1.0 Introduction: Why This Matters for Data Engineering
 
-Python is the backbone of modern data engineering due to its simplicity, versatility, and extensive ecosystem of libraries. As a data engineer, you'll use Python to build data pipelines, process large datasets, and integrate with databases and cloud systems. Mastering the core language essentials is critical because these fundamentals underpin every data engineering task, from simple data transformations to complex pipeline orchestration.
+Python is a cornerstone of data engineering due to its simplicity, versatility, and rich ecosystem of libraries. In data engineering, Python scripts are used to ingest, transform, and analyze data, forming the backbone of pipelines that process financial transactions, sales data, or other datasets. Understanding Python’s core language features—variables, data types, control flow, functions, and data structures—enables you to write efficient, readable code for these tasks.
 
-This chapter lays the foundation for your data engineering journey by introducing Python's core syntax, data structures, and control flow. These skills are essential for writing clean, maintainable code that forms the basis of robust data pipelines.
+This chapter introduces the fundamental building blocks of Python, equipping you with the skills to manipulate data and implement basic processing logic. These essentials are critical for creating robust data pipelines that integrate with tools like PostgreSQL, BigQuery, and Airflow in later chapters.
 
 ### Data Engineering Workflow Context
 
-Here’s how the concepts in this chapter fit into a typical data engineering workflow:
+The following diagram shows how Python core concepts fit into a data engineering workflow:
 
 ```mermaid
 flowchart TD
-    A[Raw Data] --> B[Python Scripts]
-    B --> C{Data Processing}
-    C -->|Transform| D[Clean Data]
-    C -->|Validate| E[Validated Data]
-    E --> F[Database/Storage]
+    A["Raw Data (CSV, JSON)"] --> B["Python Scripts"]
+    B --> C{"Data Processing"}
+    C -->|Transform| D["Clean Data"]
+    D --> E["Output (Files, Database)"]
 
     classDef data fill:#f9f9f9,stroke:#333,stroke-width:2px
     classDef process fill:#d0e0ff,stroke:#336,stroke-width:1px
-    classDef storage fill:#ddffdd,stroke:#363,stroke-width:1px
+    classDef output fill:#ddffdd,stroke:#363,stroke-width:1px
 
-    class A,D,E data
+    class A,D data
     class B,C process
-    class F storage
+    class E output
 ```
 
 ### Building On and Preparing For
 
-- **Building On**: This chapter assumes basic programming knowledge (variables, loops, functions) and introduces Python-specific implementations. No prior Python experience is required, but familiarity with any programming language will help.
-- **Preparing For**: These fundamentals are critical for Chapter 2 (Python Data Handling and Error Management), where you'll work with files and error handling, and Chapter 3 (NumPy and Pandas Basics), where you'll use Python to manipulate large datasets. Every subsequent chapter relies on these core skills.
+- **Building On**: This chapter assumes basic programming knowledge (variables, loops, functions) from prerequisite resources (e.g., Codecademy’s “Learn Python 3”). No prior Python experience is required beyond these basics.
+- **Preparing For**: The skills learned here—data structures, control flow, and functions—are foundational for Chapter 2 (file handling and error management), where you’ll process external data, and Chapter 3 (NumPy and Pandas), where you’ll analyze larger datasets.
 
-### What You'll Learn
+### What You’ll Learn
 
 This chapter covers:
 
-1. Python syntax and data types
-2. Control flow (if/else, loops)
-3. Functions and their role in reusable code
-4. Data structures (lists, dictionaries, tuples, sets)
-5. String manipulation for data formatting
+1. Python syntax and variables
+2. Basic data types (int, float, str, bool)
+3. Control flow (if statements, loops)
+4. Functions and modular code
+5. Data structures (lists, dictionaries, sets)
 
-By the end, you'll be able to write Python scripts to process simple datasets, a foundational skill for data engineering.
+By the end, you’ll be able to write Python scripts to process sales data, compute metrics, and generate reports, setting the stage for more complex data engineering tasks.
 
----
+## 1.1 Python Syntax and Variables
 
-## 1.1 Python Syntax and Data Types
+Python’s syntax is clean and readable, making it ideal for data engineering scripts. Variables store data for processing, such as sales amounts or product names.
 
-Python's syntax is clean and readable, making it ideal for data engineering tasks. Let’s start with the basics: variables, data types, and basic operations.
+### 1.1.1 Variables and Assignment
 
-### 1.1.1 Variables and Primitive Types
-
-Python supports several primitive data types: integers (`int`), floating-point numbers (`float`), booleans (`bool`), and strings (`str`).
+Assign values to variables using `=`.
 
 ```python
-# Assigning variables with different data types
-record_id = 1001  # int: whole numbers
-price = 29.99     # float: decimal numbers
-is_active = True  # bool: True or False
-product_name = "Widget A"  # str: text
+# Assigning variables
+product_name = "Laptop"  # String
+price = 999.99  # Float
+quantity = 2  # Integer
+is_in_stock = True  # Boolean
 
-# Printing variables to see their values
-print(f"Record ID: {record_id}")
-print(f"Price: ${price}")
-print(f"Active: {is_active}")
-print(f"Product: {product_name}")
+# Print variables
+print(f"Product: {product_name}, Price: ${price}, Quantity: {quantity}, In Stock: {is_in_stock}")
 
 # Output:
-# Record ID: 1001
-# Price: $29.99
-# Active: True
-# Product: Widget A
+# Product: Laptop, Price: $999.99, Quantity: 2, In Stock: True
 ```
 
 **Key Points**:
 
-- Variables are created when you assign a value using `=`.
-- Use `print()` to display output, and `f-strings` (e.g., `f"Price: ${price}"`) for formatted strings.
-- Python is dynamically typed; you don’t need to declare the type explicitly.
-- **Underlying Implementation**:
-  - `int`: Arbitrary-precision integers, with no fixed size, growing as needed to represent large numbers. Useful in data engineering for precise calculations, like counting records.
-  - `float`: 64-bit double-precision numbers (`float64`) per the IEEE 754 standard, balancing precision and memory for numerical data like prices or measurements.
-  - `bool`: A subclass of `int`, stored as 1 (`True`) or 0 (`False`), using minimal memory for flags like data validity.
-  - `str`: Unicode strings, stored as variable-length character arrays, ideal for text processing in datasets (e.g., product names).
+- Variables are dynamically typed; no need to declare types.
+- Use descriptive names (e.g., `product_name` instead of `x`).
+- `print()` with f-strings (`f"..."`) formats output.
+- **Underlying Implementation**: Variables are entries in Python’s symbol table, mapping names to objects in memory. Objects are reference-counted for garbage collection.
 - **Performance Considerations**:
-  - **Time Complexity**:
-    - `int`: Arithmetic operations (e.g., `+`, `*`) are O(1) for small numbers but can be O(log n) for very large numbers due to arbitrary precision, impacting performance in large-scale calculations.
-    - `float`: Arithmetic operations are O(1), as they use fixed `float64` precision, making them fast for numerical data in pipelines.
-    - `bool`: Logical operations (e.g., `and`, `or`) are O(1), with minimal overhead, suitable for frequent condition checks.
-    - `str`: Concatenation (`+`) is O(n), where n is the string length, as it creates a new string. Avoid repeated concatenation in loops for large datasets, as it can slow down data processing.
-  - **Space Complexity**:
-    - `int`: O(log n), where n is the number’s magnitude, due to arbitrary-precision storage, consuming more memory for very large numbers.
-    - `float`: O(1), fixed 64-bit storage, efficient for numerical data.
-    - `bool`: O(1), minimal storage (single bit internally), ideal for flags in large datasets.
-    - `str`: O(n), where n is the string length, for character storage, significant in text-heavy datasets like logs or product descriptions.
+  - **Time Complexity**: O(1) for variable assignment and lookup.
+  - **Space Complexity**: O(1) per variable, plus object size (e.g., strings vary with length).
+  - **Implication**: Variables are lightweight, but excessive global variables can clutter namespace.
+  - **Performance Tip**: Use local variables within functions to reduce namespace pollution and improve readability.
 
 ### 1.1.2 Basic Operations
 
-You can perform arithmetic and comparison operations on these types:
+Perform arithmetic and string operations.
 
 ```python
 # Arithmetic operations
-total_price = price * 2  # Multiply float
-quantity = record_id - 1000  # Subtract int
-discount = price / 2  # Divide float
+total_price = price * quantity
+discount = total_price * 0.1  # 10% discount
+final_price = total_price - discount
 
-print(f"Total Price: ${total_price}")
-print(f"Quantity: {quantity}")
-print(f"Discount: ${discount}")
+print(f"Total: ${total_price:.2f}, Discount: ${discount:.2f}, Final: ${final_price:.2f}")
 
-# Comparison operations
-is_expensive = price > 20.0
-has_stock = quantity > 0
-
-print(f"Is Expensive? {is_expensive}")
-print(f"Has Stock? {has_stock}")
+# String concatenation
+message = product_name + " on sale!"
+print(message)
 
 # Output:
-# Total Price: $59.98
-# Quantity: 1
-# Discount: $14.995
-# Is Expensive? True
-# Has Stock? True
+# Total: $1999.98, Discount: $199.998, Final: $1799.982
+# Laptop on sale!
 ```
 
 **Key Points**:
 
-- Arithmetic operators: `+`, `-`, `*`, `/`, `//` (floor division), `%` (modulus), `**` (exponentiation).
-- Comparison operators: `>`, `<`, `>=`, `<=`, `==`, `!=`.
-- Operations produce results based on the data types involved (e.g., `int * float` yields a `float`).
+- Arithmetic: `+`, `-`, `*`, `/`, `//` (integer division), `%` (modulus), `**` (exponent).
+- String concatenation with `+` or f-strings.
+- **Performance Considerations**:
+  - **Time Complexity**: O(1) for arithmetic, O(n) for string concatenation (where n is string length).
+  - **Space Complexity**: O(1) for numbers, O(n) for new strings.
+  - **Implication**: Use f-strings or `.join()` for efficient string operations in loops.
+  - **Performance Tip**: Avoid repeated string concatenation with `+` in loops; use a list and `.join()` to build strings efficiently.
 
----
+## 1.2 Basic Data Types
 
-## 1.2 Control Flow
+Python’s built-in types—integers, floats, strings, and booleans—are used for data manipulation.
 
-Control flow allows your code to make decisions and repeat tasks, which is essential for processing datasets conditionally or iteratively.
+### 1.2.1 Numbers and Booleans
 
-### 1.2.1 Conditional Statements (if/elif/else)
-
-Conditional statements execute code based on whether a condition is `True` or `False`.
+Handle numerical and logical data.
 
 ```python
-# Example: Categorize a product based on price
-price = 29.99
+# Integer and float operations
+items_sold = 5
+revenue = items_sold * 49.99
+tax_rate = 0.08
+tax = revenue * tax_rate
 
-if price > 50:
-    category = "Premium"
-elif price > 20:
-    category = "Standard"
+print(f"Revenue: ${revenue:.2f}, Tax: ${tax:.2f}")
+
+# Boolean operations
+is_profitable = revenue > 200
+has_tax = tax_rate > 0
+print(f"Profitable: {is_profitable}, Has Tax: {has_tax}")
+
+# Output:
+# Revenue: $249.95, Tax: $19.996
+# Profitable: True, Has Tax: True
+```
+
+**Key Points**:
+
+- `int`: Whole numbers (e.g., `5`).
+- `float`: Decimal numbers (e.g., `49.99`).
+- `bool`: `True` or `False`, result of comparisons (`>`, `<`, `==`, `!=`, `>=`, `<=`).
+- **Underlying Implementation**: Numbers are immutable objects; booleans are singletons (`True`, `False`).
+- **Performance Considerations**:
+  - **Time Complexity**: O(1) for arithmetic and comparisons.
+  - **Space Complexity**: O(1) for `int`, `float`, `bool`.
+  - **Implication**: Efficient for small-scale calculations in data pipelines.
+  - **Performance Tip**: Use integers instead of floats for counts or indices to avoid floating-point precision issues.
+
+### 1.2.2 Strings
+
+Manipulate text data, common in data cleaning.
+
+```python
+# String operations
+category = "electronics"
+formatted = category.upper()
+substring = category[:4]  # First 4 characters
+has_prefix = category.startswith("elec")
+
+print(f"Formatted: {formatted}, Substring: {substring}, Has Prefix: {has_prefix}")
+
+# Output:
+# Formatted: ELECTRONICS, Substring: elec, Has Prefix: True
+```
+
+**Key Points**:
+
+- Strings are immutable sequences of characters.
+- Methods: `.upper()`, `.lower()`, `.strip()`, `.startswith()`, `.replace()`.
+- Slicing: `string[start:end]` (end exclusive).
+- **Performance Considerations**:
+  - **Time Complexity**: O(n) for most string operations (n is string length).
+  - **Space Complexity**: O(n) for new strings created by operations.
+  - **Implication**: Avoid repeated string concatenation in loops; use lists and `.join()` for efficiency.
+  - **Performance Tip**: Pre-allocate string buffers using lists for large string manipulations to reduce memory allocations.
+
+## 1.3 Control Flow
+
+Control flow directs program execution, enabling data filtering and iteration.
+
+### 1.3.1 If Statements
+
+Make decisions based on conditions.
+
+```python
+# Check stock status
+stock = 10
+if stock > 0:
+    status = "In Stock"
 else:
-    category = "Budget"
+    status = "Out of Stock"
 
-print(f"Product Category: {category}")
+print(f"Status: {status}")
+
+# Multiple conditions
+price = 999.99
+if price > 1000:
+    discount = 0.15
+elif price > 500:
+    discount = 0.10
+else:
+    discount = 0.05
+
+print(f"Discount: {discount*100}%")
 
 # Output:
-# Product Category: Standard
+# Status: In Stock
+# Discount: 10%
 ```
 
 **Key Points**:
 
-- Use `if` to check a condition, `elif` for additional conditions, and `else` for the default case.
-- Indentation (typically 4 spaces) defines the scope of each block.
-- Conditions can include logical operators: `and`, `or`, `not`.
+- `if`, `elif`, `else` for conditional branching.
+- Conditions use comparison operators and logical operators (`and`, `or`, `not`).
+- **Underlying Implementation**: Evaluates conditions in order, executing the first true branch.
+- **Performance Considerations**:
+  - **Time Complexity**: O(1) for condition evaluation, O(n) if condition involves iteration.
+  - **Space Complexity**: O(1) for simple conditions.
+  - **Implication**: Efficient for decision-making in data processing.
+  - **Performance Tip**: Place the most likely condition first in `if`/`elif` chains to minimize evaluations.
 
-### 1.2.2 Loops
+### 1.3.2 Loops
 
-Loops allow you to iterate over data, a common task in data engineering for processing records.
-
-#### For Loop
-
-```python
-# Iterate over a range of numbers to simulate processing records
-for i in range(1, 4):  # range(1, 4) generates 1, 2, 3
-    print(f"Processing record #{i}")
-
-# Output:
-# Processing record #1
-# Processing record #2
-# Processing record #3
-```
-
-#### While Loop
+Iterate over data for processing.
 
 ```python
-# Process records until a condition is met
-stock = 5
-while stock > 0:
-    print(f"Items in stock: {stock}")
-    stock -= 1  # Decrease stock by 1
+# For loop over a range
+total = 0
+for i in range(3):
+    total += 10
+    print(f"Iteration {i+1}: Total = {total}")
 
-print("Stock depleted!")
+# While loop
+count = 5
+while count > 0:
+    print(f"Count: {count}")
+    count -= 1
 
 # Output:
-# Items in stock: 5
-# Items in stock: 4
-# Items in stock: 3
-# Items in stock: 2
-# Items in stock: 1
-# Stock depleted!
+# Iteration 1: Total = 10
+# Iteration 2: Total = 20
+# Iteration 3: Total = 30
+# Count: 5
+# Count: 4
+# Count: 3
+# Count: 2
+# Count: 1
 ```
 
 **Key Points**:
 
-- `for` loops are ideal for iterating over known sequences (e.g., lists, ranges).
-- `while` loops run until a condition becomes `False`.
-- Use `break` to exit a loop early, or `continue` to skip to the next iteration.
+- `for` loops iterate over iterables (e.g., `range()`, lists).
+- `while` loops run until a condition is false.
+- Use `break` to exit loops early, `continue` to skip iterations.
+- **Performance Considerations**:
+  - **Time Complexity**: O(n) for n iterations.
+  - **Space Complexity**: O(1) for loop variables, unless storing results.
+  - **Implication**: Optimize loops by minimizing operations inside.
+  - **Performance Tip**: Move constant calculations outside loops to reduce redundant computations.
 
----
+## 1.4 Functions and Modular Code
 
-## 1.3 Functions
+Functions encapsulate logic for reuse, improving code organization.
 
-Functions allow you to encapsulate reusable code, making your data processing scripts modular and maintainable.
+### 1.4.1 Defining Functions
 
-### 1.3.1 Defining and Calling Functions
+Create reusable code blocks.
 
 ```python
-# Define a function to calculate the total cost of an order
+# Calculate total sales
 def calculate_total(price, quantity):
-    total = price * quantity
-    return total
+    return price * quantity
 
-# Call the function with sample data
-item_price = 19.99
-item_quantity = 3
-order_total = calculate_total(item_price, item_quantity)
+# Apply discount
+def apply_discount(total, discount_rate):
+    return total * (1 - discount_rate)
 
-print(f"Order Total: ${order_total}")
+# Usage
+sale_total = calculate_total(999.99, 2)
+discounted = apply_discount(sale_total, 0.1)
+print(f"Total: ${sale_total:.2f}, Discounted: ${discounted:.2f}")
 
 # Output:
-# Order Total: $59.97
+# Total: $1999.98, Discounted: $1799.982
 ```
 
 **Key Points**:
 
-- Define functions with `def`, followed by the function name and parameters in parentheses.
-- Use `return` to send a value back to the caller.
-- Functions improve code reusability and readability.
-
-### 1.3.2 Default Parameters and Keyword Arguments
-
-```python
-# Function with default tax rate and keyword arguments
-def calculate_total_with_tax(price, quantity, tax_rate=0.1):
-    subtotal = price * quantity
-    tax = subtotal * tax_rate
-    return subtotal + tax
-
-# Call with default tax rate
-total1 = calculate_total_with_tax(19.99, 3)
-print(f"Total with default tax: ${total1}")
-
-# Call with custom tax rate using keyword argument
-total2 = calculate_total_with_tax(price=19.99, quantity=3, tax_rate=0.15)
-print(f"Total with custom tax: ${total2}")
-
-# Output:
-# Total with default tax: $65.967
-# Total with custom tax: $68.965
-```
-
-**Key Points**:
-
-- Default parameters allow optional arguments with preset values.
-- Keyword arguments improve clarity by specifying parameter names.
-
----
-
-## 1.4 Data Structures
-
-Data structures like lists, dictionaries, tuples, and sets are critical for organizing and processing data in data engineering tasks.
-
-### 1.4.1 Lists
-
-Lists are ordered, mutable collections of items.
-
-```python
-# Create a list of product prices
-prices = [19.99, 29.99, 9.99, 49.99]
-
-# Access elements
-first_price = prices[0]  # First element
-last_price = prices[-1]  # Last element
-
-print(f"First price: ${first_price}")
-print(f"Last price: ${last_price}")
-
-# Output:
-# First price: $19.99
-# Last price: $49.99
-
-# Modify the list
-prices.append(39.99)  # Add an item
-prices[1] = 24.99     # Update an item
-print(f"Updated prices: {prices}")
-# Updated prices: [19.99, 24.99, 9.99, 49.99, 39.99]
-
-# Iterate over the list
-for price in prices:
-    print(f"Price: ${price}")
-# Price: $19.99
-# Price: $24.99
-# Price: $9.99
-# Price: $49.99
-# Price: $39.99
-```
-
-**Key Points**:
-
-- Lists are indexed starting at 0.
-- Use methods like `append()`, `remove()`, and `pop()` to modify lists.
-- Lists are versatile for storing ordered data sequences.
-- **Underlying Implementation**: Lists are dynamic arrays, stored as resizable, contiguous memory blocks with pointers to objects. This allows flexible resizing but may require occasional memory reallocation, impacting performance in data engineering tasks with large datasets.
+- Define with `def function_name(parameters):`.
+- Use `return` to output values.
+- Functions promote modularity and readability.
+- **Underlying Implementation**: Functions are objects, stored in memory with their code and scope.
 - **Performance Considerations**:
-  - **Time Complexity**:
-    - Indexing (e.g., `prices[0]`): O(1), fast for accessing elements by position.
-    - Appending (`append()`): O(1) average case, but O(n) worst case if the array needs resizing, where n is the list length.
-    - Iteration: O(n), as it visits each element, important for processing large datasets.
-    - Insertion/Deletion (middle): O(n), as elements must be shifted, slow for large lists in data pipelines.
-  - **Space Complexity**:
-    - Storage: O(n), where n is the number of elements, for the dynamic array storing pointers to objects.
-    - Operations (e.g., appending): O(1) additional space average case, O(n) worst case if resizing requires a new array.
-    - Implication: Memory usage grows linearly with dataset size, suitable for ordered data but less efficient for frequent modifications.
+  - **Time Complexity**: O(1) for function call overhead, plus body complexity.
+  - **Space Complexity**: O(1) for function definition, plus local variables.
+  - **Implication**: Functions are efficient but avoid deep recursion in data pipelines.
+  - **Performance Tip**: Keep function bodies concise to minimize call overhead in performance-critical pipelines.
 
-### 1.4.2 Dictionaries
+### 1.4.2 Default Parameters and Keyword Arguments
 
-Dictionaries store key-value pairs, ideal for representing structured data like records.
+Enhance function flexibility.
 
 ```python
-# Create a dictionary representing a product
-product = {
-    "id": 1001,
-    "name": "Widget A",
-    "price": 19.99,
-    "in_stock": True
+# Function with default parameters
+def format_sale(product, price, currency="USD"):
+    return f"{product}: {currency}{price:.2f}"
+
+# Keyword arguments
+print(format_sale("Laptop", 999.99))  # Uses default currency
+print(format_sale("Mouse", 24.99, currency="EUR"))
+
+# Output:
+# Laptop: USD999.99
+# Mouse: EUR24.99
+```
+
+**Key Points**:
+
+- Default parameters provide fallback values.
+- Keyword arguments improve clarity and allow flexible argument order.
+- **Performance Considerations**: Same as regular functions.
+  - **Performance Tip**: Use default parameters for optional settings to simplify function calls in scripts.
+
+## 1.5 Data Structures
+
+Lists, dictionaries, and sets store and manipulate data collections, crucial for data engineering.
+
+### 1.5.1 Lists
+
+Ordered, mutable sequences.
+
+#### Visual Representation
+
+Lists store ordered data, accessible by index:
+
+```mermaid
+graph TD
+    A[List: sales] --> B[0: 100.50]
+    A --> C[1: 200.75]
+    A --> D[2: 150.25]
+```
+
+```python
+# Create and manipulate a list
+sales = [100.50, 200.75, 150.25]
+sales.append(300.00)  # Add item
+total = sum(sales)
+average = total / len(sales)
+
+print(f"Sales: {sales}, Total: ${total:.2f}, Average: ${average:.2f}")
+
+# List slicing
+top_sales = sales[:2]
+print(f"Top 2 sales: {top_sales}")
+
+# Output:
+# Sales: [100.5, 200.75, 150.25, 300.0], Total: $751.50, Average: $187.88
+# Top 2 sales: [100.5, 200.75]
+```
+
+**Key Points**:
+
+- Methods: `.append()`, `.remove()`, `.pop()`, `.extend()`.
+- Slicing: `list[start:end]` (end exclusive).
+- **Underlying Implementation**: Dynamic arrays with amortized O(1) append, O(n) for insertion/deletion at arbitrary indices.
+- **Performance Considerations**:
+  - **Time Complexity**: O(1) for append, O(n) for insert/remove, O(n) for slicing.
+  - **Space Complexity**: O(n) for n elements.
+  - **Implication**: Efficient for sequential access; use for ordered data like sales records.
+  - **Performance Tip**: Use list comprehensions (introduced later) for transformations instead of loops to improve readability and performance.
+
+### 1.5.2 Dictionaries
+
+Key-value mappings.
+
+#### Visual Representation
+
+Dictionaries map keys to values using a hash table:
+
+```mermaid
+graph TD
+    A[Dict: product_prices] --> B["Laptop" --> 999.99]
+    A --> C["Mouse" --> 24.99]
+    A --> D["Keyboard" --> 49.99]
+```
+
+```python
+# Create and manipulate a dictionary
+product_prices = {
+    "Laptop": 999.99,
+    "Mouse": 24.99,
+    "Keyboard": 49.99
 }
+product_prices["Monitor"] = 199.99  # Add key-value
+laptop_price = product_prices["Laptop"]
 
-# Access values
-product_name = product["name"]
-product_price = product.get("price")  # Safe access
-print(f"Product: {product_name}, Price: ${product_price}")
-# Product: Widget A, Price: $19.99
+print(f"Prices: {product_prices}, Laptop Price: ${laptop_price:.2f}")
 
-# Modify dictionary
-product["price"] = 24.99
-product["category"] = "Electronics"
-print(f"Updated product: {product}")
-# Updated product: {'id': 1001, 'name': 'Widget A', 'price': 24.99, 'in_stock': True, 'category': 'Electronics'}
+# Iterate over dictionary
+for product, price in product_prices.items():
+    print(f"{product}: ${price:.2f}")
 
-# Iterate over keys and values
-for key, value in product.items():
-    print(f"{key}: {value}")
-# id: 1001
-# name: Widget A
-# price: 24.99
-# in_stock: True
-# category: Electronics
+# Output:
+# Prices: {'Laptop': 999.99, 'Mouse': 24.99, 'Keyboard': 49.99, 'Monitor': 199.99}, Laptop Price: $999.99
+# Laptop: $999.99
+# Mouse: $24.99
+# Keyboard: $49.99
+# Monitor: $199.99
 ```
 
 **Key Points**:
 
-- Access values with `dict[key]` or `dict.get(key)` (returns `None` if key is missing).
-- Dictionaries are mutable and ideal for representing structured data.
-- Use `items()` to iterate over key-value pairs.
-- **Underlying Implementation**: Dictionaries are hash tables, storing key-value pairs with fast lookup via hashing. This makes them efficient for data engineering tasks requiring quick access, like mapping product IDs to details, but memory usage grows with the number of entries.
+- Access with `dict[key]`; use `.get(key, default)` to avoid KeyError.
+- Methods: `.keys()`, `.values()`, `.items()`.
+- **Underlying Implementation**: Hash tables with O(1) average-case lookup/insert/delete.
 - **Performance Considerations**:
-  - **Time Complexity**:
-    - Lookup (e.g., `dict[key]`, `get()`): O(1) average case, O(n) worst case (rare, due to hash collisions), making dictionaries ideal for quick queries in data engineering.
-    - Insertion/Deletion: O(1) average case, efficient for updating records.
-    - Iteration: O(n), where n is the number of key-value pairs, relevant for processing large mappings.
-  - **Space Complexity**:
-    - Storage: O(n), where n is the number of key-value pairs, for the hash table, including overhead for empty slots to reduce collisions.
-    - Operations (e.g., `get()`, insertion): O(1) additional space, as they modify the existing table.
-    - Implication: Higher memory overhead than lists due to hashing, but efficient for fast lookups in large datasets.
+  - **Time Complexity**: O(1) average for lookup/insert/delete, O(n) worst case (hash collisions).
+  - **Space Complexity**: O(n) for n key-value pairs.
+  - **Implication**: Ideal for lookups, e.g., mapping products to prices.
+  - **Performance Tip**: Use `.get()` for safe key access to avoid runtime errors in data processing.
 
-### 1.4.3 Tuples
+### 1.5.3 Sets
 
-Tuples are ordered, immutable collections.
+Unordered collections of unique elements.
 
-```python
-# Create a tuple representing a coordinate
-coordinate = (10.5, 20.3)
+#### Visual Representation
 
-# Access elements
-x = coordinate[0]
-y = coordinate[1]
-print(f"X: {x}, Y: {y}")
-# X: 10.5, Y: 20.3
+Sets store unique elements with no order:
 
-# Tuples are immutable
-# Attempting to modify would raise an error: coordinate[0] = 15.0
-print("Note: Tuples cannot be modified after creation.")
-# Note: Tuples cannot be modified after creation.
+```mermaid
+graph TD
+    A[Set: categories] --> B[Electronics]
+    A --> C[Clothing]
+    A --> D[Books]
 ```
 
-**Key Points**:
-
-- Tuples are immutable, making them suitable for fixed data.
-- Use for lightweight, constant data structures.
-- **Underlying Implementation**: Tuples are fixed-size arrays, stored in contiguous memory with pointers to objects. Their immutability allows compact storage, useful in data engineering for constant data like configuration settings.
-- **Performance Considerations**:
-  - **Time Complexity**:
-    - Indexing: O(1), fast for accessing elements, similar to lists but with less overhead due to immutability.
-    - Iteration: O(n), where n is the tuple length, efficient for small, fixed datasets.
-    - Creation: O(n), but immutability ensures no resizing, saving memory in data pipelines.
-  - **Space Complexity**:
-    - Storage: O(n), where n is the number of elements, for the fixed-size array storing pointers to objects.
-    - Operations (e.g., indexing): O(1) additional space, as no new structures are created.
-    - Implication: More memory-efficient than lists due to immutability, ideal for fixed data in memory-constrained environments.
-
-### 1.4.4 Sets
-
-Sets store unique, unordered items.
-
 ```python
-# Create a set of product categories
-categories = {"Electronics", "Clothing", "Books"}
+# Create and manipulate a set
+categories = {"Electronics", "Clothing", "Electronics"}  # Duplicates removed
+categories.add("Books")
+has_electronics = "Electronics" in categories
 
-# Add and remove items
-categories.add("Toys")
-categories.remove("Books")
-print(f"Categories: {categories}")
-# Categories: {'Electronics', 'Clothing', 'Toys'}
+print(f"Categories: {categories}, Has Electronics: {has_electronics}")
 
 # Set operations
-available_categories = {"Electronics", "Toys", "Furniture"}
-common_categories = categories.intersection(available_categories)
-print(f"Common categories: {common_categories}")
-# Common categories: {'Electronics', 'Toys'}
+sale_categories = {"Electronics", "Accessories"}
+common = categories & sale_categories
+print(f"Common categories: {common}")
+
+# Output:
+# Categories: {'Electronics', 'Clothing', 'Books'}, Has Electronics: True
+# Common categories: {'Electronics'}
 ```
 
 **Key Points**:
 
-- Sets ensure uniqueness (duplicates are automatically removed).
-- Use set operations like `union()`, `intersection()`, and `difference()` for data comparisons.
-- **Underlying Implementation**: Sets are hash tables, similar to dictionaries but storing only keys. This ensures fast membership testing and uniqueness, ideal for data engineering tasks like deduplicating categories or IDs.
+- Sets automatically remove duplicates.
+- Operations: `&` (intersection), `|` (union), `-` (difference).
+- **Underlying Implementation**: Hash tables, similar to dictionaries, with O(1) average-case lookup/insert.
 - **Performance Considerations**:
-  - **Time Complexity**:
-    - Membership testing (e.g., `in`): O(1) average case, fast for checking if an item exists in large datasets.
-    - Adding/Removing: O(1) average case, efficient for updating sets.
-    - Set operations (e.g., `intersection`): O(min(len(set1), len(set2))), useful for comparing datasets but slower for very large sets.
-  - **Space Complexity**:
-    - Storage: O(n), where n is the number of elements, for the hash table, including overhead for empty slots.
-    - Operations (e.g., membership, adding): O(1) additional space, as they modify the existing table.
-    - Set operations (e.g., `intersection`): O(min(len(set1), len(set2))) for the output set, impacting memory for large operations.
-    - Implication: Similar memory overhead to dictionaries, efficient for unique data but requires careful management in memory-constrained pipelines.
-
----
-
-## 1.5 String Manipulation
-
-Strings are critical for formatting and cleaning data in data engineering.
-
-### 1.5.1 Basic String Operations
-
-```python
-# Create a string
-product_name = "Widget A"
-
-# String methods
-uppercase_name = product_name.upper()
-cleaned_name = product_name.strip()  # Remove whitespace
-print(f"Uppercase: {uppercase_name}")
-print(f"Cleaned: {cleaned_name}")
-# Uppercase: WIDGET A
-# Cleaned: Widget A
-
-# Concatenation
-description = product_name + " - High Quality"
-print(f"Description: {description}")
-# Description: Widget A - High Quality
-```
-
-**Key Points**:
-
-- Common string methods: `upper()`, `lower()`, `strip()`, `replace()`, `split()`.
-- Concatenate strings with `+` or use f-strings for formatting.
-
-### 1.5.2 F-Strings for Formatting
-
-```python
-# Format data using f-strings
-product_id = 1001
-price = 19.99
-quantity = 3
-
-summary = f"Product ID: {product_id}, Total: ${price * quantity:.2f}"
-print(summary)
-# Product ID: 1001, Total: $59.97
-```
-
-**Key Points**:
-
-- F-strings (`f"..."`) allow embedding expressions inside strings.
-- Use format specifiers (e.g., `.2f`) for precise number formatting.
-
----
+  - **Time Complexity**: O(1) average for membership test, O(min(n,m)) for set operations (n,m are set sizes).
+  - **Space Complexity**: O(n) for n elements.
+  - **Implication**: Useful for deduplication and membership testing, e.g., unique product categories.
+  - **Performance Tip**: Use sets for membership tests instead of lists to leverage O(1) lookup speed.
 
 ## 1.6 Micro-Project: Sales Data Analyzer
 
 ### Project Requirements
 
-Create a Python script that processes a sales dataset (stored as an in-memory list of dictionaries), calculates key metrics (total sales, average order value, top-selling product), and generates formatted output. This project applies the concepts from this chapter: data structures, functions, control flow, and string manipulation.
+Build a Python script to process a sales dataset (`data/sales.csv`), calculate total sales, identify top-selling products, and output a formatted report. This project applies variables, data types, control flow, functions, and data structures, avoiding concepts from later chapters (e.g., file I/O, error handling).
+
+### Dataset Seeding
+
+Since file handling is introduced in Chapter 2, the dataset is provided as an in-memory list of dictionaries. For consistency, you can save this as `data/sales.csv` for future chapters, but the script uses the embedded data.
+
+**Sample `data/sales.csv` (for reference)**:
+
+```csv
+product,price,quantity
+Laptop,999.99,2
+Mouse,24.99,10
+Keyboard,49.99,5
+Monitor,199.99,3
+Headphones,59.99,4
+```
+
+### Setup Instructions
+
+1. **Install Python**: Download and install Python 3.10+ from [python.org](https://www.python.org/downloads/).
+2. **Create Project Folder**: Make a folder (e.g., `de-onboarding/`) with a `data/` subfolder.
+3. **Save Script**: Copy the code below into `de-onboarding/sales_analyzer.py`.
+4. **Optional - Use VS Code**: Install Visual Studio Code ([code.visualstudio.com](https://code.visualstudio.com/)) and the Python extension for better editing.
+
+### Sales Processing Flow
+
+The following diagram illustrates the data flow for the micro-project:
+
+```mermaid
+flowchart TD
+    A["Input Data<br>sales_data"] --> B["Read Data<br>List of Dictionaries"]
+    B --> C["Calculate Total Sales<br>Function"]
+    B --> D["Identify Top Products<br>Function"]
+    C --> E["Format Report<br>Function"]
+    D --> E
+    E --> F["Output Report<br>Console"]
+
+    classDef data fill:#f9f9f9,stroke:#333,stroke-width:2px
+    classDef process fill:#d0e0ff,stroke:#336,stroke-width:1px
+    classDef output fill:#ddffdd,stroke:#363,stroke-width:1px
+
+    class A,B data
+    class C,D,E process
+    class F output
+```
 
 ### Acceptance Criteria
 
 - **Go Criteria**:
-
-  - Script runs without errors when provided the dataset.
-  - Correctly calculates total sales, average order value, and identifies the top-selling product.
-  - Handles edge cases (missing data, invalid entries).
-  - Uses appropriate Python data structures (lists, dictionaries).
-  - Includes comments explaining the code’s functionality.
-  - Produces readable, formatted output.
-
+  - Calculates total sales correctly (price \* quantity for all records).
+  - Identifies top 3 products by sales amount.
+  - Outputs a formatted report with total sales and top products.
+  - Uses functions for modularity (e.g., calculate total, format report).
+  - Processes the provided dataset.
 - **No-Go Criteria**:
-  - Script crashes on invalid data.
-  - Incorrect statistical calculations.
-  - No handling for missing or malformed data.
-  - Lack of comments explaining the processing logic.
-  - Disorganized or unreadable output format.
+  - Incorrect total sales calculation.
+  - Missing or incorrect top products.
+  - No modular functions.
+  - Uses file I/O or error handling.
+  - Unreadable or missing report.
 
 ### Common Pitfalls to Avoid
 
-1. **Missing Dictionary Fields**:
-
-   - **Problem**: The dataset may have dictionaries missing required fields (e.g., `product`, `price`, `quantity`), causing errors in calculations.
-   - **Solution**: Validate that all required fields are present before processing each record.
-
-2. **String vs. Numeric Data Confusion**:
-
-   - **Problem**: Data values (e.g., `price`, `quantity`) are stored as strings, leading to errors in calculations.
-   - **Solution**: Validate and convert strings to numbers before calculations.
-
-3. **Invalid Entries**:
-
-   - **Problem**: Invalid data (e.g., non-numeric prices or zero quantities) affects calculations.
-   - **Solution**: Check data validity before processing using string methods.
-
-4. **Limited String-Based Validation**:
-   - **Problem**: Checking if a string represents a number (e.g., for prices) can miss some invalid cases, as string methods are less robust than error handling.
-   - **Solution**: Use careful string checks in Chapter 1; Chapter 2 introduces more robust methods for handling invalid data.
+1. **Incorrect Calculations**:
+   - **Problem**: Miscalculating totals due to type errors (e.g., treating prices as strings).
+   - **Solution**: Convert strings to floats explicitly.
+2. **Hard-Coding Data**:
+   - **Problem**: Embedding logic without functions.
+   - **Solution**: Use functions for each task.
+3. **Inefficient Sorting**:
+   - **Problem**: Sorting all products unnecessarily when only top 3 are needed.
+   - **Solution**: Sort and slice to limit processing.
+4. **Unclear Output**:
+   - **Problem**: Report lacks formatting, making it hard to read.
+   - **Solution**: Use f-strings for consistent formatting.
+5. **No Modularity**:
+   - **Problem**: All logic in one block, reducing reusability.
+   - **Solution**: Break logic into functions.
 
 ### How This Differs from Production-Grade Solutions
 
-In a production environment, this solution would include:
+In production, this solution would include:
 
-- **Robust Error Handling**: Comprehensive exception handling (covered in Chapter 2).
-- **Logging**: Structured logging to track execution (Chapter 2).
-- **File Integration**: Processing data from files instead of in-memory structures (Chapter 2).
-- **Testing**: Unit tests to verify calculations (Chapter 9).
-- **Scalability**: Handling large datasets efficiently (Chapter 3 with Pandas).
+- **File I/O**: Reading from actual CSV files (Chapter 2).
+- **Error Handling**: Handling missing or invalid data (Chapter 2).
+- **Testing**: Unit tests for calculations (Chapter 9).
+- **Scalability**: Processing large datasets with Pandas (Chapter 3).
+- **Logging**: Tracking execution details (Chapter 8).
+- **Configuration**: External settings for file paths (Chapter 8).
 
 ### Implementation
 
 ```python
-# Function to provide sales data as an in-memory list of dictionaries
-def read_sales_data():
-    """
-    Return a list of dictionaries representing sales data.
-    Each dictionary contains product, price, and quantity.
-    """
-    sales = [
-        {'product': 'Laptop', 'price': '999.99', 'quantity': '2'},
-        {'product': 'Mouse', 'price': '24.99', 'quantity': '10'},
-        {'product': 'Keyboard', 'price': '49.99', 'quantity': '5'},
-        {'product': '', 'price': '29.99', 'quantity': '3'},  # Missing product
-        {'product': 'Monitor', 'price': 'invalid', 'quantity': '2'},  # Invalid price
-        {'product': 'Headphones', 'price': '59.99', 'quantity': '0'},  # Zero quantity
-        {'product': 'Laptop', 'price': '899.99', 'quantity': '1'}
-    ]
-    return sales
-
-# Function to validate and clean a sale record
-def validate_sale(sale):
-    """
-    Validate that price and quantity are numeric and positive.
-    Returns True if valid, False otherwise.
-    """
-    # Check if required fields exist
-    if not all(key in sale for key in ['product', 'price', 'quantity']):
-        return False
-
-    # Check if product is non-empty
-    if not sale['product'].strip():
-        return False
-
-    # Check if quantity is a positive integer
-    quantity = sale['quantity'].strip()
-    if not quantity.isdigit():
-        return False
-    quantity_num = int(quantity)
-    if quantity_num <= 0:
-        return False
-
-    # Check if price is a valid positive float (e.g., "123.45" or "123")
-    price = sale['price'].strip()
-    parts = price.split('.')
-    if len(parts) > 2 or not parts[0].replace('-', '').isdigit():
-        return False
-    if len(parts) == 2 and not parts[1].isdigit():
-        return False
-    price_num = float(price)
-    if price_num <= 0:
-        return False
-
-    return True
+# Simulate sales.csv data (file handling covered in Chapter 2)
+sales_data = [
+    {"product": "Laptop", "price": 999.99, "quantity": 2},
+    {"product": "Mouse", "price": 24.99, "quantity": 10},
+    {"product": "Keyboard", "price": 49.99, "quantity": 5},
+    {"product": "Monitor", "price": 199.99, "quantity": 3},
+    {"product": "Headphones", "price": 59.99, "quantity": 4}
+]
 
 # Function to calculate total sales
 def calculate_total_sales(sales):
-    """Calculate the total sales amount."""
-    total = 0.0
+    """
+    Calculate total sales from a list of sales records.
+    Returns the sum of price * quantity for all records.
+    """
+    total = 0
     for sale in sales:
-        if validate_sale(sale):
-            total += float(sale['price']) * int(sale['quantity'])
+        total += float(sale["price"]) * int(sale["quantity"])
     return total
 
-# Function to calculate average order value
-def calculate_average_order_value(sales):
-    """Calculate the average order value."""
-    valid_sales = []
+# Function to find top N products by sales
+def find_top_products(sales, n=3):
+    """
+    Find top N products by sales amount.
+    Returns a list of (product, amount) tuples, sorted by amount descending.
+    """
+    product_sales = {}
     for sale in sales:
-        if validate_sale(sale):
-            valid_sales.append(sale)
-    if not valid_sales:
-        return 0.0
-    total = calculate_total_sales(valid_sales)
-    return total / len(valid_sales)
+        product = sale["product"]
+        amount = float(sale["price"]) * int(sale["quantity"])
+        product_sales[product] = product_sales.get(product, 0) + amount
 
-# Function to find the top-selling product by quantity
-def find_top_selling_product(sales):
-    """Find the product with the highest total quantity sold."""
-    product_quantities = {}
-    for sale in sales:
-        if validate_sale(sale):
-            product = sale['product']
-            quantity = int(sale['quantity'])
-            product_quantities[product] = product_quantities.get(product, 0) + quantity
+    # Sort by sales amount, return top N
+    sorted_sales = sorted(
+        product_sales.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )
+    return sorted_sales[:n]
 
-    if not product_quantities:
-        return None, 0
-
-    top_product = max(product_quantities, key=product_quantities.get)
-    return top_product, product_quantities[top_product]
-
-# Function to generate formatted output
-def generate_report(sales):
-    """Generate a formatted report of sales metrics."""
-    total_sales = calculate_total_sales(sales)
-    avg_order_value = calculate_average_order_value(sales)
-    top_product, top_quantity = find_top_selling_product(sales)
-
+# Function to format the report
+def format_report(total_sales, top_products):
+    """
+    Format a sales report as a string.
+    Includes total sales and top products.
+    """
     report = "SALES REPORT\n"
     report += "============\n\n"
-    report += f"Total Sales: ${total_sales:.2f}\n"
-    report += f"Average Order Value: ${avg_order_value:.2f}\n"
-    if top_product:
-        report += f"Top Selling Product: {top_product} ({top_quantity} units)\n"
-    else:
-        report += "Top Selling Product: None\n"
+    report += f"Total Sales: ${total_sales:.2f}\n\n"
+    report += "Top Products:\n"
+    for product, amount in top_products:
+        report += f"  {product}: ${amount:.2f}\n"
     report += "\n============\n"
     return report
 
-# Main function to run the analyzer
+# Main function to process data
 def main():
-    sales = read_sales_data()
-    report = generate_report(sales)
+    # Calculate metrics
+    total_sales = calculate_total_sales(sales_data)
+    top_products = find_top_products(sales_data, n=3)
+
+    # Generate and print report
+    report = format_report(total_sales, top_products)
     print(report)
 
 if __name__ == "__main__":
     main()
+```
 
-# Output:
-# SALES REPORT
-# ============
-#
-# Total Sales: $2499.95
-# Average Order Value: $416.66
-# Top Selling Product: Mouse (10 units)
-#
-# ============
+### Expected Output
+
+```
+SALES REPORT
+============
+
+Total Sales: $2938.90
+
+Top Products:
+  Laptop: $1999.98
+  Monitor: $599.97
+  Keyboard: $249.95
+
+============
 ```
 
 ### How to Run and Test the Solution
 
-1. **Run the Script**:
+1. **Run**:
 
-   - Save the code as `sales_analyzer.py`.
-   - Run it with: `python sales_analyzer.py`.
-   - The script processes the in-memory sales data and prints a report.
+   - Open a terminal in the `de-onboarding/` folder.
+   - Execute: `python sales_analyzer.py`.
+   - Output: Formatted report printed to console.
 
-2. **Test Different Scenarios**:
-
-   - **Invalid Data**: The script skips invalid records (missing fields, non-numeric values, zero quantities). Verify by checking the output excludes the last three records in the dataset.
-   - **Empty Dataset**: Modify `read_sales_data` to return an empty list (`[]`). Run the script to confirm it outputs:
-     ```
-     Total Sales: $0.00
-     Average Order Value: $0.00
-     Top Selling Product: None
-     ```
-   - **All Invalid Records**: Modify `read_sales_data` to return only invalid records (e.g., missing products, invalid prices). The script should produce the same zeroed output as above.
-   - **Large Dataset**: Add 100 valid records to the list in `read_sales_data` and verify calculations remain correct.
-   - **Edge Cases**: Include negative prices or quantities in the dataset; the script should exclude them.
-
-3. **Verify Output**:
-   - Check that total sales sum only valid records (e.g., `$999.99*2 + $24.99*10 + $49.99*5 + $899.99*1 = $2499.95`).
-   - Confirm the average order value divides total sales by the number of valid records (6 records: `$2499.95 / 6 ≈ $416.66`).
-   - Ensure the top-selling product (Mouse) has the highest quantity (10 units).
-
----
+2. **Test Scenarios**:
+   - **Valid Data**: Verify total sales ($2938.90) and top products (Laptop, Monitor, Keyboard with correct amounts).
+   - **Empty Data**: Modify `sales_data = []`. Report should show $0.00 total and empty top products.
+   - **Single Record**: Use one record (e.g., `[{"product": "Laptop", "price": 999.99, "quantity": 2}]`). Verify correct total ($1999.98) and single top product.
+   - **Large Quantities**: Add a record with high quantity (e.g., `{"product": "Pen", "price": 1.99, "quantity": 1000}`). Confirm correct calculations.
 
 ## 1.7 Practice Exercises
 
-These exercises reinforce the concepts from this chapter. Try them to solidify your understanding.
+These exercises reinforce variables, data types, control flow, functions, and data structures, with increasing complexity.
 
-### Exercise 1: Product Price Formatter
+### Exercise 1: Price Formatter
 
-Write a function that takes a list of product prices and returns a list of formatted strings (e.g., `"$19.99"`). Use string formatting and list iteration.
+Write a function that formats a price and currency as a string (e.g., "$999.99"). Handle integer or float inputs.
 
-### Exercise 2: Sales Record Validator
+**Sample Input**:
 
-Write a function that takes a dictionary representing a sale (`product`, `price`, `quantity`) and returns `True` if all fields are present and valid (price and quantity are positive numbers), `False` otherwise.
+```python
+price = 999.99
+currency = "USD"
+```
+
+**Expected Output**:
+
+```
+USD999.99
+```
+
+### Exercise 2: Sales Filter
+
+Write a function that filters sales records with quantity > 5, returning a list of product names.
+
+**Sample Input**:
+
+```python
+sales = [
+    {"product": "Laptop", "quantity": 2},
+    {"product": "Mouse", "quantity": 10},
+    {"product": "Keyboard", "quantity": 5}
+]
+```
+
+**Expected Output**:
+
+```
+['Mouse']
+```
 
 ### Exercise 3: Category Counter
 
-Write a script that takes a list of products (each with a `category` field) and counts how many products belong to each category using a dictionary. Handle cases where the `category` field is missing by assigning an "Unknown" category.
+Write a function that counts unique product categories from a list of records with a `category` field, using a set.
 
-### Exercise 4: Price Range Classifier
+**Sample Input**:
 
-Write a function that classifies a price into "Low", "Medium", or "High" based on thresholds (e.g., < $20, $20-$50, > $50) using conditional statements.
+```python
+records = [
+    {"product": "Laptop", "category": "Electronics"},
+    {"product": "Mouse", "category": "Electronics"},
+    {"product": "T-shirt", "category": "Clothing"}
+]
+```
 
-### Exercise 5: Unique Product Names
+**Expected Output**:
 
-Write a function that takes a list of product names and returns a set of unique names, demonstrating set operations.
+```
+2
+```
 
----
+### Exercise 4: Discount Calculator
+
+Write a function that applies tiered discounts based on total sales amount:
+
+- > $1000: 15%
+- > $500: 10%
+- Else: 5%
+  Return the discounted amount.
+
+**Sample Input**:
+
+```python
+total = 1500
+```
+
+**Expected Output**:
+
+```
+1275.0
+```
+
+### Exercise 5: Top Sales Aggregator
+
+Write a function that aggregates sales by product and returns the top product by total sales amount.
+
+**Sample Input**:
+
+```python
+sales = [
+    {"product": "Laptop", "price": 999.99, "quantity": 2},
+    {"product": "Mouse", "price": 24.99, "quantity": 10}
+]
+```
+
+**Expected Output**:
+
+```
+Laptop
+```
+
+### Exercise 6: Debug a Sales Calculator
+
+The following function is supposed to calculate total sales but fails with a TypeError. Fix the bug and explain the issue.
+
+**Buggy Code**:
+
+```python
+def calculate_total(sales):
+    total = 0
+    for sale in sales:
+        total += sale["price"] * sale["quantity"]  # Bug: No type conversion
+    return total
+
+sales = [{"product": "Laptop", "price": "999.99", "quantity": "2"}]
+print(calculate_total(sales))  # TypeError: can't multiply sequence by non-int
+```
+
+**Task**:
+
+- Fix the function to handle string inputs.
+- Explain the error and your solution.
+
+**Expected Output**:
+
+```
+1999.98
+```
 
 ## 1.8 Exercise Solutions
 
-### Solution to Exercise 1: Product Price Formatter
+### Solution to Exercise 1: Price Formatter
 
 ```python
-def format_prices(prices):
-    """Format a list of prices as dollar amounts with 2 decimal places."""
-    formatted = []
-    for price in prices:
-        formatted.append(f"${price:.2f}")
-    return formatted
+def format_price(price, currency="USD"):
+    """Format a price with currency."""
+    return f"{currency}{float(price):.2f}"
 
-# Test the function
-prices = [19.99, 5.0, 123.456, 0.99]
-formatted = format_prices(prices)
-for f in formatted:
-    print(f)
-# $19.99
-# $5.00
-# $123.46
-# $0.99
+# Test
+print(format_price(999.99))  # USD999.99
+print(format_price(24, "EUR"))  # EUR24.00
 ```
 
-### Solution to Exercise 2: Sales Record Validator
+### Solution to Exercise 2: Sales Filter
 
 ```python
-def is_valid_sale(sale):
-    """Validate a sale record has all fields and positive numeric values."""
-    # Check if required fields exist
-    if not all(key in sale for key in ['product', 'price', 'quantity']):
-        return False
+def filter_high_quantity(sales):
+    """Filter sales with quantity > 5."""
+    return [sale["product"] for sale in sales if int(sale["quantity"]) > 5]
 
-    # Check if product is non-empty
-    if not sale['product'].strip():
-        return False
-
-    # Check if quantity is a positive integer
-    quantity = sale['quantity'].strip()
-    if not quantity.isdigit():
-        return False
-    quantity_num = int(quantity)
-    if quantity_num <= 0:
-        return False
-
-    # Check if price is a valid positive float
-    price = sale['price'].strip()
-    parts = price.split('.')
-    if len(parts) > 2 or not parts[0].replace('-', '').isdigit():
-        return False
-    if len(parts) == 2 and not parts[1].isdigit():
-        return False
-    price_num = float(price)
-    if price_num <= 0:
-        return False
-
-    return True
-
-# Test the function
+# Test
 sales = [
-    {"product": "Laptop", "price": "999.99", "quantity": "2"},
-    {"product": "", "price": "29.99", "quantity": "3"},
-    {"product": "Mouse", "price": "invalid", "quantity": "10"},
-    {"product": "Keyboard", "price": "49.99", "quantity": "0"}
+    {"product": "Laptop", "quantity": 2},
+    {"product": "Mouse", "quantity": 10},
+    {"product": "Keyboard", "quantity": 5}
 ]
-for sale in sales:
-    print(f"{sale}: {is_valid_sale(sale)}")
-# {'product': 'Laptop', 'price': '999.99', 'quantity': '2'}: True
-# {'product': '', 'price': '29.99', 'quantity': '3'}: False
-# {'product': 'Mouse', 'price': 'invalid', 'quantity': '10'}: False
-# {'product': 'Keyboard', 'price': '49.99', 'quantity': '0'}: False
+print(filter_high_quantity(sales))  # ['Mouse']
 ```
 
 ### Solution to Exercise 3: Category Counter
 
 ```python
-def count_categories(products):
-    """Count the number of products in each category, handling missing categories."""
-    category_counts = {}
-    for product in products:
-        category = product.get('category', 'Unknown')
-        category_counts[category] = category_counts.get(category, 0) + 1
-    return category_counts
+def count_categories(records):
+    """Count unique categories using a set."""
+    categories = set(record["category"] for record in records)
+    return len(categories)
 
-# Test the function
-products = [
-    {"name": "Laptop", "category": "Electronics"},
-    {"name": "T-shirt", "category": "Clothing"},
-    {"name": "Mouse", "category": "Electronics"},
-    {"name": "Jeans", "category": "Clothing"},
-    {"name": "Book"}  # Missing category
+# Test
+records = [
+    {"product": "Laptop", "category": "Electronics"},
+    {"product": "Mouse", "category": "Electronics"},
+    {"product": "T-shirt", "category": "Clothing"}
 ]
-counts = count_categories(products)
-for category, count in counts.items():
-    print(f"{category}: {count}")
-# Electronics: 2
-# Clothing: 2
-# Unknown: 1
+print(count_categories(records))  # 2
 ```
 
-### Solution to Exercise 4: Price Range Classifier
+### Solution to Exercise 4: Discount Calculator
 
 ```python
-def classify_price(price):
-    """Classify a price into Low, Medium, or High."""
-    # Check if price is a number (int or float)
-    if not isinstance(price, (int, float)):
-        # Check if price is a string representing a valid float
-        price_str = str(price).strip()
-        parts = price_str.split('.')
-        if len(parts) > 2 or not parts[0].replace('-', '').isdigit():
-            return "Invalid"
-        if len(parts) == 2 and not parts[1].isdigit():
-            return "Invalid"
-        price = float(price_str)
-
-    # Classify based on thresholds
-    if price < 0:
-        return "Invalid"
-    elif price < 20:
-        return "Low"
-    elif price <= 50:
-        return "Medium"
+def calculate_discount(total):
+    """Apply tiered discounts based on total."""
+    if total > 1000:
+        discount = 0.15
+    elif total > 500:
+        discount = 0.10
     else:
-        return "High"
+        discount = 0.05
+    return total * (1 - discount)
 
-# Test the function
-prices = [15.99, 30.00, 75.50, "invalid", 25.99]
-for price in prices:
-    print(f"Price ${price}: {classify_price(price)}")
-# Price $15.99: Low
-# Price $30.00: Medium
-# Price $75.50: High
-# Price $invalid: Invalid
-# Price $25.99: Medium
+# Test
+print(calculate_discount(1500))  # 1275.0
+print(calculate_discount(600))   # 540.0
+print(calculate_discount(200))   # 190.0
 ```
 
-### Solution to Exercise 5: Unique Product Names
+### Solution to Exercise 5: Top Sales Aggregator
 
 ```python
-def get_unique_products(names):
-    """Return a set of unique product names."""
-    return set(names)
+def top_product_by_sales(sales):
+    """Find product with highest sales amount."""
+    product_sales = {}
+    for sale in sales:
+        product = sale["product"]
+        amount = float(sale["price"]) * int(sale["quantity"])
+        product_sales[product] = product_sales.get(product, 0) + amount
 
-# Test the function
-products = ["Laptop", "Mouse", "Laptop", "Keyboard", "Mouse"]
-unique_products = get_unique_products(products)
-print(f"Unique products: {unique_products}")
-# Unique products: {'Laptop', 'Mouse', 'Keyboard'}
+    if not product_sales:
+        return None
+    return max(product_sales.items(), key=lambda x: x[1])[0]
+
+# Test
+sales = [
+    {"product": "Laptop", "price": 999.99, "quantity": 2},
+    {"product": "Mouse", "price": 24.99, "quantity": 10}
+]
+print(top_product_by_sales(sales))  # Laptop
 ```
 
----
+### Solution to Exercise 6: Debug a Sales Calculator
+
+**Fixed Code**:
+
+```python
+def calculate_total(sales):
+    """Calculate total sales from a list of records."""
+    total = 0
+    for sale in sales:
+        total += float(sale["price"]) * int(sale["quantity"])
+    return total
+
+# Test
+sales = [{"product": "Laptop", "price": "999.99", "quantity": "2"}]
+print(calculate_total(sales))  # 1999.98
+```
+
+**Explanation**:
+
+- **Error**: The original code caused a TypeError because `sale["price"]` and `sale["quantity"]` were strings, and Python cannot multiply strings directly (it interprets `*` as string repetition for non-integer multipliers).
+- **Solution**: Convert `price` to `float` and `quantity` to `int` using `float()` and `int()` to ensure numerical multiplication.
+- **Implication**: Always validate and convert data types when processing external data, as inputs may not match expected types.
 
 ## 1.9 Chapter Summary and Connection to Chapter 2
 
-In this chapter, you’ve mastered Python’s core essentials:
+In this chapter, you’ve mastered:
 
-- **Syntax and Data Types**: Variables, integers, floats, booleans, and strings for basic data representation.
-- **Control Flow**: If statements and loops to process data conditionally and iteratively.
-- **Functions**: Reusable code blocks to modularize logic.
-- **Data Structures**: Lists, dictionaries, tuples, and sets for organizing data.
-- **String Manipulation**: Formatting and cleaning data for output.
+- **Syntax and Variables**: Declaring and using variables for data storage.
+- **Data Types**: Working with numbers, strings, and booleans.
+- **Control Flow**: Using if statements and loops for logic and iteration.
+- **Functions**: Writing modular, reusable code.
+- **Data Structures**: Using lists, dictionaries, and sets for data organization.
 
-These skills, along with an understanding of their time and space complexity, are the foundation for data engineering tasks like data cleaning, transformation, and reporting. The micro-project demonstrated how to combine these concepts to process a sales dataset, a simplified version of real-world data pipeline tasks.
+These skills, along with their performance characteristics (time and space complexity), enable you to process data programmatically. The micro-project built a sales analyzer that calculates totals and identifies top products, simulating a basic data engineering task.
 
 ### Connection to Chapter 2
 
-Chapter 2 builds on these fundamentals by introducing:
+Chapter 2 builds on these foundations by introducing:
 
-- **File Handling**: Reading from and writing to files (e.g., CSVs) using context managers, extending your ability to work with external data.
-- **Error Handling**: Using try/except to make your code robust against invalid data, enhancing the basic validation in this chapter’s micro-project.
-- **List Comprehensions**: A concise way to transform data, building on list operations.
-- **Data Formats**: Processing CSV and JSON, applying your dictionary and string skills to structured data.
+- **File Handling**: Reading `sales.csv` directly instead of simulating data.
+- **Error Handling**: Managing issues like missing files or invalid data.
+- **CSV/JSON Processing**: Handling common data formats for pipelines.
+- **List Comprehensions**: Enhancing data transformations from this chapter’s loops.
+- **Modules**: Using `csv`, `json`, and `logging` to extend functionality.
 
-The sales analyzer from this chapter will be enhanced in Chapter 2 with robust error handling, file I/O, and export capabilities, preparing you for more complex data processing tasks in Chapter 3 (NumPy and Pandas). Your understanding of data structures, their performance characteristics (time and space complexity), and functions will be critical for handling larger datasets and integrating with libraries.
+The sales analyzer will be enhanced in Chapter 2 to read from files, handle errors, and export results, preparing you for real-world data processing and integration with NumPy and Pandas in Chapter 3.
