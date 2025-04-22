@@ -53,6 +53,14 @@ This chapter covers:
 
 By the end, you’ll build a sales data analyzer that processes a CSV, validates Sharia-compliant transactions, computes total sales and unique products, and outputs a report, adhering to PEP 8’s 4-space indentation standard to avoid errors.
 
+**Follow-Along Tips**:
+
+- Ensure `data/sales.csv` exists in `data/`.
+- If `IndentationError`, use 4 spaces (not tabs) per PEP 8. Python’s white-space sensitivity and tab/space mixing cause errors. Run `python -tt` or use VS Code’s Pylint to detect inconsistencies.
+- Use print statements (e.g., `print(sale)`) to debug issues in loops or functions.
+- Read comments to understand each function’s logic.
+- Mermaid diagrams (e.g., indentation flowchart in 1.1.1) require a compatible renderer like VS Code’s Markdown Preview Enhanced or Mermaid Live Editor. Ensure your tool supports Mermaid v10+ for `flowchart` syntax.
+
 ## 1.1 Python Syntax and Data Types
 
 Python’s syntax is clear, readable, and **white-space sensitive**, meaning indentation defines code blocks, unlike languages like Java or C++ that use braces `{}`. The **Python style guide (PEP 8)** recommends using **4 spaces per indentation level** for consistency, as this ensures consistent rendering across editors, enhancing code readability and collaboration. While tabs can be used, **spaces are preferred** to avoid issues, as mixing tabs and spaces in the same file can cause `IndentationError` or subtle bugs. Consistent indentation is critical to ensure code executes correctly. Data types like strings, integers, lists, dictionaries, sets, and tuples are essential for handling structured fintech data, such as Halal product sales.
@@ -123,7 +131,8 @@ def bad_indentation():
 3. Configure your editor to use **4 spaces for indentation** (not tabs) per PEP 8. In VS Code, set “Editor: Tab Size” to 4, “Editor: Insert Spaces” to true, and “Editor: Detect Indentation” to false to enforce spaces.
 4. Open a terminal, navigate to `de-onboarding/`, and run: `python data_types.py`.
 5. Verify the output matches the comments.
-6. **Common Errors**:
+6. Ensure your Mermaid renderer (e.g., VS Code’s Markdown Preview Enhanced) supports `flowchart` syntax. Update plugins if rendering fails.
+7. **Common Errors**:
    - **SyntaxError**: Ensure quotes for strings (e.g., `"Halal Investment"`) and proper brackets for lists/dictionaries. Print `product` to verify its value.
    - **IndentationError**: Use 4 spaces for all lines (not tabs). Python is white-space sensitive, and PEP 8 recommends 4 spaces per indentation level. Mixing tabs and spaces can cause errors. Run `python -tt data_types.py` to detect tab/space inconsistencies or check editor settings.
 
@@ -142,7 +151,7 @@ def bad_indentation():
   - Tuples: Fixed-size arrays, O(1) access, immutable.
 - **Performance Considerations**:
   - **Time Complexity**: O(1) for dictionary/set lookups, critical for real-time transaction validation in Hijra Group’s systems (e.g., checking product IDs). Avoid lists for frequent lookups, as O(n) is slow for large datasets.
-  - **Space Complexity**: O(n) for n elements. A list of 1 million floats uses \~8 MB; a set of unique items may use less due to deduplication. A day’s transactions (\~10,000 records) is manageable in memory, but large datasets require streaming (Chapter 40). Consistent 4-space indentation per PEP 8 ensures readable, maintainable code for large transaction processing scripts, reducing debugging time in Hijra Group’s systems. It also avoids runtime errors in memory-intensive fintech applications, ensuring reliable transaction analytics.
+  - **Space Complexity**: O(n) for n elements. A list of 1 million floats uses ~8 MB; a set of unique items may use less due to deduplication. A day’s transactions (~10,000 records) is manageable in memory, but large datasets require streaming (Chapter 40). Consistent 4-space indentation per PEP 8 ensures readable, maintainable code for large transaction processing scripts, reducing debugging time in Hijra Group’s systems. It also avoids runtime errors in memory-intensive fintech applications, ensuring reliable transaction analytics.
   - **Implication**: Use dictionaries for fast key-based access, sets for deduplication, lists for ordered data. Follow PEP 8’s 4-space indentation, preferring spaces to avoid errors.
 
 ### 1.1.2 Operations on Data Types
@@ -283,7 +292,7 @@ else:
 - **Performance Considerations**:
   - **Time Complexity**: O(1) per condition, O(n) if iterating.
   - **Space Complexity**: O(1) for conditionals.
-  - **Implication**: Use conditionals for simple validations (e.g., checking price &gt; 0); combine with loops for processing multiple transactions.
+  - **Implication**: Use conditionals for simple validations (e.g., checking price > 0); combine with loops for processing multiple transactions.
 
 ### 1.2.2 Loops
 
@@ -459,7 +468,7 @@ else:
 Scope determines variable accessibility (global or local). Python’s white-space sensitivity and PEP 8’s 4-space indentation rule apply to indentation within function scopes.
 
 ```mermaid
-graph TD
+flowchart TD
     A[Global Scope: tax_rate] --> B[Function: calculate_tax]
     B --> C[Local Scope: tax]
     C --> D[Return tax]
@@ -864,9 +873,10 @@ Processing completed
    - Create `data/sales.csv` with the sample content above.
    - Save the code as `de-onboarding/sales_analyzer.py`.
    - Verify Python 3.10+: Run `python --version` (or `python3 --version` on Unix/macOS).
-   - Configure editor to use **4 spaces for indentation** (not tabs) per PEP 8. In VS Code, set “Editor: Tab Size” to 4, “Editor: Insert Spaces” to true, and “Editor: Detect Indentation” to false. Enable “View: Toggle Render Whitespace” to visualize spaces vs. tabs.
+   - Configure editor to use **4 spaces for indentation** (not tabs) per PEP 8. In VS Code, set “Editor: Tab Size” to 4, “Editor: Insert Spaces” to true, “Editor: Detect Indentation” to false. Enable “View: Toggle Render Whitespace” to visualize spaces vs. tabs.
    - Optional: Use Visual Studio Code with Python extension and Pylint for linting.
    - If `FileNotFoundError` occurs, ensure `data/sales.csv` is in `de-onboarding/data/`. Check permissions with `ls -l` (Unix/macOS) or `dir` (Windows). Verify working directory with `pwd` or `cd`.
+   - Verify Mermaid diagrams render correctly in your Markdown viewer. If errors occur (e.g., `UnknownDiagramError`), update your Mermaid plugin or use the Mermaid Live Editor (https://mermaid.live/).
 
 2. **Run**:
 
@@ -877,18 +887,14 @@ Processing completed
 3. **Test Scenarios**:
 
    - **Valid Data**: Verify report shows `Total Records Processed: 6`, `Valid Sales: 3`, `Invalid Sales: 3`, `Total Sales: $ 2249.97`, `Unique Products: ['Halal Laptop', 'Halal Mouse', 'Halal Keyboard']`.
-
-   - **Invalid Records**: Check console for warnings on empty product, non-Halal product, invalid price, or quantity &gt; 100.
-
+   - **Invalid Records**: Check console for warnings on empty product, non-Halal product, invalid price, or quantity > 100.
    - **Empty CSV**: Create `data/empty.csv` with `product,price,quantity\n` and run:
-
      ```python
      sales = read_sales_data("data/empty.csv")
      results, valid_sales, total_records = process_sales(sales)
      print(results, valid_sales, total_records)
      # Expected: {'total_sales': 0.0, 'unique_products': []}, 0, 0
      ```
-
    - **Single Record**: Edit `sales.csv` to one valid row and verify report.
 
 **Follow-Along Tips**:
