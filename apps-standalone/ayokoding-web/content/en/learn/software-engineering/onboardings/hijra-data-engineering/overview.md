@@ -7,13 +7,13 @@ weight: 1
 
 ## Introduction
 
-The **Data Engineering Onboarding Curriculum** is a 71-chapter program transforming programmers into proficient data engineers, tailored for Hijra Group’s ecosystem. It emphasizes PostgreSQL, BigQuery, SQLite, Kubernetes (with Helm Charts), Airflow, dbt, Django, and FastAPI for building robust, testable data pipelines, web UIs, and APIs, aligning with Hijra Group’s needs for scalable analytics and containerized deployments using Uvicorn. Structured for ~52-minute sessions, it features ten phases with checkpoints (Chapters 6, 11, 24, 30, 37, 45, 59, 66) and micro-projects for practical application, with all Python code after Chapter 7 using type annotations verified by Pyright and tested using `unittest` and/or `pytest` after Chapter 9. The curriculum is designed to be followed in a development environment such as Visual Studio Code (VS Code), with specific setup instructions to be provided in chapter implementations.
+The **Data Engineering Onboarding Curriculum** is a 71-chapter program transforming programmers into proficient data engineers, tailored for Hijra Group’s ecosystem. It emphasizes PostgreSQL, BigQuery, SQLite, Kubernetes (with Helm Charts), Airflow, dbt, Django, and FastAPI for building robust, testable data pipelines, web UIs, and APIs, aligning with Hijra Group’s needs for scalable analytics and containerized deployments using Uvicorn. Structured for ~52-minute sessions, it features ten phases with checkpoints (Chapters 6, 11, 24, 30, 37, 45, 59, 66) and micro-projects for practical application, with all Python code after Chapter 7 using type annotations verified by Pyright and tested using `unittest` and/or `pytest` after Chapter 9. The curriculum is designed to be followed in a development environment, with setup instructions to be provided in chapter implementations.
 
 This curriculum equips learners to handle financial transaction data analytics via production-ready pipelines and web interfaces, culminating in capstone projects integrating security, observability, and scalability, with quality built-in from early type safety and testing.
 
 ### Prerequisite Guide
 
-The curriculum assumes basic programming (variables, loops, functions) and command-line skills. For Hijra Group learners needing a refresher, recommended resources (~10–20 hours) include:
+The curriculum assumes basic programming (variables, loops, functions), command-line skills, and familiarity with Python files for organizing code. For Hijra Group learners needing a refresher, recommended resources (~10–20 hours) include:
 
 - **Python Basics**: Codecademy’s “Learn Python 3” or freeCodeCamp’s Python course.
 - **Command-Line Skills**: LinuxCommand.org or shell command tutorials.
@@ -21,7 +21,7 @@ The curriculum assumes basic programming (variables, loops, functions) and comma
 - **Web Fundamentals**: freeCodeCamp’s REST API tutorial for HTTP, REST, and MVC concepts.
 - **Kubernetes Basics**: Kubernetes.io’s introductory tutorials for container orchestration and Helm.
 
-**Development Environment**: Learners should prepare a development environment with Python 3.10+, a code editor (e.g., VS Code), and necessary libraries (e.g., pandas, numpy, psycopg2-binary, google-cloud-bigquery, apache-airflow, dbt-core, fastapi, uvicorn, djangorestframework, pyyaml, pytest, hypothesis). Detailed setup instructions will be provided in chapter implementations.
+**Development Environment**: Learners should prepare a development environment with Python 3.10+, a code editor (e.g., VS Code), and necessary libraries (e.g., pandas, numpy, psycopg2-binary, google-cloud-bigquery, apache-airflow, dbt-core, fastapi, uvicorn, djangorestframework, pyyaml, pytest, hypothesis). A virtual environment is recommended to manage dependencies, using tools like `pip` for library installation. Detailed setup instructions will be provided in chapter implementations.
 
 ## Pedagogical Approach
 
@@ -77,23 +77,23 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 1: Python Foundations (Chapters 1–6)
 
-1. [**Python Core Language Essentials**](../ch01-python-core-language-essentials/)
+1. **Python Core Language Essentials**
 
    - **Complexity**: Easy (E)
-   - **Description**: Introduces Python syntax, data types, control flow, and structures (lists, dictionaries) for pipeline development. The micro-project analyzes a sales CSV to compute metrics, building foundational skills.
-   - **Learning Outcomes**: Learners gain Python proficiency, preparing for data handling in Chapter 2.
-   - **Micro-Project**: Process a sales CSV dataset (`data/sales.csv`) to calculate total sales and top products, outputting a formatted report.
-   - **Role**: Establishes Python basics for data handling.
+   - **Description**: Introduces Python syntax, data types (strings, integers, lists, dictionaries, sets, tuples), control flow (if, loops), functions (defining, calling, parameters, return values), variable scope (global, local), and basic environment concepts (Python interpreter, virtual environments, `pip`). The micro-project analyzes a sales CSV to compute metrics using functions, building foundational skills for data engineering pipelines.
+   - **Learning Outcomes**: Learners gain proficiency in Python syntax, data structures, functions, scope, and environment basics, preparing for data handling in Chapter 2.
+   - **Micro-Project**: Process a sales CSV dataset (`data/sales.csv`) using a function (e.g., `calculate_sales`) to calculate total sales and top products, incorporating sets to identify unique products and outputting a formatted report.
+   - **Role**: Establishes Python basics for data handling and pipeline development.
 
-2. [**Python Data Handling and Error Management**](../ch02-python-data-handling-and-error-management)
+2. **Python Data Handling and Error Management**
 
    - **Complexity**: Easy (E)
-   - **Description**: Teaches file handling and CSV/JSON/YAML processing with PyYAML for robust pipelines, avoiding try/except as it’s not yet introduced. The micro-project processes sales data with string-based validation and YAML configs, preparing for type safety.
-   - **Learning Outcomes**: Learners master data handling and YAML parsing, ready for static typing in Chapter 7.
-   - **Micro-Project**: Enhance a sales data processor using `data/sales.csv` and `config.yaml` with string validation, YAML config parsing, and JSON export.
-   - **Role**: Enables robust data processing and configuration parsing.
+   - **Description**: Teaches file handling, CSV/JSON/YAML processing with PyYAML, Python modules for reusable code, string manipulation (e.g., split, join, strip), and basic debugging (e.g., reading error messages, print statements), avoiding try/except as it’s not yet introduced. Modules are introduced as `.py` files, covering creation (e.g., `utils.py`), importing (`import utils`), and organization to reduce duplication. The micro-project processes sales data with string-based validation, module-based parsing, and debugging, preparing for type safety.
+   - **Learning Outcomes**: Learners master file handling, YAML parsing, string manipulation, basic debugging, and creating/importing Python modules for code organization, ready for static typing in Chapter 7 and modular design in Chapter 5.
+   - **Micro-Project**: Enhance a sales data processor using `data/sales.csv` and `config.yaml`, implementing parsing and string cleaning functions (e.g., `parse_csv`, `load_yaml`, `clean_text`) in a `utils.py` module, importing them into the main script for validation and JSON export, and debugging any parsing issues.
+   - **Role**: Enables robust data processing, configuration parsing, debugging, and modular code organization.
 
-3. [**Essential Data Libraries (NumPy and Pandas Basics)**](../ch03-essential-data-libraries-numpy-and-pandas-basics/)
+3. **Essential Data Libraries (NumPy and Pandas Basics)**
 
    - **Complexity**: Moderate (M)
    - **Description**: Introduces NumPy arrays and Pandas DataFrames for efficient data manipulation, focusing on their role in data engineering. The micro-project refactors a sales processor for analytics, preparing for type-safe Pandas and databases.
@@ -101,7 +101,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Refactor a sales processor using Pandas and NumPy for analytics and visualization with `data/sales.csv`.
    - **Role**: Equips learners with data processing tools.
 
-4. [**Web Integration and APIs**](../ch04-web-integration-and-apis/)
+4. **Web Integration and APIs**
 
    - **Complexity**: Moderate (M)
    - **Description**: Teaches API integration with requests, covering HTTP, REST, and MVC fundamentals. The micro-project fetches financial transaction data, preparing for OOP and web frameworks.
@@ -109,15 +109,15 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Fetch and transform financial transaction data from an API, saving to `data/transactions.csv`.
    - **Role**: Enables data source integration and web basics.
 
-5. [**Object-Oriented Programming for Data Engineering**](../ch05-object-oriented-programming-for-data-engineering/)
+5. **Object-Oriented Programming for Data Engineering**
 
    - **Complexity**: Moderate (M)
-   - **Description**: Introduces OOP (classes, inheritance, SOLID principles) for modular code. The micro-project builds an OOP-based transaction data fetcher, preparing for type-safe OOP.
-   - **Learning Outcomes**: Learners master scalable code design, ready for static typing in Chapter 7 and Phase 2.
-   - **Micro-Project**: Develop an OOP-based fetcher for transaction data with extensible classes, using `data/transactions.csv`.
+   - **Description**: Introduces OOP (classes, inheritance, SOLID principles) for modular code, emphasizing organization of classes in Python modules. The micro-project builds an OOP-based transaction data fetcher, using a module to structure classes, preparing for type-safe OOP.
+   - **Learning Outcomes**: Learners master scalable code design and module-based class organization, ready for static typing in Chapter 7 and Phase 2.
+   - **Micro-Project**: Develop an OOP-based fetcher for transaction data with extensible classes, organized in a `fetcher.py` module and imported into the main script, using `data/transactions.csv`.
    - **Role**: Enhances code modularity for pipelines.
 
-6. [**Checkpoint 1: Python Foundations Review**](../ch06-checkpoint-1-python-foundations-review/)
+6. **Checkpoint 1: Python Foundations Review**
 
    - **Complexity**: Easy (E)
    - **Description**: Consolidates Python skills via a tool integrating file processing, API fetching, Pandas, and OOP, with sample data inputs for self-contained exercises. Exercises reinforce integration, ensuring readiness for code quality and databases.
@@ -127,7 +127,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 2: Python Code Quality (Chapters 7–11)
 
-7. [**Static Typing with Python**](../ch07-static-typing-with-python/)
+7. **Static Typing with Python**
 
    - **Complexity**: Moderate (M)
    - **Description**: Introduces Pyright for type safety with Generics, Any, and typed exception handling, emphasizing configuration for type checking. The micro-project builds a type-safe sales data processor, preparing for annotations and testing. All subsequent Python code includes type annotations verified by Pyright.
@@ -135,7 +135,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Develop a type-safe sales data processor with generic filtering, verified by Pyright, using `data/sales.csv`.
    - **Role**: Establishes type safety for robust pipelines.
 
-8. [**Python Annotations and Decorators**](../ch08-python-annotations-and-decorators/)
+8. **Python Annotations and Decorators**
 
    - **Complexity**: Moderate (M)
    - **Description**: Enhances type-annotated code with Pyright-verified annotations and decorators for logging and testing. The micro-project adds annotations and decorators to a sales processor, preparing for testing.
@@ -143,23 +143,23 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Enhance a sales processor with type annotations and a logging decorator using `data/sales.csv`.
    - **Role**: Strengthens code modularity for quality and testing.
 
-9. [**Introduction to Testing in Python**](../ch09-introduction-to-testing-in-python/)
+9. **Introduction to Testing in Python**
 
    - **Complexity**: Moderate (M)
-   - **Description**: Introduces type-annotated testing with `unittest` and `pytest` for foundational skills. The micro-project tests a sales data function with both frameworks, preparing for code quality. All subsequent Python code includes tests with `unittest` and/or `pytest` as much as possible.
-   - **Learning Outcomes**: Learners master testing basics with `unittest` and `pytest`, ready for code quality in Chapter 10, database integration in Chapter 16, and pipeline testing in Chapters 42–43.
-   - **Micro-Project**: Test a type-annotated sales data processing function with `unittest` and `pytest`, comparing syntax and benefits, using `data/sales.csv`.
+   - **Description**: Introduces type-annotated testing with `unittest` and `pytest`, emphasizing test organization in modules. The micro-project tests a sales data function with both frameworks, preparing for code quality. All subsequent Python code includes tests with `unittest` and/or `pytest` as much as possible.
+   - **Learning Outcomes**: Learners master testing basics with `unittest` and `pytest`, organizing tests in modules, ready for code quality in Chapter 10, database integration in Chapter 16, and pipeline testing in Chapters 42–43.
+   - **Micro-Project**: Test a type-annotated sales data processing function with `unittest` and `pytest`, comparing syntax and benefits, organizing tests in a `tests/test_processor.py` module and importing the processor from `processor.py`, using `data/sales.csv`.
    - **Role**: Establishes foundational testing for robust pipelines.
 
-10. [**Data Engineering Code Quality**](../ch10-data-engineering-code-quality/)
+10. **Data Engineering Code Quality**
 
 - **Complexity**: Moderate (M)
-- **Description**: Introduces black, ruff, Pyright, and pre-commit hooks for maintainable, type-annotated code with testing. The micro-project sets up a pre-commit pipeline for a sales script, preparing for Docker and CI/CD.
-- **Learning Outcomes**: Learners ensure high-quality code, ready for Checkpoint 2 in Chapter 11 and production deployment in Phase 9.
-- **Micro-Project**: Configure a pre-commit pipeline with black, ruff, Pyright, and pytest for a type-annotated sales script using `data/sales.csv`.
+- **Description**: Introduces black, ruff, Pyright, and pre-commit hooks for maintainable, type-annotated code with testing, emphasizing module-based code organization. The micro-project sets up a pre-commit pipeline for a sales script, preparing for Docker and CI/CD.
+- **Learning Outcomes**: Learners ensure high-quality code across multiple modules, ready for Checkpoint 2 in Chapter 11 and production deployment in Phase 9.
+- **Micro-Project**: Configure a pre-commit pipeline with black, ruff, Pyright, and pytest for a type-annotated sales script, organized in modules (e.g., `utils.py`, `processor.py`), using `data/sales.csv`.
 - **Role**: Ensures reliable, tested code for scalable pipelines.
 
-11. [**Checkpoint 2: Python Code Quality Review**](../ch11-checkpoint-2-python-code-quality-review/)
+11. **Checkpoint 2: Python Code Quality Review**
 
 - **Complexity**: Easy (E)
 - **Description**: Consolidates type safety, annotations, testing, and code quality tools from Chapters 7–10. The micro-project builds a tested, type-annotated sales data tool with a pre-commit pipeline, preparing for database fundamentals.
@@ -169,7 +169,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 3: Database Fundamentals (Chapters 12–24)
 
-12. [**SQL Fundamentals with SQLite**](../ch12-sql-fundamentals-with-sqlite/)
+12. **SQL Fundamentals with SQLite**
 
 - **Complexity**: Easy (E)
 - **Description**: Introduces SQL with SQLite for data manipulation. The micro-project builds a tested SQL tool to query a sales database, preparing for Python-SQLite integration.
@@ -177,7 +177,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Develop a SQL tool for optimized sales database queries with pytest tests using `data/sales.db`.
 - **Role**: Lays database operation foundations.
 
-13. [**Python and SQLite Integration**](../ch13-python-and-sqlite-integration/)
+13. **Python and SQLite Integration**
 
 - **Complexity**: Moderate (M)
 - **Description**: Integrates type-annotated Python with SQLite using `sqlite3`, YAML configs, and Pydantic for validation. The micro-project builds a tested data loader with validated sales data, preparing for PostgreSQL and type-safe programming.
@@ -185,7 +185,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Create a type-annotated Python data loader for SQLite sales data with YAML config, Pydantic validation, and pytest tests using `data/sales.csv` and `config.yaml`.
 - **Role**: Enables dynamic, tested database operations with type safety.
 
-14. [**Advanced Database Operations with SQLite**](../ch14-advanced-database-operations-with-sqlite/)
+14. **Advanced Database Operations with SQLite**
 
 - **Complexity**: Moderate (M)
 - **Description**: Explores advanced SQLite operations (transactions, views, triggers). The micro-project enhances a tested sales database, preparing for PostgreSQL.
@@ -193,7 +193,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Enhance a sales database with transactions, views, and pytest tests using `data/sales.db`.
 - **Role**: Strengthens database skills for enterprise systems.
 
-15. [**Type-Safe Database Programming**](../ch15-type-safe-database-programming/)
+15. **Type-Safe Database Programming**
 
 - **Complexity**: Moderate (M)
 - **Description**: Applies Pyright-verified typing to SQLite with type-annotated Pydantic and testing. The micro-project builds a tested, type-safe SQLite client, preparing for PostgreSQL and FastAPI.
@@ -201,7 +201,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Develop a type-safe SQLite client for sales data with Generics, type annotations, and pytest tests using `data/sales.db`.
 - **Role**: Enhances database reliability for web frameworks.
 
-16. [**PostgreSQL Fundamentals**](../ch16-postgresql-fundamentals/)
+16. **PostgreSQL Fundamentals**
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces PostgreSQL with `psycopg2` for production-grade databases. The micro-project sets up a tested sales database, preparing for Python integration.
@@ -209,7 +209,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Set up a PostgreSQL sales database with optimized queries and pytest tests.
 - **Role**: Transitions to enterprise databases.
 
-17. [**Python and PostgreSQL Integration**](../ch17-python-and-postgresql-integration/)
+17. **Python and PostgreSQL Integration**
 
 - **Complexity**: Moderate (M)
 - **Description**: Integrates type-annotated Python with PostgreSQL using Psycopg2 and YAML configs. The micro-project builds a tested sales data pipeline, preparing for advanced PostgreSQL.
