@@ -101,7 +101,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Refactor a sales processor using Pandas and NumPy for analytics and visualization with `data/sales.csv`.
    - **Role**: Equips learners with data processing tools.
 
-4. **Web Integration and APIs**
+4. [**Web Integration and APIs**](../ch04-web-integration-and-apis/)
 
    - **Complexity**: Moderate (M)
    - **Description**: Teaches API integration with requests, covering HTTP, REST, and MVC fundamentals. The micro-project fetches financial transaction data, preparing for OOP and web frameworks.
@@ -109,7 +109,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Fetch and transform financial transaction data from an API, saving to `data/transactions.csv`.
    - **Role**: Enables data source integration and web basics.
 
-5. **Object-Oriented Programming for Data Engineering**
+5. [**Object-Oriented Programming for Data Engineering**](../ch05-object-oriented-programming-for-data-engineering/)
 
    - **Complexity**: Moderate (M)
    - **Description**: Introduces OOP (classes, inheritance, SOLID principles) for modular code. The micro-project builds an OOP-based transaction data fetcher, preparing for type-safe OOP.
@@ -117,7 +117,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Develop an OOP-based fetcher for transaction data with extensible classes, using `data/transactions.csv`.
    - **Role**: Enhances code modularity for pipelines.
 
-6. **Checkpoint 1: Python Foundations Review**
+6. [**Checkpoint 1: Python Foundations Review**](../ch06-checkpoint-1-python-foundations-review/)
 
    - **Complexity**: Easy (E)
    - **Description**: Consolidates Python skills via a tool integrating file processing, API fetching, Pandas, and OOP, with sample data inputs for self-contained exercises. Exercises reinforce integration, ensuring readiness for code quality and databases.
@@ -127,7 +127,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 2: Python Code Quality (Chapters 7–11)
 
-7. **Static Typing with Python**
+7. [**Static Typing with Python**](../ch07-static-typing-with-python/)
 
    - **Complexity**: Moderate (M)
    - **Description**: Introduces Pyright for type safety with Generics, Any, and typed exception handling, emphasizing configuration for type checking. The micro-project builds a type-safe sales data processor, preparing for annotations and testing. All subsequent Python code includes type annotations verified by Pyright.
@@ -135,7 +135,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Develop a type-safe sales data processor with generic filtering, verified by Pyright, using `data/sales.csv`.
    - **Role**: Establishes type safety for robust pipelines.
 
-8. **Python Annotations and Decorators**
+8. [**Python Annotations and Decorators**](../ch08-python-annotations-and-decorators/)
 
    - **Complexity**: Moderate (M)
    - **Description**: Enhances type-annotated code with Pyright-verified annotations and decorators for logging and testing. The micro-project adds annotations and decorators to a sales processor, preparing for testing.
@@ -143,7 +143,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Enhance a sales processor with type annotations and a logging decorator using `data/sales.csv`.
    - **Role**: Strengthens code modularity for quality and testing.
 
-9. **Introduction to Testing in Python**
+9. [**Introduction to Testing in Python**](../ch09-introduction-to-testing-in-python/)
 
    - **Complexity**: Moderate (M)
    - **Description**: Introduces type-annotated testing with `unittest` and `pytest` for foundational skills. The micro-project tests a sales data function with both frameworks, preparing for code quality. All subsequent Python code includes tests with `unittest` and/or `pytest` as much as possible.
@@ -151,7 +151,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Test a type-annotated sales data processing function with `unittest` and `pytest`, comparing syntax and benefits, using `data/sales.csv`.
    - **Role**: Establishes foundational testing for robust pipelines.
 
-10. **Data Engineering Code Quality**
+10. [**Data Engineering Code Quality**](../ch10-data-engineering-code-quality/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces black, ruff, Pyright, and pre-commit hooks for maintainable, type-annotated code with testing. The micro-project sets up a pre-commit pipeline for a sales script, preparing for Docker and CI/CD.
@@ -159,7 +159,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Configure a pre-commit pipeline with black, ruff, Pyright, and pytest for a type-annotated sales script using `data/sales.csv`.
 - **Role**: Ensures reliable, tested code for scalable pipelines.
 
-11. **Checkpoint 2: Python Code Quality Review**
+11. [**Checkpoint 2: Python Code Quality Review**](../ch11-checkpoint-2-python-code-quality-review/)
 
 - **Complexity**: Easy (E)
 - **Description**: Consolidates type safety, annotations, testing, and code quality tools from Chapters 7–10. The micro-project builds a tested, type-annotated sales data tool with a pre-commit pipeline, preparing for database fundamentals.
@@ -169,7 +169,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 3: Database Fundamentals (Chapters 12–24)
 
-12. **SQL Fundamentals with SQLite**
+12. [**SQL Fundamentals with SQLite**](../ch12-sql-fundamentals-with-sqlite/)
 
 - **Complexity**: Easy (E)
 - **Description**: Introduces SQL with SQLite for data manipulation. The micro-project builds a tested SQL tool to query a sales database, preparing for Python-SQLite integration.
@@ -177,7 +177,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Develop a SQL tool for optimized sales database queries with pytest tests using `data/sales.db`.
 - **Role**: Lays database operation foundations.
 
-13. **Python and SQLite Integration**
+13. [**Python and SQLite Integration**](../ch13-python-and-sqlite-integration/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Integrates type-annotated Python with SQLite using `sqlite3`, YAML configs, and Pydantic for validation. The micro-project builds a tested data loader with validated sales data, preparing for PostgreSQL and type-safe programming.
@@ -185,7 +185,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Create a type-annotated Python data loader for SQLite sales data with YAML config, Pydantic validation, and pytest tests using `data/sales.csv` and `config.yaml`.
 - **Role**: Enables dynamic, tested database operations with type safety.
 
-14. **Advanced Database Operations with SQLite**
+14. [**Advanced Database Operations with SQLite**](../ch14-advanced-database-operations-with-sqlite/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Explores advanced SQLite operations (transactions, views, triggers). The micro-project enhances a tested sales database, preparing for PostgreSQL.
@@ -193,7 +193,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Enhance a sales database with transactions, views, and pytest tests using `data/sales.db`.
 - **Role**: Strengthens database skills for enterprise systems.
 
-15. **Type-Safe Database Programming**
+15. [**Type-Safe Database Programming**](../ch15-type-safe-database-programming/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Applies Pyright-verified typing to SQLite with type-annotated Pydantic and testing. The micro-project builds a tested, type-safe SQLite client, preparing for PostgreSQL and FastAPI.
@@ -201,7 +201,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Develop a type-safe SQLite client for sales data with Generics, type annotations, and pytest tests using `data/sales.db`.
 - **Role**: Enhances database reliability for web frameworks.
 
-16. **PostgreSQL Fundamentals**
+16. [**PostgreSQL Fundamentals**](../ch16-postgresql-fundamentals/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces PostgreSQL with `psycopg2` for production-grade databases. The micro-project sets up a tested sales database, preparing for Python integration.
@@ -209,7 +209,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Set up a PostgreSQL sales database with optimized queries and pytest tests.
 - **Role**: Transitions to enterprise databases.
 
-17. **Python and PostgreSQL Integration**
+17. [**Python and PostgreSQL Integration**](../ch17-python-and-postgresql-integration/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Integrates type-annotated Python with PostgreSQL using Psycopg2 and YAML configs. The micro-project builds a tested sales data pipeline, preparing for advanced PostgreSQL.
