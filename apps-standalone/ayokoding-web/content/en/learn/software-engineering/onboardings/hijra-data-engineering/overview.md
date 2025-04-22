@@ -77,7 +77,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 1: Python Foundations (Chapters 1–6)
 
-1. **Python Core Language Essentials**
+1. [**Python Core Language Essentials**](../ch01-python-core-language-essentials/)
 
    - **Complexity**: Easy (E)
    - **Description**: Introduces Python syntax, data types, control flow, and structures (lists, dictionaries) for pipeline development. The micro-project analyzes a sales CSV to compute metrics, building foundational skills.
@@ -85,7 +85,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Process a sales CSV dataset (`data/sales.csv`) to calculate total sales and top products, outputting a formatted report.
    - **Role**: Establishes Python basics for data handling.
 
-2. **Python Data Handling and Error Management**
+2. [**Python Data Handling and Error Management**](../ch02-python-data-handling-and-error-management)
 
    - **Complexity**: Easy (E)
    - **Description**: Teaches file handling and CSV/JSON/YAML processing with PyYAML for robust pipelines, avoiding try/except as it’s not yet introduced. The micro-project processes sales data with string-based validation and YAML configs, preparing for type safety.
@@ -93,7 +93,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
    - **Micro-Project**: Enhance a sales data processor using `data/sales.csv` and `config.yaml` with string validation, YAML config parsing, and JSON export.
    - **Role**: Enables robust data processing and configuration parsing.
 
-3. **Essential Data Libraries (NumPy and Pandas Basics)**
+3. [**Essential Data Libraries (NumPy and Pandas Basics)**](../ch03-essential-data-libraries-numpy-and-pandas-basics/)
 
    - **Complexity**: Moderate (M)
    - **Description**: Introduces NumPy arrays and Pandas DataFrames for efficient data manipulation, focusing on their role in data engineering. The micro-project refactors a sales processor for analytics, preparing for type-safe Pandas and databases.
