@@ -281,7 +281,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 25. [**BigQuery Fundamentals**](../ch25-bigquery-fundamentals/)
 
 - **Complexity**: Moderate (M)
-- **Description**: Introduces BigQuery for cloud analytics with `google-cloud-bigquery`. The micro-project creates a tested sales dataset, preparing for Python integration.
+- **Description**: Introduces BigQuery for cloud analytics with `google-cloud-bigquery`. The micro déposer-project creates a tested sales dataset, preparing for Python integration.
 - **Learning Outcomes**: Learners gain BigQuery proficiency, ready for Python integration in Chapter 26.
 - **Micro-Project**: Create a BigQuery sales dataset with key metric queries and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Establishes cloud analytics skills.
@@ -318,7 +318,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Optimize sales **data warehouse** queries with partitioning and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Enhances **data warehouse** efficiency.
 
-30. [**Checkpoint 4: Cloud Analytics Review**](../ch30-cloud-analytics-review/)
+30. [**Checkpoint 4: Cloud Analytics Review**](../ch30-checkpoint-4-cloud-analytics-review/)
 
 - **Complexity**: Easy (E)
 - **Description**: Consolidates BigQuery and **data warehousing** skills. The micro-project builds a type-safe, tested analytics tool with type annotations, preparing for **data lakes** and **marts**.
@@ -332,7 +332,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces GCS **data lake** creation with type-annotated `google-cloud-storage` and YAML configs. The micro-project sets up a tested financial transaction **data lake**, preparing for **data marts**.
-- **Learning Outcomes**: Learners master **data lake** management, ready for data marts in Chapter 32 and advanced Python in Chapter 34.
+- **Learning Outcomes**: Learners master **data lake** management, ready for data marts in Chapter 32 and foundational Python processing in Chapter 34.
 - **Micro-Project**: Create a GCS **data lake** for transaction data with type-annotated YAML config and pytest tests using `data/transactions.csv` and `config.yaml`. See **Appendix 1** for `transactions.csv` and `config.yaml` creation instructions.
 - **Role**: Establishes **data lake** proficiency.
 
@@ -348,38 +348,38 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 - **Complexity**: Moderate (M)
 - **Description**: Exports **data mart** results to Sheets with type-annotated `gspread`. The micro-project creates tested stakeholder visualizations, preparing for web reporting.
-- **Learning Outcomes**: Learners master reporting, ready for advanced Python in Chapter 34 and web frameworks in Chapters 51–52.
+- **Learning Outcomes**: Learners master reporting, ready for foundational Python processing in Chapter 34 and web frameworks in Chapters 51–52.
 - **Micro-Project**: Export sales **data mart** results to Sheets with visualizations using type-annotated code and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Enables stakeholder communication.
 
-34. **Advanced Python for Data Engineering**
+34. **Python for Data Lake Processing: Foundations**
 
 - **Complexity**: Moderate (M)
-- **Description**: Enhances type-annotated Python for **data lake** processing with `PyYAML` and logging. The micro-project processes tested transaction data, preparing for concurrency.
-- **Learning Outcomes**: Learners refine Python skills with type annotations and testing, ready for GCS features in Chapter 35 and type-safe processing in Chapter 41.
+- **Description**: Builds foundational type-annotated Python skills for **data lake** processing using `PyYAML` for configuration parsing and logging for workflow tracking. The micro-project processes transaction data with modular, reliable code, preparing for advanced GCS features. This chapter establishes robust workflows, setting the stage for optimization in Chapter 36.
+- **Learning Outcomes**: Learners master reliable, configuration-driven Python processing with logging, ready for GCS features in Chapter 35 and optimization in Chapter 36.
 - **Micro-Project**: Process **data lake** transaction data with type-annotated YAML config, logging, and pytest tests using `data/transactions.csv` and `config.yaml`. See **Appendix 1** for `transactions.csv` and `config.yaml` creation instructions.
-- **Role**: Strengthens Python for advanced processing.
+- **Role**: Establishes robust **data lake** processing for scalable analytics.
 
 35. **Google Cloud Storage Advanced Features**
 
 - **Complexity**: Moderate (M)
-- **Description**: Explores advanced GCS features with type-annotated `google-cloud-storage` and YAML configs. The micro-project enhances a tested transaction **data lake**, preparing for production storage.
-- **Learning Outcomes**: Learners master **data lake** operations, ready for advanced Python in Chapter 37.
+- **Description**: Explores advanced GCS features with type-annotated `google-cloud-storage` and YAML configs. The micro-project enhances a tested transaction **data lake**, preparing for optimized Python processing.
+- **Learning Outcomes**: Learners master **data lake** operations, ready for optimized Python processing in Chapter 36.
 - **Micro-Project**: Enhance a **data lake** with secure access, type-annotated YAML config, and pytest tests using `data/transactions.csv` and `config.yaml`. See **Appendix 1** for `transactions.csv` and `config.yaml` creation instructions.
 - **Role**: Prepares for integrated storage solutions.
 
-36. **Advanced Python for Data Engineering**
+36. **Python for Data Lake Processing: Optimization**
 
 - **Complexity**: Moderate (M)
-- **Description**: Further develops type-annotated Python for **data lake** processing with `PyYAML` and optimization. The micro-project optimizes tested transaction data processing, preparing for concurrency.
-- **Learning Outcomes**: Learners enhance Python efficiency with type annotations and testing, ready for Checkpoint 5 in Chapter 37.
-- **Micro-Project**: Optimize **data lake** transaction processing with type-annotated YAML config and pytest tests using `data/transactions.csv` and `config.yaml`. See **Appendix 1** for `transactions.csv` and `config.yaml` creation instructions.
-- **Role**: Prepares for advanced processing.
+- **Description**: Optimizes type-annotated Python for **data lake** processing with techniques like batch processing, vectorized operations, and performance tuning, using `PyYAML` for dynamic configurations. The micro-project enhances processing efficiency with performance metrics, preparing for ETL pipelines.
+- **Learning Outcomes**: Learners master efficient, scalable Python processing with performance metrics, ready for Checkpoint 5 in Chapter 37.
+- **Micro-Project**: Optimize **data lake** transaction processing with type-annotated YAML config, batching, and pytest tests using `data/transactions.csv` and `config.yaml`. See **Appendix 1** for `transactions.csv` and `config.yaml` creation instructions.
+- **Role**: Refines **data lake** processing for efficient ETL pipelines.
 
 37. **Checkpoint 5: Analytical Storage Review**
 
 - **Complexity**: Easy (E)
-- **Description**: Consolidates **data lake**, **data warehouse**, and **data mart** skills with robust ETL. The micro-project builds a tested ETL pipeline with type-annotated logging and validation, preparing for advanced processing.
+- **Description**: Consolidates **data lake**, **data warehouse**, and **data mart** skills with robust ETL, including foundational and optimized Python processing from Chapters 34 and 36. The micro-project builds a tested ETL pipeline with type-annotated logging and validation, preparing for advanced processing.
 - **Learning Outcomes**: Learners solidify storage expertise, ready for Phase 6’s advanced processing.
 - **Micro-Project**: Build a robust type-annotated ETL pipeline from **data lake** to **data mart** with YAML config, logging, and pytest tests using `data/transactions.csv` and `config.yaml`. See **Appendix 1** for `transactions.csv` and `config.yaml` creation instructions.
 - **Role**: Bridges to advanced data processing with testable pipelines.

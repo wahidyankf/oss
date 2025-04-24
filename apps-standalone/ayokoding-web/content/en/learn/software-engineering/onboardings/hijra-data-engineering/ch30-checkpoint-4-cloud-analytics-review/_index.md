@@ -1,5 +1,5 @@
 ---
-title: '30 - Cloud Analytics Review'
+title: '30 - Checkpoint 4: Cloud Analytics Review'
 date: 2025-04-17T07:20:00+07:00
 draft: false
 weight: 31
