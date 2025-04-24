@@ -39,8 +39,6 @@ flowchart TD
 ### Building On and Preparing For
 
 - **Building On**:
-  - Chapter 1: Uses Python basics (lists, dictionaries) for data manipulation, extended to Pandas DataFrames.
-  - Chapter 2: Leverages CSV parsing and YAML configs, now integrated with BigQuery.
   - Chapter 3: Builds on Pandas for data loading (`pd.read_csv`), used for preprocessing before BigQuery upload.
   - Chapter 7: Applies type annotations for type-safe code, verified by Pyright.
   - Chapter 9: Incorporates pytest for testing pipeline components.
@@ -48,8 +46,8 @@ flowchart TD
 - **Preparing For**:
   - Chapter 27: Enables advanced BigQuery querying (e.g., CTEs, window functions).
   - Chapter 28: Supports data warehouse design with star schemas.
-  - Chapter 31: Prepares for data lakes with Google Cloud Storage integration.
-  - Chapter 54: Lays groundwork for dbt transformations in BigQuery.
+  - Chapter 29: Prepares for BigQuery optimization techniques.
+  - Chapter 31: Lays groundwork for data lakes with Google Cloud Storage.
 
 ### What You’ll Learn
 
@@ -194,7 +192,7 @@ if __name__ == "__main__":
 5. Run: `python bigquery_load.py`.
 6. Verify table in BigQuery Console.
 7. **Common Errors**:
-   - **NotFound**: Ensure dataset exists. Create via BigQuery Console or `client.create_dataset(dataset_id)`.
+   - **NotFound**: Ensure dataset exists. Create via BigQuery Console or programmatically (see micro-project setup).
    - **ValueError**: Check DataFrame schema matches `job_config.schema`. Print `df.dtypes`.
    - **IndentationError**: Use 4 spaces (not tabs). Run `python -tt bigquery_load.py`.
 
@@ -285,7 +283,7 @@ if __name__ == "__main__":
 - **Pydantic**: Validates query results, catching schema mismatches.
 - **Parameterized Queries**: Prevent SQL injection, improving security.
 - **Underlying Implementation**: Queries are executed via BigQuery’s Dremel engine, distributing computation across nodes.
-- **Optimization Note**: BigQuery’s columnar storage and query engine optimize O(n) scans for large datasets. Partitioning (Chapter 29) can further reduce scanned data.
+- **Optimization Note**: BigQuery’s Dremel engine distributes queries across nodes using columnar storage, optimizing O(n) scans. Partitioning (Chapter 29) can further reduce scanned data.
 - **Performance Considerations**:
   - **Time Complexity**: O(n) for scanning n rows, optimized by BigQuery’s columnar storage.
   - **Space Complexity**: O(k) for k result rows.
@@ -302,7 +300,7 @@ Build a type-annotated pipeline to load `data/sales.csv` into BigQuery, validate
 - **Upload**: Load validated DataFrame to BigQuery.
 - **Query**: Compute total sales by product, filtering by `max_quantity`.
 - **Export**: Save results to JSON.
-- **Test**: Use pytest to verify pipeline components and edge cases.
+- **Test**: Use pytest with mocking to verify pipeline components and edge cases.
 - **Use**: Type annotations, Pyright verification, and 4-space indentation per PEP 8.
 
 ### Sample Input Files
@@ -384,16 +382,25 @@ flowchart TD
 2. **Credential Setup Errors**:
    - **Problem**: `GoogleAuthError` due to missing environment variable or incorrect JSON key.
    - **Solution**: Set `export GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json` (Unix) or `set GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json` (Windows). Verify JSON key format in Google Cloud Console.
-3. **Schema Mismatches**:
+3. **Dataset Not Found**:
+   - **Problem**: `NotFound` error due to missing BigQuery dataset.
+   - **Solution**: Create dataset via BigQuery Console or programmatically (see setup instructions). Print `client.list_datasets()`.
+4. **Schema Mismatches**:
    - **Problem**: DataFrame schema doesn’t match BigQuery table.
    - **Solution**: Print `df.dtypes` and compare with `job_config.schema`.
-4. **Query Errors**:
+5. **Query Errors**:
    - **Problem**: Invalid SQL syntax or missing table.
    - **Solution**: Print query string and verify table existence with `client.list_tables(dataset_id)`.
-5. **Pydantic Validation**:
+6. **Pydantic Validation**:
    - **Problem**: Query results don’t match Pydantic model.
    - **Solution**: Print raw query results to check schema.
-6. **IndentationError**:
+7. **SQL Injection Risk**:
+   - **Problem**: Using string concatenation instead of parameterized queries risks SQL injection.
+   - **Solution**: Use `bigquery.QueryJobConfig` with `ScalarQueryParameter` for safe query parameterization.
+8. **Mock Testing Errors**:
+   - **Problem**: `ValidationError` in mock tests due to incorrect mock results.
+   - **Solution**: Print mock results (`print(mock_client.query.return_value.result.return_value)`) and ensure they match the `SalesResult` model (`product`, `total_sales`).
+9. **IndentationError**:
    - **Problem**: Mixed spaces/tabs.
    - **Solution**: Use 4 spaces per PEP 8. Run `python -tt sales_pipeline.py`.
 
@@ -406,7 +413,7 @@ In production, this solution would include:
 - **Logging**: Structured logging to files (Chapter 52).
 - **Orchestration**: Airflow for scheduling (Chapter 56).
 - **Security**: Encrypted credentials with Secret Manager (Chapter 65).
-- **Schema Evolution**: Production systems may require schema updates (e.g., adding columns like `transaction_date`). BigQuery supports schema evolution with `SCHEMA_UPDATE_OPTION` (Chapter 28).
+- **Schema Evolution**: Support for schema updates (e.g., adding columns like `transaction_date`) using `SCHEMA_UPDATE_OPTION` (Chapter 28).
 
 ### Performance Considerations
 
@@ -419,6 +426,7 @@ In production, this solution would include:
 - **Querying**:
   - **Time Complexity**: O(n) for scanning n rows, optimized by BigQuery’s columnar storage.
   - **Space Complexity**: O(k) for k result rows.
+- **Cost Model**: BigQuery charges separately for storage ($0.02/GB/month) and query processing ($5/TB scanned). The free tier (10 GB storage, 1 TB queries/month) lacks high-availability guarantees, so monitor usage for production needs. Minimize scanned data using filters and partitioning (Chapter 29) to reduce costs.
 
 ### Implementation
 
@@ -514,6 +522,13 @@ def init_bigquery_client(project_id: str, credentials_path: Optional[str] = None
         client = bigquery.Client(project=project_id)
     print("Client initialized successfully")
     return client
+
+def create_dataset(client: bigquery.Client, dataset_id: str) -> None:
+    """Create a BigQuery dataset."""
+    dataset_ref = f"{client.project}.{dataset_id}"
+    dataset = bigquery.Dataset(dataset_ref)
+    client.create_dataset(dataset, exists_ok=True)  # Idempotent creation
+    print(f"Dataset {dataset_id} created")
 
 def read_config(config_path: str) -> Dict[str, Any]:
     """Read YAML configuration."""
@@ -628,6 +643,7 @@ def main() -> None:
     json_path = "data/sales_metrics.json"
 
     client = init_bigquery_client(project_id, credentials_path)
+    create_dataset(client, dataset_id)  # Create dataset if not exists
     config = read_config(config_path)
     df = load_and_validate_sales(csv_path, config)
     if not df.empty:
@@ -707,23 +723,11 @@ def test_query_sales(mock_client: bigquery.Client, config: dict) -> None:
         {"product": "Halal Mouse", "total_sales": 249.9},
         {"product": "Halal Keyboard", "total_sales": 249.95}
     ]
-    mock_client<DL><PRETTYPRINT>query.return_value.result.return_value = mock_results
+    mock_client.query.return_value.result.return_value = mock_results
 
     results: List[SalesResult] = query_sales(mock_client, "sales_dataset", "sales_table", config["max_quantity"])
     assert len(results) == 3
     assert any(result.product == "Halal Laptop" and abs(result.total_sales - 1999.98) < 0.01 for result in results)
-
-def test_query_sales_buggy_mock() -> None:
-    """Test for Exercise 7: Debug faulty mock."""
-    client = MagicMock()
-    client.project = "your-project-id"
-    # Correct mock results
-    client.query.return_value.result.return_value = [
-        {"product": "Halal Laptop", "total_sales": 1999.98}
-    ]
-    results = query_sales(client, "sales_dataset", "sales_table", 100)
-    assert len(results) == 1
-    assert results[0].product == "Halal Laptop"
 ```
 
 ### Expected Outputs
@@ -753,6 +757,7 @@ def test_query_sales_buggy_mock() -> None:
 Initializing BigQuery client for project: your-project-id
 Using credentials: path/to/credentials.json
 Client initialized successfully
+Dataset sales_dataset created
 Opening config: data/config.yaml
 Loaded config: {'min_price': 10.0, 'max_quantity': 100, ...}
 Loading CSV: data/sales.csv
@@ -787,17 +792,26 @@ Halal Keyboard: $249.95
      - [ ] Create `de-onboarding/data/` and save `sales.csv`, `config.yaml`, `empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv` per Appendix 1.
      - [ ] Install libraries: `pip install google-cloud-bigquery pandas pyyaml pydantic pytest`.
      - [ ] Create Google Cloud project and download service account JSON key to `path/to/credentials.json`.
-     - [ ] Create BigQuery dataset `sales_dataset` via BigQuery Console.
      - [ ] Set environment variable: `export GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json` (Unix) or `set GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json` (Windows).
      - [ ] Create virtual environment: `python -m venv venv`, activate (Windows: `venv\Scripts\activate`, Unix: `source venv/bin/activate`).
      - [ ] Verify Python 3.10+: `python --version`.
      - [ ] Configure editor for 4-space indentation per PEP 8.
      - [ ] Save `utils.py`, `sales_pipeline.py`, and `tests/test_sales_pipeline.py`.
-     - [ ] **Note on Costs**: BigQuery charges for storage and query processing (e.g., $5/TB queried). Use the free tier (10 GB storage, 1 TB queries/month) for this project, and monitor usage in Google Cloud Console.
+     - [ ] **Create BigQuery Dataset**: Run the following to create `sales_dataset`:
+       ```python
+       from google.cloud import bigquery
+       client = bigquery.Client(project="your-project-id")
+       dataset_ref = f"{client.project}.sales_dataset"
+       dataset = bigquery.Dataset(dataset_ref)
+       client.create_dataset(dataset, exists_ok=True)
+       print("Dataset sales_dataset created")
+       ```
+     - [ ] **Note on Costs**: BigQuery charges for storage and query processing (e.g., $5/TB queried). Use the free tier (10 GB storage, 1 TB queries/month) and monitor usage in Google Cloud Console.
      - [ ] **Best Practices**: Review Google Cloud’s BigQuery best practices (https://cloud.google.com/bigquery/docs/best-practices) for naming conventions and query optimization.
+     - [ ] **Documentation**: Refer to the BigQuery Python client documentation (https://googleapis.dev/python/bigquery/latest/index.html) for detailed API usage, alongside best practices.
    - **Troubleshooting**:
-     - If `GoogleAuthError`, verify credentials path and project ID. Check `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
-     - If `NotFound`, create dataset in BigQuery Console.
+     - If `GoogleAuthError`, verify credentials path and `GOOGLE_APPLICATION_CREDENTIALS`.
+     - If `NotFound`, create dataset as shown above.
      - If `yaml.YAMLError`, print `open(config_path).read()` to check syntax.
      - If `IndentationError`, use 4 spaces. Run `python -tt sales_pipeline.py`.
 
@@ -811,6 +825,7 @@ Halal Keyboard: $249.95
 
    - Run: `pytest tests/test_sales_pipeline.py -v`.
    - Verify tests pass, confirming loading, querying, and edge cases.
+   - **Mock Testing Setup**: Ensure `unittest.mock` is available (included in Python’s standard library). The `mock_client` fixture in `test_sales_pipeline.py` simulates BigQuery interactions, allowing tests without a live connection.
 
 ## 26.5 Practice Exercises
 
@@ -854,6 +869,8 @@ df = pd.DataFrame({
 Loaded 2 rows to your-project-id.sales_dataset.sales_table
 ```
 
+**Note**: Before uploading, print `df.dtypes` to ensure the DataFrame schema matches `job_config.schema` (e.g., `product: STRING`, `price: FLOAT`, `quantity: INTEGER`).
+
 **Follow-Along Instructions**:
 
 1. Save as `de-onboarding/ex2_upload.py`.
@@ -863,54 +880,56 @@ Loaded 2 rows to your-project-id.sales_dataset.sales_table
    - Verify table in BigQuery Console.
    - Test with empty DataFrame: Should load no rows.
 
-### Exercise 3: Query Sales Metrics
+### Exercise 3: Analyze BigQuery’s Columnar Data Model
 
-Write a type-annotated function to query total sales by product, with 4-space indentation per PEP 8.
+Explain how BigQuery’s columnar storage optimizes queries compared to row-based storage, with 4-space indentation per PEP 8.
 
-**Expected Output**:
+**Expected Output** (save to `de-onboarding/ex3_concepts.txt`):
 
 ```
-[
-    {"product": "Halal Laptop", "total_sales": 1999.98},
-    {"product": "Halal Mouse", "total_sales": 249.9}
-]
+BigQuery’s columnar storage stores data by column, enabling faster queries for analytics by scanning only relevant columns. Row-based storage scans entire rows, increasing I/O for large datasets.
 ```
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex3_query.py`.
+1. Save explanation as `de-onboarding/ex3_concepts.txt`.
 2. Configure editor for 4-space indentation per PEP 8.
-3. Run: `python ex3_query.py`.
-4. **How to Test**:
-   - Verify results match expected.
-   - Test with invalid table: Should raise `NotFound`.
+3. **How to Test**:
+   - Verify explanation addresses columnar storage benefits.
+   - Compare with BigQuery’s optimization note in Section 26.3.
 
-### Exercise 4: Pydantic Validation
+### Exercise 4: Debug Dataset Creation
 
-Write a type-annotated function to validate query results with Pydantic, with 4-space indentation per PEP 8.
+Fix buggy code that fails to create a BigQuery dataset, with 4-space indentation per PEP 8.
 
-**Sample Input**:
+**Buggy Code**:
 
 ```python
-results = [
-    {"product": "Halal Laptop", "total_sales": 1999.98},
-    {"product": "Halal Mouse", "total_sales": 249.9}
-]
+from google.cloud import bigquery
+
+def create_dataset(client: bigquery.Client, dataset_id: str) -> None:
+    dataset_ref = f"{client.project}.{dataset_id}"
+    dataset = bigquery.Dataset(dataset_ref)
+    client.create_dataset(dataset)  # Bug: Missing exists_ok
+    print(f"Dataset {dataset_id} created")
 ```
 
 **Expected Output**:
 
 ```
-Validated 2 results
+Dataset sales_dataset created
 ```
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex4_validate.py`.
+1. Save as `de-onboarding/ex4_debug_dataset.py`.
 2. Configure editor for 4-space indentation per PEP 8.
-3. Run: `python ex4_validate.py`.
-4. **How to Test**:
-   - Test with invalid data (e.g., negative `total_sales`): Should raise `ValidationError`.
+3. Run: `python ex4_debug_dataset.py` to see error.
+4. Fix and re-run.
+5. **How to Test**:
+   - Verify dataset in BigQuery Console.
+   - Test with existing dataset: Should not raise an error (idempotent).
+   - Test with invalid dataset ID (e.g., `invalid@dataset`): Should raise `InvalidArgument`.
 
 ### Exercise 5: Debug a Query Bug
 
@@ -960,88 +979,6 @@ def query_sales(client: bigquery.Client, dataset_id: str, table_id: str) -> List
 5. **How to Test**:
    - Verify output matches expected.
    - Test with different `max_quantity` values.
-
-### Exercise 6: Create BigQuery Dataset
-
-Write a type-annotated function to create a BigQuery dataset, with 4-space indentation per PEP 8.
-
-```mermaid
-flowchart TD
-    A["Python Script"] --> B["BigQuery Client"]
-    B --> C["Create Dataset<br>client.create_dataset"]
-    C --> D["BigQuery Dataset<br>sales_dataset"]
-```
-
-**Note**: The `exists_ok=True` parameter makes dataset creation idempotent, preventing errors if the dataset already exists.
-
-**Expected Output**:
-
-```
-Dataset sales_dataset created
-```
-
-**Follow-Along Instructions**:
-
-1. Save as `de-onboarding/ex6_dataset.py`.
-2. Configure editor for 4-space indentation per PEP 8.
-3. Run: `python ex6_dataset.py`.
-4. **How to Test**:
-   - Verify dataset in BigQuery Console.
-   - Test with existing dataset: Should not raise an error (idempotent).
-
-### Exercise 7: Debug a Mock Test
-
-Fix buggy code that mocks a BigQuery query but returns incorrect results, with 4-space indentation per PEP 8.
-
-**Buggy Code**:
-
-```python
-from unittest.mock import MagicMock
-from sales_pipeline import query_sales, SalesResult
-from typing import List
-
-def test_query_sales() -> List[SalesResult]:
-    client = MagicMock()
-    client.query.return_value.result.return_value = [{"product": "Halal Laptop"}]  # Bug: Incomplete result
-    results = query_sales(client, "sales_dataset", "sales_table", 100)
-    assert len(results) == 1
-    return results
-```
-
-**Expected Output**:
-
-```
-[{"product": "Halal Laptop", "total_sales": 1999.98}]
-```
-
-**Follow-Along Instructions**:
-
-1. Save as `de-onboarding/ex7_mock_debug.py`.
-2. Configure editor for 4-space indentation per PEP 8.
-3. Run: `python ex7_mock_debug.py` to see error.
-4. Fix and re-run.
-5. **How to Test**:
-   - Verify output matches expected.
-   - Test with additional mock results to ensure correct validation.
-   - **Debugging Tips**: If `ValidationError` occurs, print mock results (`print(client.query.return_value.result.return_value)`). Ensure mock data matches `SalesResult` fields (`product`, `total_sales`).
-
-### Exercise 8: Analyze Query Parameterization
-
-Explain why parameterized queries are used in `query_sales` instead of string concatenation, with 4-space indentation per PEP 8.
-
-**Expected Output** (save to `de-onboarding/ex8_concepts.txt`):
-
-```
-Parameterized queries prevent SQL injection by separating query logic from user input, ensuring safety. String concatenation risks malicious input altering the query, compromising security.
-```
-
-**Follow-Along Instructions**:
-
-1. Save explanation as `de-onboarding/ex8_concepts.txt`.
-2. Configure editor for 4-space indentation per PEP 8.
-3. **How to Test**:
-   - Verify explanation addresses SQL injection and security.
-   - Compare with `query_sales` code to ensure accuracy.
 
 ## 26.6 Exercise Solutions
 
@@ -1103,69 +1040,39 @@ df = pd.DataFrame({
 upload_dataframe(client, df, "sales_dataset", "sales_table")
 ```
 
-### Solution to Exercise 3: Query Sales Metrics
+### Solution to Exercise 3: Analyze BigQuery’s Columnar Data Model
+
+```text
+# File: de-onboarding/ex3_concepts.txt
+BigQuery’s columnar storage stores data by column, enabling faster queries for analytics by scanning only relevant columns. Row-based storage scans entire rows, increasing I/O for large datasets.
+```
+
+**Explanation**:
+
+- BigQuery’s columnar storage optimizes analytics by reducing I/O, as only queried columns are scanned, unlike row-based storage, which processes entire rows, increasing data access time for large datasets.
+
+### Solution to Exercise 4: Debug Dataset Creation
 
 ```python
 from google.cloud import bigquery
-from pydantic import BaseModel
-from typing import List
+from typing import Optional
 
-class SalesResult(BaseModel):
-    product: str
-    total_sales: float
-
-def query_sales_metrics(
-    client: bigquery.Client,
-    dataset_id: str,
-    table_id: str,
-    max_quantity: int
-) -> List[SalesResult]:
-    """Query sales metrics."""
-    query = """
-    SELECT product, SUM(price * quantity) AS total_sales
-    FROM `@project_id.@dataset_id.@table_id`
-    WHERE quantity <= @max_quantity
-    GROUP BY product
-    """
-    query = query.replace("@project_id", client.project).replace(
-        "@dataset_id", dataset_id
-    ).replace("@table_id", table_id)
-    job_config = bigquery.QueryJobConfig(
-        query_parameters=[bigquery.ScalarQueryParameter("max_quantity", "INT64", max_quantity)]
-    )
-    query_job = client.query(query, job_config=job_config)
-    results = [SalesResult(**row) for row in query_job.result()]
-    print(results)
-    return results
+def create_dataset(client: bigquery.Client, dataset_id: str) -> None:
+    """Create a BigQuery dataset."""
+    dataset_ref = f"{client.project}.{dataset_id}"
+    dataset = bigquery.Dataset(dataset_ref)
+    client.create_dataset(dataset, exists_ok=True)  # Idempotent creation
+    print(f"Dataset {dataset_id} created")
 
 # Test
 client = bigquery.Client(project="your-project-id")
-results = query_sales_metrics(client, "sales_dataset", "sales_table", 100)
+create_dataset(client, "sales_dataset")
 ```
 
-### Solution to Exercise 4: Pydantic Validation
+**Explanation**:
 
-```python
-from pydantic import BaseModel
-from typing import List
-
-class SalesResult(BaseModel):
-    product: str
-    total_sales: float
-
-def validate_results(results: List[dict]) -> List[SalesResult]:
-    """Validate query results with Pydantic."""
-    validated = [SalesResult(**result) for result in results]
-    print(f"Validated {len(validated)} results")
-    return validated
-
-# Test
-results = [
-    {"product": "Halal Laptop", "total_sales": 1999.98},
-    {"product": "Halal Mouse", "total_sales": 249.9}
-]
-validated = validate_results(results)
-```
+- **Bug**: Missing `exists_ok=True` caused an error if the dataset already existed.
+- **Fix**: Added `exists_ok=True` to make creation idempotent, preventing errors.
 
 ### Solution to Exercise 5: Debug a Query Bug
 
@@ -1206,80 +1113,23 @@ print([result.dict() for result in results])
 - **Bug**: Missing `query_parameters` in `job_config` caused a query error.
 - **Fix**: Added `ScalarQueryParameter` for `max_quantity`.
 
-### Solution to Exercise 6: Create BigQuery Dataset
-
-```python
-from google.cloud import bigquery
-from typing import Optional
-
-def create_dataset(client: bigquery.Client, dataset_id: str) -> None:
-    """Create a BigQuery dataset."""
-    dataset_ref = f"{client.project}.{dataset_id}"
-    dataset = bigquery.Dataset(dataset_ref)
-    client.create_dataset(dataset, exists_ok=True)  # Idempotent creation, ignores existing dataset
-    print(f"Dataset {dataset_id} created")
-
-# Test
-client = bigquery.Client(project="your-project-id")
-create_dataset(client, "sales_dataset")
-```
-
-### Solution to Exercise 7: Debug a Mock Test
-
-```python
-from unittest.mock import MagicMock
-from sales_pipeline import query_sales, SalesResult
-from typing import List
-
-def test_query_sales() -> List[SalesResult]:
-    """Test query_sales with correct mock."""
-    client = MagicMock()
-    client.project = "your-project-id"
-    # Fixed mock results
-    client.query.return_value.result.return_value = [
-        {"product": "Halal Laptop", "total_sales": 1999.98}
-    ]
-    results = query_sales(client, "sales_dataset", "sales_table", 100)
-    assert len(results) == 1
-    assert results[0].product == "Halal Laptop"
-    assert abs(results[0].total_sales - 1999.98) < 0.01
-    print([result.dict() for result in results])
-    return results
-```
-
-**Explanation**:
-
-- **Bug**: The mock result `[{"product": "Halal Laptop"}]` lacked the `total_sales` field, causing a Pydantic `ValidationError`.
-- **Fix**: Added `total_sales` to the mock result, ensuring it matches the `SalesResult` model.
-
-### Solution to Exercise 8: Analyze Query Parameterization
-
-```text
-# File: de-onboarding/ex8_concepts.txt
-Parameterized queries prevent SQL injection by separating query logic from user input, ensuring safety. String concatenation risks malicious input altering the query, compromising security.
-```
-
-**Explanation**:
-
-- Parameterized queries in `query_sales` use `bigquery.QueryJobConfig` with `ScalarQueryParameter` to bind `max_quantity`, preventing SQL injection. String concatenation (e.g., `query.format(max_quantity)`) allows malicious input (e.g., `"; DROP TABLE sales;"`) to alter the query, risking data loss or unauthorized access.
-
 ## 26.7 Chapter Summary and Connection to Chapter 27
 
 In this chapter, you’ve mastered:
 
 - **BigQuery Client**: Type-safe initialization with `google-cloud-bigquery`.
 - **Data Loading**: Uploading Pandas DataFrames to BigQuery (O(n) time).
-- **Querying**: Parameterized queries with Pydantic validation (O(n) scan time).
+- **Query Execution**: Parameterized queries with Pydantic validation (O(n) scan time).
 - **Testing**: Pytest with mocking for pipeline reliability, including edge cases (`empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv`).
 - **White-Space Sensitivity and PEP 8**: 4-space indentation, avoiding `IndentationError`.
 
-The micro-project built a type-annotated pipeline to load, validate, and query sales data, exporting results to JSON, verified by Pyright and tested with pytest. Edge case tests ensure robustness, dataset creation reinforces Chapter 25’s concepts, mock testing enhances accessibility, and query parameterization analysis highlights security. This prepares for Chapter 27’s advanced querying techniques, such as CTEs and window functions, enhancing analytical capabilities for Hijra Group’s pipelines.
+The micro-project built a type-annotated pipeline to create a BigQuery dataset, load and validate sales data, query metrics using secure parameterized queries, and export results to JSON, verified by Pyright and tested with pytest, including mock tests for accessibility. Edge case tests ensure robustness, cost considerations enhance practical applicability, and the columnar data model analysis deepens understanding of BigQuery’s efficiency. This prepares for Chapter 27’s advanced querying techniques, such as CTEs and window functions, enabling complex analytics for Hijra Group’s pipelines.
 
 ### Connection to Chapter 27
 
 Chapter 27 (BigQuery Advanced Querying) builds on this chapter:
 
-- **Querying**: Extends parameterized queries to complex analytics (e.g., window functions).
+- **Querying**: Extends parameterized queries to complex analytics (e.g., window functions, CTEs).
 - **Data Structures**: Uses DataFrames for query results, building on Pandas integration.
 - **Type Safety**: Continues type annotations for robust code.
 - **Fintech Context**: Prepares for advanced sales trend analysis, maintaining PEP 8 compliance.

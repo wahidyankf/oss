@@ -9,13 +9,13 @@ weight: 31
 
 ## 30.0 Introduction: Why This Matters for Data Engineering
 
-In the realm of data engineering, cloud analytics platforms like BigQuery are pivotal for processing and analyzing large-scale financial transaction data, enabling Hijra Group to derive actionable insights for Sharia-compliant fintech solutions. This chapter serves as **Checkpoint 4**, consolidating skills from Chapters 25–29, which cover BigQuery fundamentals, Python integration, advanced querying, data warehousing, and optimization techniques. By mastering these, you ensure efficient, scalable analytics pipelines that support Hijra Group’s mission of delivering compliant financial analytics.
+In data engineering, cloud analytics platforms like BigQuery are critical for processing large-scale financial transaction data, enabling Hijra Group to deliver actionable insights for Sharia-compliant fintech solutions. This chapter serves as **Checkpoint 4**, consolidating skills from Chapters 25–29, covering BigQuery fundamentals, Python integration, advanced querying, data warehousing, and optimization. The `sales.csv` dataset used here is small for learning purposes, but BigQuery’s scalability supports Hijra Group’s large-scale transaction data in production, as explored with `transactions.csv` in Chapter 31. By mastering these skills, you ensure efficient, scalable analytics pipelines aligned with Hijra Group’s mission.
 
-This checkpoint focuses on integrating these skills into a cohesive, type-safe analytics tool that processes sales data, leveraging `data/sales.csv` from **Appendix 1**. You’ll use **NumPy**, **Pandas**, and **BigQuery** with type annotations verified by **Pyright** (introduced in Chapter 7) and tests using **pytest** (Chapter 9), ensuring robust code quality per Hijra Group’s standards. All code adheres to **PEP 8’s 4-space indentation**, preferring spaces over tabs to avoid `IndentationError`, aligning with Python’s white-space sensitivity and pipeline script consistency.
+This checkpoint integrates these skills into a type-safe analytics tool processing `data/sales.csv` from **Appendix 1**, using **NumPy**, **Pandas**, and **BigQuery** with Pyright-verified type annotations (Chapter 7) and pytest tests (Chapter 9), ensuring robust code quality. All code uses **PEP 8’s 4-space indentation**, preferring spaces over tabs to avoid `IndentationError`, aligning with Python’s white-space sensitivity and Hijra Group’s pipeline standards.
 
 ### Data Engineering Workflow Context
 
-The following Mermaid diagram illustrates how BigQuery integrates with Python for cloud analytics in a data engineering pipeline:
+The following Mermaid diagram illustrates BigQuery’s role in a data engineering pipeline:
 
 ```mermaid
 flowchart TD
@@ -41,20 +41,21 @@ flowchart TD
 ### Building On and Preparing For
 
 - **Building On**:
-  - **Chapter 3**: Uses Pandas for CSV processing and NumPy for computations, extended with type annotations and BigQuery integration.
-  - **Chapter 7**: Applies Pyright-verified type annotations for type-safe code.
-  - **Chapter 9**: Incorporates pytest for testing, ensuring pipeline reliability.
-  - **Chapter 25**: Leverages BigQuery dataset creation and basic queries.
-  - **Chapter 26**: Builds on Python-BigQuery integration with `google-cloud-bigquery`.
-  - **Chapter 27**: Uses advanced querying (e.g., window functions, CTEs) for analytics.
-  - **Chapter 28**: Applies data warehouse design with star schemas.
-  - **Chapter 29**: Optimizes BigQuery queries for performance and cost.
+  - **Chapter 3**: Pandas for CSV processing, NumPy for computations, extended with type annotations and BigQuery.
+  - **Chapter 7**: Pyright-verified type annotations for type safety.
+  - **Chapter 9**: Pytest for testing pipeline reliability.
+  - **Chapter 25**: BigQuery dataset creation and basic queries.
+  - **Chapter 26**: Python-BigQuery integration with `google-cloud-bigquery`.
+  - **Chapter 27**: Advanced querying (window functions, CTEs).
+  - **Chapter 28**: Data warehouse design with star schemas.
+  - **Chapter 29**: BigQuery query optimization.
 - **Preparing For**:
-  - **Chapter 31**: Extends to data lakes with Google Cloud Storage.
-  - **Chapter 32**: Prepares for data mart creation in BigQuery.
-  - **Chapter 33**: Supports Google Sheets integration for reporting.
-  - **Chapter 34–36**: Enhances Python for advanced data engineering tasks.
-  - **Chapter 37**: Leads to Checkpoint 5, consolidating analytical storage.
+  - **Chapter 31**: Data lakes with Google Cloud Storage, transitioning to `transactions.csv`.
+  - **Chapter 32**: Data mart creation in BigQuery.
+  - **Chapter 33**: Google Sheets integration for reporting.
+  - **Chapter 34**: Python for Data Lake Processing: Foundations.
+  - **Chapter 36**: Python for Data Lake Processing: Optimization.
+  - **Chapter 37**: Checkpoint 5, consolidating analytical storage.
 
 ### What You’ll Learn
 
@@ -68,12 +69,12 @@ This chapter covers:
 6. **Testing**: Writing pytest tests for data pipelines.
 7. **Visualization**: Generating stakeholder plots with Matplotlib.
 
-By the end, you’ll build a **type-annotated sales analytics tool** that loads `data/sales.csv` into a BigQuery fact table, performs advanced queries, exports results to JSON, and visualizes sales trends, all verified by pytest and adhering to PEP 8’s 4-space indentation. The micro-project ensures robustness by testing edge cases with `empty.csv`, `invalid.csv`, `malformed.csv`, and `negative.csv` per **Appendix 1**.
+You’ll build a **type-annotated sales analytics tool** that loads `data/sales.csv` into a BigQuery fact table, performs advanced queries, exports results to JSON, and visualizes sales trends, all verified by pytest and adhering to PEP 8’s 4-space indentation. The micro-project tests edge cases with `empty.csv`, `invalid.csv`, `malformed.csv`, and `negative.csv` per **Appendix 1**.
 
 **Follow-Along Tips**:
 
-- Create `de-onboarding/data/` and populate with files from **Appendix 1** (`sales.csv`, `config.yaml`, `empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv`).
-- Install libraries: `pip install numpy pandas matplotlib pyyaml google-cloud-bigquery pytest`.
+- Create `de-onboarding/data/` and populate with files from **Appendix 1**.
+- Install libraries: `pip install numpy pandas matplotlib pyyaml google-cloud-bigquery pytest pytest-mock`.
 - Set up Google Cloud credentials: Export `GOOGLE_APPLICATION_CREDENTIALS` to your service account JSON path.
 - Configure editor for **4-space indentation** per PEP 8 (VS Code: “Editor: Tab Size” = 4, “Editor: Insert Spaces” = true, “Editor: Detect Indentation” = false).
 - Use print statements (e.g., `print(df.head())`) to debug DataFrames.
@@ -85,7 +86,7 @@ By the end, you’ll build a **type-annotated sales analytics tool** that loads 
 
 ### 30.1.1 BigQuery Dataset Management
 
-BigQuery organizes data into **datasets** and **tables**, optimized for columnar storage and parallel query execution. A dataset for 1 million sales records (~24MB in CSV) uses ~30MB in BigQuery due to columnar compression. Creating datasets and loading fact tables programmatically is key for scalable data warehouses.
+BigQuery organizes data into **datasets** and **tables**, optimized for columnar storage and parallel query execution. A dataset for 1 million sales records (~24MB in CSV) uses ~30MB in BigQuery due to compression. Creating datasets and loading fact tables is key for scalable data warehouses.
 
 ```python
 from google.cloud import bigquery
@@ -115,7 +116,7 @@ def create_dataset_and_table(project_id: str, dataset_id: str, table_id: str) ->
     table = client.create_table(table, exists_ok=True)
     print(f"Created fact table {table_id}")  # Debug
 
-    # Placeholder dimension table (not created, for reference; see Exercise 6 and Chapter 32 for star schema implementation)
+    # Placeholder dimension table (not created, for reference; see Exercise 6 and Chapter 32 for star schema)
     # product_dim_schema = [
     #     bigquery.SchemaField("product_id", "INTEGER"),
     #     bigquery.SchemaField("product_name", "STRING"),
@@ -129,22 +130,39 @@ def create_dataset_and_table(project_id: str, dataset_id: str, table_id: str) ->
 
 - **Time Complexity**: O(1) for dataset/table creation (metadata operations).
 - **Space Complexity**: O(1) for metadata, O(n) for data storage.
-- **Implementation**: BigQuery uses Colossus filesystem for distributed storage, enabling fast queries. Fact tables store transactional data, supporting star schemas (Chapter 28).
-- **Implication**: Essential for organizing sales data in Hijra Group’s analytics pipelines.
+- **Implementation**: BigQuery uses Colossus filesystem for distributed storage, enabling fast queries. Fact tables support star schemas (Chapter 28).
+- **Implication**: Essential for Hijra Group’s analytics pipelines.
 
 ### 30.1.2 Type-Safe Data Processing
 
-Using Pandas with type annotations ensures data integrity. The `pandas.DataFrame` is typed with `pandas-stubs` for Pyright compatibility.
+Pandas with type annotations ensures data integrity, using `pandas-stubs` for Pyright compatibility.
 
 ```python
 import pandas as pd
-from typing import Tuple
+from typing import Tuple, Dict, Any, List
 
-def load_and_validate_sales(csv_path: str, config: dict) -> Tuple[pd.DataFrame, int, int]:
-    """Load and validate sales CSV with type annotations."""
+def load_and_validate_sales(csv_path: str, config: Dict[str, Any]) -> Tuple[pd.DataFrame, int, int, List[str]]:
+    """Load and validate sales CSV, returning non-compliant products.
+    Note: Uses iterrows() for simplicity; vectorized operations (Chapter 39) are more efficient for large datasets.
+    Non-compliant products are printed for debugging."""
+    print(f"Loading CSV: {csv_path}")
     df: pd.DataFrame = pd.read_csv(csv_path)
-    print("Initial DataFrame:", df.head())  # Debug
+    print("Initial DataFrame:", df.head())
+
+    required_fields = config["required_fields"]
+    missing_fields = [f for f in required_fields if f not in df.columns]
+    if missing_fields:
+        print(f"Missing columns: {missing_fields}")
+        return pd.DataFrame(), 0, len(df), []
+
+    non_compliant_products: List[str] = []
     df = df.dropna(subset=["product"])
+    for index, row in df.iterrows():
+        sale = {field: str(row[field]) for field in required_fields}
+        is_valid, product = validate_sale(sale, config)
+        if not is_valid and product:
+            non_compliant_products.append(product)
+
     df = df[df["product"].str.startswith(config["product_prefix"])]
     df = df[df["quantity"].apply(lambda x: str(x).isdigit())]
     df["quantity"] = df["quantity"].astype(int)
@@ -152,19 +170,24 @@ def load_and_validate_sales(csv_path: str, config: dict) -> Tuple[pd.DataFrame, 
     df = df[df["price"].apply(lambda x: isinstance(x, (int, float)))]
     df = df[df["price"] > 0]
     df = df[df["price"] >= config["min_price"]]
+    df = df[df["price"].apply(lambda x: apply_valid_decimals(x, config["max_decimals"]))]
+
     total_records: int = len(df)
-    return df, len(df), total_records
+    print("Validated DataFrame:", df)
+    if non_compliant_products:
+        print(f"Non-compliant products: {non_compliant_products}")
+    return df, len(df), total_records, non_compliant_products
 ```
 
 **Key Points**:
 
 - **Time Complexity**: O(n) for filtering n rows.
-- **Space Complexity**: O(k) for filtered DataFrame (k rows).
-- **Implication**: Ensures Sharia-compliant data validation for Hijra Group.
+- **Space Complexity**: O(k) for filtered DataFrame (k rows), O(m) for non-compliant products (m invalid rows).
+- **Implication**: Ensures Sharia-compliant data validation with debugging support.
 
 ### 30.1.3 Advanced Querying and Optimization
 
-BigQuery supports **window functions** and **CTEs** for complex analytics, with **partitioning** and **clustering** to optimize query performance.
+BigQuery supports **window functions** and **CTEs**, with **partitioning** and **clustering** for optimization.
 
 ```python
 def run_analytics_query(client: bigquery.Client, dataset_id: str, table_id: str) -> Dict[str, Any]:
@@ -211,43 +234,44 @@ def run_analytics_query(client: bigquery.Client, dataset_id: str, table_id: str)
 
 - **Time Complexity**: O(n log n) for sorting in window functions, reduced by partitioning.
 - **Space Complexity**: O(k) for query results.
-- **Optimization**: Partitioning/clustering (shown in comments) reduces scanned data, lowering costs.
+- **Optimization**: Partitioning/clustering (in comments) lowers costs.
 - **Implication**: Enables efficient sales trend analysis.
 
 ### 30.1.4 Testing with Pytest
 
-Pytest ensures pipeline reliability by testing data processing and BigQuery interactions.
+Pytest ensures pipeline reliability.
 
 ```python
 def test_load_sales():
     """Test sales loading and validation."""
     config = {"product_prefix": "Halal", "max_quantity": 100, "min_price": 10.0}
-    df, valid, total = load_and_validate_sales("data/sample.csv", config)
+    df, valid, total, non_compliant = load_and_validate_sales("data/sample.csv", config)
     assert len(df) == 2
     assert valid == 2
     assert total == 2
+    assert not non_compliant  # No non-compliant products in sample.csv
 ```
 
 **Key Points**:
 
 - **Time Complexity**: O(n) for test data processing.
 - **Space Complexity**: O(n) for test data.
-- **Implication**: Validates pipeline correctness for production.
+- **Implication**: Validates pipeline correctness.
 
 ## 30.2 Micro-Project: Type-Safe Sales Analytics Tool
 
 ### Project Requirements
 
-Build a **type-annotated sales analytics tool** that integrates BigQuery, Pandas, and NumPy to process `data/sales.csv` into a fact table, ensuring Sharia-compliant analytics for Hijra Group. The tool creates a BigQuery dataset, loads validated data, runs advanced queries, exports results to JSON, and visualizes sales trends, all tested with pytest and using 4-space indentation per PEP 8.
+Build a **type-annotated sales analytics tool** integrating BigQuery, Pandas, and NumPy to process `data/sales.csv` into a fact table, ensuring Sharia-compliant analytics for Hijra Group. The tool creates a BigQuery dataset, loads validated data, runs advanced queries, exports results to JSON, and visualizes trends, all tested with pytest and using 4-space indentation.
 
 - Load `data/sales.csv` and `config.yaml` with type-safe Python.
-- Validate records using Pandas and `utils.py` (updated with type annotations).
-- Create a BigQuery dataset and fact table (`sales_fact`), load validated data.
+- Validate records using Pandas and `utils.py` (type-annotated), logging non-compliant products.
+- Create a BigQuery dataset and fact table (`sales_fact`), load data.
 - Run advanced queries (window functions/CTEs) for sales metrics.
 - Export results to `data/analytics_results.json`.
-- Generate a sales trend plot to `data/sales_trend.png` with `dpi=100`.
+- Generate a plot to `data/sales_trend.png` with `dpi=100`.
 - Log steps and invalid records using print statements.
-- Write pytest tests for data loading, querying, and output.
+- Write pytest tests for loading, querying, and output.
 - Test edge cases with `empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv`.
 
 ### Sample Input Files
@@ -309,20 +333,20 @@ flowchart TD
 
 - **Go Criteria**:
   - Loads `sales.csv` and `config.yaml` correctly.
-  - Validates records for Halal prefix, numeric/positive prices, integer quantities, and config rules.
-  - Creates BigQuery dataset and fact table, loads validated data.
+  - Validates records for Halal prefix, numeric/positive prices, integer quantities, and config rules, logging non-compliant products.
+  - Creates BigQuery dataset and fact table, loads data.
   - Executes advanced queries with window functions/CTEs.
   - Exports results to `data/analytics_results.json`.
   - Saves plot to `data/sales_trend.png` with `dpi=100`.
   - Logs steps and invalid records.
   - Includes pytest tests for loading, querying, and output.
   - Passes edge case tests with `empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv`.
-  - Uses 4-space indentation per PEP 8, preferring spaces over tabs.
+  - Uses 4-space indentation per PEP 8.
 - **No-Go Criteria**:
-  - Fails to load files or create BigQuery dataset.
+  - Fails to load files or create dataset.
   - Incorrect validation or query results.
   - Missing JSON export, plot, or tests.
-  - Inconsistent indentation or tab/space mixing.
+  - Inconsistent indentation.
 
 ### Common Pitfalls to Avoid
 
@@ -331,7 +355,7 @@ flowchart TD
    - **Solution**: Set `GOOGLE_APPLICATION_CREDENTIALS`. Print `os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")`.
 2. **Project ID Misconfiguration**:
    - **Problem**: `your-project-id` placeholder causes errors.
-   - **Solution**: Replace with your Google Cloud project ID. Verify with `gcloud config get-value project` and ensure `GOOGLE_APPLICATION_CREDENTIALS` is set.
+   - **Solution**: Replace with Google Cloud project ID. Verify with `gcloud config get-value project`.
 3. **CSV Loading Errors**:
    - **Problem**: `FileNotFoundError` for `sales.csv`.
    - **Solution**: Verify path with `print(csv_path)` and ensure file exists per **Appendix 1**.
@@ -340,16 +364,16 @@ flowchart TD
    - **Solution**: Use `utils.is_numeric_value`. Print `df.dtypes`.
 5. **Sharia Compliance Issues**:
    - **Problem**: Non-Halal products processed incorrectly.
-   - **Solution**: Print `df["product"]` to verify Halal prefixes against `config.yaml`’s `product_prefix`.
+   - **Solution**: Print `df["product"]` and non-compliant products from `load_and_validate_sales` to verify Halal prefixes against `config.yaml`’s `product_prefix`.
 6. **Query Failures**:
    - **Problem**: Syntax errors in BigQuery SQL.
-   - **Solution**: Print `query` string, test in BigQuery Console, and check `query_job.errors` for details.
+   - **Solution**: Print `query`, open Google Cloud Console, navigate to BigQuery, paste the query in the Query Editor to test, and check `query_job.errors`.
 7. **Plotting Issues**:
    - **Problem**: Plot not saved.
    - **Solution**: Check permissions with `os.path.exists(plot_path)`. Use `plt.savefig` with `dpi=100`.
 8. **Plot Resolution Issues**:
    - **Problem**: `sales_trend.png` lacks clarity.
-   - **Solution**: Open `sales_trend.png` to verify clarity. Adjust `dpi` (e.g., to 150) if needed. Check file size with `ls -lh data/sales_trend.png` (Unix/macOS) or `dir data\sales_trend.png` (Windows).
+   - **Solution**: Open `sales_trend.png` in an image viewer (e.g., Preview on macOS, Photos on Windows) to check text legibility and bar clarity. Adjust `dpi` (e.g., to 150) if needed. Check file size with `ls -lh data/sales_trend.png` (Unix/macOS) or `dir data\sales_trend.png` (Windows).
 9. **IndentationError**:
    - **Problem**: Mixed spaces/tabs.
    - **Solution**: Use 4 spaces per PEP 8. Run `python -tt analytics_tool.py`.
@@ -359,16 +383,16 @@ flowchart TD
 In production, this solution would include:
 
 - **Error Handling**: Try/except with logging (Chapter 52).
-- **Scalability**: Chunked loading for large datasets (Chapter 40).
-- **Security**: Encrypted connections and PII masking (Chapter 65).
+- **Scalability**: Chunked loading (Chapter 40).
+- **Security**: Encrypted connections, PII masking (Chapter 65).
 - **Monitoring**: Observability with Jaeger/Grafana (Chapter 66).
-- **Orchestration**: Airflow for scheduling (Chapter 56).
+- **Orchestration**: Airflow scheduling (Chapter 56).
 
 ### Implementation
 
 ```python
-# File: de-onboarding/utils.py (updated with type annotations)
-from typing import Union, Dict, Any
+# File: de-onboarding/utils.py
+from typing import Union, Dict, Any, List, Tuple
 
 def is_numeric(s: str, max_decimals: int = 2) -> bool:
     """Check if string is a decimal number with up to max_decimals."""
@@ -397,8 +421,9 @@ def is_integer(x: Any) -> bool:
     """Check if value is an integer when converted to string."""
     return str(x).isdigit()
 
-def validate_sale(sale: Dict[str, str], config: Dict[str, Any]) -> bool:
-    """Validate sale based on config rules. Inputs are strings from CSV parsing; Pandas type inference is handled in load_and_validate_sales."""
+def validate_sale(sale: Dict[str, str], config: Dict[str, Any]) -> Tuple[bool, str]:
+    """Validate sale based on config rules, returning compliance status and product name if non-compliant.
+    Inputs are strings from CSV parsing; Pandas type inference is handled in load_and_validate_sales."""
     required_fields = config["required_fields"]
     min_price = config["min_price"]
     max_quantity = config["max_quantity"]
@@ -406,27 +431,28 @@ def validate_sale(sale: Dict[str, str], config: Dict[str, Any]) -> bool:
     max_decimals = config["max_decimals"]
 
     print(f"Validating sale: {sale}")
+    product = clean_string(sale["product"])
+
     for field in required_fields:
         if not sale[field] or sale[field].strip() == "":
             print(f"Invalid sale: missing {field}: {sale}")
-            return False
+            return False, product
 
-    product = clean_string(sale["product"])
     if not product.startswith(prefix):
         print(f"Invalid sale: product lacks '{prefix}' prefix: {sale}")
-        return False
+        return False, product
 
     price = clean_string(sale["price"])
     if not is_numeric(price, max_decimals) or float(price) < min_price or float(price) <= 0:
         print(f"Invalid sale: invalid price: {sale}")
-        return False
+        return False, product
 
     quantity = clean_string(sale["quantity"])
     if not quantity.isdigit() or int(quantity) > max_quantity:
         print(f"Invalid sale: invalid quantity: {sale}")
-        return False
+        return False, product
 
-    return True
+    return True, ""
 ```
 
 ```python
@@ -448,8 +474,10 @@ def read_config(config_path: str) -> Dict[str, Any]:
     print(f"Loaded config: {config}")
     return config
 
-def load_and_validate_sales(csv_path: str, config: Dict[str, Any]) -> Tuple[pd.DataFrame, int, int]:
-    """Load and validate sales CSV."""
+def load_and_validate_sales(csv_path: str, config: Dict[str, Any]) -> Tuple[pd.DataFrame, int, int, List[str]]:
+    """Load and validate sales CSV, returning non-compliant products.
+    Note: Uses iterrows() for simplicity; vectorized operations (Chapter 39) are more efficient for large datasets.
+    Non-compliant products are printed for debugging."""
     print(f"Loading CSV: {csv_path}")
     df: pd.DataFrame = pd.read_csv(csv_path)
     print("Initial DataFrame:", df.head())
@@ -458,9 +486,16 @@ def load_and_validate_sales(csv_path: str, config: Dict[str, Any]) -> Tuple[pd.D
     missing_fields = [f for f in required_fields if f not in df.columns]
     if missing_fields:
         print(f"Missing columns: {missing_fields}")
-        return pd.DataFrame(), 0, len(df)
+        return pd.DataFrame(), 0, len(df), []
 
+    non_compliant_products: List[str] = []
     df = df.dropna(subset=["product"])
+    for index, row in df.iterrows():
+        sale = {field: str(row[field]) for field in required_fields}
+        is_valid, product = validate_sale(sale, config)
+        if not is_valid and product:
+            non_compliant_products.append(product)
+
     df = df[df["product"].str.startswith(config["product_prefix"])]
     df = df[df["quantity"].apply(lambda x: str(x).isdigit())]
     df["quantity"] = df["quantity"].astype(int)
@@ -472,7 +507,9 @@ def load_and_validate_sales(csv_path: str, config: Dict[str, Any]) -> Tuple[pd.D
 
     total_records: int = len(df)
     print("Validated DataFrame:", df)
-    return df, len(df), total_records
+    if non_compliant_products:
+        print(f"Non-compliant products: {non_compliant_products}")
+    return df, len(df), total_records, non_compliant_products
 
 def load_to_bigquery(df: pd.DataFrame, project_id: str, dataset_id: str, table_id: str) -> None:
     """Load DataFrame to BigQuery fact table."""
@@ -515,7 +552,7 @@ def create_dataset_and_table(project_id: str, dataset_id: str, table_id: str) ->
     table = client.create_table(table, exists_ok=True)
     print(f"Created fact table {table_id}")
 
-    # Placeholder dimension table (not created, for reference; see Exercise 6 and Chapter 32 for star schema implementation)
+    # Placeholder dimension table (not created, for reference; see Exercise 6 and Chapter 32 for star schema)
     # product_dim_schema = [
     #     bigquery.SchemaField("product_id", "INTEGER"),
     #     bigquery.SchemaField("product_name", "STRING"),
@@ -601,7 +638,7 @@ def main() -> None:
     table_id = "sales_fact"  # Fact table
 
     config = read_config(config_path)
-    df, valid_sales, total_records = load_and_validate_sales(csv_path, config)
+    df, valid_sales, total_records, non_compliant = load_and_validate_sales(csv_path, config)
     if not df.empty:
         load_to_bigquery(df, project_id, dataset_id, table_id)
         client = bigquery.Client(project=project_id)
@@ -640,14 +677,24 @@ if __name__ == "__main__":
 
 `data/sales_trend.png`: Bar plot showing sales amounts for Halal products, saved with `dpi=100`.
 
-**Console Output** (abridged):
+**Console Output** (abridged, with non-compliant products from `sales.csv`):
 
 ```
 Opening config: data/config.yaml
 Loaded config: {'min_price': 10.0, 'max_quantity': 100, 'required_fields': ['product', 'price', 'quantity'], 'product_prefix': 'Halal', 'max_decimals': 2}
 Loading CSV: data/sales.csv
 Initial DataFrame: ...
+Validating sale: {'product': 'Halal Laptop', 'price': '999.99', 'quantity': '2'}
+Validating sale: {'product': 'Halal Mouse', 'price': '24.99', 'quantity': '10'}
+Validating sale: {'product': 'Halal Keyboard', 'price': '49.99', 'quantity': '5'}
+Validating sale: {'product': '', 'price': '29.99', 'quantity': '3'}
+Invalid sale: missing product: {'product': '', 'price': '29.99', 'quantity': '3'}
+Validating sale: {'product': 'Monitor', 'price': 'invalid', 'quantity': '2'}
+Invalid sale: invalid price: {'product': 'Monitor', 'price': 'invalid', 'quantity': '2'}
+Validating sale: {'product': 'Headphones', 'price': '5.00', 'quantity': '150'}
+Invalid sale: invalid quantity: {'product': 'Headphones', 'price': '5.00', 'quantity': '150'}
 Validated DataFrame: ...
+Non-compliant products: ['', 'Monitor', 'Headphones']
 Created dataset sales_dataset
 Created fact table sales_fact
 Loaded 3 rows to your-project-id.sales_dataset.sales_fact
@@ -672,10 +719,11 @@ Processing completed
 
    - **Setup Checklist**:
      - [ ] Create `de-onboarding/data/` directory.
-     - [ ] Save `sales.csv`, `config.yaml`, `sample.csv`, `empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv` per **Appendix 1**.
+     - [ ] Follow **Appendix 1**’s instructions to create `sales.csv`, `config.yaml`, `sample.csv`, `empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv` in `de-onboarding/data/`, ensuring UTF-8 encoding and correct column headers.
      - [ ] Verify file contents: Run `ls data/*.csv` (Unix/macOS) or `dir data\*.csv` (Windows) to match **Appendix 1**.
-     - [ ] Install libraries: `pip install numpy pandas matplotlib pyyaml google-cloud-bigquery pytest`.
+     - [ ] Install libraries: `pip install numpy pandas matplotlib pyyaml google-cloud-bigquery pytest pytest-mock`. Note: `pytest-mock` is used for mocking in `test_query_empty`.
      - [ ] Create virtual environment: `python -m venv venv`, activate (Unix/macOS: `source venv/bin/activate`, Windows: `venv\Scripts\activate`).
+     - [ ] Verify virtual environment: Run `pip list` to confirm installed libraries (e.g., `pandas`, `google-cloud-bigquery`, `pytest-mock`).
      - [ ] Set up Google Cloud credentials: Export `GOOGLE_APPLICATION_CREDENTIALS` to your service account JSON path.
      - [ ] Verify project ID: Replace `your-project-id` in `analytics_tool.py` with your Google Cloud project ID. Run `gcloud config get-value project` to confirm.
      - [ ] Verify Python 3.10+: `python --version`.
@@ -705,27 +753,32 @@ Processing completed
    - **Empty CSV**:
      ```python
      config = read_config("data/config.yaml")
-     df, valid, total = load_and_validate_sales("data/empty.csv", config)
+     df, valid, total, non_compliant = load_and_validate_sales("data/empty.csv", config)
      assert df.empty
      assert valid == 0
+     assert not non_compliant
      ```
    - **Invalid Headers**:
      ```python
      config = read_config("data/config.yaml")
-     df, valid, total = load_and_validate_sales("data/invalid.csv", config)
+     df, valid, total, non_compliant = load_and_validate_sales("data/invalid.csv", config)
      assert df.empty
+     assert valid == 0
+     assert not non_compliant
      ```
    - **Malformed Data**:
      ```python
      config = read_config("data/config.yaml")
-     df, valid, total = load_and_validate_sales("data/malformed.csv", config)
+     df, valid, total, non_compliant = load_and_validate_sales("data/malformed.csv", config)
      assert len(df) == 1  # Only Halal Mouse
+     assert "Monitor" in non_compliant  # Example non-compliant product
      ```
    - **Negative Prices**:
      ```python
      config = read_config("data/config.yaml")
-     df, valid, total = load_and_validate_sales("data/negative.csv", config)
+     df, valid, total, non_compliant = load_and_validate_sales("data/negative.csv", config)
      assert len(df) == 1  # Only Halal Mouse
+     assert "Invalid Product" in non_compliant  # Example non-compliant product
      ```
 
 4. **Pytest Tests**:
@@ -739,23 +792,33 @@ Processing completed
    def test_load_sales():
        """Test sales loading and validation."""
        config = read_config("data/config.yaml")
-       df, valid, total = load_and_validate_sales("data/sample.csv", config)
+       df, valid, total, non_compliant = load_and_validate_sales("data/sample.csv", config)
        assert len(df) == 2
        assert valid == 2
        assert total == 2
-       assert all(df["product"].str.startswith("Halal"))
+       assert not non_compliant  # No non-compliant products in sample.csv
 
    def test_empty_csv():
        """Test empty CSV handling."""
        config = read_config("data/config.yaml")
-       df, valid, total = load_and_validate_sales("data/empty.csv", config)
+       df, valid, total, non_compliant = load_and_validate_sales("data/empty.csv", config)
        assert df.empty
        assert valid == 0
        assert total == 0
+       assert not non_compliant
 
-   def test_query_empty():
+   def test_non_compliant_products():
+       """Test non-compliant product logging."""
+       config = read_config("data/config.yaml")
+       df, valid, total, non_compliant = load_and_validate_sales("data/malformed.csv", config)
+       assert len(df) == 1  # Only Halal Mouse
+       assert "Monitor" in non_compliant  # Non-compliant product logged
+
+   def test_query_empty(mocker):
        """Test query with empty data."""
-       results = run_analytics_query(None, "sales_dataset", "sales_fact")  # Mock empty result
+       # Mock query_job.to_dataframe to return an empty DataFrame
+       mocker.patch("google.cloud.bigquery.job.QueryJob.to_dataframe", return_value=pd.DataFrame())
+       results = run_analytics_query(None, "sales_dataset", "sales_fact")
        assert results["total_sales"] == 0.0
        assert results["unique_products"] == []
        assert results["top_products"] == {}
@@ -861,7 +924,7 @@ Fix this buggy test that fails due to incorrect assertions, ensuring 4-space ind
 ```python
 def test_load_sales():
     config = read_config("data/config.yaml")
-    df, valid, total = load_and_validate_sales("data/sample.csv", config)
+    df, valid, total, non_compliant = load_and_validate_sales("data/sample.csv", config)
     assert len(df) == 3  # Bug: Wrong count
 ```
 
@@ -879,7 +942,7 @@ Test passed
 
 ### Exercise 6: Star Schema Design
 
-Design a star schema for `sales.csv` with a fact table (`sales_fact`) and a dimension table (`product_dim`), saving the description and an optional Mermaid diagram to `ex6_schema.txt`, using 4-space indentation for any code. Optionally, paste the diagram into mermaid.live to visualize it.
+Design a star schema for `sales.csv` with a fact table (`sales_fact`) and a dimension table (`product_dim`), saving the description and a Mermaid diagram to `ex6_schema.txt`, using 4-space indentation for any code. Debug an incorrect diagram (e.g., `sales_fact` with `product: INTEGER`) and save the corrected version. Optionally, paste the diagram into mermaid.live to visualize it.
 
 **Expected Output** (`ex6_schema.txt`):
 
@@ -907,7 +970,7 @@ erDiagram
 **Follow-Along Instructions**:
 
 1. Save as `de-onboarding/ex6_schema.py`.
-2. Write a script to generate `ex6_schema.txt`.
+2. Write a script to generate `ex6_schema.txt`, debugging an incorrect diagram (e.g., change `product: INTEGER` to `product: STRING` in `sales_fact`).
 3. Run: `python ex6_schema.py`.
 4. **How to Test**:
    - Verify `ex6_schema.txt` matches expected output.
@@ -921,7 +984,7 @@ Write a paragraph explaining why BigQuery is suitable for Hijra Group’s large-
 **Expected Output** (`ex7_concepts.txt`):
 
 ```
-BigQuery is ideal for Hijra Group’s large-scale sales analytics due to its columnar storage, which optimizes analytical queries by storing data by column, enabling faster aggregations compared to SQLite’s row-based storage. BigQuery’s parallel query execution across distributed nodes handles millions of sales records efficiently, unlike SQLite, which is limited to single-threaded processing on a local machine. This scalability ensures Hijra Group can process vast transaction datasets quickly, supporting real-time analytics for Sharia-compliant fintech solutions.
+BigQuery is ideal for Hijra Group’s large-scale sales analytics due to its columnar storage, which optimizes analytical queries by storing data by column, enabling faster aggregations compared to SQLite’s row-based storage. BigQuery’s parallel query execution across distributed nodes handles millions of sales records efficiently, unlike SQLite, which is limited to single-threaded processing on a local machine. This scalability ensures Hijra Group can validate Halal products across vast transaction datasets quickly, supporting real-time analytics for Sharia-compliant fintech solutions.
 ```
 
 **Expected Output** (`ex7_query.sql`):
@@ -937,7 +1000,7 @@ FROM `sales_dataset.sales_fact`;
 2. Write a script to generate `ex7_concepts.txt` and `ex7_query.sql`.
 3. Run: `python ex7_concepts.py`.
 4. **How to Test**:
-   - Verify `ex7_concepts.txt` addresses columnar storage and parallel querying.
+   - Verify `ex7_concepts.txt` addresses columnar storage, parallel querying, and Sharia compliance.
    - Verify `ex7_query.sql` contains a valid BigQuery query.
    - Ensure explanation is concise and relevant to Hijra Group’s context.
 
@@ -977,18 +1040,18 @@ create_dataset_and_table("your-project-id", "test_dataset", "test_sales_fact")
 
 ```python
 import pandas as pd
-from typing import Tuple
+from typing import Tuple, List
 
-def load_and_validate_sales(csv_path: str, config: dict) -> Tuple[pd.DataFrame, int, int]:
+def load_and_validate_sales(csv_path: str, config: dict) -> Tuple[pd.DataFrame, int, int, List[str]]:
     """Load and validate sales CSV."""
     df: pd.DataFrame = pd.read_csv(csv_path)
     df = df[df["product"].str.startswith(config["product_prefix"])]
     total_records: int = len(df)
-    return df, len(df), total_records
+    return df, len(df), total_records, []
 
 # Test
 config = {"product_prefix": "Halal"}
-df, valid, total = load_and_validate_sales("data/sample.csv", config)
+df, valid, total, non_compliant = load_and_validate_sales("data/sample.csv", config)
 print(f"DataFrame with {len(df)} rows")
 ```
 
@@ -1054,10 +1117,11 @@ from analytics_tool import load_and_validate_sales, read_config
 def test_load_sales():
     """Test sales loading and validation."""
     config = read_config("data/config.yaml")
-    df, valid, total = load_and_validate_sales("data/sample.csv", config)
+    df, valid, total, non_compliant = load_and_validate_sales("data/sample.csv", config)
     assert len(df) == 2  # Fix: Correct count
     assert valid == 2
     assert total == 2
+    assert not non_compliant
 
 # Run: pytest ex5_test.py
 ```
@@ -1066,7 +1130,8 @@ def test_load_sales():
 
 ```python
 def create_star_schema_description(output_path: str) -> None:
-    """Generate star schema description and Mermaid diagram for sales.csv."""
+    """Generate star schema description and Mermaid diagram for sales.csv, debugging incorrect column types."""
+    # Debug: Fix incorrect diagram (e.g., product: INTEGER -> product: STRING)
     schema = """
 Star Schema for sales.csv:
 - Fact Table: sales_fact
@@ -1101,7 +1166,7 @@ create_star_schema_description("ex6_schema.txt")
 def write_bigquery_comparison(concepts_path: str, query_path: str) -> None:
     """Write comparison of BigQuery vs. SQLite and total sales query."""
     comparison = """
-BigQuery is ideal for Hijra Group’s large-scale sales analytics due to its columnar storage, which optimizes analytical queries by storing data by column, enabling faster aggregations compared to SQLite’s row-based storage. BigQuery’s parallel query execution across distributed nodes handles millions of sales records efficiently, unlike SQLite, which is limited to single-threaded processing on a local machine. This scalability ensures Hijra Group can process vast transaction datasets quickly, supporting real-time analytics for Sharia-compliant fintech solutions.
+BigQuery is ideal for Hijra Group’s large-scale sales analytics due to its columnar storage, which optimizes analytical queries by storing data by column, enabling faster aggregations compared to SQLite’s row-based storage. BigQuery’s parallel query execution across distributed nodes handles millions of sales records efficiently, unlike SQLite, which is limited to single-threaded processing on a local machine. This scalability ensures Hijra Group can validate Halal products across vast transaction datasets quickly, supporting real-time analytics for Sharia-compliant fintech solutions.
 """
     query = """
 SELECT SUM(price * quantity) AS total_sales
@@ -1120,15 +1185,15 @@ write_bigquery_comparison("ex7_concepts.txt", "ex7_query.sql")
 
 ## 30.5 Chapter Summary and Connection to Chapter 31
 
-This chapter consolidated BigQuery skills, building a type-safe sales analytics tool that integrates Pandas, NumPy, and BigQuery, with pytest tests and PEP 8-compliant 4-space indentation. You mastered dataset management, advanced querying, fact table design, optimization concepts, and visualization, ensuring robust pipelines for Hijra Group’s analytics. The micro-project’s modular design (e.g., `load_and_validate_sales`) and fact table (`sales_fact`) prepare for encapsulating logic in classes (Chapter 34) and orchestrating workflows (Chapter 56). The star schema exercise and BigQuery comparison reinforce data warehousing and cloud analytics principles, aligning with Chapters 25–29 and Hijra Group’s Sharia-compliant fintech context.
+This chapter consolidated BigQuery skills, building a type-safe sales analytics tool integrating Pandas, NumPy, and BigQuery, with pytest tests and PEP 8-compliant 4-space indentation. You mastered dataset management, advanced querying, fact table design, optimization concepts, and visualization, ensuring robust pipelines for Hijra Group’s analytics. The modular design (e.g., `load_and_validate_sales`) and fact table (`sales_fact`) prepare for data lake processing in Phase 5. Enhanced debugging (non-compliant product logging, star schema correction) and fintech-focused exercises (Sharia-compliant analytics) reinforced data warehousing and cloud analytics, aligning with Chapters 25–29.
 
 ### Connection to Chapter 31
 
 Chapter 31 introduces **Data Lakes with Google Cloud Storage**, building on this chapter:
 
-- **Data Loading**: Extends BigQuery fact table loading to GCS for unstructured data.
+- **Data Loading**: Extends BigQuery fact table loading to GCS for unstructured data, transitioning to `transactions.csv` for financial transaction analytics.
 - **Type Safety**: Continues Pyright-verified type annotations.
 - **Testing**: Applies pytest for data lake pipelines.
-- **Fintech Context**: Prepares for storing large-scale transaction data, aligning with Hijra Group’s data lake strategy, maintaining 4-space indentation for maintainable scripts.
+- **Fintech Context**: Prepares for storing large-scale transaction data, aligning with Hijra Group’s data lake strategy, maintaining 4-space indentation for maintainable scripts. This sets the stage for foundational Python processing in Chapter 34 and optimization in Chapter 36.
 
 **Artifact Saved**: This chapter is saved as a single Markdown artifact, ensuring all code, diagrams, and instructions are self-contained for Hijra Group’s onboarding curriculum.

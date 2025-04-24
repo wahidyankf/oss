@@ -17,35 +17,41 @@ BigQuery’s columnar storage optimizes analytical queries (e.g., aggregations) 
 
 To work with BigQuery, set up your environment as follows:
 
-1. **Install Google Cloud SDK**:
+1. **Verify Python Version**:
+   - Run `python --version` to ensure Python 3.10 or higher, as required by the curriculum.
+2. **Install Google Cloud SDK**:
    - Download and install from [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) for your OS (Windows, macOS, Linux).
    - Initialize with `gcloud init` and follow prompts to select your Google Cloud project.
-2. **Create a Google Cloud Project**:
+3. **Create a Google Cloud Project**:
    - Go to [Google Cloud Console](https://console.cloud.google.com), create a new project (e.g., `hijra-analytics`), and note the project ID (e.g., `hijra-analytics-123`).
-3. **Enable Billing**:
+4. **Enable Billing**:
    - Ensure billing is enabled for your project (see [Billing Setup](https://cloud.google.com/billing/docs/how-to/modify-project)); the free tier covers 10 GB/month of queries.
-4. **Enable BigQuery API**:
+5. **Enable BigQuery API**:
    - In the Console, navigate to “APIs & Services” > “Library,” search for “BigQuery API,” and enable it.
-5. **Authenticate**:
+6. **Authenticate**:
    - Run `gcloud auth application-default login` in a terminal to authenticate with your Google account. Follow the browser prompt to log in.
-6. **Install Python Libraries**:
-   - Run `pip install google-cloud-bigquery pandas pyyaml` in a virtual environment.
-7. **Verify Setup**:
+7. **Create and Activate Virtual Environment**:
+   - Create: `python -m venv venv`.
+   - Activate: Windows (`venv\Scripts\activate`), Unix/macOS (`source venv/bin/activate`). Verify with `which python` (Unix/macOS) or `where python` (Windows) showing the virtual environment path.
+8. **Install Python Libraries**:
+   - Run `pip install google-cloud-bigquery pandas pyyaml` in the activated virtual environment.
+9. **Verify Setup**:
    - Run `gcloud config list` to confirm your project ID and authentication.
    - Expected output includes `[core] project = your-project-id`.
-8. **Prepare Data**:
-   - Create `de-onboarding/data/` and populate with `sales.csv`, `config.yaml`, `sample.csv`, and `sales.db` per Appendix 1.
-9. **Navigate BigQuery Console**:
-   - Access the BigQuery Console at [https://console.cloud.google.com/bigquery](https://console.cloud.google.com/bigquery).
-   - In “SQL Workspace,” select your project from the left panel, then view datasets and tables to verify creation (e.g., `sales_data.sales`).
+10. **Prepare Data**:
+    - Create `de-onboarding/data/` and populate with `sales.csv`, `config.yaml`, `sample.csv`, and `sales.db` per Appendix 1.
+11. **Navigate BigQuery Console**:
+    - Access the BigQuery Console at [https://console.cloud.google.com/bigquery](https://console.cloud.google.com/bigquery).
+    - In “SQL Workspace,” select your project from the left panel, then view datasets and tables to verify creation (e.g., `sales_data.sales`).
 
 **Troubleshooting**:
 
+- If `python --version` shows less than 3.10, install Python 3.10+ from [python.org](https://www.python.org/downloads/).
 - If `gcloud: command not found`, ensure SDK is installed and added to PATH.
 - If authentication fails, re-run `gcloud auth application-default login`.
-- If `pip` errors occur, create a virtual environment: `python -m venv venv`, activate (Windows: `venv\Scripts\activate`, Unix: `source venv/bin/activate`).
+- If `pip` errors occur, ensure the virtual environment is activated (see step 7).
 - If console navigation is unclear, refer to [BigQuery Console Guide](https://cloud.google.com/bigquery/docs/quickstarts/query-public-dataset#run_the_query).
-- If billing errors occur, verify billing setup in Google Cloud Console.
+- If billing errors occur (e.g., “Billing not enabled for project”), navigate to Billing in Google Cloud Console and link a payment method.
 
 ### Data Engineering Workflow Context
 
@@ -157,7 +163,7 @@ Upload `data/sales.csv` to a BigQuery table with a defined schema.
 
 ### 25.2.1 Uploading a CSV
 
-Define a schema and load `data/sales.csv` into a table.
+Define a schema and load `data/sales.csv` into a table. **Note**: Ensure CSV data matches the schema (e.g., numeric `price`); malformed data may cause `BadRequest` errors. For example, a non-numeric `price` (e.g., ‘invalid’) causes a `BadRequest` error. Resolve by cleaning the CSV or adjusting the schema to `STRING` and casting in queries. Inspect with `pd.read_csv(csv_path).head()` to verify.
 
 ```python
 from google.cloud import bigquery  # Import BigQuery client
@@ -233,7 +239,51 @@ print(result)  # Expected: 0.0
 
 ### 25.3.1 Querying Sales Data
 
-Query total sales and top products using parameterized SQL.
+Query total sales and top products, starting with a simple non-parameterized query followed by a parameterized version for reusability.
+
+**Non-Parameterized Example**:
+
+```python
+from google.cloud import bigquery  # Import BigQuery client
+
+# Initialize client
+client = bigquery.Client()  # Connect to BigQuery
+
+# Define simple query
+query = """
+SELECT
+    product,
+    SUM(price * quantity) AS total_sales
+FROM
+    `your-project-id.sales_data.sales`
+WHERE
+    product IS NOT NULL
+    AND product LIKE 'Halal%'
+GROUP BY
+    product
+ORDER BY
+    total_sales DESC
+LIMIT
+    3
+"""
+
+# Run query
+query_job = client.query(query)  # Execute query
+results = query_job.result()  # Get results
+
+# Print results
+print("Top Products by Sales (Simple Query):")  # Debug
+for row in results:
+    print(f"Product: {row.product}, Total Sales: {row.total_sales}")  # Show results
+
+# Expected Output:
+# Top Products by Sales (Simple Query):
+# Product: Halal Laptop, Total Sales: 1999.98
+# Product: Halal Keyboard, Total Sales: 249.95
+# Product: Halal Mouse, Total Sales: 249.9
+```
+
+**Parameterized Example** (enhances reusability):
 
 ```python
 from google.cloud import bigquery  # Import BigQuery client
@@ -271,15 +321,17 @@ query_job = client.query(query, job_config=job_config)  # Execute query
 results = query_job.result()  # Get results
 
 # Print results
-print("Top Products by Sales:")  # Debug
+print("Top Products by Sales (Parameterized Query):")  # Debug
 for row in results:
     print(f"Product: {row.product}, Total Sales: {row.total_sales}")  # Show results
+print("Parameterized queries improve security by preventing SQL injection and enhance reusability by allowing dynamic inputs, preparing for Chapter 26’s automation.")
 
 # Expected Output:
-# Top Products by Sales:
+# Top Products by Sales (Parameterized Query):
 # Product: Halal Laptop, Total Sales: 1999.98
 # Product: Halal Keyboard, Total Sales: 249.95
 # Product: Halal Mouse, Total Sales: 249.9
+# Parameterized queries improve security by preventing SQL injection and enhance reusability by allowing dynamic inputs, preparing for Chapter 26’s automation.
 ```
 
 **Follow-Along Instructions**:
@@ -297,7 +349,7 @@ for row in results:
 **Key Points**:
 
 - **SQL Syntax**: BigQuery uses Standard SQL, similar to PostgreSQL (Chapter 21).
-- **Parameters**: `@prefix` and `@max_quantity` improve query reusability.
+- **Parameters**: `@prefix` and `@max_quantity` improve query reusability, building on the simple query.
 - **Time Complexity**: O(n) for scanning n rows, optimized by columnar storage.
 - **Space Complexity**: O(k) for k output rows.
 - **Implication**: Efficient for aggregating sales metrics.
@@ -306,7 +358,7 @@ for row in results:
 
 ### Project Requirements
 
-Build a BigQuery-based tool to analyze `data/sales.csv`, creating a dataset, uploading data, querying metrics, and exporting results to `data/sales_metrics.json`. This tool supports Hijra Group’s cloud analytics, ensuring Sharia-compliant sales reporting.
+Build a BigQuery-based tool to analyze `data/sales.csv`, creating a dataset, uploading data, querying metrics, and exporting results to `data/sales_metrics.json`. This tool supports Hijra Group’s cloud analytics, ensuring Sharia-compliant sales reporting. The YAML validation ensures Sharia compliance by filtering Halal products (via `product_prefix: 'Halal'`) and enforcing financial constraints (e.g., `min_price`, `max_quantity`), ensuring only compliant transactions are analyzed, a key requirement for Hijra Group’s fintech analytics.
 
 - Create a BigQuery dataset (`sales_data`).
 - Upload `data/sales.csv` to a table (`sales`).
@@ -412,6 +464,7 @@ In production, this solution would include:
 - **Scalability**: Partitioned tables (Chapter 29).
 - **Logging**: File-based logging (Chapter 52).
 - **Security**: IAM roles and encryption (Chapter 65).
+- **Data Marts**: Extending the dataset into a data mart with fact/dimension tables (Chapter 32).
 
 ### Implementation
 
@@ -627,12 +680,12 @@ Processing completed
 1. **Setup**:
 
    - **Setup Checklist**:
-     - [ ] Complete setup instructions in Section 25.0.1 (install Google Cloud SDK, create project, enable billing, enable BigQuery API, authenticate, install libraries).
+     - [ ] Complete setup instructions in Section 25.0.1 (verify Python 3.10+, install Google Cloud SDK, create project, enable billing, enable BigQuery API, authenticate, create/activate virtual environment, install libraries).
      - [ ] Create `de-onboarding/data/` with `sales.csv`, `config.yaml`, `sample.csv`, and `sales.db` per Appendix 1.
-     - [ ] Verify Python 3.10+: `python --version`.
      - [ ] Configure editor for 4-space indentation per PEP 8.
      - [ ] Save `sales_analytics.py` in `de-onboarding/`.
    - **Troubleshooting**:
+     - If `python --version` shows less than 3.10, install Python 3.10+ from [python.org](https://www.python.org/downloads/).
      - If `FileNotFoundError`, check files with `ls data/` (Unix/macOS) or `dir data\` (Windows).
      - If `google.api_core.exceptions.Forbidden`, re-authenticate with `gcloud auth application-default login`.
      - If `IndentationError`, use 4 spaces. Run `python -tt sales_analytics.py`.
@@ -775,7 +828,7 @@ print(query_sales("your-project-id.sales_data.sales"))
 
 ### Exercise 5: Conceptual Analysis with Performance Comparison
 
-Compare BigQuery’s columnar storage to SQLite’s row-based storage for sales data analytics by writing a script that queries total sales from both a BigQuery table (`your-project-id.sales_data.sales`) and a SQLite database (`data/sales.db`, created in Chapter 12’s SQLite setup), measuring execution time with `time.time()`. Save the comparison and timing results to `ex5_concepts.txt`. **Note**: BigQuery times may vary due to network latency; focus on relative differences, as SQLite is local. Use 4-space indentation per PEP 8.
+Compare BigQuery’s columnar storage to SQLite’s row-based storage for sales data analytics by writing a script that queries total sales from both a BigQuery table (`your-project-id.sales_data.sales`) and a SQLite database (`data/sales.db`, created in Chapter 12’s SQLite setup), measuring execution time with `time.time()`. Save the comparison and timing results to `ex5_concepts.txt`. **Note**: BigQuery times may vary due to network latency; focus on relative differences, as SQLite is local. This exercise uses `data/sales.db` from Chapter 12’s SQLite setup. Use 4-space indentation per PEP 8.
 
 **Expected Output** (in `ex5_concepts.txt`):
 
@@ -788,7 +841,7 @@ Comparison: BigQuery’s columnar storage optimizes analytical queries (e.g., SU
 **Follow-Along Instructions**:
 
 1. Save as `de-onboarding/ex5_concepts.py`.
-2. Ensure `data/sales.db` exists per Appendix 1 (created in Chapter 12).
+2. Ensure `data/sales.db` exists per Appendix 1 (created in Chapter 12). If missing, run the setup script from Appendix 1 (e.g., `python create_sales_db.py`).
 3. Configure editor for 4-space indentation per PEP 8.
 4. Run: `python ex5_concepts.py`.
 5. **How to Test**:
@@ -800,9 +853,9 @@ Comparison: BigQuery’s columnar storage optimizes analytical queries (e.g., SU
      - **DatabaseError**: Verify `sales` table in SQLite with `sqlite3 data/sales.db "SELECT * FROM sales;"`.
      - **IndentationError**: Use 4 spaces (not tabs). Run `python -tt ex5_concepts.py`.
 
-### Exercise 6: Synthesize BigQuery Operations
+### Exercise 6: Synthesize BigQuery Operations with Cost Optimization
 
-Write a script that creates a BigQuery dataset (`test_data`), loads `data/sample.csv` into a table (`sample_sales`), and queries total sales for Halal products, saving results to `ex6_results.json`. Use 4-space indentation per PEP 8.
+Write a script that creates a BigQuery dataset (`test_data`), loads `data/sample.csv` into a table (`sample_sales`), queries total sales for Halal products with and without a `price > 10.0` filter, and compares data scanned in BigQuery Console (via query details). Save query results to `ex6_results.json` and cost analysis to `ex6_cost.txt`. Use 4-space indentation per PEP 8.
 
 **Sample Input** (`data/sample.csv` from Appendix 1):
 
@@ -812,12 +865,23 @@ Halal Laptop,999.99,2
 Halal Mouse,24.99,10
 ```
 
-**Expected Output** (`ex6_results.json`):
+**Expected Output**:
+
+- `ex6_results.json`:
 
 ```json
 {
-  "total_sales": 2249.88
+  "total_sales_with_filter": 2249.88,
+  "total_sales_without_filter": 2249.88
 }
+```
+
+- `ex6_cost.txt`:
+
+```
+Data Scanned With Filter: [X] MB
+Data Scanned Without Filter: [Y] MB
+Analysis: Adding a filter like 'price > 10.0' reduces data scanned from [Y] MB to [X] MB, lowering costs since BigQuery charges ~$5/TB scanned.
 ```
 
 **Follow-Along Instructions**:
@@ -827,35 +891,14 @@ Halal Mouse,24.99,10
 3. Configure editor for 4-space indentation per PEP 8.
 4. Run: `python ex6_synthesize.py`.
 5. **How to Test**:
-   - Verify `ex6_results.json` matches expected output.
+   - Verify `ex6_results.json` shows `total_sales_with_filter: 2249.88` and `total_sales_without_filter: 2249.88` (same for `sample.csv` due to all prices > 10.0).
+   - Verify `ex6_cost.txt` reports data scanned (check BigQuery Console query details) and analysis.
    - Check dataset and table in BigQuery Console.
-   - Test with empty CSV (e.g., `data/empty.csv`): Should return `total_sales: 0.0`.
+   - Test with empty CSV (e.g., `data/empty.csv`): Should return `total_sales: 0.0` for both queries.
    - **Common Errors**:
      - **FileNotFoundError**: Print `os.path.exists("data/sample.csv")`.
      - **SchemaMismatch**: Print `pd.read_csv("data/sample.csv").head()`.
      - **IndentationError**: Use 4 spaces (not tabs). Run `python -tt ex6_synthesize.py`.
-
-### Exercise 7: Cost Optimization Analysis
-
-Analyze the query from Exercise 3 and suggest one way to reduce the amount of data scanned in BigQuery to lower query costs (e.g., filter rows early). Save your answer to `ex7_cost.txt`. Use 4-space indentation per PEP 8 for any code snippets.
-
-**Expected Output** (in `ex7_cost.txt`):
-
-```
-To reduce data scanned in BigQuery for the query in Exercise 3, apply the WHERE clause filters (e.g., product LIKE 'Halal%') before aggregations to limit rows processed. For example, filtering non-Halal products early reduces the dataset size, lowering costs since BigQuery charges ~$5/TB scanned.
-```
-
-**Follow-Along Instructions**:
-
-1. Save any code as `de-onboarding/ex7_cost.py` (if used).
-2. Configure editor for 4-space indentation per PEP 8.
-3. Create `ex7_cost.txt` manually or via script.
-4. **How to Test**:
-   - Verify `ex7_cost.txt` contains a valid suggestion (e.g., early filtering).
-   - Ensure relevance to BigQuery cost model (~$5/TB).
-   - **Common Errors**:
-     - **FileNotFoundError**: Check write permissions with `ls -l` (Unix/macOS) or `dir` (Windows).
-     - **IndentationError**: Use 4 spaces (not tabs) in code snippets. Run `python -tt ex7_cost.py`.
 
 ## 25.6 Exercise Solutions
 
@@ -1036,15 +1079,15 @@ Comparison: BigQuery’s columnar storage optimizes analytical queries (e.g., SU
 compare_storage_performance("your-project-id.sales_data.sales", "data/sales.db", "ex5_concepts.txt")
 ```
 
-### Solution to Exercise 6: Synthesize BigQuery Operations
+### Solution to Exercise 6: Synthesize BigQuery Operations with Cost Optimization
 
 ```python
 import json  # For JSON export
 import os  # For file checks
 from google.cloud import bigquery  # For BigQuery operations
 
-def synthesize_bigquery_operations(project_id, dataset_name, table_name, csv_path, output_path):
-    """Create dataset, load CSV, query total sales, and save results."""
+def synthesize_bigquery_operations(project_id, dataset_name, table_name, csv_path, json_path, cost_path):
+    """Create dataset, load CSV, query total sales with/without filter, and analyze cost."""
     client = bigquery.Client()
 
     # Create dataset
@@ -1076,8 +1119,8 @@ def synthesize_bigquery_operations(project_id, dataset_name, table_name, csv_pat
     job.result()
     print(f"Loaded {job.output_rows} rows into {table_id}")
 
-    # Query total sales
-    query = f"""
+    # Query total sales without filter
+    query_no_filter = f"""
     SELECT
         SUM(price * quantity) AS total_sales
     FROM
@@ -1086,43 +1129,57 @@ def synthesize_bigquery_operations(project_id, dataset_name, table_name, csv_pat
         product IS NOT NULL
         AND product LIKE 'Halal%'
     """
-    query_job = client.query(query)
-    results = query_job.result()
-    total_sales = next(results).total_sales or 0.0
-    print(f"Total Sales: {total_sales}")
+    query_job_no_filter = client.query(query_no_filter)
+    results_no_filter = query_job_no_filter.result()
+    total_sales_no_filter = next(results_no_filter).total_sales or 0.0
+    data_scanned_no_filter = query_job_no_filter.total_bytes_billed / (1024 * 1024)  # Convert to MB
+    print(f"Total Sales (No Filter): {total_sales_no_filter}, Data Scanned: {data_scanned_no_filter:.2f} MB")
 
-    # Save results
-    results = {"total_sales": float(total_sales)}
-    file = open(output_path, "w")
+    # Query total sales with filter
+    query_with_filter = f"""
+    SELECT
+        SUM(price * quantity) AS total_sales
+    FROM
+        `{table_id}`
+    WHERE
+        product IS NOT NULL
+        AND product LIKE 'Halal%'
+        AND price > 10.0
+    """
+    query_job_with_filter = client.query(query_with_filter)
+    results_with_filter = query_job_with_filter.result()
+    total_sales_with_filter = next(results_with_filter).total_sales or 0.0
+    data_scanned_with_filter = query_job_with_filter.total_bytes_billed / (1024 * 1024)  # Convert to MB
+    print(f"Total Sales (With Filter): {total_sales_with_filter}, Data Scanned: {data_scanned_with_filter:.2f} MB")
+
+    # Save query results
+    results = {
+        "total_sales_with_filter": float(total_sales_with_filter),
+        "total_sales_without_filter": float(total_sales_no_filter)
+    }
+    file = open(json_path, "w")
     json.dump(results, file, indent=2)
     file.close()
-    print(f"Saved results to {output_path}")
+    print(f"Saved results to {json_path}")
+
+    # Analyze cost optimization
+    cost_analysis = f"""
+Data Scanned With Filter: {data_scanned_with_filter:.2f} MB
+Data Scanned Without Filter: {data_scanned_no_filter:.2f} MB
+Analysis: Adding a filter like 'price > 10.0' reduces data scanned from {data_scanned_no_filter:.2f} MB to {data_scanned_with_filter:.2f} MB, lowering costs since BigQuery charges ~$5/TB scanned.
+"""
+    file = open(cost_path, "w")
+    file.write(cost_analysis.strip())
+    file.close()
+    print(f"Saved cost analysis to {cost_path}")
 
 # Test
 if os.path.exists("data/sample.csv"):
     synthesize_bigquery_operations(
-        "your-project-id", "test_data", "sample_sales", "data/sample.csv", "ex6_results.json"
+        "your-project-id", "test_data", "sample_sales", "data/sample.csv", "ex6_results.json", "ex6_cost.txt"
     )
 else:
     print("Error: data/sample.csv not found")
-```
-
-### Solution to Exercise 7: Cost Optimization Analysis
-
-```python
-def analyze_cost_optimization(output_path):
-    """Suggest a way to reduce BigQuery query costs."""
-    suggestion = """
-To reduce data scanned in BigQuery for the query in Exercise 3, apply the WHERE clause filters (e.g., product LIKE 'Halal%') before aggregations to limit rows processed. For example, filtering non-Halal products early reduces the dataset size, lowering costs since BigQuery charges ~$5/TB scanned.
-"""
-    print(f"Writing analysis to: {output_path}")  # Debug
-    file = open(output_path, "w")  # Open file
-    file.write(suggestion.strip())  # Write suggestion
-    file.close()  # Close file
-    print(f"Saved to {output_path}")  # Confirm
-
-# Test
-analyze_cost_optimization("ex7_cost.txt")
 ```
 
 ## 25.7 Chapter Summary and Connection to Chapter 26
@@ -1130,11 +1187,11 @@ analyze_cost_optimization("ex7_cost.txt")
 In this chapter, you’ve mastered:
 
 - **BigQuery Setup**: Creating datasets (O(1) metadata operations) with Google Cloud SDK.
-- **Table Management**: Uploading CSVs (O(n) for n rows) with schemas.
-- **SQL Queries**: Filtering and aggregating data (O(n) scanning) using parameterized SQL.
+- **Table Management**: Uploading CSVs (O(n) for n rows) with schemas, handling malformed data.
+- **SQL Queries**: Filtering and aggregating data (O(n) scanning) using simple and parameterized SQL.
 - **White-Space Sensitivity and PEP 8**: Using 4-space indentation to avoid `IndentationError`.
 
-The micro-project built a sales analytics tool, creating a BigQuery dataset, uploading `data/sales.csv`, querying metrics with parameterized SQL, and exporting results, aligning with Hijra Group’s cloud analytics needs. The exercises reinforced these concepts, including a performance comparison of BigQuery and SQLite, a synthesized operation task, and cost optimization analysis. BigQuery tables can serve as sources for data lakes and marts, explored in Chapters 31–32.
+The micro-project built a sales analytics tool, creating a BigQuery dataset, uploading `data/sales.csv`, querying metrics with parameterized SQL, and exporting results, aligning with Hijra Group’s Sharia-compliant cloud analytics needs. The exercises reinforced these concepts, including a performance comparison of BigQuery and SQLite and a synthesized task with practical cost optimization analysis. BigQuery tables can serve as sources for data lakes and marts, explored in Chapters 31–32.
 
 ### Connection to Chapter 26
 

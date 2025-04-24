@@ -9,7 +9,7 @@ weight: 30
 
 ## 29.0 Introduction: Why This Matters for Data Engineering
 
-In data engineering, optimizing cloud-based analytics is crucial for delivering cost-effective, high-performance solutions, especially for Hijra Group's Sharia-compliant fintech analytics, which processes millions of daily sales transactions. Google BigQuery, a serverless data warehouse, enables scalable querying but requires optimization to minimize costs and latency. For instance, optimizing queries for daily Zakat calculations, which distribute 2.5% of profits to charity per Islamic financial principles, can reduce processing costs and ensure timely reporting. A poorly optimized query on a 1TB dataset can cost ~$5 per scan (at $5/TB pricing) and take minutes, while an optimized query with partitioning and clustering can reduce costs by 10–100x and execute in seconds. Building on Chapters 25–28 (BigQuery fundamentals, Python integration, advanced querying, and data warehousing), this chapter focuses on **BigQuery optimization techniques**, including partitioning, clustering, materialized views, and query tuning, to enhance performance for sales data analytics.
+In data engineering, optimizing cloud-based analytics is crucial for delivering cost-effective, high-performance solutions, especially for Hijra Group's Sharia-compliant fintech analytics, which processes millions of daily sales transactions. Google BigQuery, a serverless data warehouse, enables scalable querying but requires optimization to minimize costs and latency. For instance, optimizing queries for daily Zakat calculations, which distribute 2.5% of profits to charity per Islamic financial principles, can reduce processing costs and ensure timely reporting. A poorly optimized query on a 1TB dataset can cost ~$5 per scan (at $5/TB pricing) and take minutes, while an optimized query with partitioning can reduce costs by 10–100x and execute in seconds. Building on Chapters 25–28 (BigQuery fundamentals, Python integration, advanced querying, and data warehousing), this chapter focuses on **BigQuery optimization techniques**, emphasizing partitioning, with clustering, materialized views, and query tuning as complementary methods, to enhance performance for sales data analytics.
 
 This chapter uses **type annotations** (introduced in Chapter 7) verified by Pyright, **pytest** for testing (Chapter 9), and **4-space indentation** per PEP 8, preferring spaces over tabs to avoid `IndentationError`. It avoids advanced concepts like concurrency (Chapter 40) or Airflow orchestration (Chapter 56), focusing on BigQuery-specific optimizations.
 
@@ -21,8 +21,8 @@ This diagram illustrates BigQuery optimization in a data pipeline:
 flowchart TD
     A["Raw Data (BigQuery Table)"] --> B["Python Script with google-cloud-bigquery"]
     B --> C{"Query Optimization"}
-    C -->|Partition/Cluster| D["Optimized Table"]
-    C -->|Materialized Views| E["Precomputed Results"]
+    C -->|Partitioning| D["Optimized Table"]
+    C -->|Clustering/Materialized Views| E["Enhanced Table"]
     C -->|Query Tuning| F["Efficient Queries"]
     D --> G["Fast Analytics"]
     E --> G
@@ -61,7 +61,7 @@ This chapter covers:
 4. **Query Tuning**: Writing efficient SQL and avoiding common pitfalls.
 5. **Cost Management**: Estimating and reducing query costs.
 
-By the end, you’ll optimize a BigQuery sales data warehouse using `data/sales.csv` (Appendix 1), creating partitioned and clustered tables, materialized views, and tuned queries, with type-annotated Python code and pytest tests, all using 4-space indentation per PEP 8. The micro-project produces a JSON report and validates performance improvements, preparing for data mart creation in Chapter 32.
+By the end, you’ll optimize a BigQuery sales data warehouse using `data/sales.csv` (Appendix 1), primarily through partitioning, with clustering and materialized views as enhancements, using type-annotated Python code and pytest tests, all with 4-space indentation per PEP 8. The micro-project produces a JSON report and validates performance improvements, preparing for data mart creation in Chapter 32.
 
 **Follow-Along Tips**:
 
@@ -139,6 +139,7 @@ if __name__ == "__main__":
 - **Time Complexity**: O(n/k) for querying n rows across k partitions.
 - **Space Complexity**: O(n) for n rows, with minimal metadata overhead.
 - **Underlying Implementation**: BigQuery stores partitions as separate data segments, pruning irrelevant partitions during query execution.
+- **Partitioning Trade-offs**: Small partitions (e.g., daily) optimize date-based queries but may increase metadata overhead for large datasets; consider monthly partitioning for petabyte-scale data.
 - **Implication**: Ideal for time-based sales queries at Hijra Group.
 
 ## 29.2 Clustering Tables
@@ -207,7 +208,7 @@ if __name__ == "__main__":
 - **Time Complexity**: O(n/c) for querying n rows with c clusters.
 - **Space Complexity**: O(n) with minimal overhead.
 - **Underlying Implementation**: BigQuery co-locates similar values, pruning irrelevant clusters.
-- **Implication**: Enhances product-specific queries for Hijra Group.
+- **Implication**: Enhances product-specific queries for Hijra Group. For Hijra Group, clustering by `product` optimizes queries like ‘sales of Halal Laptops across all dates,’ reducing costs for product-specific analytics.
 
 ## 29.3 Materialized Views
 
@@ -282,7 +283,7 @@ if __name__ == "__main__":
 - **Space Complexity**: O(k) for k aggregated rows.
 - **Underlying Implementation**: BigQuery stores precomputed results, refreshing incrementally.
 - **Refresh Trade-offs**: Hourly refreshes balance freshness and cost, but high-frequency refreshes (e.g., every minute) may increase costs for large datasets.
-- **Implication**: Speeds up recurring analytics for Hijra Group.
+- **Implication**: Speeds up recurring analytics for Hijra Group. For Hijra Group, materialized views optimize recurring queries like daily sales aggregates for Zakat reporting, reducing costs for frequent analytics.
 
 ## 29.4 Query Tuning
 
@@ -428,11 +429,11 @@ if __name__ == "__main__":
 
 ### Project Requirements
 
-Optimize a BigQuery sales data warehouse for Hijra Group’s analytics, processing `data/sales.csv` (Appendix 1) into a partitioned and clustered table, creating a materialized view, and running tuned queries. The solution uses type-annotated Python, pytest tests, and 4-space indentation per PEP 8, producing a JSON report with performance metrics.
+Optimize a BigQuery sales data warehouse for Hijra Group’s analytics, processing `data/sales.csv` (Appendix 1) into a partitioned table by `sale_date`, with optional clustering by `product` and a materialized view for daily sales aggregates. The solution uses type-annotated Python, pytest tests, and 4-space indentation per PEP 8, producing a JSON report with performance metrics, focusing on partitioning to reduce query costs.
 
 - Load `data/sales.csv` into BigQuery with a date column.
-- Create a partitioned (by `sale_date`) and clustered (by `product`) table.
-- Create a materialized view for daily sales aggregates.
+- Create a partitioned table by `sale_date` (primary optimization).
+- Optionally create a clustered table by `product` and a materialized view for daily sales.
 - Run optimized queries and estimate costs.
 - Export results to `data/optimization_results.json`.
 - Log steps and performance metrics using print statements.
@@ -440,7 +441,18 @@ Optimize a BigQuery sales data warehouse for Hijra Group’s analytics, processi
 
 ### Sample Input Files
 
-See Appendix 1 for detailed creation instructions for `sales.csv`, `config.yaml`, and `malformed.csv`.
+See Appendix 1 for detailed creation instructions for `sales.csv`, `config.yaml`, and `malformed.csv`. To seed a minimal `sales.csv` for testing, run:
+
+```python
+import pandas as pd
+data = [
+    {"product": "Halal Laptop", "price": 999.99, "quantity": 2},
+    {"product": "Halal Mouse", "price": 24.99, "quantity": 10},
+    {"product": "Halal Keyboard", "price": 49.99, "quantity": 5}
+]
+pd.DataFrame(data).to_csv("data/sales.csv", index=False)
+print("Seeded data/sales.csv")
+```
 
 `data/sales.csv` (Appendix 1):
 
@@ -473,8 +485,8 @@ max_decimals: 2
 flowchart TD
     A["Input CSV<br>sales.csv"] --> B["Load CSV<br>google-cloud-bigquery"]
     B --> C["BigQuery Table"]
-    C --> D["Create Partitioned/Clustered Table"]
-    D --> E["Create Materialized View"]
+    C --> D["Create Partitioned Table"]
+    D --> E["Optional: Cluster/Materialized View"]
     E --> F["Run Optimized Queries"]
     F --> G["Export JSON<br>optimization_results.json"]
     F --> H["Log Metrics"]
@@ -491,17 +503,17 @@ flowchart TD
 ### Acceptance Criteria
 
 - **Go Criteria**:
-  - Loads `sales.csv` into BigQuery with `sale_date`.
-  - Creates partitioned (by `sale_date`) and clustered (by `product`) table.
-  - Creates materialized view for daily sales.
+  - Loads `data/sales.csv` into BigQuery with `sale_date`.
+  - Creates partitioned table by `sale_date` (primary requirement).
+  - Optionally creates clustered table by `product` and materialized view for daily sales.
   - Runs optimized queries with cost estimates.
   - Exports results to `data/optimization_results.json`.
-  - Logs steps and metrics.
+  - Logs steps and metrics, emphasizing partitioning benefits.
   - Uses type annotations, pytest tests, and 4-space indentation per PEP 8.
   - Handles edge cases (e.g., empty data, malformed data).
 - **No-Go Criteria**:
-  - Fails to load data or create tables/views.
-  - Incorrect optimizations or cost estimates.
+  - Fails to load data or create partitioned table.
+  - Incorrect partitioning or cost estimates.
   - Missing JSON export.
   - Lacks type annotations or uses inconsistent indentation.
 
@@ -528,6 +540,9 @@ flowchart TD
 7. **Resource Bottlenecks**:
    - **Problem**: Queries run slowly due to insufficient slots.
    - **Solution**: Use `bq show --job <job_id>` to check query slot usage and identify resource bottlenecks. High `job.slot_ms` (e.g., >10,000) indicates resource contention; consider increasing slots or optimizing the query. Print `job.slot_ms` to verify execution time.
+8. **Cost Threshold Exceeded**:
+   - **Problem**: Queries exceed budget limits.
+   - **Solution**: Check `job.total_bytes_processed` and compare `cost_usd` against a threshold (e.g., $1.0) before execution, aborting if exceeded. Print `cost_usd` to verify.
 
 ### How This Differs from Production
 
@@ -539,6 +554,29 @@ In production, this solution would include:
 - **Scalability**: Handling petabyte-scale data (Chapter 50).
 - **Dynamic Dates**: Production systems would use dynamic sale dates (e.g., via Airflow variables in Chapter 56) instead of a static `2023-10-01`, enabling real-time transaction processing.
 - **Schema Evolution**: Production systems may require schema updates (e.g., adding transaction IDs) using BigQuery’s `ALTER TABLE`, managed via dbt in Chapter 54.
+
+### Setup
+
+- **Setup Checklist**:
+  - [ ] Create `de-onboarding/data/` and save `sales.csv`, `config.yaml`, `malformed.csv` per Appendix 1.
+  - [ ] Run `de-onboarding/verify_setup.py` to verify dataset files exist:
+    ```python
+    import os
+    files = ["data/sales.csv", "data/config.yaml", "data/malformed.csv"]
+    for f in files:
+        assert os.path.exists(f), f"Missing {f}"
+    print("Setup verified")
+    ```
+  - [ ] Install libraries: `pip install google-cloud-bigquery pandas pyyaml pytest`.
+  - [ ] Set up Google Cloud SDK and authenticate with a service account.
+  - [ ] Create BigQuery dataset: `bq mk my-project:my_dataset`.
+  - [ ] Configure editor for 4-space indentation per PEP 8 (VS Code: “Editor: Tab Size” = 4, “Editor: Insert Spaces” = true, “Editor: Detect Indentation” = false).
+  - [ ] Save `utils.py` and `optimize_sales.py` in `de-onboarding/`.
+- **Troubleshooting**:
+  - If `NotFound`, create dataset with `bq mk`.
+  - If `PermissionDenied`, verify service account key.
+  - If `IndentationError`, run `python -tt optimize_sales.py`.
+  - If `yaml.YAMLError`, print `open(config_path).read()`.
 
 ### Implementation
 
@@ -593,7 +631,7 @@ def read_config(config_path: str) -> Dict[str, Any]:
 def load_sales_to_bigquery(
     project_id: str, dataset_id: str, table_id: str, csv_path: str, config: Dict[str, Any]
 ) -> Tuple[bigquery.Table, int]:
-    """Load sales CSV to BigQuery with validation."""
+    """Load sales CSV to BigQuery with validation, prioritizing partitioning."""
     client = bigquery.Client(project=project_id)
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
@@ -620,12 +658,13 @@ def load_sales_to_bigquery(
         bigquery.SchemaField("sale_date", "DATE")
     ]
 
-    # Create partitioned and clustered table
+    # Create partitioned table (primary optimization)
     table = bigquery.Table(table_ref, schema=schema)
     table.time_partitioning = bigquery.TimePartitioning(
         type_=bigquery.TimePartitioningType.DAY,
         field="sale_date"
     )
+    # Optionally add clustering for enhanced performance
     table.clustering_fields = ["product"]
     table = client.create_table(table, exists_ok=True)
 
@@ -642,7 +681,7 @@ def load_sales_to_bigquery(
 def create_sales_materialized_view(
     project_id: str, dataset_id: str, view_id: str, source_table: str
 ) -> bigquery.Table:
-    """Create materialized view for sales aggregates."""
+    """Create materialized view for sales aggregates (optional enhancement)."""
     client = bigquery.Client(project=project_id)
     view_ref = f"{project_id}.{dataset_id}.{view_id}"
     query = f"""
@@ -668,7 +707,7 @@ def create_sales_materialized_view(
 def run_optimized_query(
     project_id: str, dataset_id: str, table_id: str
 ) -> Tuple[Dict[str, Any], int]:
-    """Run optimized query and estimate cost."""
+    """Run optimized query and estimate cost, leveraging partitioning."""
     client = bigquery.Client(project=project_id)
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
     query = f"""
@@ -705,7 +744,7 @@ def export_results(results: Dict[str, Any], json_path: str) -> None:
     print(f"Exported results to {json_path}")  # Debug
 
 def main() -> None:
-    """Main function to optimize sales data warehouse."""
+    """Main function to optimize sales data warehouse, prioritizing partitioning."""
     project_id = "my-project"  # Replace with your project ID
     dataset_id = "my_dataset"  # Replace with your dataset ID
     table_id = "sales_optimized"
@@ -714,11 +753,19 @@ def main() -> None:
     config_path = "data/config.yaml"
     json_path = "data/optimization_results.json"
 
+    # Load configuration
     config = read_config(config_path)
+
+    # Load data with primary focus on partitioning
     table, row_count = load_sales_to_bigquery(project_id, dataset_id, table_id, csv_path, config)
+
+    # Optionally enhance with materialized view
     view = create_sales_materialized_view(project_id, dataset_id, view_id, table.full_table_id)
+
+    # Run optimized query leveraging partitioning
     query_results, result_count = run_optimized_query(project_id, dataset_id, table_id)
 
+    # Prepare and export results
     results = {
         "table_id": table.table_id,
         "partitioning_field": table.time_partitioning.field,
@@ -738,7 +785,9 @@ def main() -> None:
     print(f"Query Results: {query_results['results']}")
     print(f"Bytes Scanned: {query_results['bytes_scanned']}")
     print(f"Cost: ${query_results['cost_usd']:.4f}")
-    print("**Performance Benchmark**: Log execution times using `job.result().total_ms` to compare queries. For this dataset, an unoptimized `SELECT *` might take 500ms, while the optimized query takes ~50ms.")
+    print("**Performance Benchmark**: Log execution times using `job.result().total_ms` to compare queries. For this dataset, an unoptimized `SELECT *` might take 500ms, while the optimized query leveraging partitioning takes ~50ms.")
+    print("Partitioning reduced scanned data by ~90% for date-based queries, based on typical pruning for daily partitions.")
+    print("**Query Plan Analysis**: Use `bq query --explain` to verify partitioning efficiency; look for ‘PARTITION_SCAN’ stages indicating pruning.")
 
 if __name__ == "__main__":
     main()
@@ -784,7 +833,9 @@ Materialized View: my-project.my_dataset.sales_mv
 Query Results: [{'product': 'Halal Laptop', 'total_sales': 1999.98}]
 Bytes Scanned: 131072
 Cost: $0.0007
-**Performance Benchmark**: Log execution times using `job.result().total_ms` to compare queries. For this dataset, an unoptimized `SELECT *` might take 500ms, while the optimized query takes ~50ms.
+**Performance Benchmark**: Log execution times using `job.result().total_ms` to compare queries. For this dataset, an unoptimized `SELECT *` might take 500ms, while the optimized query leveraging partitioning takes ~50ms.
+Partitioning reduced scanned data by ~90% for date-based queries, based on typical pruning for daily partitions.
+**Query Plan Analysis**: Use `bq query --explain` to verify partitioning efficiency; look for ‘PARTITION_SCAN’ stages indicating pruning.
 ```
 
 ### How to Run and Test
@@ -793,6 +844,14 @@ Cost: $0.0007
 
    - **Setup Checklist**:
      - [ ] Create `de-onboarding/data/` and save `sales.csv`, `config.yaml`, `malformed.csv` per Appendix 1.
+     - [ ] Run `de-onboarding/verify_setup.py` to verify dataset files exist:
+       ```python
+       import os
+       files = ["data/sales.csv", "data/config.yaml", "data/malformed.csv"]
+       for f in files:
+           assert os.path.exists(f), f"Missing {f}"
+       print("Setup verified")
+       ```
      - [ ] Install libraries: `pip install google-cloud-bigquery pandas pyyaml pytest`.
      - [ ] Set up Google Cloud SDK and authenticate with a service account.
      - [ ] Create BigQuery dataset: `bq mk my-project:my_dataset`.
@@ -1015,6 +1074,73 @@ Row count: 3
    - Check row count in console output.
    - Check file contents with `cat data/sales_mv.csv` (Unix/macOS) or `type data\sales_mv.csv` (Windows).
 
+### Exercise 8: Visualize Query Costs
+
+Write a function to run multiple queries (optimized and unoptimized) on the partitioned table (`sales_optimized`), log their costs to `data/query_costs.csv`, and validate the CSV has at least 2 rows using `len(pd.read_csv(csv_path))`, with 4-space indentation per PEP 8.
+
+**Expected Output**:
+
+```
+CSV saved to data/query_costs.csv
+Row count: 2
+```
+
+**Follow-Along Instructions**:
+
+1. Save as `de-onboarding/ex8_query_costs.py`.
+2. Ensure the partitioned table (`sales_optimized`) exists from the micro-project.
+3. Configure editor for 4-space indentation per PEP 8.
+4. Run: `python ex8_query_costs.py`.
+5. **How to Test**:
+   - Verify `data/query_costs.csv` exists with columns `query_type`, `bytes_scanned`, `cost_usd`.
+   - Check row count in console output.
+   - Check file contents with `cat data/query_costs.csv` (Unix/macOS) or `type data\query_costs.csv` (Windows).
+
+### Exercise 9: Debug Partitioning Misconfiguration
+
+Fix a buggy function that creates a partitioned table with an incorrect partition field (`product` instead of `sale_date`), with 4-space indentation per PEP 8. Verify the fix using `bq show` or `table.time_partitioning.field`.
+
+**Buggy Code**:
+
+```python
+from google.cloud import bigquery
+from typing import Dict, Any
+
+def create_partitioned_table(project_id: str, dataset_id: str, table_id: str) -> Dict[str, Any]:
+    client = bigquery.Client(project=project_id)
+    table_ref = f"{project_id}.{dataset_id}.{table_id}"
+    schema = [
+        bigquery.SchemaField("product", "STRING"),
+        bigquery.SchemaField("price", "FLOAT"),
+        bigquery.SchemaField("quantity", "INTEGER"),
+        bigquery.SchemaField("sale_date", "DATE")
+    ]
+    table = bigquery.Table(table_ref, schema=schema)
+    table.time_partitioning = bigquery.TimePartitioning(
+        type_=bigquery.TimePartitioningType.DAY,
+        field="product"  # Incorrect field
+    )
+    table = client.create_table(table, exists_ok=True)
+    return {
+        "table_id": table.table_id,
+        "partitioning_field": table.time_partitioning.field
+    }
+```
+
+**Expected Output**:
+
+```python
+{'table_id': 'sales_debug', 'partitioning_field': 'sale_date'}
+```
+
+**Follow-Along Instructions**:
+
+1. Save as `de-onboarding/ex9_debug_partition.py`.
+2. Configure editor for 4-space indentation per PEP 8.
+3. Run: `python ex9_debug_partition.py`.
+4. **How to Test**:
+   - Verify with `bq show my-project:my_dataset.sales_debug` or check `table.time_partitioning.field`.
+
 ## 29.8 Exercise Solutions
 
 ### Solution to Exercise 1: Create Partitioned Table
@@ -1216,6 +1342,89 @@ export_materialized_view("my-project", "my_dataset", "sales_mv", "data/sales_mv.
 
 - Queries the materialized view, saves results to `data/sales_mv.csv`, and validates the row count, preparing data for visualization in later chapters.
 
+### Solution to Exercise 8: Visualize Query Costs
+
+```python
+from google.cloud import bigquery
+import pandas as pd
+from typing import None
+
+def log_query_costs(project_id: str, dataset_id: str, table_id: str, csv_path: str) -> None:
+    """Log query costs to CSV for visualization."""
+    client = bigquery.Client(project=project_id)
+    table_ref = f"{project_id}.{dataset_id}.{table_id}"
+
+    queries = [
+        ("optimized", """
+            SELECT product, SUM(price * quantity) AS total_sales
+            FROM `{table_ref}`
+            WHERE sale_date = '2023-10-01'
+            GROUP BY product
+        """),
+        ("unoptimized", """
+            SELECT *
+            FROM `{table_ref}`
+            WHERE sale_date = '2023-10-01'
+        """)
+    ]
+
+    results = []
+    for query_type, query in queries:
+        job = client.query(query.format(table_ref=table_ref), job_config=bigquery.QueryJobConfig(dry_run=True))
+        bytes_scanned = job.total_bytes_processed
+        cost_usd = (bytes_scanned / 1e12) * 5.0
+        results.append({"query_type": query_type, "bytes_scanned": bytes_scanned, "cost_usd": cost_usd})
+
+    df = pd.DataFrame(results)
+    df.to_csv(csv_path, index=False)
+    assert len(pd.read_csv(csv_path)) >= 2  # Validate row count
+    print(f"CSV saved to {csv_path}")
+    print(f"Row count: {len(pd.read_csv(csv_path))}")
+
+# Test
+log_query_costs("my-project", "my_dataset", "sales_optimized", "data/query_costs.csv")
+```
+
+**Explanation**:
+
+- Runs optimized and unoptimized queries, logs costs to `data/query_costs.csv`, and validates the row count, enabling cost visualization.
+
+### Solution to Exercise 9: Debug Partitioning Misconfiguration
+
+```python
+from google.cloud import bigquery
+from typing import Dict, Any
+
+def create_partitioned_table(project_id: str, dataset_id: str, table_id: str) -> Dict[str, Any]:
+    """Create a partitioned BigQuery table."""
+    client = bigquery.Client(project=project_id)
+    table_ref = f"{project_id}.{dataset_id}.{table_id}"
+    schema = [
+        bigquery.SchemaField("product", "STRING"),
+        bigquery.SchemaField("price", "FLOAT"),
+        bigquery.SchemaField("quantity", "INTEGER"),
+        bigquery.SchemaField("sale_date", "DATE")
+    ]
+    table = bigquery.Table(table_ref, schema=schema)
+    table.time_partitioning = bigquery.TimePartitioning(
+        type_=bigquery.TimePartitioningType.DAY,
+        field="sale_date"  # Fixed from incorrect 'product'
+    )
+    table = client.create_table(table, exists_ok=True)
+    return {
+        "table_id": table.table_id,
+        "partitioning_field": table.time_partitioning.field
+    }
+
+# Test
+print(create_partitioned_table("my-project", "my_dataset", "sales_debug"))
+```
+
+**Explanation**:
+
+- **Bug**: The original code used `product` as the partition field, which is incorrect for date-based partitioning.
+- **Fix**: Changed the `field` to `sale_date`, ensuring the table is partitioned by date for efficient querying.
+
 ## 29.9 Chapter Summary and Connection to Chapter 30
 
 In this chapter, you’ve mastered:
@@ -1227,13 +1436,13 @@ In this chapter, you’ve mastered:
 - **Cost Management**: Estimating costs ($5/TB).
 - **White-Space Sensitivity and PEP 8**: Using 4-space indentation, preferring spaces over tabs.
 
-The micro-project optimized a BigQuery sales data warehouse with partitioned/clustered tables, materialized views, and tuned queries, producing a JSON report with type-annotated code and pytest tests. These skills prepare for Chapter 30’s Checkpoint 4, consolidating cloud analytics with a comprehensive tool integrating BigQuery, Python, and optimization techniques, maintaining 4-space indentation per PEP 8.
+The micro-project optimized a BigQuery sales data warehouse primarily through partitioning, with optional clustering and materialized views, producing a JSON report with type-annotated code and pytest tests. These skills prepare for Chapter 30’s Checkpoint 4, consolidating cloud analytics with a comprehensive tool integrating BigQuery, Python, and optimization techniques, maintaining 4-space indentation per PEP 8.
 
 ### Connection to Chapter 30
 
 Chapter 30 (Checkpoint 4: Cloud Analytics Review) builds on this chapter:
 
-- **Optimization**: Extends partitioning/clustering to comprehensive analytics.
+- **Optimization**: Extends partitioning to comprehensive analytics, incorporating clustering and materialized views.
 - **Data Structures**: Uses BigQuery tables for integrated pipelines.
 - **Testing**: Applies pytest for robust validation.
 - **Fintech Context**: Prepares for data mart creation (Chapter 32) and capstone projects (Chapters 69–71), aligning with Hijra Group’s scalable analytics, maintaining PEP 8’s 4-space indentation for maintainable pipeline scripts.

@@ -9,7 +9,7 @@ weight: 29
 
 ## 28.0 Introduction: Why This Matters for Data Engineering
 
-In data engineering, **data warehouses** are centralized systems optimized for analytical querying, enabling Hijra Group to derive insights from large-scale financial transaction data for Sharia-compliant fintech analytics. Google BigQuery, a serverless data warehouse, supports petabyte-scale analytics with SQL, achieving query times of seconds for billions of rows via its columnar storage and Dremel engine. This chapter builds on Chapter 25 (BigQuery Fundamentals), Chapter 26 (Python and BigQuery Integration), and Chapter 27 (BigQuery Advanced Querying), introducing **data warehouse** design with star schemas, fact and dimension tables, and data loading for sales analytics. You’ll learn to create a sales data warehouse using `data/sales.csv` (Appendix 1), preparing for optimization (Chapter 29) and data marts (Chapter 32).
+In data engineering, **data warehouses** are centralized systems optimized for analytical querying, enabling Hijra Group to derive insights from large-scale financial transaction data for Sharia-compliant fintech analytics. Google BigQuery, a serverless data warehouse, supports petabyte-scale analytics with SQL, achieving query times of seconds for billions of rows via its columnar storage and Dremel engine. This chapter builds on Chapter 25 (BigQuery Fundamentals), Chapter 26 (Python and BigQuery Integration), and Chapter 27 (BigQuery Advanced Querying), introducing **data warehouse** design with star schemas, fact and dimension tables, and data loading for sales analytics. You’ll learn to create a sales data warehouse using `data/sales.csv` (Appendix 1), preparing for optimization (Chapter 29), data lakes (Chapter 31), and foundational Python processing (Chapters 34 and 36).
 
 This chapter uses type-annotated Python (post-Chapter 7) with Pyright verification, `unittest`/`pytest` testing (post-Chapter 9), and **4-space indentation** per PEP 8, preferring spaces over tabs to avoid `IndentationError`. It avoids advanced optimization (Chapter 29) or data mart specifics (Chapter 32), focusing on schema design and data loading. The micro-project creates a tested sales data warehouse, aligning with Hijra Group’s need for scalable analytics.
 
@@ -46,9 +46,9 @@ flowchart TD
   - Chapter 3: Extends Pandas for data preparation.
 - **Preparing For**:
   - Chapter 29: Optimizes warehouse queries with partitioning and clustering.
-  - Chapter 32: Builds data marts from warehouse tables.
-  - Chapter 37: Integrates with data lakes for ETL pipelines.
-  - Chapter 51: Supports BI dashboards with warehouse data.
+  - Chapter 31: Introduces data lakes for raw data storage.
+  - Chapter 34: Builds foundational Python processing for data lakes.
+  - Chapter 36: Optimizes Python processing for efficient ETL pipelines.
 
 ### What You’ll Learn
 
@@ -170,7 +170,7 @@ print(f"Schema: {table.schema}")  # Debug
 
 ## 28.3 Data Loading
 
-Load `data/sales.csv` into BigQuery tables, transforming data into star schema format. For simplicity, this chapter uses two static `sale_date` values (“2023-10-01” and “2023-11-01”) in the `dates` dimension table to demonstrate temporal analysis while focusing on schema design and loading. The alternating assignment (`i % 2`) is a simple heuristic for small datasets to distribute dates across records; more robust date handling, such as parsing dates from `transactions.csv` (Chapter 4), will be explored in Chapter 32 for data mart analytics.
+Load `data/sales.csv` into BigQuery tables, transforming data into star schema format. For simplicity, this chapter uses two static `sale_date` values (“2023-10-01” and “2023-11-01”) in the `dates` dimension table to demonstrate temporal analysis while focusing on schema design and loading. The alternating assignment (`i % 2`) is a minimal example for educational purposes, not a production strategy; more robust date handling, such as parsing dates from `transactions.csv` (Chapter 4), will be explored in Chapter 32 for data mart analytics. The `WRITE_TRUNCATE` option in `LoadJobConfig` overwrites existing data; other options like `WRITE_APPEND` are introduced in Chapter 29.
 
 ```python
 import pandas as pd
@@ -274,7 +274,7 @@ print("Sales by Product:", results)  # Debug
 
 ### Project Requirements
 
-Create a BigQuery sales data warehouse with a star schema, loading `data/sales.csv` and producing a JSON report. The warehouse supports Hijra Group’s analytics for Sharia-compliant sales, handling thousands of daily transactions. In production, warehouses manage terabytes, requiring partitioning (Chapter 29) and data marts (Chapter 32).
+Create a BigQuery sales data warehouse with a star schema, loading `data/sales.csv` and producing a JSON report. The warehouse supports Hijra Group’s analytics for Sharia-compliant sales, handling thousands of daily transactions. Pytest tests, introduced in Chapter 9, ensure reliability for these analytics, validating schema creation, data loading, and query results. In production, warehouses manage terabytes, requiring partitioning (Chapter 29) and data marts (Chapter 32).
 
 - Create dataset `sales_warehouse`.
 - Define star schema: `sales_facts`, `products`, `dates` tables.
@@ -629,6 +629,7 @@ def test_conceptual_question() -> None:
      - If `FileNotFoundError`, check file paths. Print `csv_path`.
      - If `IndentationError`, use 4 spaces. Run `python -tt warehouse.py`.
      - If `yaml.YAMLError`, print `open(config_path).read()` to inspect `config.yaml`.
+     - If BigQuery queries fail due to quota limits, check quotas at https://console.cloud.google.com/iam-admin/quotas and upgrade to a paid tier if needed.
 
 2. **Run**:
 
@@ -689,10 +690,11 @@ Created table sales_warehouse.categories
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex1_categories.py`.
-2. Configure editor for **4-space indentation** per PEP 8.
-3. Run: `python ex1_categories.py`.
-4. **How to Test**:
+1. **Setup**: Ensure `de-onboarding/data/` contains required files per Appendix 1. Set `GOOGLE_APPLICATION_CREDENTIALS` (see Section 28.5).
+2. Save as `de-onboarding/ex1_categories.py`.
+3. Configure editor for **4-space indentation** per PEP 8.
+4. Run: `python ex1_categories.py`.
+5. **How to Test**:
    - Add: `create_category_table()`.
    - Verify table in BigQuery Console.
    - **Common Errors**:
@@ -720,8 +722,8 @@ Loaded 3 rows to sales_warehouse.sales_facts
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex2_load_facts.py`.
-2. Ensure `data/sales.csv` exists (Appendix 1).
+1. **Setup**: Ensure `de-onboarding/data/` contains required files per Appendix 1. Set `GOOGLE_APPLICATION_CREDENTIALS` (see Section 28.5).
+2. Save as `de-onboarding/ex2_load_facts.py`.
 3. Run: `python ex2_load_facts.py`.
 4. **How to Test**:
    - Verify table data in BigQuery Console.
@@ -737,11 +739,18 @@ Write a function to query total sales by year from `dates` and `sales_facts`, wi
 {'2023': 2499.83}
 ```
 
+**Sample Output Table**:
+
+| year | total_sales |
+| ---- | ----------- |
+| 2023 | 2499.83     |
+
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex3_query_year.py`.
-2. Run: `python ex3_query_year.py`.
-3. **How to Test**:
+1. **Setup**: Ensure `de-onboarding/data/` contains required files per Appendix 1. Set `GOOGLE_APPLICATION_CREDENTIALS` (see Section 28.5).
+2. Save as `de-onboarding/ex3_query_year.py`.
+3. Run: `python ex3_query_year.py`.
+4. **How to Test**:
    - Verify results match expected output.
    - Test with empty tables: Should return `{}`.
 
@@ -757,9 +766,10 @@ test_schema_creation: PASSED
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/test_ex4_schema.py`.
-2. Run: `pytest test_ex4_schema.py -v`.
-3. **How to Test**:
+1. **Setup**: Ensure `de-onboarding/data/` contains required files per Appendix 1. Set `GOOGLE_APPLICATION_CREDENTIALS` (see Section 28.5).
+2. Save as `de-onboarding/test_ex4_schema.py`.
+3. Run: `pytest test_ex4_schema.py -v`.
+4. **How to Test**:
    - Verify test passes.
    - **Common Errors**:
      - **AssertionError**: Print `table.schema`.
@@ -798,17 +808,18 @@ Created table sales_warehouse.sales_facts
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex5_debug.py`.
-2. Run: `python ex5_debug.py` to see schema issue.
-3. Fix and re-run.
-4. **How to Test**:
+1. **Setup**: Ensure `de-onboarding/data/` contains required files per Appendix 1. Set `GOOGLE_APPLICATION_CREDENTIALS` (see Section 28.5).
+2. Save as `de-onboarding/ex5_debug.py`.
+3. Run: `python ex5_debug.py` to see schema issue.
+4. Fix and re-run.
+5. **How to Test**:
    - Verify table schema in BigQuery Console (`transaction_id` is STRING).
    - **Common Errors**:
      - **ValueError**: Print `table.schema` to debug.
 
 ### Exercise 6: Conceptual Question on Star Schemas
 
-Explain why star schemas are preferred over normalized schemas for analytical queries. Save your answer to `data/star_schema_answer.txt`, using **4-space indentation** for any code.
+Explain why star schemas are preferred over normalized schemas for analytical queries, and describe how the star schema could integrate with a data lake (Chapter 31). Save your answer to `data/star_schema_answer.txt`, using **4-space indentation** for any code.
 
 **Expected Output**:
 
@@ -818,10 +829,11 @@ Answer saved to data/star_schema_answer.txt
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex6_conceptual.py`.
-2. Write answer and save to `data/star_schema_answer.txt`.
-3. Run: `python ex6_conceptual.py`.
-4. **How to Test**:
+1. **Setup**: Ensure `de-onboarding/data/` contains required files per Appendix 1. Set `GOOGLE_APPLICATION_CREDENTIALS` (see Section 28.5).
+2. Save as `de-onboarding/ex6_conceptual.py`.
+3. Write answer and save to `data/star_schema_answer.txt`.
+4. Run: `python ex6_conceptual.py`.
+5. **How to Test**:
    - Verify `data/star_schema_answer.txt` exists and contains key points (e.g., “denormalized structure”, “faster query performance”).
    - **Troubleshooting**: If the file is empty or incorrect, check content with `cat data/star_schema_answer.txt` (Unix/macOS) or `type data\star_schema_answer.txt` (Windows).
    - **Common Errors**:
@@ -962,7 +974,9 @@ def explain_star_schema() -> None:
         "Star schemas are preferred over normalized schemas for analytical queries because their "
         "denormalized structure reduces the number of joins, enabling faster query performance. Fact "
         "tables store metrics (e.g., sales amounts), while dimension tables provide context (e.g., "
-        "product details), supporting efficient aggregations and filtering for analytics."
+        "product details), supporting efficient aggregations and filtering for analytics. In a data "
+        "lake (Chapter 31), raw sales data can be processed into a star schema for structured analytics, "
+        "with fact tables aggregating metrics from raw CSV files and dimension tables linking to reference data."
     )
     with open("data/star_schema_answer.txt", "w") as file:
         file.write(answer)
@@ -974,7 +988,7 @@ explain_star_schema()
 **Expected Content** (`data/star_schema_answer.txt`):
 
 ```
-Star schemas are preferred over normalized schemas for analytical queries because their denormalized structure reduces the number of joins, enabling faster query performance. Fact tables store metrics (e.g., sales amounts), while dimension tables provide context (e.g., product details), supporting efficient aggregations and filtering for analytics.
+Star schemas are preferred over normalized schemas for analytical queries because their denormalized structure reduces the number of joins, enabling faster query performance. Fact tables store metrics (e.g., sales amounts), while dimension tables provide context (e.g., product details), supporting efficient aggregations and filtering for analytics. In a data lake (Chapter 31), raw sales data can be processed into a star schema for structured analytics, with fact tables aggregating metrics from raw CSV files and dimension tables linking to reference data.
 ```
 
 ## 28.8 Chapter Summary and Connection to Chapter 29
@@ -987,7 +1001,9 @@ You’ve mastered:
 - **Testing**: Type-safe pytest tests ensuring warehouse reliability.
 - **White-Space Sensitivity and PEP 8**: Using 4-space indentation, preferring spaces over tabs to avoid `IndentationError`.
 
-The micro-project created a sales data warehouse with a star schema, loading `data/sales.csv`, querying metrics, and exporting to `data/warehouse_results.json`. It tested edge cases (`empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv`) per Appendix 1, ensuring robustness. The conceptual exercise reinforced schema design principles, preparing for capstone planning. This foundation supports Hijra Group’s scalable analytics, preparing for:
+The micro-project created a sales data warehouse with a star schema, loading `data/sales.csv`, querying metrics, and exporting to `data/warehouse_results.json`. It tested edge cases (`empty.csv`, `invalid.csv`, `malformed.csv`, `negative.csv`) per Appendix 1, ensuring robustness. The conceptual exercise reinforced schema design principles and introduced data lake integration, preparing for capstone planning. This foundation supports Hijra Group’s scalable analytics, preparing for:
 
 - **Chapter 29 (BigQuery Optimization Techniques)**: Introduces partitioning and clustering to reduce query costs, critical for petabyte-scale datasets. The star schema created here will be optimized for performance.
-- **Capstone Projects (Chapters 68–71)**: The warehouse enables scalable analytics for FastAPI endpoints (Chapter 53) and BI dashboards (Chapter 51), integrating with Airflow (Chapter 56) and dbt (Chapter 54) for end-to-end pipelines. For example, querying `sales_facts` can support a FastAPI endpoint delivering sales trends to stakeholders, a key component of the capstone projects.
+- **Chapter 31 (Data Lakes with Google Cloud Storage)**: Introduces raw data storage, building on the warehouse’s structured analytics.
+- **Chapters 34 and 36 (Python for Data Lake Processing)**: Develop foundational and optimized Python processing for data lakes, enabling efficient ETL pipelines.
+- **Capstone Projects (Chapters 68–71)**: The warehouse enables scalable analytics for FastAPI endpoints (Chapter 53) and BI dashboards (Chapter 51), integrating with Airflow (Chapter 56) and dbt (Chapter 54) for end-to-end pipelines. For example, querying `sales_facts` can support a FastAPI endpoint delivering sales trends to stakeholders or a Metabase dashboard visualizing sales trends, key components of the capstone projects.

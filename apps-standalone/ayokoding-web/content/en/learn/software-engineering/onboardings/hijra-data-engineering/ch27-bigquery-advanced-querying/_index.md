@@ -9,11 +9,11 @@ weight: 28
 
 ## 27.0 Introduction: Why This Matters for Data Engineering
 
-In data engineering, advanced querying in Google BigQuery is crucial for extracting actionable insights from large-scale financial transaction datasets, such as those used in Hijra Group’s Sharia-compliant fintech analytics. BigQuery’s serverless architecture enables querying terabytes of data in seconds, with features like window functions and Common Table Expressions (CTEs) optimizing complex analytics tasks. These capabilities are essential for generating reports on sales trends, customer behavior, or compliance metrics, which are critical for stakeholder decision-making. Building on Chapters 25 (BigQuery Fundamentals) and 26 (Python and BigQuery Integration), this chapter introduces advanced querying techniques, including CTEs, window functions, and joins, to process transaction data efficiently.
+In data engineering, advanced querying in Google BigQuery is crucial for extracting actionable insights from large-scale financial transaction datasets, such as those used in Hijra Group’s Sharia-compliant fintech analytics. For example, Hijra Group needs to analyze daily sales of Sharia-compliant products to report compliance metrics to stakeholders, ensuring trust and transparency. BigQuery’s serverless architecture enables querying terabytes of data in seconds, with features like window functions and Common Table Expressions (CTEs) optimizing complex analytics tasks. These capabilities are essential for generating reports on sales trends, customer behavior, or compliance metrics, which are critical for stakeholder decision-making. Building on Chapters 25 (BigQuery Fundamentals) and 26 (Python and BigQuery Integration), this chapter introduces advanced querying techniques, including CTEs, window functions, and joins, to process sales data efficiently.
 
 This chapter leverages type-annotated Python code (introduced in Chapter 7) verified by Pyright and tested with `pytest` (introduced in Chapter 9), ensuring robust, production-ready pipelines. It avoids concepts not yet introduced, such as data warehousing (Chapter 28) or optimization techniques (Chapter 29). All code uses **PEP 8's 4-space indentation**, preferring spaces over tabs to avoid `IndentationError`, aligning with Hijra Group’s pipeline standards.
 
-**Setup Note**: This chapter assumes `data/transactions.csv` is loaded into a BigQuery table, as covered in Chapter 26. Refer to Section 27.4’s setup instructions for a reminder on loading the data.
+**Setup Note**: This chapter assumes `data/sales.csv` is loaded into a BigQuery table, as covered in Chapter 26. Refer to Section 27.4’s setup instructions for a reminder on loading the data.
 
 ### Data Engineering Workflow Context
 
@@ -62,11 +62,11 @@ This chapter covers:
 4. **Type-Safe Query Execution**: Use `google-cloud-bigquery` with Pydantic validation.
 5. **Testing Queries**: Validate results with `pytest`.
 
-By the end, you’ll build a micro-project that queries `data/transactions.csv` (loaded into BigQuery) to analyze sales trends, using CTEs, window functions, and joins, producing a JSON report and validated with `pytest`. All code adheres to PEP 8’s 4-space indentation.
+By the end, you’ll build a micro-project that queries `data/sales.csv` (loaded into BigQuery) to analyze sales trends, using CTEs, window functions, and joins, producing a JSON report and validated with `pytest`. All code adheres to PEP 8’s 4-space indentation.
 
 **Follow-Along Tips**:
 
-- Ensure `de-onboarding/data/` contains `transactions.csv` and `config.yaml` per Appendix 1.
+- Ensure `de-onboarding/data/` contains `sales.csv` and `config.yaml` per Appendix 1.
 - Install libraries: `pip install google-cloud-bigquery pyyaml pydantic pytest`.
 - Set up Google Cloud credentials (see Chapter 25).
 - Use print statements (e.g., `print(query)`) to debug SQL queries.
@@ -92,10 +92,10 @@ def run_cte_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict[
     query = f"""
     WITH DailySales AS (
         SELECT
-            DATE(date) AS sale_date,
+            DATE(sale_date) AS sale_date,
             SUM(price * quantity) AS daily_total
         FROM `{project_id}.{dataset_id}.{table_id}`
-        GROUP BY DATE(date)
+        GROUP BY DATE(sale_date)
     )
     SELECT
         sale_date,
@@ -116,7 +116,7 @@ def run_cte_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict[
 
 **Follow-Along Instructions**:
 
-1. Ensure `transactions.csv` is loaded into a BigQuery table (see Chapter 26 or Section 27.4).
+1. Ensure `sales.csv` is loaded into a BigQuery table (see Chapter 26 or Section 27.4).
 2. Save as `de-onboarding/cte_query.py`.
 3. Replace `project_id`, `dataset_id`, `table_id` with your BigQuery details.
 4. Configure editor for 4-space indentation per PEP 8.
@@ -153,11 +153,11 @@ def run_window_query(project_id: str, dataset_id: str, table_id: str) -> List[Di
     client = bigquery.Client(project=project_id)  # Initialize client
     query = f"""
     SELECT
-        DATE(date) AS sale_date,
+        DATE(sale_date) AS sale_date,
         product,
         price * quantity AS sale_amount,
         SUM(price * quantity) OVER (
-            PARTITION BY DATE(date)
+            PARTITION BY DATE(sale_date)
             ORDER BY product
         ) AS running_total
     FROM `{project_id}.{dataset_id}.{table_id}`
@@ -195,22 +195,22 @@ Joins combine data from multiple tables, such as sales and inventory, for compre
 
 ### 27.3.1 Using Joins
 
-Join transactions with a hypothetical inventory table.
+Join sales with a hypothetical inventory table.
 
 ```python
 from google.cloud import bigquery  # Import BigQuery client
 from typing import List, Dict, Any  # For type annotations
 
 def run_join_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict[str, Any]]:
-    """Execute a join query to combine transactions and inventory."""
+    """Execute a join query to combine sales and inventory."""
     client = bigquery.Client(project=project_id)  # Initialize client
     query = f"""
     WITH Inventory AS (
-        SELECT 'Halal Laptop' AS product, 10 AS stock
+        SELECT 'Product A' AS product, 100 AS stock
         UNION ALL
-        SELECT 'Halal Mouse', 50
+        SELECT 'Product B', 200
         UNION ALL
-        SELECT 'Halal Keyboard', 20
+        SELECT 'Product C', 150
     )
     SELECT
         t.product,
@@ -242,8 +242,8 @@ def run_join_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict
 
 **Key Points**:
 
-- **LEFT JOIN**: Includes all transaction rows, with nulls for unmatched inventory.
-- **Time Complexity**: O(n + m) for joining n transaction rows with m inventory rows, plus O(k log k) for sorting k groups.
+- **LEFT JOIN**: Includes all sales rows, with nulls for unmatched inventory.
+- **Time Complexity**: O(n + m) for joining n sales rows with m inventory rows, plus O(k log k) for sorting k groups.
 - **Space Complexity**: O(k) for k joined rows.
 - **Implication**: Useful for inventory management in Hijra Group’s pipelines.
 
@@ -251,7 +251,7 @@ def run_join_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict
 
 ### Project Requirements
 
-Build a type-safe BigQuery query tool to analyze sales trends from `data/transactions.csv` (loaded into BigQuery), producing a JSON report with daily sales, moving averages, and top products. This supports Hijra Group’s need for real-time transaction analytics, ensuring compliance with Sharia standards by validating Halal products per Islamic Financial Services Board (IFSB) standards.
+Build a type-safe BigQuery query tool to analyze sales trends from `data/sales.csv` (loaded into BigQuery), producing a JSON report with daily sales, moving averages, and top products. This supports Hijra Group’s need for real-time transaction analytics, ensuring compliance with Sharia standards by validating product categories. The product validation ensures adherence to Islamic Financial Services Board (IFSB) standards for Sharia-compliant products, critical for maintaining trust with Sharia-conscious stakeholders in Hijra Group’s fintech operations.
 
 - Load configuration from `data/config.yaml`.
 - Execute a CTE-based query with window functions to compute daily sales and 3-day moving averages.
@@ -265,15 +265,15 @@ _Note_: This project uses explicit file operations (e.g., `file.open()`, `file.c
 
 ### Sample Input Files
 
-`data/transactions.csv` (from Appendix 1):
+`data/sales.csv` (from Appendix 1):
 
 ```csv
-transaction_id,product,price,quantity,date
-T001,Halal Laptop,999.99,2,2023-10-01
-T002,Halal Mouse,24.99,10,2023-10-02
-T003,Halal Keyboard,49.99,5,2023-10-03
-T004,,29.99,3,2023-10-04
-T005,Monitor,199.99,2,2023-10-05
+sale_id,product,price,quantity,sale_date
+S001,Product A,99.99,2,2023-10-01
+S002,Product B,24.99,10,2023-10-02
+S003,Product C,49.99,5,2023-10-03
+S004,Product D,29.99,3,2023-10-04
+S005,Product E,199.99,2,2023-10-05
 ```
 
 `data/config.yaml` (from Appendix 1):
@@ -285,26 +285,28 @@ required_fields:
   - product
   - price
   - quantity
-product_prefix: 'Halal'
+product_prefix: 'Product'
 max_decimals: 2
 ```
 
+**Dataset Seeding Note**: Ensure `data/sales.csv` and `config.yaml` are created in `de-onboarding/data/` per Appendix 1’s instructions. For example, you can create `sales.csv` with a command like `echo "sale_id,product,price,quantity,sale_date" > data/sales.csv` (add data rows as shown above) and `config.yaml` with a text editor, following Appendix 1’s format, to avoid `FileNotFoundError`.
+
 **Table Schema**:
 
-This diagram shows the `transactions` table and inventory CTE schemas:
+This diagram shows the `sales` table and inventory CTE schemas:
 
 ```mermaid
 classDiagram
-    class Transactions {
-        transaction_id: STRING
-        product: STRING
-        price: FLOAT
-        quantity: INTEGER
-        date: DATE
+    class Sales {
+        sale_id: STRING, unique sale identifier
+        product: STRING, product name with 'Product' prefix
+        price: FLOAT, product cost
+        quantity: INTEGER, units sold
+        sale_date: DATE, date of sale
     }
     class Inventory_CTE {
-        product: STRING
-        stock: INTEGER
+        product: STRING, product name
+        stock: INTEGER, available inventory
     }
 ```
 
@@ -312,7 +314,7 @@ classDiagram
 
 ```mermaid
 flowchart TD
-    A["BigQuery Table<br>transactions"] --> B["Load YAML<br>config.yaml"]
+    A["BigQuery Table<br>sales"] --> B["Load YAML<br>config.yaml"]
     B --> C["Type-Safe Query<br>BigQuery Client"]
     C --> D["CTE/Window Functions<br>Compute Trends"]
     D --> E["Join Inventory<br>Include Stock"]
@@ -338,9 +340,9 @@ flowchart TD
 - **Go Criteria**:
   - Loads `config.yaml` correctly.
   - Executes CTE-based query with window functions and joins.
-  - Validates results with Pydantic (e.g., positive sales, Halal products).
+  - Validates results with Pydantic (e.g., positive sales, valid product prefix).
   - Exports results to `data/sales_trends.json`.
-  - Passes `pytest` tests for query accuracy.
+  - Passes `pytest` tests for query accuracy and connectivity.
   - Uses 4-space indentation per PEP 8.
   - Logs steps and invalid data.
 - **No-Go Criteria**:
@@ -476,9 +478,9 @@ class SalesTrend(BaseModel):
         return v
 
     @validator("product")
-    def check_halal(cls, v: str) -> str:
-        if not v.startswith("Halal"):
-            raise ValueError("Product must start with 'Halal'")
+    def check_prefix(cls, v: str) -> str:
+        if not v.startswith("Product"):
+            raise ValueError("Product must start with 'Product'")
         return v
 
 # Define function to read YAML configuration
@@ -497,21 +499,21 @@ def run_trend_query(project_id: str, dataset_id: str, table_id: str, config: Dic
     client = bigquery.Client(project=project_id)  # Initialize client
     query = f"""
     WITH Inventory AS (
-        SELECT 'Halal Laptop' AS product, 10 AS stock
+        SELECT 'Product A' AS product, 100 AS stock
         UNION ALL
-        SELECT 'Halal Mouse', 50
+        SELECT 'Product B', 200
         UNION ALL
-        SELECT 'Halal Keyboard', 20
+        SELECT 'Product C', 150
     ),
     DailySales AS (
         SELECT
-            DATE(date) AS sale_date,
+            DATE(sale_date) AS sale_date,
             product,
             SUM(price * quantity) AS daily_total,
             SUM(quantity) AS total_quantity
         FROM `{project_id}.{dataset_id}.{table_id}`
         WHERE product LIKE '{config["product_prefix"]}%'
-        GROUP BY DATE(date), product
+        GROUP BY DATE(sale_date), product
     )
     SELECT
         d.sale_date,
@@ -560,7 +562,7 @@ def main() -> None:
     json_path: str = "data/sales_trends.json"  # JSON output path
     project_id: str = "your-project-id"  # Replace with your project ID
     dataset_id: str = "your-dataset-id"  # Replace with your dataset ID
-    table_id: str = "transactions"  # Table ID
+    table_id: str = "sales"  # Table ID
 
     config: Dict[str, Any] = read_config(config_path)  # Read config
     results: List[Dict[str, Any]] = run_trend_query(project_id, dataset_id, table_id, config)  # Run query
@@ -582,6 +584,7 @@ if __name__ == "__main__":
 # File: de-onboarding/test_sales_trend_analyzer.py
 import pytest  # For testing
 from sales_trend_analyzer import run_trend_query, read_config  # Import functions
+from google.cloud import bigquery  # For integration test
 from typing import Dict, Any  # For type annotations
 
 @pytest.fixture
@@ -593,14 +596,28 @@ def test_trend_query(config: Dict[str, Any]) -> None:
     """Test trend query results."""
     project_id: str = "your-project-id"  # Replace with your project ID
     dataset_id: str = "your-dataset-id"  # Replace with your dataset ID
-    table_id: str = "transactions"  # Table ID
+    table_id: str = "sales"  # Table ID
 
     results = run_trend_query(project_id, dataset_id, table_id, config)  # Run query
     assert len(results) > 0, "No results returned"  # Check non-empty
     for result in results:  # Validate each result
         assert result["daily_total"] >= 0, f"Negative daily total: {result}"
         assert result["moving_avg"] >= 0, f"Negative moving avg: {result}"
-        assert result["product"].startswith("Halal"), f"Non-Halal product: {result}"
+        assert result["product"].startswith("Product"), f"Invalid product prefix: {result}"
+
+def test_bigquery_connectivity(config: Dict[str, Any]) -> None:
+    """Test BigQuery connectivity and table existence."""
+    project_id: str = "your-project-id"  # Replace with your project ID
+    dataset_id: str = "your-dataset-id"  # Replace with your dataset ID
+    table_id: str = "sales"  # Table ID
+
+    client = bigquery.Client(project=project_id)  # Initialize client
+    table_ref = f"{project_id}.{dataset_id}.{table_id}"
+    try:
+        client.get_table(table_ref)  # Check table existence
+    except Exception as e:
+        print(f"Table schema: {client.get_table(table_ref).schema}")  # Debug schema on failure
+        pytest.fail(f"Failed to connect to BigQuery table {table_ref}: {str(e)}")
 ```
 
 ### Expected Outputs
@@ -611,27 +628,27 @@ def test_trend_query(config: Dict[str, Any]) -> None:
 [
   {
     "sale_date": "2023-10-01",
-    "daily_total": 1999.98,
-    "moving_avg": 1999.98,
-    "product": "Halal Laptop",
-    "stock": 10,
-    "remaining_stock": 8
+    "daily_total": 199.98,
+    "moving_avg": 199.98,
+    "product": "Product A",
+    "stock": 100,
+    "remaining_stock": 98
   },
   {
     "sale_date": "2023-10-02",
     "daily_total": 249.9,
     "moving_avg": 249.9,
-    "product": "Halal Mouse",
-    "stock": 50,
-    "remaining_stock": 40
+    "product": "Product B",
+    "stock": 200,
+    "remaining_stock": 190
   },
   {
     "sale_date": "2023-10-03",
     "daily_total": 249.95,
     "moving_avg": 249.95,
-    "product": "Halal Keyboard",
-    "stock": 20,
-    "remaining_stock": 15
+    "product": "Product C",
+    "stock": 150,
+    "remaining_stock": 145
   }
 ]
 ```
@@ -643,7 +660,7 @@ Opening config: data/config.yaml
 Loaded config: {'min_price': 10.0, 'max_quantity': 100, ...}
 Executing query:
 WITH Inventory AS (
-    SELECT 'Halal Laptop' AS product, 10 AS stock
+    SELECT 'Product A' AS product, 100 AS stock
     ...
 )
 Query results: [{'sale_date': '2023-10-01', ...}, ...]
@@ -653,7 +670,7 @@ File exists: True
 
 Sales Trend Report:
 Total Records Processed: 3
-Date: 2023-10-01, Product: Halal Laptop, Daily Total: $1999.98, Moving Avg: $1999.98, Stock: 10, Remaining: 8
+Date: 2023-10-01, Product: Product A, Daily Total: $199.98, Moving Avg: $199.98, Stock: 100, Remaining: 98
 ...
 ```
 
@@ -662,17 +679,17 @@ Date: 2023-10-01, Product: Halal Laptop, Daily Total: $1999.98, Moving Avg: $199
 1. **Setup**:
 
    - **Setup Checklist**:
-     - [ ] Create `de-onboarding/data/` with `transactions.csv` and `config.yaml` per Appendix 1.
+     - [ ] Create `de-onboarding/data/` with `sales.csv` and `config.yaml` per Appendix 1.
      - [ ] Install libraries: `pip install google-cloud-bigquery pyyaml pydantic pytest`.
      - [ ] Set `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
-     - [ ] Load `transactions.csv` into BigQuery. **Note**: The following script is a reference from Chapter 26 and should not be run directly here; verify table existence with `bq ls`:
+     - [ ] Load `sales.csv` into BigQuery. **Note**: The following script is a reference from Chapter 26 and should not be run directly here; verify table existence with `bq ls`:
        ```python
-       # Example: Load transactions.csv into BigQuery (run in Chapter 26)
+       # Example: Load sales.csv into BigQuery (run in Chapter 26)
        # from google.cloud import bigquery
        # client = bigquery.Client(project="your-project-id")
-       # table_id = "your-dataset-id.transactions"
+       # table_id = "your-dataset-id.sales"
        # job_config = bigquery.LoadJobConfig(source_format="CSV", skip_leading_rows=1)
-       # with open("data/transactions.csv", "rb") as file:
+       # with open("data/sales.csv", "rb") as file:
        #     job = client.load_table_from_file(file, table_id, job_config=job_config)
        # job.result()
        ```
@@ -694,7 +711,8 @@ Date: 2023-10-01, Product: Halal Laptop, Daily Total: $1999.98, Moving Avg: $199
 3. **Test**:
 
    - Run: `pytest test_sales_trend_analyzer.py -v`.
-   - Verify tests pass, checking non-negative totals and Halal products.
+   - Verify tests pass, checking non-negative totals, product prefixes, and BigQuery connectivity.
+   - To verify test coverage, run `pytest --cov=sales_trend_analyzer` to ensure all critical functions are tested, enhancing pipeline reliability.
    - **Manual Test**: Query BigQuery Console with the same SQL to compare results.
 
 ## 27.5 Practice Exercises
@@ -707,7 +725,7 @@ Write a type-annotated function to query monthly sales totals using a CTE, with 
 
 ```python
 [
-    {"month": "2023-10", "monthly_total": 2499.83}
+    {"month": "2023-10", "monthly_total": 699.83}
 ]
 ```
 
@@ -728,7 +746,7 @@ Write a type-annotated function to rank products by sales using a window functio
 
 ```python
 [
-    {"product": "Halal Laptop", "sale_amount": 1999.98, "sales_rank": 1},
+    {"product": "Product A", "sale_amount": 199.98, "sales_rank": 1},
     ...
 ]
 ```
@@ -744,13 +762,13 @@ Write a type-annotated function to rank products by sales using a window functio
 
 ### Exercise 3: Join with Customer Data
 
-Write a type-annotated function to join transactions with a customer CTE, with 4-space indentation per PEP 8.
+Write a type-annotated function to join sales with a customer CTE, with 4-space indentation per PEP 8.
 
 **Expected Output**:
 
 ```python
 [
-    {"product": "Halal Laptop", "total_sales": 1999.98, "customer_id": "C001"},
+    {"product": "Product A", "total_sales": 199.98, "customer_id": "C001"},
     ...
 ]
 ```
@@ -772,7 +790,7 @@ Write a type-annotated function to validate query results with Pydantic, with 4-
 
 ```python
 [
-    {"sale_date": "2023-10-01", "daily_total": 1999.98}
+    {"sale_date": "2023-10-01", "daily_total": 199.98}
 ]
 ```
 
@@ -796,7 +814,7 @@ def run_buggy_query(project_id: str, dataset_id: str, table_id: str) -> List[Dic
     client = bigquery.Client(project=project_id)
     query = f"""
     SELECT
-        DATE(date) AS sale_date,
+        DATE(sale_date) AS sale_date,
         product,
         price * quantity AS sale_amount,
         SUM(price * quantity) OVER (
@@ -812,7 +830,7 @@ def run_buggy_query(project_id: str, dataset_id: str, table_id: str) -> List[Dic
 
 ```python
 [
-    {"sale_date": "2023-10-01", "product": "Halal Laptop", "sale_amount": 1999.98, "running_total": 1999.98},
+    {"sale_date": "2023-10-01", "product": "Product A", "sale_amount": 199.98, "running_total": 199.98},
     ...
 ]
 ```
@@ -840,9 +858,9 @@ def run_buggy_join(project_id: str, dataset_id: str, table_id: str) -> List[Dict
     client = bigquery.Client(project=project_id)
     query = f"""
     WITH Inventory AS (
-        SELECT 'Halal Laptop' AS product, 10 AS stock
+        SELECT 'Product A' AS product, 100 AS stock
         UNION ALL
-        SELECT 'Halal Mouse', 50
+        SELECT 'Product B', 200
     )
     SELECT
         t.product,
@@ -861,7 +879,7 @@ def run_buggy_join(project_id: str, dataset_id: str, table_id: str) -> List[Dict
 
 ```python
 [
-    {"product": "Halal Laptop", "total_sales": 1999.98, "stock": 10},
+    {"product": "Product A", "total_sales": 199.98, "stock": 100},
     ...
 ]
 ```
@@ -892,7 +910,7 @@ Write a function to query daily sales using both a CTE and a nested subquery, an
 ```python
 project_id = "your-project-id"
 dataset_id = "your-dataset-id"
-table_id = "transactions"
+table_id = "sales"
 ```
 
 **Query Structure Diagram**:
@@ -901,9 +919,9 @@ This diagram illustrates the CTE and subquery structures:
 
 ```mermaid
 flowchart TD
-    A["Raw Data<br>`transactions`"] --> B["CTE: DailySales"]
+    A["Raw Data<br>`sales`"] --> B["CTE: DailySales<br>Reusable, potentially fewer bytes scanned"]
     B --> C["Main Query<br>Select sale_date, daily_total"]
-    A --> D["Subquery: Nested SELECT"]
+    A --> D["Subquery: Nested SELECT<br>Repeated scan, higher complexity"]
     D --> E["Main Query<br>Select sale_date, daily_total"]
 
     classDef data fill:#f9f9f9,stroke:#333,stroke-width:2px
@@ -941,14 +959,14 @@ Extend the `SalesTrend` Pydantic model to validate non-null stock values and tes
 ```python
 project_id = "your-project-id"
 dataset_id = "your-dataset-id"
-table_id = "transactions"
+table_id = "sales"
 ```
 
 **Expected Output**:
 
 ```python
 [
-    {"sale_date": "2023-10-01", "daily_total": 1999.98, "product": "Halal Laptop", "stock": 10},
+    {"sale_date": "2023-10-01", "daily_total": 199.98, "product": "Product A", "stock": 100},
     ...
 ]
 ```
@@ -966,6 +984,110 @@ table_id = "transactions"
      - **ValueError**: Print `row_dict` types with `print({k: type(v) for k, v in row_dict.items()})` to debug.
      - **IndentationError**: Use 4 spaces (not tabs). Run `python -tt ex8_pydantic.py`.
 
+### Exercise 9: Query Plan Analysis
+
+Analyze the execution plan of a provided query in the BigQuery Console, saving a summary of the number of stages and data processed to `de-onboarding/ex9_plan.txt`.
+
+**Sample Input**:
+
+```python
+project_id = "your-project-id"
+dataset_id = "your-dataset-id"
+table_id = "sales"
+query = """
+SELECT
+    DATE(sale_date) AS sale_date,
+    SUM(price * quantity) AS daily_total
+FROM `{project_id}.{dataset_id}.{table_id}`
+GROUP BY DATE(sale_date)
+"""
+```
+
+**Expected Output** (in `ex9_plan.txt`):
+
+```
+The query execution plan has X stages and processes Y bytes of data. The GROUP BY operation is a key stage, aggregating sales by date.
+```
+
+**Follow-Along Instructions**:
+
+1. Go to console.cloud.google.com, select your project, and open the Query Editor under BigQuery.
+2. Paste and run the provided query.
+3. Click “Execution Details” to view the query plan.
+4. Note the number of stages (e.g., “2 stages”) and bytes processed (e.g., “10 MB”).
+5. Write a summary in `de-onboarding/ex9_plan.txt` using a text editor.
+6. **How to Test**:
+   - Verify `ex9_plan.txt` contains the stage count and bytes processed.
+   - Compare with the Console’s execution plan for accuracy.
+   - **Common Errors**:
+     - **Access Issue**: Ensure BigQuery Console access with correct project credentials.
+     - **FileNotFoundError**: Ensure write permissions for `de-onboarding/`.
+
+### Exercise 10: Debug a Pydantic Validation Failure
+
+Fix a buggy query that causes a Pydantic validation failure due to an incorrect data type for `daily_total`, with 4-space indentation per PEP 8.
+
+**Buggy Code**:
+
+```python
+from google.cloud import bigquery
+from typing import List, Dict, Any
+from pydantic import BaseModel, validator
+
+class SaleRecord(BaseModel):
+    sale_date: str
+    daily_total: float
+
+    @validator("daily_total")
+    def check_positive(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("Daily total must be non-negative")
+        return v
+
+def run_buggy_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict[str, Any]]:
+    client = bigquery.Client(project=project_id)
+    query = f"""
+    SELECT
+        DATE(sale_date) AS sale_date,
+        CAST(SUM(price * quantity) AS STRING) AS daily_total  # Bug: Incorrect type
+    FROM `{project_id}.{dataset_id}.{table_id}`
+    GROUP BY DATE(sale_date)
+    """
+    query_job = client.query(query)
+    results = []
+    for row in query_job:
+        row_dict = dict(row)
+        try:
+            SaleRecord(**row_dict)
+            results.append(row_dict)
+        except ValueError as e:
+            print(f"Invalid row: {row_dict}, Error: {e}")
+    return results
+```
+
+**Expected Output**:
+
+```python
+[
+    {"sale_date": "2023-10-01", "daily_total": 199.98},
+    ...
+]
+```
+
+**Follow-Along Instructions**:
+
+1. Save as `de-onboarding/ex10_debug.py`.
+2. Configure editor for 4-space indentation per PEP 8.
+3. Run: `python ex10_debug.py` and observe the validation error.
+4. Debug by printing `row_dict` types with `print({k: type(v) for k, v in row_dict.items()})`.
+5. Fix the query and re-run.
+6. **How to Test**:
+   - Verify output matches expected with correct `daily_total` type.
+   - Test with invalid data: Should log errors.
+   - **Common Errors**:
+     - **ValueError**: Use debug print to identify type mismatch.
+     - **IndentationError**: Use 4 spaces (not tabs). Run `python -tt ex10_debug.py`.
+
 ## 27.6 Exercise Solutions
 
 ### Solution to Exercise 1: CTE for Monthly Sales
@@ -980,10 +1102,10 @@ def run_monthly_sales(project_id: str, dataset_id: str, table_id: str) -> List[D
     query = f"""
     WITH MonthlySales AS (
         SELECT
-            FORMAT_DATE('%Y-%m', DATE(date)) AS month,
+            FORMAT_DATE('%Y-%m', DATE(sale_date)) AS month,
             SUM(price * quantity) AS monthly_total
         FROM `{project_id}.{dataset_id}.{table_id}`
-        GROUP BY FORMAT_DATE('%Y-%m', DATE(date))
+        GROUP BY FORMAT_DATE('%Y-%m', DATE(sale_date))
     )
     SELECT month, monthly_total
     FROM MonthlySales
@@ -993,11 +1115,11 @@ def run_monthly_sales(project_id: str, dataset_id: str, table_id: str) -> List[D
     query_job = client.query(query)
     results = [dict(row) for row in query_job]
     print(f"Query results: {results}")
-    # Expected BigQuery output: [{"month": "2023-10", "monthly_total": 2499.83}]
+    # Expected BigQuery output: [{"month": "2023-10", "monthly_total": 699.83}]
     return results
 
 # Test
-print(run_monthly_sales("your-project-id", "your-dataset-id", "transactions"))
+print(run_monthly_sales("your-project-id", "your-dataset-id", "sales"))
 ```
 
 ### Solution to Exercise 2: Window Function for Product Rankings
@@ -1024,11 +1146,11 @@ def run_ranking_query(project_id: str, dataset_id: str, table_id: str) -> List[D
     query_job = client.query(query)
     results = [dict(row) for row in query_job]
     print(f"Query results: {results}")
-    # Expected BigQuery output: [{"product": "Halal Laptop", "sale_amount": 1999.98, "sales_rank": 1}, ...]
+    # Expected BigQuery output: [{"product": "Product A", "sale_amount": 199.98, "sales_rank": 1}, ...]
     return results
 
 # Test
-print(run_ranking_query("your-project-id", "your-dataset-id", "transactions"))
+print(run_ranking_query("your-project-id", "your-dataset-id", "sales"))
 ```
 
 ### Solution to Exercise 3: Join with Customer Data
@@ -1038,13 +1160,13 @@ from google.cloud import bigquery
 from typing import List, Dict, Any
 
 def run_customer_join(project_id: str, dataset_id: str, table_id: str) -> List[Dict[str, Any]]:
-    """Join transactions with customer data."""
+    """Join sales with customer data."""
     client = bigquery.Client(project=project_id)
     query = f"""
     WITH Customers AS (
-        SELECT 'T001' AS transaction_id, 'C001' AS customer_id
+        SELECT 'S001' AS sale_id, 'C001' AS customer_id
         UNION ALL
-        SELECT 'T002', 'C002'
+        SELECT 'S002', 'C002'
     )
     SELECT
         t.product,
@@ -1052,7 +1174,7 @@ def run_customer_join(project_id: str, dataset_id: str, table_id: str) -> List[D
         c.customer_id
     FROM `{project_id}.{dataset_id}.{table_id}` t
     LEFT JOIN Customers c
-        ON t.transaction_id = c.transaction_id
+        ON t.sale_id = c.sale_id
     GROUP BY t.product, c.customer_id
     ORDER BY total_sales DESC
     """
@@ -1060,11 +1182,11 @@ def run_customer_join(project_id: str, dataset_id: str, table_id: str) -> List[D
     query_job = client.query(query)
     results = [dict(row) for row in query_job]
     print(f"Query results: {results}")
-    # Expected BigQuery output: [{"product": "Halal Laptop", "total_sales": 1999.98, "customer_id": "C001"}, ...]
+    # Expected BigQuery output: [{"product": "Product A", "total_sales": 199.98, "customer_id": "C001"}, ...]
     return results
 
 # Test
-print(run_customer_join("your-project-id", "your-dataset-id", "transactions"))
+print(run_customer_join("your-project-id", "your-dataset-id", "sales"))
 ```
 
 ### Solution to Exercise 4: Pydantic Validation
@@ -1089,10 +1211,10 @@ def run_validated_query(project_id: str, dataset_id: str, table_id: str) -> List
     client = bigquery.Client(project=project_id)
     query = f"""
     SELECT
-        DATE(date) AS sale_date,
+        DATE(sale_date) AS sale_date,
         SUM(price * quantity) AS daily_total
     FROM `{project_id}.{dataset_id}.{table_id}`
-    GROUP BY DATE(date)
+    GROUP BY DATE(sale_date)
     """
     print(f"Executing query:\n{query}")
     query_job = client.query(query)
@@ -1108,7 +1230,7 @@ def run_validated_query(project_id: str, dataset_id: str, table_id: str) -> List
     return results
 
 # Test
-print(run_validated_query("your-project-id", "your-dataset-id", "transactions"))
+print(run_validated_query("your-project-id", "your-dataset-id", "sales"))
 ```
 
 ### Solution to Exercise 5: Debug a Window Function Bug
@@ -1122,11 +1244,11 @@ def run_fixed_query(project_id: str, dataset_id: str, table_id: str) -> List[Dic
     client = bigquery.Client(project=project_id)
     query = f"""
     SELECT
-        DATE(date) AS sale_date,
+        DATE(sale_date) AS sale_date,
         product,
         price * quantity AS sale_amount,
         SUM(price * quantity) OVER (
-            PARTITION BY DATE(date)
+            PARTITION BY DATE(sale_date)
             ORDER BY product
         ) AS running_total
     FROM `{project_id}.{dataset_id}.{table_id}`
@@ -1139,13 +1261,13 @@ def run_fixed_query(project_id: str, dataset_id: str, table_id: str) -> List[Dic
     return results
 
 # Test
-print(run_fixed_query("your-project-id", "your-dataset-id", "transactions"))
+print(run_fixed_query("your-project-id", "your-dataset-id", "sales"))
 ```
 
 **Explanation**:
 
 - **Bug**: Missing `PARTITION BY` caused running total to span all rows.
-- **Fix**: Added `PARTITION BY DATE(date)` to reset total per date.
+- **Fix**: Added `PARTITION BY DATE(sale_date)` to reset total per date.
 
 ### Solution to Exercise 6: Debug a Join Query Bug
 
@@ -1154,13 +1276,13 @@ from google.cloud import bigquery
 from typing import List, Dict, Any
 
 def run_fixed_join(project_id: str, dataset_id: str, table_id: str) -> List[Dict[str, Any]]:
-    """Fixed join query for transactions and inventory."""
+    """Fixed join query for sales and inventory."""
     client = bigquery.Client(project=project_id)
     query = f"""
     WITH Inventory AS (
-        SELECT 'Halal Laptop' AS product, 10 AS stock
+        SELECT 'Product A' AS product, 100 AS stock
         UNION ALL
-        SELECT 'Halal Mouse', 50
+        SELECT 'Product B', 200
     )
     SELECT
         t.product,
@@ -1178,7 +1300,7 @@ def run_fixed_join(project_id: str, dataset_id: str, table_id: str) -> List[Dict
     return results
 
 # Test
-print(run_fixed_join("your-project-id", "your-dataset-id", "transactions"))
+print(run_fixed_join("your-project-id", "your-dataset-id", "sales"))
 ```
 
 **Explanation**:
@@ -1201,10 +1323,10 @@ def analyze_daily_sales(project_id: str, dataset_id: str, table_id: str) -> List
     cte_query = f"""
     WITH DailySales AS (
         SELECT
-            DATE(date) AS sale_date,
+            DATE(sale_date) AS sale_date,
             SUM(price * quantity) AS daily_total
         FROM `{project_id}.{dataset_id}.{table_id}`
-        GROUP BY DATE(date)
+        GROUP BY DATE(sale_date)
     )
     SELECT sale_date, daily_total
     FROM DailySales
@@ -1220,10 +1342,10 @@ def analyze_daily_sales(project_id: str, dataset_id: str, table_id: str) -> List
     SELECT sale_date, daily_total
     FROM (
         SELECT
-            DATE(date) AS sale_date,
+            DATE(sale_date) AS sale_date,
             SUM(price * quantity) AS daily_total
         FROM `{project_id}.{dataset_id}.{table_id}`
-        GROUP BY DATE(date)
+        GROUP BY DATE(sale_date)
     ) AS DailySales
     ORDER BY sale_date
     """
@@ -1246,7 +1368,7 @@ CTEs improve query readability and modularity by defining temporary result sets,
     return cte_results
 
 # Test
-print(analyze_daily_sales("your-project-id", "your-dataset-id", "transactions"))
+print(analyze_daily_sales("your-project-id", "your-dataset-id", "sales"))
 ```
 
 ### Solution to Exercise 8: Pydantic Schema Validation
@@ -1269,9 +1391,9 @@ class ExtendedSalesTrend(BaseModel):
         return v
 
     @validator("product")
-    def check_halal(cls, v: str) -> str:
-        if not v.startswith("Halal"):
-            raise ValueError("Product must start with 'Halal'")
+    def check_prefix(cls, v: str) -> str:
+        if not v.startswith("Product"):
+            raise ValueError("Product must start with 'Product'")
         return v
 
     @validator("stock")
@@ -1285,19 +1407,19 @@ def run_extended_validation(project_id: str, dataset_id: str, table_id: str) -> 
     client = bigquery.Client(project=project_id)
     query = f"""
     WITH Inventory AS (
-        SELECT 'Halal Laptop' AS product, 10 AS stock
+        SELECT 'Product A' AS product, 100 AS stock
         UNION ALL
-        SELECT 'Halal Mouse', 50
+        SELECT 'Product B', 200
         UNION ALL
-        SELECT 'Monitor', NULL  # Include null stock for testing
+        SELECT 'Product D', NULL  # Include null stock for testing
     ),
     DailySales AS (
         SELECT
-            DATE(date) AS sale_date,
+            DATE(sale_date) AS sale_date,
             product,
             SUM(price * quantity) AS daily_total
         FROM `{project_id}.{dataset_id}.{table_id}`
-        GROUP BY DATE(date), product
+        GROUP BY DATE(sale_date), product
     )
     SELECT
         d.sale_date,
@@ -1323,14 +1445,93 @@ def run_extended_validation(project_id: str, dataset_id: str, table_id: str) -> 
     return results
 
 # Test
-print(run_extended_validation("your-project-id", "your-dataset-id", "transactions"))
+print(run_extended_validation("your-project-id", "your-dataset-id", "sales"))
 ```
 
 **Explanation**:
 
 - The `ExtendedSalesTrend` model adds a `stock` validator to reject null values.
-- The query includes a null stock for “Monitor” to test validation, which is excluded from results due to the `check_non_null` validator.
+- The query includes a null stock for “Product D” to test validation, which is excluded from results due to the `check_non_null` validator.
 - Debug with `print({k: type(v) for k, v in row_dict.items()})` if validation fails.
+
+### Solution to Exercise 9: Query Plan Analysis
+
+**Sample Query**:
+
+```sql
+SELECT
+    DATE(sale_date) AS sale_date,
+    SUM(price * quantity) AS daily_total
+FROM `your-project-id.your-dataset-id.sales`
+GROUP BY DATE(sale_date)
+```
+
+**Analysis Steps**:
+
+1. Open the BigQuery Console and navigate to your project.
+2. Paste and run the sample query.
+3. Click “Execution Details” to view the query plan.
+4. Note the number of stages (e.g., “2 stages”) and bytes processed (e.g., “10 MB”).
+5. Write a summary in `de-onboarding/ex9_plan.txt`, e.g.:
+   ```
+   The query execution plan has 2 stages and processes 10 MB of data. The GROUP BY operation is a key stage, aggregating sales by date.
+   ```
+
+**Expected Output** (in `ex9_plan.txt`):
+
+```
+The query execution plan has X stages and processes Y bytes of data. The GROUP BY operation is a key stage, aggregating sales by date.
+```
+
+### Solution to Exercise 10: Debug a Pydantic Validation Failure
+
+```python
+from google.cloud import bigquery
+from typing import List, Dict, Any
+from pydantic import BaseModel, validator
+
+class SaleRecord(BaseModel):
+    sale_date: str
+    daily_total: float
+
+    @validator("daily_total")
+    def check_positive(cls, v: float) -> float:
+        if v < 0:
+            raise ValueError("Daily total must be non-negative")
+        return v
+
+def run_fixed_query(project_id: str, dataset_id: str, table_id: str) -> List[Dict[str, Any]]:
+    """Fixed query to validate sales data."""
+    client = bigquery.Client(project=project_id)
+    query = f"""
+    SELECT
+        DATE(sale_date) AS sale_date,
+        SUM(price * quantity) AS daily_total  # Fix: Remove CAST to STRING
+    FROM `{project_id}.{dataset_id}.{table_id}`
+    GROUP BY DATE(sale_date)
+    """
+    print(f"Executing query:\n{query}")
+    query_job = client.query(query)
+    results = []
+    for row in query_job:
+        row_dict = dict(row)
+        try:
+            SaleRecord(**row_dict)
+            results.append(row_dict)
+        except ValueError as e:
+            print(f"Invalid row: {row_dict}, Error: {e}")
+    print(f"Query results: {results}")
+    return results
+
+# Test
+print(run_fixed_query("your-project-id", "your-dataset-id", "sales"))
+```
+
+**Explanation**:
+
+- **Bug**: The query cast `daily_total` to `STRING`, causing a Pydantic validation error since `SaleRecord` expects a `float`.
+- **Fix**: Removed `CAST(SUM(price * quantity) AS STRING)` to return a `FLOAT`.
+- **Debugging Steps**: Print `row_dict` types with `print({k: type(v) for k, v in row_dict.items()})` to identify the `daily_total` type as `str`, then inspect the query to remove the incorrect cast.
 
 ## 27.7 Chapter Summary and Connection to Chapter 28
 
