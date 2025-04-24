@@ -35,3 +35,12 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [16 - PostgreSQL Fundamentals](./ch16-postgresql-fundamentals/)
 - [17 - Python and PostgreSQL Integration](./ch17-python-and-postgresql-integration/)
 - [18 - Checkpoint 3A: Database Fundamentals I Review](./ch18-checkpoint-3a-database-fundamentals-i-review/)
+
+## Phase 3B: Database Fundamentals II
+
+- [19 - Advanced SQL Querying with SQLite](./ch19-advanced-sql-querying-with-sqlite/)
+- [20 - SQLite Indexing and Optimization](./ch20-sqlite-indexing-and-optimization/)
+- [21 - Advanced PostgreSQL Querying](./ch21-advanced-postgresql-querying/)
+- [22 - PostgreSQL Indexing and Optimization](./ch22-postgresql-indexing-and-optimization/)
+- [23 - Type-Safe Database Integration](./ch23-type-safe-database-integration/)
+- [24 - Checkpoint 3B: Database Fundamentals II Review](./ch24-checkpoint-3b-database-fundamentals-ii-review/)
