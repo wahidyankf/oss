@@ -53,3 +53,13 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [28 - BigQuery Data Warehousing](./ch28-bigquery-data-warehousing/)
 - [29 - BigQuery Optimization Techniques](./ch29-bigquery-optimization-techniques/)
 - [30 - Checkpoint 4: Cloud Analytics Review](./ch30-cloud-analytics-review/)
+
+## Phase 5: Analytical Storage
+
+- [31 - Data Lakes with Google Cloud Storage](./ch31-data-lakes-with-google-cloud-storage/)
+- [32 - Data Marts with BigQuery](./ch32-data-marts-with-bigquery/)
+- [33 - BigQuery and Google Sheets Integration](./ch33-bigquery-and-google-sheets-integration/)
+- [34 - Python for Data Lake Processing: Foundations](./ch34-python-for-data-lake-processing-foundations/)
+- [35 - Google Cloud Storage Advanced Features](./ch35-google-cloud-storage-advanced-features/)
+- [36 - Python for Data Lake Processing: Optimization](./ch36-python-for-data-lake-processing-optimization/)
+- [37 - Checkpoint 5: Analytical Storage Review](./ch37-checkpoint-5-analytical-storage-review/)
