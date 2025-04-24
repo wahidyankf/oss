@@ -44,3 +44,12 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [22 - PostgreSQL Indexing and Optimization](./ch22-postgresql-indexing-and-optimization/)
 - [23 - Type-Safe Database Integration](./ch23-type-safe-database-integration/)
 - [24 - Checkpoint 3B: Database Fundamentals II Review](./ch24-checkpoint-3b-database-fundamentals-ii-review/)
+
+## Phase 4: Cloud Analytics
+
+- [25 - BigQuery Fundamentals](./ch25-bigquery-fundamentals/)
+- [26 - Python and BigQuery Integration](./ch26-python-and-bigquery-integration/)
+- [27 - BigQuery Advanced Querying](./ch27-bigquery-advanced-querying/)
+- [28 - BigQuery Data Warehousing](./ch28-bigquery-data-warehousing/)
+- [29 - BigQuery Optimization Techniques](./ch29-bigquery-optimization-techniques/)
+- [30 - Checkpoint 4: Cloud Analytics Review](./ch30-cloud-analytics-review/)

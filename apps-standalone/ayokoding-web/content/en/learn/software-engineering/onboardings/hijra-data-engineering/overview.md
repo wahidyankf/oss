@@ -278,7 +278,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ### Phase 4: Cloud Analytics (Chapters 25–30)
 
-25. **BigQuery Fundamentals**
+25. [**BigQuery Fundamentals**](../ch25-bigquery-fundamentals/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces BigQuery for cloud analytics with `google-cloud-bigquery`. The micro-project creates a tested sales dataset, preparing for Python integration.
@@ -286,7 +286,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Create a BigQuery sales dataset with key metric queries and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Establishes cloud analytics skills.
 
-26. **Python and BigQuery Integration**
+26. [**Python and BigQuery Integration**](../ch26-python-and-bigquery-integration/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches type-annotated programmatic BigQuery analytics with Python. The micro-project loads and queries tested sales data, preparing for advanced querying.
@@ -294,7 +294,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Develop a type-annotated Python script to load and query sales data in BigQuery with pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Enables automated cloud analytics.
 
-27. **BigQuery Advanced Querying**
+27. [**BigQuery Advanced Querying**](../ch27-bigquery-advanced-querying/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Explores advanced BigQuery querying (window functions, CTEs). The micro-project analyzes tested sales trends, preparing for data warehousing.
@@ -302,7 +302,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Query sales data for trends using window functions, CTEs, and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Strengthens querying for large-scale storage.
 
-28. **BigQuery Data Warehousing**
+28. [**BigQuery Data Warehousing**](../ch28-bigquery-data-warehousing/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches **data warehouse** design in BigQuery with star schemas. The micro-project builds a tested sales **data warehouse**, preparing for optimization.
@@ -310,7 +310,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Design a sales **data warehouse** with fact/dimension tables and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Establishes **data warehouse** proficiency.
 
-29. **BigQuery Optimization Techniques**
+29. [**BigQuery Optimization Techniques**](../ch29-bigquery-optimization-techniques/)
 
 - **Complexity**: Moderate (M)
 - **Description**: Optimizes BigQuery queries for performance and cost. The micro-project enhances a tested sales **data warehouse**, preparing for **data lakes**.
@@ -318,7 +318,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Optimize sales **data warehouse** queries with partitioning and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Enhances **data warehouse** efficiency.
 
-30. **Checkpoint 4: Cloud Analytics Review**
+30. [**Checkpoint 4: Cloud Analytics Review**](../ch30-cloud-analytics-review/)
 
 - **Complexity**: Easy (E)
 - **Description**: Consolidates BigQuery and **data warehousing** skills. The micro-project builds a type-safe, tested analytics tool with type annotations, preparing for **data lakes** and **marts**.
