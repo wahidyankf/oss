@@ -9,7 +9,7 @@ weight: 20
 
 ## 19.0 Introduction: Why This Matters for Data Engineering
 
-In data engineering, advanced SQL querying is essential for extracting meaningful insights from large datasets, enabling Hijra Group to analyze Sharia-compliant financial transactions efficiently. SQLite, as a lightweight, serverless database, supports complex queries like joins, subqueries, and aggregations, making it ideal for prototyping pipelines before scaling to PostgreSQL (Chapter 21) or BigQuery (Chapter 25). Building on Chapters 12–18, which introduced SQL basics, Python-SQLite integration, and schema design, this chapter focuses on advanced querying techniques to handle sales data, preparing for optimization (Chapter 20) and production-grade databases.
+In data engineering, advanced SQL querying is essential for extracting meaningful insights from large datasets, enabling Hijra Group to analyze Sharia-compliant financial transactions efficiently. SQLite, as a lightweight, serverless database, supports complex queries like joins, subqueries, and aggregations, making it ideal for prototyping pipelines before scaling to PostgreSQL (Chapter 21) or BigQuery (Chapter 25). SQLite’s single-threaded writes and lack of concurrent access make it suitable for prototyping but unsuitable for Hijra Group’s high-throughput transaction systems, which use PostgreSQL or BigQuery (Chapters 21, 25). Building on Chapters 12–18, which introduced SQL basics, Python-SQLite integration, and schema design, this chapter focuses on advanced querying techniques to handle sales data, preparing for optimization (Chapter 20) and production-grade databases.
 
 This chapter avoids concepts not yet introduced, such as type annotations (Chapter 7), testing (Chapter 9), or advanced indexing (Chapter 20). All Python code uses **4-space indentation** per PEP 8, preferring spaces over tabs to avoid `IndentationError`, ensuring compatibility with Hijra Group’s pipeline scripts. The micro-project uses `data/sales.db` from Appendix 1, testing queries for sales analytics and visualizing results with Matplotlib.
 
@@ -146,6 +146,92 @@ conn.close()
 - **Space Complexity**: O(k) for k result rows.
 - **Implication**: Joins enable combining sales data with metadata, e.g., product categories for Hijra Group’s analytics.
 
+#### 19.1.1.1 Multiple Joins
+
+Complex analytics often require joining multiple tables. For example, combining sales data with categories and supplier information involves chaining joins.
+
+```python
+import sqlite3  # Import SQLite
+
+# Connect to database
+conn = sqlite3.connect("data/sales.db")
+cursor = conn.cursor()
+
+# Create categories and suppliers tables
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS categories (
+    product TEXT,
+    category TEXT
+)
+""")
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS suppliers (
+    product TEXT,
+    supplier_name TEXT
+)
+""")
+cursor.executemany(
+    "INSERT INTO categories (product, category) VALUES (?, ?)",
+    [
+        ("Halal Laptop", "Electronics"),
+        ("Halal Mouse", "Accessories"),
+        ("Halal Keyboard", "Accessories"),
+    ]
+)
+cursor.executemany(
+    "INSERT INTO suppliers (product, supplier_name) VALUES (?, ?)",
+    [
+        ("Halal Laptop", "TechCorp"),
+        ("Halal Mouse", "PeriTech"),
+        ("Halal Keyboard", "PeriTech"),
+    ]
+)
+conn.commit()
+
+# Multiple JOINs to combine sales, categories, and suppliers
+cursor.execute("""
+    SELECT s.product, s.price, c.category, p.supplier_name
+    FROM sales s
+    INNER JOIN categories c
+        ON s.product = c.product
+    INNER JOIN suppliers p
+        ON s.product = p.product
+""")
+rows = cursor.fetchall()
+
+# Print results
+print("Multiple Join Results:")  # Debug
+for row in rows:
+    print(row)  # Show joined rows
+
+# Close connection
+conn.close()
+
+# Expected Output:
+# Multiple Join Results:
+# ('Halal Laptop', 999.99, 'Electronics', 'TechCorp')
+# ('Halal Mouse', 24.99, 'Accessories', 'PeriTech')
+# ('Halal Keyboard', 49.99, 'Accessories', 'PeriTech')
+```
+
+**Follow-Along Instructions**:
+
+1. Ensure `data/sales.db` exists per Appendix 1.
+2. Save as `de-onboarding/sql_multi_joins.py`.
+3. Configure editor for 4-space indentation per PEP 8.
+4. Run: `python sql_multi_joins.py`.
+5. Verify output matches comments.
+6. **Common Errors**:
+   - **sqlite3.OperationalError**: Ensure `sales.db` exists. Print `os.path.exists("data/sales.db")`.
+   - **IndentationError**: Use 4 spaces (not tabs). Run `python -tt sql_multi_joins.py`.
+
+**Key Points**:
+
+- **Multiple Joins**: Chain INNER JOINs to combine multiple tables (e.g., sales, categories, suppliers).
+- **Time Complexity**: O(n _ m _ p) for unindexed joins across three tables (n, m, p rows), improved with indexes (Chapter 20).
+- **Space Complexity**: O(k) for k result rows.
+- **Implication**: Enables complex analytics, e.g., supplier-based sales reports for Hijra Group.
+
 ### 19.1.2 Subqueries
 
 Subqueries are nested queries that return intermediate results for the outer query, useful for filtering or aggregating.
@@ -254,7 +340,7 @@ conn.close()
 
 ### Project Requirements
 
-Build a query tool to analyze sales data in `data/sales.db`, producing a JSON report and a sales plot for Hijra Group’s analytics. Ensure `sales.db` is created per Appendix 1 before running the project. The tool uses advanced SQL queries (joins, subqueries, aggregations) to compute metrics, integrating with Python and Pandas for processing and Matplotlib for visualization. Queries ensure Sharia-compliant product analytics by focusing on Halal products, aligning with Islamic Financial Services Board (IFSB) standards for transaction reporting.
+Build a query tool to analyze sales data in `data/sales.db`, producing a JSON report and a sales plot for Hijra Group’s analytics. Ensure `sales.db` is created per Appendix 1 before running the project. The tool supports Hijra Group’s sales forecasting by analyzing Halal product trends, enabling data-driven decisions for Sharia-compliant inventory management. Queries ensure Sharia-compliant product analytics by focusing on Halal products, aligning with Islamic Financial Services Board (IFSB) standards for transaction reporting. The tool uses advanced SQL queries (joins, subqueries, aggregations) to compute metrics, integrating with Python and Pandas for processing and Matplotlib for visualization.
 
 - Connect to `data/sales.db` with `sqlite3`.
 - Create a `categories` table for joins.
@@ -330,13 +416,13 @@ flowchart TD
    - **Solution**: Ensure `sales.db` exists per Appendix 1. Print `os.path.exists("data/sales.db")`.
 2. **Query Syntax Errors**:
    - **Problem**: Invalid SQL syntax causes errors.
-   - **Solution**: Test queries in SQLite CLI with `sqlite3 data/sales.db` and run the query directly (e.g., `SELECT * FROM sales;`). If errors persist, print the query string with `print(query)` before `cursor.execute`.
+   - **Solution**: Test queries in SQLite CLI with `sqlite3 data/sales.db 'SELECT * FROM sales;'` in your terminal to test a query. If errors occur, check for missing tables or syntax issues. Alternatively, print the query string with `print(query)` before `cursor.execute`.
 3. **Empty Results**:
    - **Problem**: Queries return no rows for empty tables.
    - **Solution**: Check row counts with `SELECT COUNT(*)`. Print results.
 4. **Plotting Issues**:
    - **Problem**: Plot not saved.
-   - **Solution**: Use `plt.savefig()` and check permissions. Print `os.path.exists(plot_path)`.
+   - **Solution**: Use `plt.savefig()` and check permissions. Print `os.path.exists(plot_path)`. To debug plot appearance (e.g., cut-off labels), temporarily add `plt.show()` before `plt.close()` to view the plot interactively (displays on your screen, unlike `plt.savefig`’s file output). Remove `plt.show()` afterward for Pyodide compatibility, as it requires non-interactive outputs. Check figure size with `print(plt.gcf().get_size_inches())`.
 5. **IndentationError**:
    - **Problem**: Mixed spaces/tabs.
    - **Solution**: Use 4 spaces per PEP 8. Run `python -tt query_tool.py`.
@@ -403,7 +489,8 @@ def execute_queries(conn, cursor):  # Takes connection and cursor
             ON s.product = c.product
         GROUP BY c.category
     """
-    print("Executing query:", query)  # Debug: print query
+    print("Executing category sales query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     if not rows:  # Check for empty results
@@ -421,7 +508,8 @@ def execute_queries(conn, cursor):  # Takes connection and cursor
         ORDER BY total_sales DESC
         LIMIT 2
     """
-    print("Executing query:", query)  # Debug: print query
+    print("Executing top products query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     if not rows:  # Check for empty results
@@ -440,7 +528,8 @@ def execute_queries(conn, cursor):  # Takes connection and cursor
             FROM sales
         )
     """
-    print("Executing query:", query)  # Debug: print query
+    print("Executing high-value sales query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     if not rows:  # Check for empty results
@@ -540,30 +629,11 @@ if __name__ == "__main__":
 ```
 Connecting to: data/sales.db
 Categories table created
-Executing query:
-        SELECT c.category, SUM(s.price * s.quantity) AS total_sales
-        FROM sales s
-        INNER JOIN categories c
-            ON s.product = c.product
-        GROUP BY c.category
-
+Executing category sales query
 Category Sales: {'Electronics': 1999.98, 'Accessories': 499.85}
-Executing query:
-        SELECT product, SUM(price * quantity) AS total_sales
-        FROM sales
-        GROUP BY product
-        ORDER BY total_sales DESC
-        LIMIT 2
-
+Executing top products query
 Top Products: {'Halal Laptop': 1999.98, 'Halal Mouse': 249.9}
-Executing query:
-        SELECT product, price, quantity
-        FROM sales
-        WHERE price > (
-            SELECT AVG(price)
-            FROM sales
-        )
-
+Executing high-value sales query
 High-Value Sales: [{'product': 'Halal Laptop', 'price': 999.99, 'quantity': 2}]
 Writing to: data/sales_query_results.json
 Exported results to data/sales_query_results.json
@@ -576,17 +646,17 @@ Processing completed
 
 1. **Setup**:
 
-   - **Setup Checklist**:
+   - **Initial Setup**:
 
+     - Run `python create_sales_db.py` to create `sales.db` and `python create_categories.py` to create the `categories` table (both from Appendix 1 and below). Save these scripts in `de-onboarding/` and run before the micro-project and Exercises 1 and 4.
      - [ ] Create `de-onboarding/data/` directory.
-     - [ ] Run `python create_sales_db.py` from Appendix 1 to create `sales.db` if not already present.
      - [ ] Save `sales.db` per Appendix 1 (run `create_sales_db.py`).
      - [ ] Install libraries: `pip install pandas matplotlib sqlite3`.
      - [ ] Create virtual environment: `python -m venv venv`, activate (Windows: `venv\Scripts\activate`, Unix: `source venv/bin/activate`).
      - [ ] Verify Python 3.10+: `python --version`.
      - [ ] Configure editor for 4-space indentation per PEP 8 (VS Code: “Editor: Tab Size” = 4, “Editor: Insert Spaces” = true, “Editor: Detect Indentation” = false).
      - [ ] Save `query_tool.py` in `de-onboarding/`.
-     - [ ] Optionally, create `create_categories.py` for exercise reuse:
+     - [ ] Create `create_categories.py` for exercise reuse:
 
        ```python
        # File: de-onboarding/create_categories.py
@@ -643,6 +713,8 @@ Processing completed
 
 ## 19.3 Practice Exercises
 
+Before running Exercises 1 and 4, refer to the **Initial Setup** in Section 19.2 to ensure `sales.db` and the `categories` table exist by running `python create_sales_db.py` and `python create_categories.py`.
+
 ### Exercise 1: Join Query
 
 Write a function to join `sales` and `categories` tables, returning products and categories, with 4-space indentation per PEP 8.
@@ -656,7 +728,7 @@ Write a function to join `sales` and `categories` tables, returning products and
 **Follow-Along Instructions**:
 
 1. Save as `de-onboarding/ex1_join.py`.
-2. Run `create_categories.py` to ensure `categories` table exists.
+2. Run `create_categories.py` if not already executed.
 3. Configure editor for 4-space indentation per PEP 8.
 4. Run: `python ex1_join.py`.
 5. **How to Test**:
@@ -717,7 +789,7 @@ Plot saved to data/category_plot.png
 **Follow-Along Instructions**:
 
 1. Save as `de-onboarding/ex4_plot.py`.
-2. Run `create_categories.py` to ensure `categories` table exists.
+2. Run `create_categories.py` if not already executed.
 3. Configure editor for 4-space indentation per PEP 8.
 4. Run: `python ex4_plot.py`.
 5. **How to Test**:
@@ -765,7 +837,7 @@ print(high_price_sales("data/sales.db"))
 
 ### Exercise 6: Conceptual Analysis of Joins vs. Subqueries
 
-Explain when to use a JOIN versus a subquery for filtering sales data, considering performance and readability. Write a 100-word explanation and save it to `de-onboarding/ex6_concepts.txt`, using 4-space indentation per PEP 8 for any code references.
+Explain when to use a JOIN versus a subquery for filtering sales data, considering performance and readability. Ensure your explanation compares JOIN and subquery performance (e.g., time complexity like O(n \* m) for joins vs. O(n) for subqueries) and readability (e.g., query structure clarity). Write a 100-word explanation and save it to `de-onboarding/ex6_concepts.txt`, using 4-space indentation per PEP 8 for any code references.
 
 **Expected Output**:
 
@@ -802,7 +874,8 @@ def join_sales_categories(db_path):  # Takes database path
         INNER JOIN categories c
             ON s.product = c.product
     """
-    print("Executing query:", query)  # Debug
+    print("Executing join query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     print("Join Results:", rows)  # Debug
@@ -813,11 +886,7 @@ def join_sales_categories(db_path):  # Takes database path
 print(join_sales_categories("data/sales.db"))
 
 # Output:
-# Executing query:
-#         SELECT s.product, c.category
-#         FROM sales s
-#         INNER JOIN categories c
-#             ON s.product = c.product
+# Executing join query
 # Join Results: [('Halal Laptop', 'Electronics'), ('Halal Mouse', 'Accessories'), ('Halal Keyboard', 'Accessories')]
 # [('Halal Laptop', 'Electronics'), ('Halal Mouse', 'Accessories'), ('Halal Keyboard', 'Accessories')]
 ```
@@ -841,7 +910,8 @@ def high_quantity_sales(db_path):  # Takes database path
             FROM sales
         )
     """
-    print("Executing query:", query)  # Debug
+    print("Executing subquery")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     print("High Quantity Sales:", rows)  # Debug
@@ -852,13 +922,7 @@ def high_quantity_sales(db_path):  # Takes database path
 print(high_quantity_sales("data/sales.db"))
 
 # Output:
-# Executing query:
-#         SELECT product, price, quantity
-#         FROM sales
-#         WHERE quantity > (
-#             SELECT AVG(quantity)
-#             FROM sales
-#         )
+# Executing subquery
 # High Quantity Sales: [('Halal Mouse', 24.99, 10)]
 # [('Halal Mouse', 24.99, 10)]
 ```
@@ -879,7 +943,8 @@ def total_sales_by_product(db_path):  # Takes database path
         FROM sales
         GROUP BY product
     """
-    print("Executing query:", query)  # Debug
+    print("Executing aggregation query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     print("Total Sales by Product:", rows)  # Debug
@@ -890,10 +955,7 @@ def total_sales_by_product(db_path):  # Takes database path
 print(total_sales_by_product("data/sales.db"))
 
 # Output:
-# Executing query:
-#         SELECT product, SUM(price * quantity) AS total_sales
-#         FROM sales
-#         GROUP BY product
+# Executing aggregation query
 # Total Sales by Product: [('Halal Keyboard', 249.95), ('Halal Laptop', 1999.98), ('Halal Mouse', 249.9)]
 # [('Halal Keyboard', 249.95), ('Halal Laptop', 1999.98), ('Halal Mouse', 249.9)]
 ```
@@ -918,7 +980,8 @@ def plot_category_sales(db_path, plot_path):  # Takes database and plot paths
             ON s.product = c.product
         GROUP BY c.category
     """
-    print("Executing query:", query)  # Debug
+    print("Executing visualization query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
@@ -946,12 +1009,7 @@ def plot_category_sales(db_path, plot_path):  # Takes database and plot paths
 plot_category_sales("data/sales.db", "data/category_plot.png")
 
 # Output:
-# Executing query:
-#         SELECT c.category, SUM(s.price * s.quantity) AS total_sales
-#         FROM sales s
-#         INNER JOIN categories c
-#             ON s.product = c.product
-#         GROUP BY c.category
+# Executing visualization query
 # Plot saved to data/category_plot.png
 ```
 
@@ -972,7 +1030,8 @@ def high_price_sales(db_path):  # Takes database path
             FROM sales
         )
     """
-    print("Executing query:", query)  # Debug
+    print("Executing high-price sales query")  # Debug
+    # For syntax errors, uncomment `print(query)` to inspect the full query
     cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
@@ -982,13 +1041,7 @@ def high_price_sales(db_path):  # Takes database path
 print(high_price_sales("data/sales.db"))
 
 # Output:
-# Executing query:
-#         SELECT product, price, quantity
-#         FROM sales
-#         WHERE price > (
-#             SELECT AVG(price)
-#             FROM sales
-#         )
+# Executing high-price sales query
 # [('Halal Laptop', 999.99, 2)]
 ```
 
@@ -1009,8 +1062,9 @@ def explain_join_vs_subquery(output_path):  # Takes output file path
         "For Hijra Group’s analytics, prefer JOINs for reporting with metadata and subqueries for ad-hoc filters. "
         "Format queries for clarity, e.g., `SELECT s.product FROM sales s JOIN categories c ON s.product = c.product`."
     )
-    if len(explanation.split()) < 90:  # Check word count
-        print("Explanation too short (<90 words)")  # Log error
+    word_count = len(explanation.split())
+    if word_count < 90:  # Check word count
+        print(f"Explanation too short ({word_count} words). Aim for ~100 words addressing performance (e.g., complexity) and readability.")
         return
     with open(output_path, "w") as file:
         file.write(explanation)
@@ -1039,7 +1093,7 @@ In this chapter, you’ve mastered:
 - **Query Design**: Formatting queries with indentation and uppercase keywords for readability.
 - **White-Space Sensitivity and PEP 8**: Using 4-space indentation, preferring spaces over tabs.
 
-The micro-project built a query tool for `sales.db`, using joins, subqueries, and aggregations to produce a JSON report and a high-resolution plot, tested for edge cases. The modular functions and formatted queries prepare for optimization in Chapter 20, where indexing will reduce join complexity.
+The micro-project built a query tool for `sales.db`, using joins, subqueries, and aggregations to produce a JSON report and a high-resolution plot, tested for edge cases. The modular functions and formatted queries prepare for optimization in Chapter 20, where indexing will reduce join complexity. Chapter 20 also explores query optimization strategies, such as minimizing nested subqueries to reduce O(n) scans, building on this chapter’s query design principles.
 
 ### Connection to Chapter 20
 

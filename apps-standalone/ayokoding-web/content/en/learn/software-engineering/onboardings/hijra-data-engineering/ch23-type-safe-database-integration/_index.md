@@ -66,8 +66,8 @@ By the end, you’ll build a type-safe data pipeline that processes `data/sales.
 **Follow-Along Tips**:
 
 - Create `de-onboarding/data/` and populate with files from Appendix 1 (`sales.csv`, `transactions.csv`, `sales.db`, `config.yaml`).
-- Install libraries: `pip install pydantic psycopg2-binary pyyaml pytest`.
-- Set up PostgreSQL (e.g., via Docker: `docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres`).
+- Install libraries: `pip install pydantic psycopg2-binary pyyaml pytest pyright`.
+- Set up PostgreSQL (e.g., via Docker: `docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres`). If Docker fails (e.g., port 5432 in use), run `docker ps` to check running containers and use `docker stop <container_id>` to free the port.
 - Configure editor for **4-space indentation** per PEP 8 (VS Code: “Editor: Tab Size” = 4, “Editor: Insert Spaces” = true, “Editor: Detect Indentation” = false).
 - Use print statements (e.g., `print(df.head())`) for debugging.
 - Verify database connections with `sqlite3 data/sales.db "SELECT * FROM sales;"` and `psql -U postgres -h localhost`.
@@ -337,7 +337,7 @@ Build a type-safe data pipeline that:
 - Stores valid records in SQLite (`sales.db`) and PostgreSQL (`transactions` table).
 - Exports summary metrics to `data/pipeline_results.json`.
 - Includes logging for observability.
-- Tests with `pytest` for unit and integration scenarios, including edge cases.
+- Tests with `pytest` for unit, integration, and edge-case scenarios (e.g., empty CSVs, invalid headers).
 - Uses type annotations verified by Pyright.
 - Uses 4-space indentation per PEP 8, preferring spaces over tabs.
 
@@ -413,7 +413,7 @@ flowchart TD
 
 1. **Pydantic Validation Errors**:
    - **Problem**: Invalid data (e.g., negative price) raises `ValidationError`.
-   - **Solution**: Log errors and skip invalid records. Print `row.to_dict()` to debug.
+   - **Solution**: Log errors and skip invalid records. Print `row.to_dict()` to debug. To debug, print `str(e)` in the `except` block to see specific validation errors (e.g., ‘price must be > 0’).
 2. **Database Connection Issues**:
    - **Problem**: SQLite/PostgreSQL connection fails.
    - **Solution**: Verify `sales.db` exists and PostgreSQL is running. Test with `sqlite3` and `psql`.
@@ -642,6 +642,15 @@ def empty_sales_df() -> pd.DataFrame:
     """Fixture for empty sales data."""
     return pd.DataFrame(columns=["product", "price", "quantity"])
 
+@pytest.fixture
+def invalid_headers_df() -> pd.DataFrame:
+    """Fixture for sales data with invalid headers."""
+    return pd.DataFrame({
+        "name": ["Halal Laptop"],
+        "price": [999.99],
+        "quantity": [2]
+    })
+
 def test_load_and_validate_sales(sample_sales_df: pd.DataFrame) -> None:
     """Test sales validation."""
     df, valid_sales, total_records = load_and_validate_sales("data/sales.csv")
@@ -660,6 +669,14 @@ def test_empty_csv_sales(empty_sales_df: pd.DataFrame) -> None:
     df, valid_sales, total_records = load_and_validate_sales("data/temp_empty.csv")
     assert valid_sales == 0
     assert total_records == 0
+    assert df.empty
+
+def test_invalid_headers_sales(invalid_headers_df: pd.DataFrame) -> None:
+    """Test handling of sales CSV with invalid headers."""
+    invalid_headers_df.to_csv("data/temp_invalid.csv", index=False)
+    df, valid_sales, total_records = load_and_validate_sales("data/temp_invalid.csv")
+    assert valid_sales == 0
+    assert total_records == 1
     assert df.empty
 
 def test_invalid_db_path_sqlite() -> None:
@@ -732,19 +749,22 @@ INFO:__main__:Pipeline completed
 1. **Setup**:
 
    - Create `de-onboarding/data/` and populate with `sales.csv`, `transactions.csv`, `sales.db`, `config.yaml` per Appendix 1.
-   - Install libraries: `pip install pandas pydantic psycopg2-binary pyyaml pytest`.
-   - Set up PostgreSQL (Docker: `docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres`).
+   - Install libraries: `pip install pandas pydantic psycopg2-binary pyyaml pytest pyright`.
+   - Set up PostgreSQL (e.g., Docker: `docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres`). If Docker fails (e.g., port 5432 in use), run `docker ps` to check running containers and use `docker stop <container_id>` to free the port.
    - Save `models.py`, `sqlite_client.py`, `postgres_client.py`, `pipeline.py`, and `tests/test_pipeline.py`.
-   - Configure editor for 4-space indentation per PEP 8.
+   - Configure editor for 4-space indentation per PEP 8 (VS Code: “Editor: Tab Size” = 4, “Editor: Insert Spaces” = true, “Editor: Detect Indentation” = false).
 
 2. **Run**:
 
    - Run: `python pipeline.py`.
    - Outputs: `data/pipeline_results.json`, database updates, logs.
+   - To reduce log verbosity, change `logging.basicConfig(level=logging.INFO)` in `pipeline.py`.
 
 3. **Test**:
    - Run: `pytest tests/test_pipeline.py -v`.
    - Verify all tests pass.
+   - Ensure Pyright is installed (`pip install pyright`) and run `pyright pipeline.py` to catch type errors (e.g., incorrect `str` vs. `int`) before executing the pipeline. If errors occur, create a `pyproject.toml` with `[tool.pyright]` in `de-onboarding/`.
+   - Tests create temporary files in `data/` (`temp_empty.csv`, `temp_invalid.csv`). Remove them with `rm data/temp_*.csv` (Unix/macOS) or `del data\temp_*.csv` (Windows) after testing.
    - **Troubleshooting**:
      - **Database Errors**: Check connections with `sqlite3` and `psql`.
      - **Type Errors**: Run `pyright pipeline.py`.
@@ -771,7 +791,7 @@ Sale(product='Halal Laptop', price=999.99, quantity=2)
 **Instructions**:
 
 1. Save as `de-onboarding/ex1_pydantic.py`.
-2. Run: `python ex1_pydantic.py`.
+2. Run: `python ex1_pydantic.py` to test your solution.
 3. Test with invalid data (e.g., `price=-1`).
 
 ### Exercise 2: SQLite Insert
@@ -794,7 +814,7 @@ Inserted sale: Halal Mouse
 
 1. Save as `de-onboarding/ex2_sqlite.py`.
 2. Ensure `sales.db` exists.
-3. Run: `python ex2_sqlite.py`.
+3. Run: `python ex2_sqlite.py` to test your solution.
 
 ### Exercise 3: PostgreSQL Insert
 
@@ -816,7 +836,7 @@ Inserted transaction: T002
 
 1. Save as `de-onboarding/ex3_postgres.py`.
 2. Ensure PostgreSQL is running.
-3. Run: `python ex3_postgres.py`.
+3. Run: `python ex3_postgres.py` to test your solution.
 
 ### Exercise 4: Pipeline Metrics
 
@@ -841,7 +861,7 @@ df = pd.DataFrame({
 **Instructions**:
 
 1. Save as `de-onboarding/ex4_metrics.py`.
-2. Run: `python ex4_metrics.py`.
+2. Run: `python ex4_metrics.py` to test your solution.
 
 ### Exercise 5: Debug a Type Error
 
@@ -862,22 +882,30 @@ Use `Transaction` type for `trans`.
 
 1. Save as `de-onboarding/ex5_debug.py`.
 2. Run: `pyright ex5_debug.py` to verify fix.
+3. Run: `python ex5_debug.py` to test your solution.
 
-### Exercise 6: Conceptual Analysis of SQLite vs. PostgreSQL
+### Exercise 6: Conceptual Analysis of PostgreSQL’s MVCC and SQLite’s Limitations
 
-Explain why SQLite is suitable for prototyping but PostgreSQL is preferred for production in Hijra Group’s data pipelines. Save your explanation in a text file.
+Answer the following questions to explain PostgreSQL’s concurrency advantages and SQLite’s limitations for Hijra Group’s data pipelines:
+
+1. How does PostgreSQL’s Multi-Version Concurrency Control (MVCC) support Hijra Group’s concurrent transaction processing compared to SQLite’s limitations?
+2. How might SQLite’s concurrency limitations impact testing a pipeline with concurrent users?
+
+Save your answers in a text file.
 
 **Expected Output** (in `de-onboarding/ex6_concepts.txt`):
 
 ```
-SQLite is ideal for prototyping due to its lightweight, serverless design and single-file storage, making it easy to set up and test small datasets like sales.csv. However, it lacks concurrency support and scalability for large-scale fintech analytics. PostgreSQL is preferred for production because it supports high concurrency, advanced querying (e.g., CTEs from Chapter 21), and robust indexing (Chapter 22), suitable for Hijra Group’s transaction processing with millions of records.
+1. PostgreSQL’s MVCC allows multiple transactions to access data concurrently by maintaining multiple versions of rows, ensuring consistency and scalability for Hijra Group’s high-volume transaction processing (e.g., millions of records). This supports simultaneous reads and writes, critical for real-time fintech analytics, as introduced in Chapter 16. SQLite, with its single-file, serverless design, lacks robust concurrency, making it suitable for prototyping small datasets like sales.csv but inadequate for production-scale concurrency.
+2. SQLite’s concurrency limitations, as discussed in Chapter 12, restrict it to single-writer operations, causing delays or failures when testing pipelines with concurrent users (e.g., multiple processes inserting sales data). This makes SQLite less effective for simulating Hijra Group’s production environment with concurrent transaction processing.
 ```
 
 **Instructions**:
 
-1. Save explanation as `de-onboarding/ex6_concepts.txt`.
-2. Use concepts from Chapters 12–17, 21–22.
+1. Save answers as `de-onboarding/ex6_concepts.txt`.
+2. Use concepts from Chapters 12–16, 21–22 (e.g., MVCC from Chapter 16, SQLite basics from Chapter 12).
 3. Verify content reflects trade-offs without introducing new concepts.
+4. Run: `cat ex6_concepts.txt` (Unix/macOS) or `type ex6_concepts.txt` (Windows) to test your solution.
 
 ## 23.6 Exercise Solutions
 
@@ -962,7 +990,8 @@ def insert_transaction(client: PostgresClient, trans: Transaction) -> None:
 **Content** (save to `de-onboarding/ex6_concepts.txt`):
 
 ```
-SQLite is ideal for prototyping due to its lightweight, serverless design and single-file storage, making it easy to set up and test small datasets like sales.csv. However, it lacks concurrency support and scalability for large-scale fintech analytics. PostgreSQL is preferred for production because it supports high concurrency, advanced querying (e.g., CTEs from Chapter 21), and robust indexing (Chapter 22), suitable for Hijra Group’s transaction processing with millions of records.
+1. PostgreSQL’s MVCC allows multiple transactions to access data concurrently by maintaining multiple versions of rows, ensuring consistency and scalability for Hijra Group’s high-volume transaction processing (e.g., millions of records). This supports simultaneous reads and writes, critical for real-time fintech analytics, as introduced in Chapter 16. SQLite, with its single-file, serverless design, lacks robust concurrency, making it suitable for prototyping small datasets like sales.csv but inadequate for production-scale concurrency.
+2. SQLite’s concurrency limitations, as discussed in Chapter 12, restrict it to single-writer operations, causing delays or failures when testing pipelines with concurrent users (e.g., multiple processes inserting sales data). This makes SQLite less effective for simulating Hijra Group’s production environment with concurrent transaction processing.
 ```
 
 ## 23.7 Chapter Summary and Connection to Chapter 24
@@ -972,7 +1001,7 @@ You’ve mastered:
 - **Pydantic Models**: Type-safe validation for sales and transactions.
 - **SQLite/PostgreSQL Integration**: Type-safe clients with `sqlite3` and `psycopg2`.
 - **Pipeline**: Unified processing with logging and testing.
-- **Testing**: `pytest` for robust verification, including edge cases.
+- **Testing**: `pytest` for robust verification, including edge cases (e.g., invalid headers).
 - **White-Space Sensitivity**: 4-space indentation per PEP 8.
 
-The micro-project built a type-safe pipeline, processing CSVs into databases with Pydantic validation, verified by Pyright and tested with `pytest`. Enhanced logging and tests improve debugging and robustness, while the conceptual exercise deepens database understanding. This prepares for **Chapter 24: Checkpoint 3B**, which consolidates database skills, extending type-safe pipelines to cloud analytics with BigQuery, maintaining 4-space indentation for maintainable code.
+The micro-project built a type-safe pipeline, processing CSVs into databases with Pydantic validation, verified by Pyright and tested with `pytest`. Enhanced debugging tips, test commands, and a deeper conceptual exercise improve learner support, robustness, and fintech relevance. This prepares for **Chapter 24: Checkpoint 3B**, which consolidates database skills, extending type-safe pipelines to cloud analytics with BigQuery, maintaining 4-space indentation for maintainable code.

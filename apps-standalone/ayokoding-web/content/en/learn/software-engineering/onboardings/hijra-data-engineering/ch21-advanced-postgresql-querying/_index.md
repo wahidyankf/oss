@@ -177,8 +177,8 @@ def query_running_total(config: Dict[str, str]) -> List[Dict]:
         ) as running_total
     FROM transactions
     WHERE product IS NOT NULL
-    AND price > 0
-    AND quantity > 0
+        AND price > 0
+        AND quantity > 0
     ORDER BY date;
     """
     print(f"Executing query:\n{query}")  # Debug: print query
@@ -267,7 +267,7 @@ def query_jsonb_data(config: Dict[str, str]) -> List[Dict]:
 
 ### Project Requirements
 
-Build a type-annotated PostgreSQL query tool to analyze `data/transactions.csv`, generating metrics like daily sales, running totals, and customer-specific sales, exported to JSON and visualized with Matplotlib. The tool aligns with Hijra Group’s need for transaction analytics, ensuring compliance with Islamic Financial Services Board (IFSB) standards by validating data integrity. The `utils.py` module encapsulates reusable validation functions (e.g., `is_numeric`), preparing for modular class design in Chapter 5’s Object-Oriented Programming.
+Build a type-annotated PostgreSQL query tool to analyze `data/transactions.csv`, generating metrics like daily sales, running totals, and customer-specific sales, exported to JSON and visualized with Matplotlib. The tool produces a daily sales plot to support stakeholder reporting for Hijra Group’s financial oversight, ensuring compliance with Islamic Financial Services Board (IFSB) standards by validating data integrity. The `utils.py` module, reused from Chapter 3, encapsulates reusable validation functions (e.g., `is_numeric`), which could be encapsulated as methods in a `Validator` class in Chapter 5’s Object-Oriented Programming, preparing for modular design.
 
 - **Load Data**: Import `data/transactions.csv` into a PostgreSQL `transactions` table with a `metadata` JSONB column.
 - **Read Config**: Parse `data/config.yaml` for database settings.
@@ -365,31 +365,33 @@ flowchart TD
    - **Solution**: Print `query` and test in `psql`. Use `EXPLAIN` in `psql` to inspect query plans for performance issues.
 3. **JSONB Data Issues**:
    - **Problem**: `psycopg2.DataError` from invalid JSONB.
-   - **Solution**: Validate JSONB data. Print `SELECT metadata FROM transactions;` in `psql`.
+   - **Solution**: Validate JSONB data. In `psql`, run `SELECT transaction_id, metadata FROM transactions WHERE metadata IS NOT NULL;` to identify invalid JSONB records.
 4. **Empty Results**:
    - **Problem**: Queries return no data.
    - **Solution**: Check table data with `SELECT COUNT(*) FROM transactions;` in `psql`.
 5. **Plotting Issues**:
    - **Problem**: Plot not saved.
-   - **Solution**: Check permissions with `ls -l data/` (Unix/macOS) or `dir data\` (Windows). Print `os.path.exists(plot_path)`. For debugging, temporarily add `plt.show()` to inspect the plot interactively, then remove it to comply with Pyodide’s non-interactive requirements.
+   - **Solution**: Check permissions with `ls -l data/` (Unix/macOS) or `dir data\` (Windows). Print `os.path.exists(plot_path)`. See “Debugging Tip” in the implementation section for plot inspection.
 6. **IndentationError**:
    - **Problem**: Mixed spaces/tabs.
    - **Solution**: Use 4 spaces. Run `python -tt query_tool.py`.
 
-### How This Differs from Production
-
-In production, this solution would include:
-
-- **Error Handling**: Try/except for robust connections (Chapter 23).
-- **Scalability**: Indexes and partitioning (Chapter 22).
-- **Security**: Encrypted connections and PII masking (Chapter 65).
-- **Logging**: File-based logging (Chapter 52).
-- **Orchestration**: Airflow for query scheduling (Chapter 56).
-
 ### Implementation
 
+#### Debugging Tip for Visualization
+
+When debugging the `plot_daily_sales` function, temporarily add `plt.show()` before `plt.close()` to inspect the plot interactively, then remove it to comply with Pyodide’s non-interactive requirements. For example:
+
 ```python
-# File: de-onboarding/utils.py (updated from Chapter 3)
+plt.savefig(plot_path, dpi=100)
+plt.show()  # Temporary for debugging
+plt.close()
+```
+
+Remove `plt.show()` after debugging to ensure compatibility.
+
+```python
+# File: de-onboarding/utils.py (reused from Chapter 3)
 from typing import Union, Dict
 
 def is_numeric(s: str, max_decimals: int = 2) -> bool:
@@ -465,7 +467,10 @@ def setup_database(config: Dict[str, Any], csv_path: str) -> None:
     # Load CSV and add sample JSONB data
     df = pd.read_csv(csv_path)
     for _, row in df.iterrows():
-        metadata = {"customer_id": f"C{row['transaction_id'][-3:]}"}
+        metadata = {
+            "customer_id": f"C{row['transaction_id'][-3:]}",
+            "is_high_value": row["transaction_id"] == "T001"  # For Exercise 3
+        }
         cursor.execute("""
         INSERT INTO transactions (transaction_id, product, price, quantity, date, metadata)
         VALUES (%s, %s, %s, %s, %s, %s);
@@ -527,9 +532,9 @@ def query_running_total(config: Dict[str, Any]) -> List[Dict]:
         ) as running_total
     FROM transactions
     WHERE product IS NOT NULL
-    AND price > 0
-    AND quantity > 0
-    AND product LIKE %s
+        AND price > 0
+        AND quantity > 0
+        AND product LIKE %s
     ORDER BY date;
     """
     conn = psycopg2.connect(
@@ -703,7 +708,8 @@ def test_customer_sales(setup_db):
 def test_empty_table(empty_db):
     """Test daily sales with empty table."""
     results = query_daily_sales(empty_db)
-    assert len(results) == 0
+    print("Empty table returned:", results)  # Debug: print results
+    assert results == []  # Explicitly check empty list
 
 def test_invalid_jsonb(setup_db):
     """Test query with invalid JSONB data."""
@@ -723,7 +729,9 @@ def test_invalid_jsonb(setup_db):
     conn.close()
 
     results = query_customer_sales(setup_db)
+    print("Invalid JSONB filtered:", results)  # Debug: print results
     assert len(results) == 1  # Only valid JSONB records returned
+    assert results[0]["customer_id"] == "C001"  # No exceptions raised
 ```
 
 ### Expected Outputs
@@ -807,7 +815,7 @@ Customer Sales Records: 1
 
 3. **Test**:
    - Run: `pytest test_query_tool.py -v`.
-   - Verify all tests pass, including `test_empty_table` and `test_invalid_jsonb`.
+   - Verify all tests pass, including `test_empty_table` and `test_invalid_jsonb` with debug output.
 
 ## 21.5 Practice Exercises
 
@@ -927,7 +935,7 @@ def query_product_rankings(config: Dict[str, Any]) -> List[Dict]:
 
 ### Exercise 3: JSONB Query and Conceptual Analysis
 
-Write a type-annotated function to query transactions with metadata indicating high-value customers (e.g., `{"is_high_value": true}`) and explain when to use JSONB vs. normalized tables, saving the explanation to `de-onboarding/ex3_concepts.txt`.
+Write a type-annotated function to query transactions with metadata indicating high-value customers (e.g., `{"is_high_value": true}`) and explain when to use JSONB vs. normalized tables, saving the explanation to `de-onboarding/ex3_concepts.txt`. Use the provided `setup_ex3_database` function to seed the necessary data.
 
 **Expected Output**:
 
@@ -938,11 +946,10 @@ Explanation saved to de-onboarding/ex3_concepts.txt
 
 **Follow-Along Instructions**:
 
-1. Modify `setup_database` in `query_tool.py` to add `is_high_value: true` for `C001` in `metadata`.
-2. Save as `de-onboarding/ex3_jsonb.py`.
-3. Configure editor for 4-space indentation per PEP 8.
-4. Run: `python ex3_jsonb.py`.
-5. **How to Test**:
+1. Save as `de-onboarding/ex3_jsonb.py`.
+2. Configure editor for 4-space indentation per PEP 8.
+3. Run: `python ex3_jsonb.py`.
+4. **How to Test**:
    - Add: `print(query_high_value_customers(config))`.
    - Verify output includes `{'product': 'Halal Laptop', 'is_high_value': 'true'}`.
    - Check `ex3_concepts.txt` for explanation.
@@ -956,8 +963,44 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import json
 
+def setup_ex3_database(config: Dict[str, Any]) -> None:
+    """Set up transactions table for Exercise 3 with high-value customer data."""
+    conn = psycopg2.connect(
+        dbname=config["dbname"],
+        user=config["user"],
+        password=config["password"],
+        host=config["host"]
+    )
+    cursor = conn.cursor()
+
+    # Create table with JSONB column
+    cursor.execute("""
+    DROP TABLE IF EXISTS transactions;
+    CREATE TABLE transactions (
+        transaction_id TEXT PRIMARY KEY,
+        product TEXT,
+        price REAL,
+        quantity INTEGER,
+        date DATE,
+        metadata JSONB
+    );
+    """)
+
+    # Insert sample high-value customer data
+    metadata = {"customer_id": "C001", "is_high_value": True}
+    cursor.execute("""
+    INSERT INTO transactions (transaction_id, product, price, quantity, date, metadata)
+    VALUES (%s, %s, %s, %s, %s, %s);
+    """, ("T001", "Halal Laptop", 999.99, 2, "2023-10-01", json.dumps(metadata)))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print("Loaded high-value customer data for Exercise 3")
+
 def query_high_value_customers(config: Dict[str, Any]) -> List[Dict]:
     """Query transactions for high-value customers using JSONB."""
+    setup_ex3_database(config)  # Seed data for exercise
     query = """
     SELECT
         product,
@@ -983,7 +1026,7 @@ def query_high_value_customers(config: Dict[str, Any]) -> List[Dict]:
 
     # Write conceptual explanation
     explanation = """
-    JSONB is ideal for semi-structured data, like customer metadata, where schema flexibility is needed (e.g., varying customer attributes in Hijra Group’s analytics). It supports dynamic querying with operators like @> but is slower (O(n) without indexes) and less efficient for structured data. Normalized tables are better for fixed schemas (e.g., product, price, quantity) with frequent joins, offering faster queries (O(log n) with indexes) and better integrity. Use JSONB for flexible, infrequent queries; use normalized tables for structured, performance-critical data.
+    JSONB is ideal for flexible, semi-structured data like customer metadata in Hijra Group’s analytics, enabling dynamic queries. Normalized tables are better for structured, performance-critical data like product prices, offering faster queries with indexes. Use JSONB for infrequent, flexible queries; use normalized tables for frequent, structured access.
     """
     with open("de-onboarding/ex3_concepts.txt", "w") as file:
         file.write(explanation)
@@ -1128,6 +1171,37 @@ def query_fixed_sales(config: Dict[str, Any]) -> List[Dict]:
 - **Bug**: Grouping by `price` instead of `date` produced incorrect aggregates, as prices are not unique identifiers.
 - **Fix**: Group by `date` and add validation for positive price/quantity to ensure data integrity.
 
+### Exercise 6: Conceptual Question on CTEs vs. Subqueries
+
+Answer why Hijra Group might prefer CTEs over subqueries for daily sales reports, saving the answer to `de-onboarding/ex6_concepts.txt`.
+
+**Expected Output**:
+
+```
+Answer saved to de-onboarding/ex6_concepts.txt
+```
+
+**Follow-Along Instructions**:
+
+1. Save as `de-onboarding/ex6_concepts.py`.
+2. Configure editor for 4-space indentation per PEP 8.
+3. Run: `python ex6_concepts.py`.
+4. **How to Test**:
+   - Check `ex6_concepts.txt` for a clear, concise answer (e.g., “CTEs improve readability and modularity for complex daily sales reports, making maintenance easier for Hijra Group’s analytics team.”).
+
+**Solution**:
+
+```python
+def explain_cte_vs_subquery() -> None:
+    """Explain why CTEs are preferred over subqueries for daily sales reports."""
+    answer = """
+    CTEs improve readability and modularity for complex daily sales reports, making maintenance easier for Hijra Group’s analytics team. Unlike subqueries, CTEs allow reusable temporary result sets, simplifying query structure. They also enable PostgreSQL’s query planner to optimize joins efficiently, enhancing performance for large datasets.
+    """
+    with open("de-onboarding/ex6_concepts.txt", "w") as file:
+        file.write(answer)
+    print("Answer saved to de-onboarding/ex6_concepts.txt")
+```
+
 ## 21.6 Chapter Summary and Connection to Chapter 22
 
 This chapter covered:
@@ -1138,7 +1212,7 @@ This chapter covered:
 - **Type-Safe Queries**: Used `psycopg2` with Pyright-verified type annotations for robust database interactions.
 - **Testing**: Validated queries with `pytest`, including edge cases like empty tables and invalid JSONB data.
 
-The micro-project built a type-annotated query tool for `data/transactions.csv`, producing analytical metrics (daily sales, running totals, customer sales) and visualizations, all with 4-space indentation per PEP 8. The modular use of `utils.py` prepares for Chapter 5’s Object-Oriented Programming, where validation logic can be encapsulated in classes. The visualization skills lay the groundwork for dashboards in Chapter 51.
+The micro-project built a type-annotated query tool for `data/transactions.csv`, producing analytical metrics (daily sales, running totals, customer sales) and visualizations for stakeholder reporting, all with 4-space indentation per PEP 8. The modular use of `utils.py`, reused from Chapter 3, prepares for Chapter 5’s Object-Oriented Programming, where functions like `is_numeric` can be encapsulated in a `Validator` class. The visualization skills lay the groundwork for dashboards in Chapter 51.
 
 ### Connection to Chapter 22
 

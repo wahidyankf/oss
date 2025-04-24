@@ -99,7 +99,27 @@ SELECT product, amount,
 FROM SalesCTE;
 ```
 
-**Time Complexity**: O(n log n) for sorting in window functions, O(n) for joins.
+**Join Example** (hypothetical, from Chapter 19):
+
+```sql
+-- Joining sales with a products table
+SELECT s.product, s.price, p.category
+FROM sales s
+JOIN products p ON s.product = p.product_name
+WHERE s.product LIKE 'Halal%';
+```
+
+**Subquery Example** (from Chapter 19):
+
+```sql
+-- Select products with above-average price
+SELECT product, price
+FROM sales
+WHERE price > (SELECT AVG(price) FROM sales)
+AND product LIKE 'Halal%';
+```
+
+**Time Complexity**: O(n log n) for sorting in window functions, O(n) for joins and subqueries.
 **Space Complexity**: O(n) for result sets.
 
 ### 24.1.2 Schema Design
@@ -126,7 +146,7 @@ CREATE TABLE sales (
 );
 ```
 
-This reduces redundancy (e.g., storing `Halal Laptop` once) and ensures consistency.
+This reduces redundancy (e.g., storing `Halal Laptop` once) and ensures consistency. However, normalization increases query complexity (e.g., requiring joins to retrieve product names), a trade-off balanced by efficient indexing.
 
 ```mermaid
 erDiagram
@@ -157,7 +177,7 @@ erDiagram
 
 Indexes improve query performance (Chapter 20, 22):
 
-- **B-Tree Indexes**: O(log n) for lookups.
+- **B-Tree Indexes**: O(log n) for lookups, with storage overhead of ~O(n) for n rows, justified by faster queries (e.g., `SELECT * FROM sales WHERE product = 'Halal Laptop'`).
 - **Query Optimization**: Use `EXPLAIN` to analyze plans.
 
 **Example** (SQLite):
@@ -310,6 +330,7 @@ flowchart TD
 - **Security**: Lacks encryption (Chapter 65).
 - **Observability**: Uses print logs; production uses Grafana (Chapter 66).
 - **Deployment**: Local execution; production uses Kubernetes (Chapter 61).
+- **Performance**: Pydantic’s validation adds overhead for large datasets, mitigated by batch processing in Chapter 40.
 
 ### Implementation
 
@@ -664,21 +685,25 @@ Top Products: {'Halal Laptop': 3999.96, 'Halal Mouse': 499.8, 'Halal Keyboard': 
    - Outputs: `data/report.json`, `data/sales_report.png`.
 
 3. **Test**:
+
    - Run: `pytest test_database_tool.py -v`.
    - Verify all tests pass.
    - **Edge Case Testing**:
-     - Modify `csv_path` in `main()` to test edge cases:
-       ```python
-       config = utils.read_config("data/config.yaml")
-       df = load_transactions("data/empty.csv", config)
-       print(df)  # Expected: Empty DataFrame
-       df = load_transactions("data/invalid.csv", config)
-       print(df)  # Expected: Empty DataFrame
-       df = load_transactions("data/malformed.csv", config)
-       print(df)  # Expected: Only Halal Mouse row
-       df = load_transactions("data/negative.csv", config)
-       print(df)  # Expected: Only Halal Mouse row
-       ```
+
+     | CSV File        | Expected Output                     | Test Code Snippet                                                 |
+     | --------------- | ----------------------------------- | ----------------------------------------------------------------- |
+     | `empty.csv`     | Empty DataFrame                     | `df = load_transactions("data/empty.csv", config); print(df)`     |
+     | `invalid.csv`   | Empty DataFrame                     | `df = load_transactions("data/invalid.csv", config); print(df)`   |
+     | `malformed.csv` | DataFrame with only Halal Mouse row | `df = load_transactions("data/malformed.csv", config); print(df)` |
+     | `negative.csv`  | DataFrame with only Halal Mouse row | `df = load_transactions("data/negative.csv", config); print(df)`  |
+
+     Example:
+
+     ```python
+     config = utils.read_config("data/config.yaml")
+     df = load_transactions("data/empty.csv", config)
+     print(df)  # Expected: Empty DataFrame
+     ```
 
 ## 24.3 Practice Exercises
 
@@ -702,9 +727,18 @@ Write a function to query `sales.db` with a CTE and window function, returning a
 - Run: `python ex1_sql.py`.
 - Test: Verify output with `print(df)`.
 
-### Exercise 2: Type-Safe Validation
+### Exercise 2: Type-Safe Validation with Edge Case
 
-Write a type-annotated function to validate transactions using Pydantic.
+Write a type-annotated function to validate transactions using Pydantic, handling a non-string `product` value (e.g., numeric `12345`) by filtering it out.
+
+**Sample Input** (`data/transactions_invalid.csv`):
+
+```csv
+transaction_id,product,price,quantity,date
+T001,Halal Laptop,999.99,2,2023-10-01
+T002,12345,24.99,10,2023-10-02
+T003,Halal Keyboard,49.99,5,2023-10-03
+```
 
 **Expected Output**:
 
@@ -712,10 +746,12 @@ Write a type-annotated function to validate transactions using Pydantic.
 Validated DataFrame:
           product   price  quantity
 0   Halal Laptop  999.99         2
+2  Halal Keyboard   49.99         5
 ```
 
 **Follow-Along**:
 
+- Create `data/transactions_invalid.csv` with the sample input.
 - Save as `ex2_validation.py`.
 - Configure editor for 4-space indentation per PEP 8.
 - Run: `python ex2_validation.py`.
@@ -723,13 +759,13 @@ Validated DataFrame:
 
 ### Exercise 3: Indexing Optimization
 
-Write a function to create an index on `sales.db` and measure query performance.
+Write a function to create an index on `sales.db`, insert 1000 rows, and measure query performance, saving results to `data/ex3_benchmark.txt`. The price range (10.0–1000.0) and quantity range (1–100) simulate realistic sales data, matching `sales.db`’s structure.
 
-**Expected Output**:
+**Expected Output** (`data/ex3_benchmark.txt`):
 
 ```
-Query Time Before: 0.002s
-Query Time After: 0.001s
+Query Time Before Index: 0.005s
+Query Time After Index: 0.001s
 ```
 
 **Follow-Along**:
@@ -737,7 +773,7 @@ Query Time After: 0.001s
 - Save as `ex3_index.py`.
 - Configure editor for 4-space indentation per PEP 8.
 - Run: `python ex3_index.py`.
-- Test: Verify index creation with `sqlite3 data/sales.db ".indexes"`.
+- Test: Verify index creation with `sqlite3 data/sales.db ".indexes"` and benchmark file with `cat data/ex3_benchmark.txt` (Unix/macOS) or `type data\ex3_benchmark.txt` (Windows).
 
 ### Exercise 4: Visualization
 
@@ -755,17 +791,19 @@ Plot saved to data/ex4_plot.png
 - Configure editor for 4-space indentation per PEP 8.
 - Run: `python ex4_plot.py`.
 - Test: Verify plot exists with `ls data/ex4_plot.png` (Unix/macOS) or `dir data\ex4_plot.png` (Windows).
+- **Debugging Tip**: If the plot is empty or incorrect, print `df` before plotting to check data. Temporarily add `plt.show()` to inspect the plot interactively, then remove it to comply with Pyodide’s non-interactive requirements.
 
 ### Exercise 5: Debug SQL Query
 
-Fix a buggy SQL query that fails to filter Halal products.
+Fix a buggy SQL query with a parameter mismatch, causing `sqlite3.ProgrammingError`.
 
 **Buggy Code**:
 
 ```python
 def query_sales(conn):
-    query = "SELECT product, price * quantity AS amount FROM sales"
-    return pd.read_sql_query(query, conn)
+    query = "SELECT product, price * quantity AS amount FROM sales WHERE product LIKE ?"
+    params = ("Halal%", "invalid_param")  # Bug: Too many parameters
+    return pd.read_sql_query(query, conn, params=params)
 ```
 
 **Expected Output**:
@@ -781,7 +819,8 @@ def query_sales(conn):
 
 - Save as `ex5_debug.py`.
 - Configure editor for 4-space indentation per PEP 8.
-- Run: `python ex5_debug.py`.
+- Run: `python ex5_debug.py` to see error.
+- Fix and re-run.
 - Test: Verify filtered output with `print(df)`.
 
 ### Exercise 6: Conceptual Analysis of Indexing
@@ -796,8 +835,10 @@ B-Tree indexes reduce query time from O(n) to O(log n) because they organize dat
 
 **Follow-Along**:
 
-- Save explanation as `data/ex6_concepts.txt`.
-- Verify with `cat data/ex6_concepts.txt` (Unix/macOS) or `type data\ex6_concepts.txt` (Windows).
+- Complete the following steps:
+  - Explain why B-Tree indexes improve query performance, referencing `sales.db`.
+  - Save the explanation to `data/ex6_concepts.txt`.
+  - Verify with `cat data/ex6_concepts.txt` (Unix/macOS) or `type data\ex6_concepts.txt` (Windows).
 - Test: Ensure the explanation references `sales.db` and complexity correctly.
 
 ## 24.4 Exercise Solutions
@@ -842,7 +883,8 @@ class Transaction(BaseModel):
 
 def validate_transactions(csv_path: str, config: Dict) -> pd.DataFrame:
     df = pd.read_csv(csv_path)
-    df = df[df["product"].str.startswith(config["product_prefix"])]
+    # Filter for string products starting with prefix
+    df = df[df["product"].apply(lambda x: isinstance(x, str) and x.startswith(config["product_prefix"]))]
     df = df[df["quantity"].apply(utils.is_integer)]
     df["quantity"] = df["quantity"].astype(int)
     df = df[df["price"].apply(utils.is_numeric_value)]
@@ -851,7 +893,7 @@ def validate_transactions(csv_path: str, config: Dict) -> pd.DataFrame:
     return df
 
 config = utils.read_config("data/config.yaml")
-print(validate_transactions("data/transactions.csv", config))
+print(validate_transactions("data/transactions_invalid.csv", config))
 ```
 
 ### Solution to Exercise 3
@@ -859,10 +901,17 @@ print(validate_transactions("data/transactions.csv", config))
 ```python
 import sqlite3
 import time
+import random
 
-def optimize_index(db_path: str) -> Tuple[float, float]:
+def optimize_index(db_path: str, output_path: str) -> Tuple[float, float]:
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
+
+    # Insert 1000 rows
+    products = ["Halal Laptop", "Halal Mouse", "Halal Keyboard"]
+    rows = [(random.choice(products), round(random.uniform(10.0, 1000.0), 2), random.randint(1, 100)) for _ in range(1000)]
+    cursor.executemany("INSERT INTO sales (product, price, quantity) VALUES (?, ?, ?)", rows)
+    conn.commit()
 
     query = "SELECT * FROM sales WHERE product = 'Halal Laptop'"
     start = time.time()
@@ -876,12 +925,14 @@ def optimize_index(db_path: str) -> Tuple[float, float]:
     cursor.fetchall()
     after = time.time() - start
 
+    with open(output_path, "w") as f:
+        f.write(f"Query Time Before Index: {before:.3f}s\nQuery Time After Index: {after:.3f}s\n")
+
     conn.close()
     return before, after
 
-before, after = optimize_index("data/sales.db")
-print(f"Query Time Before: {before:.3f}s")
-print(f"Query Time After: {after:.3f}s")
+before, after = optimize_index("data/sales.db", "data/ex3_benchmark.txt")
+print(f"Results saved to data/ex3_benchmark.txt")
 ```
 
 ### Solution to Exercise 4
@@ -917,8 +968,9 @@ import pandas as pd
 
 def query_sales(db_path: str) -> pd.DataFrame:
     conn = sqlite3.connect(db_path)
-    query = "SELECT product, price * quantity AS amount FROM sales WHERE product LIKE 'Halal%'"
-    df = pd.read_sql_query(query, conn)
+    query = "SELECT product, price * quantity AS amount FROM sales WHERE product LIKE ?"
+    params = ("Halal%",)  # Fix: Correct number of parameters
+    df = pd.read_sql_query(query, conn, params=params)
     conn.close()
     return df
 

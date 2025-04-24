@@ -75,7 +75,7 @@ Indexes in SQLite are B-tree data structures that speed up query execution by re
 
 ### 20.1.1 Creating and Managing Indexes
 
-Create indexes on frequently queried columns, such as `product` for sales filtering. The following diagram illustrates a simplified B-tree index for the `product` column:
+Create indexes on frequently queried columns, such as `product` for sales filtering. The following diagram illustrates a simplified B-tree index for the `product` column. Note that real B-trees have multiple levels for large datasets, but this is simplified for clarity:
 
 ```mermaid
 graph TD
@@ -142,6 +142,7 @@ conn.close()
   - Insert/Update with index: O(log n) per operation.
 - **Space Complexity**: O(n) for index storage (~10MB for 1M rows).
 - **Underlying Implementation**: B-trees store sorted keys, enabling binary search for lookups. SQLite maintains indexes automatically during data modifications.
+- **Index Selection**: Choose columns with high selectivity (e.g., `product` with unique values) for maximum indexing benefits, as these reduce the number of rows scanned.
 - **Implication**: Use indexes for frequently queried columns in Hijra Group’s sales analytics.
 
 ### 20.1.2 Querying with Indexes
@@ -206,7 +207,22 @@ Optimizing queries involves rewriting SQL to minimize resource usage and leverag
 
 ### 20.2.1 Analyzing Queries with EXPLAIN QUERY PLAN
 
-Use `EXPLAIN QUERY PLAN` to understand query execution and identify optimization opportunities.
+Use `EXPLAIN QUERY PLAN` to understand query execution and identify optimization opportunities. The following flowchart illustrates the query execution process:
+
+```mermaid
+flowchart TD
+    A["SQL Query"] --> B["Check Index Availability"]
+    B -->|No Index| C["SCAN TABLE (O(n))"]
+    B -->|Index Found| D["SEARCH TABLE USING INDEX (O(log n))"]
+    C --> E["Return Results"]
+    D --> E
+
+    classDef process fill:#d0e0ff,stroke:#336,stroke-width:1px
+    classDef result fill:#ddffdd,stroke:#363,stroke-width:1px
+
+    class A,B,C,D process
+    class E result
+```
 
 ```python
 import sqlite3  # Import SQLite
@@ -407,7 +423,7 @@ flowchart TD
    - **Solution**: Note that benefits scale with data size. Print row count with `cursor.execute("SELECT COUNT(*) FROM sales").fetchone()`.
 5. **Index Fragmentation**:
    - **Problem**: Frequent `INSERT`/`UPDATE` operations fragment indexes, slowing queries.
-   - **Solution**: Monitor query performance with `EXPLAIN QUERY PLAN` to detect slowdowns.
+   - **Solution**: Monitor query performance with `EXPLAIN QUERY PLAN` to detect slowdowns. Use SQLite’s `VACUUM` command manually to rebuild indexes if needed.
 
 ### How This Differs from Production
 
@@ -717,6 +733,24 @@ Optimization completed
      print(results["product_specific"]["unoptimized"]["plan"])
      # Expected: SCAN TABLE
      ```
+   - **Large Dataset**: Test with 1000 rows:
+     ```python
+     conn = sqlite3.connect("data/sales.db")
+     cursor = conn.cursor()
+     cursor.execute("SELECT * FROM sales")
+     original_rows = cursor.fetchall()
+     for _ in range(333):
+         for row in original_rows:
+             cursor.execute("INSERT INTO sales (product, price, quantity) VALUES (?, ?, ?)", row)
+     conn.commit()
+     main()
+     # Expected: Same JSON structure, larger timings, optimized queries faster
+     # Compare timings in data/optimization_report.json
+     # Restore original data:
+     cursor.execute("DELETE FROM sales")
+     cursor.executemany("INSERT INTO sales (product, price, quantity) VALUES (?, ?, ?)", original_rows)
+     conn.commit()
+     ```
 
 ## 20.4 Practice Exercises
 
@@ -838,36 +872,35 @@ Query Plan: [(0, 0, 0, 'SEARCH TABLE sales USING INDEX idx_product (product=?)')
    - Verify plan shows index usage.
    - Test with non-existent product: Should return empty list.
 
-### Exercise 6: Scale Dataset and Analyze Index Trade-offs
+### Exercise 6: Debug Slow Query After Scaling Dataset
 
-Write a function to insert ~1000 rows into `sales.db` by duplicating existing data, measure query performance with and without an index, and explain when _not_ to use indexes, saving the explanation to `data/index_tradeoffs.txt`. Use 4-space indentation per PEP 8.
+Write a function to insert ~1000 rows into `sales.db`, run a slow query (`SELECT * FROM sales WHERE product LIKE '%Laptop%'`), use `EXPLAIN QUERY PLAN` to diagnose why it’s slow, fix it to use an index, and explain why `LIKE '%Laptop%'` bypasses the index, printing the explanation to the console. Optionally, scale to 10,000 rows to observe larger performance gains (note: slower hardware may show more significant differences; 1000 rows are sufficient for most learners). Use 4-space indentation per PEP 8.
 
 **Expected Output**:
 
 ```
 Rows inserted: 1000
-Query Time (No Index): 0.0050s
-Query Time (With Index): 0.0010s
-Explanation saved to data/index_tradeoffs.txt
-```
-
-**Sample Content** (`data/index_tradeoffs.txt`):
-
-```
-Indexes should not be used for small tables (e.g., <100 rows) where full scans are faster, or write-heavy workloads with frequent INSERT/UPDATE operations, as index maintenance slows performance.
+Slow Query Time: 0.0050s
+Query Plan (Slow): [(0, 0, 0, 'SCAN TABLE sales')]
+Fixed Query Time: 0.0010s
+Query Plan (Fixed): [(0, 0, 0, 'SEARCH TABLE sales USING INDEX idx_product (product=?)')]
+Explanation: LIKE '%Laptop%' bypasses the index because the wildcard (%) at the start prevents SQLite from using the B-tree's sorted keys, forcing a full table scan.
 ```
 
 **Follow-Along Instructions**:
 
-1. Save as `de-onboarding/ex6_scale.py`.
+1. Save as `de-onboarding/ex6_debug_scale.py`.
 2. Ensure `data/sales.db` exists per Appendix 1.
 3. Configure editor for 4-space indentation per PEP 8.
-4. Run: `python ex6_scale.py`.
+4. Run: `python ex6_debug_scale.py`.
 5. **How to Test**:
    - Verify row count with `sqlite3 data/sales.db "SELECT COUNT(*) FROM sales"`.
-   - Check `data/index_tradeoffs.txt` for explanation.
+   - Check query plans, timings, and explanation in console output.
    - Test with empty table: Should handle gracefully.
-   - Test index impact: Query time should be faster with index.
+   - Optional: Test with 10,000 rows by modifying iterations to 3333.
+6. **Key Points**:
+   - `LIKE '%Laptop%'` causes a full scan (O(n)) due to pattern matching.
+   - Exact matches (`=`) leverage indexes (O(log n)).
 
 ## 20.5 Exercise Solutions
 
@@ -1010,14 +1043,14 @@ query_sales("data/sales.db")  # Call function
 
 - **Bug**: `LIKE '%Laptop%'` doesn’t use the index, causing a full scan. Fixed by using `=` for exact match, leveraging `idx_product`.
 
-### Solution to Exercise 6: Scale Dataset and Analyze Index Trade-offs
+### Solution to Exercise 6: Debug Slow Query After Scaling Dataset
 
 ```python
 import sqlite3  # Import SQLite
 import time  # For timing
 
-def scale_and_analyze(db_path, output_path):  # Takes database and output paths
-    """Insert 1000 rows, compare query performance, and explain index trade-offs."""
+def debug_scale_query(db_path):  # Takes database path
+    """Insert 1000 rows, debug slow query, fix with index, and explain LIKE issue."""
     conn = sqlite3.connect(db_path)  # Connect
     cursor = conn.cursor()
 
@@ -1038,56 +1071,70 @@ def scale_and_analyze(db_path, output_path):  # Takes database and output paths
     row_count = cursor.fetchone()[0]
     print(f"Rows inserted: {row_count}")  # Debug
 
-    # Query without index
+    # Slow query (LIKE pattern)
     cursor.execute("DROP INDEX IF EXISTS idx_product")  # Ensure no index
     start = time.time()
-    cursor.execute("SELECT * FROM sales WHERE product = 'Halal Laptop'")
+    cursor.execute("SELECT * FROM sales WHERE product LIKE '%Laptop%'")
     results = cursor.fetchall()
     end = time.time()
-    no_index_time = end - start
-    print(f"Query Time (No Index): {no_index_time:.4f}s")  # Debug
+    slow_time = end - start
+    cursor.execute("EXPLAIN QUERY PLAN SELECT * FROM sales WHERE product LIKE '%Laptop%'")
+    slow_plan = cursor.fetchall()
+    print(f"Slow Query Time: {slow_time:.4f}s")  # Debug
+    print(f"Query Plan (Slow): {slow_plan}")  # Debug
 
-    # Create index and query again
+    # Fix with index and exact match
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_product ON sales (product)")
     start = time.time()
     cursor.execute("SELECT * FROM sales WHERE product = 'Halal Laptop'")
     results = cursor.fetchall()
     end = time.time()
-    index_time = end - start
-    print(f"Query Time (With Index): {index_time:.4f}s")  # Debug
+    fixed_time = end - start
+    cursor.execute("EXPLAIN QUERY PLAN SELECT * FROM sales WHERE product = 'Halal Laptop'")
+    fixed_plan = cursor.fetchall()
+    print(f"Fixed Query Time: {fixed_time:.4f}s")  # Debug
+    print(f"Query Plan (Fixed): {fixed_plan}")  # Debug
 
-    # Write trade-offs explanation
+    # Explain why LIKE bypasses index
     explanation = (
-        "Indexes should not be used for small tables (e.g., <100 rows) where full scans are faster, "
-        "or write-heavy workloads with frequent INSERT/UPDATE operations, as index maintenance slows performance."
+        "LIKE '%Laptop%' bypasses the index because the wildcard (%) at the start "
+        "prevents SQLite from using the B-tree's sorted keys, forcing a full table scan."
     )
-    with open(output_path, "w") as file:
-        file.write(explanation)
-    print(f"Explanation saved to {output_path}")  # Debug
+    print(f"Explanation: {explanation}")  # Debug
+
+    # Optional: Scale to 10,000 rows
+    # for _ in range(3333 - 333):  # Additional 3000 iterations
+    #     for row in original_rows:
+    #         cursor.execute("INSERT INTO sales (product, price, quantity) VALUES (?, ?, ?)", row)
+    # cursor.execute("SELECT COUNT(*) FROM sales")
+    # print(f"Rows inserted (optional): {cursor.fetchone()[0]}")
 
     conn.commit()
     conn.close()
 
 # Test
-scale_and_analyze("data/sales.db", "data/index_tradeoffs.txt")  # Call function
+debug_scale_query("data/sales.db")  # Call function
 
 # Output:
 # Rows inserted: 1000
-# Query Time (No Index): 0.0050s
-# Query Time (With Index): 0.0010s
-# Explanation saved to data/index_tradeoffs.txt
+# Slow Query Time: 0.0050s
+# Query Plan (Slow): [(0, 0, 0, 'SCAN TABLE sales')]
+# Fixed Query Time: 0.0010s
+# Query Plan (Fixed): [(0, 0, 0, 'SEARCH TABLE sales USING INDEX idx_product (product=?)')]
+# Explanation: LIKE '%Laptop%' bypasses the index because the wildcard (%) at the start prevents SQLite from using the B-tree's sorted keys, forcing a full table scan.
 ```
 
 ## 20.6 Chapter Summary and Connection to Chapter 21
 
 In this chapter, you’ve mastered:
 
-- **Indexing**: Creating B-tree indexes (O(log n) lookups, O(n) storage).
-- **Query Optimization**: Rewriting queries to use indexes and reduce I/O.
-- **Performance Analysis**: Using `EXPLAIN QUERY PLAN` to debug execution.
+- **Indexing**: Creating B-tree indexes (O(log n) lookups, O(n) storage), with high-selectivity columns for maximum benefit.
+- **Query Optimization**: Rewriting queries to use indexes and reduce I/O, avoiding patterns like `LIKE` that bypass indexes.
+- **Performance Analysis**: Using `EXPLAIN QUERY PLAN` to debug execution, distinguishing `SCAN` (O(n)) from `SEARCH` (O(log n)).
+- **Trade-offs**: Understanding that indexes are less effective for small tables or write-heavy workloads due to maintenance overhead.
 - **White-Space Sensitivity and PEP 8**: Using 4-space indentation, preferring spaces over tabs.
 
-The micro-project optimized `sales.db` queries, reducing query times and producing a performance report, all with 4-space indentation per PEP 8. It tested edge cases (empty tables, missing indexes), ensuring robustness. These skills prepare for scaling to larger datasets in PostgreSQL. Specifically, SQLite’s B-tree indexing principles (e.g., O(log n) lookups, storage trade-offs) directly apply to PostgreSQL’s B-tree indexes, enabling efficient query optimization in Chapter 22 and beyond.
+The micro-project optimized `sales.db` queries, reducing query times and producing a performance report, all with 4-space indentation per PEP 8. It tested edge cases (empty tables, missing indexes), ensuring robustness. Exercise 6 scaled the dataset, debugged a slow query, and explained index limitations, reinforcing practical skills. These skills prepare for scaling to larger datasets in PostgreSQL. Specifically, SQLite’s B-tree indexing principles (e.g., O(log n) lookups, storage trade-offs) directly apply to PostgreSQL’s B-tree indexes, enabling efficient query optimization in Chapter 22 and beyond.
 
 ### Connection to Chapter 21
 

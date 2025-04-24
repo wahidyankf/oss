@@ -42,10 +42,13 @@ flowchart TD
   - Chapter 16: Uses `psycopg2` for PostgreSQL connections and basic queries.
   - Chapter 17: Integrates Python with PostgreSQL using type-annotated code and YAML configs.
   - Chapter 21: Leverages advanced querying (CTEs, window functions) for complex analytics, now optimized.
+  - Chapter 3: Uses Matplotlib for query plan visualization.
 - **Preparing For**:
   - Chapter 23: Prepares for type-safe database integration by optimizing query performance.
   - Chapter 24: Supports Checkpoint 3B by ensuring efficient database operations.
+  - Chapter 48: Introduces advanced PostgreSQL features like expression indexes for JSONB.
   - Chapter 63: Enables PostgreSQL deployment in Kubernetes with optimized schemas.
+  - Chapters 68–71: Supports capstone projects with optimized pipeline performance.
 
 ### What You’ll Learn
 
@@ -56,14 +59,15 @@ This chapter covers:
 3. **Performance Tuning**: Vacuuming and analyzing tables for maintenance.
 4. **Type-Safe Integration**: Type-annotated `psycopg2` queries with Pydantic validation.
 5. **Testing**: `pytest` tests to verify performance gains.
+6. **Visualization**: Matplotlib plots for query plan costs.
 
-By the end, you’ll optimize a PostgreSQL database for transaction data, reducing query times and validating performance with tests, using `data/transactions.csv` and `config.yaml` per Appendix 1. All code uses 4-space indentation per PEP 8.
+By the end, you’ll optimize a PostgreSQL database for transaction data, reducing query times, reporting index sizes, and validating performance with tests, using `data/transactions.csv` and `config.yaml` per Appendix 1. All code uses 4-space indentation per PEP 8.
 
 **Follow-Along Tips**:
 
 - Install PostgreSQL (`psql --version`) and ensure a local server is running (`pg_ctl status`).
-- Create `de-onboarding/data/` and populate with `transactions.csv` and `config.yaml` per Appendix 1.
-- Install libraries: `pip install psycopg2-binary pyyaml pydantic pytest`.
+- Create `de-onboarding/data/` and populate with `config.yaml` per Appendix 1; generate `transactions.csv` with provided script.
+- Install libraries: `pip install psycopg2-binary pyyaml pydantic pytest matplotlib`.
 - Use print statements (e.g., `print(cursor.fetchall())`) to debug queries.
 - Verify database connections with `psql -U postgres -d sales_db`.
 - Configure editor for **4-space indentation** (VS Code: “Editor: Tab Size” = 4, “Editor: Insert Spaces” = true, “Editor: Detect Indentation” = false).
@@ -71,7 +75,7 @@ By the end, you’ll optimize a PostgreSQL database for transaction data, reduci
 
 ## 22.1 Indexing Basics
 
-Indexes in PostgreSQL improve query performance by creating data structures for fast lookups. **B-tree indexes** are ideal for equality and range queries (e.g., `WHERE transaction_id = 'T001'`), with O(log n) time complexity. **GIN indexes** optimize JSONB fields or full-text search, useful for transaction metadata (e.g., searching `{"category": "electronics"}`). Indexes increase storage (e.g., ~10MB for a B-tree on a 1M-row numeric column) and slow INSERT/UPDATE operations (O(log n) per operation).
+Indexes in PostgreSQL improve query performance by creating data structures for fast lookups. **B-tree indexes** are ideal for equality and range queries (e.g., `WHERE transaction_id = 'T001'`), with O(log n) time complexity. **GIN indexes** optimize JSONB fields or full-text search, useful for transaction metadata (e.g., searching `{"details": {"subcategory": "laptop"}}`). Indexes increase storage (e.g., ~10MB for a B-tree on a 1M-row numeric column, ~15–20MB for GIN on JSONB) and slow INSERT/UPDATE operations (O(log n) per operation).
 
 ### 22.1.1 Creating B-tree Indexes
 
@@ -108,9 +112,9 @@ cursor.execute("""
 cursor.execute("""
     INSERT INTO transactions (transaction_id, product, price, quantity, date, metadata)
     VALUES
-        ('T001', 'Halal Laptop', 999.99, 2, '2023-10-01', '{"category": "electronics"}'),
-        ('T002', 'Halal Mouse', 24.99, 10, '2023-10-02', '{"category": "accessories"}'),
-        ('T003', 'Halal Keyboard', 49.99, 5, '2023-10-03', '{"category": "accessories"}')
+        ('T001', 'Halal Laptop', 999.99, 2, '2023-10-01', '{"category": "electronics", "details": {"subcategory": "laptop"}}'),
+        ('T002', 'Halal Mouse', 24.99, 10, '2023-10-02', '{"category": "accessories", "details": {"subcategory": "mouse"}}'),
+        ('T003', 'Halal Keyboard', 49.99, 5, '2023-10-03', '{"category": "accessories", "details": {"subcategory": "keyboard"}}')
 """)
 
 # Create B-tree index
@@ -127,7 +131,7 @@ cursor.close()
 conn.close()
 
 # Expected Output:
-# Query Result: [('T001', 'Halal Laptop', 999.99, 2, datetime.date(2023, 10, 1), {'category': 'electronics'})]
+# Query Result: [('T001', 'Halal Laptop', 999.99, 2, datetime.date(2023, 10, 1), {'category': 'electronics', 'details': {'subcategory': 'laptop'}})]
 ```
 
 **Follow-Along Instructions**:
@@ -203,7 +207,7 @@ conn.close()
 
 ### 22.1.3 Creating GIN Indexes for JSONB
 
-Create a GIN index on the `metadata` JSONB column for fast searches.
+Create a GIN index on the `metadata` JSONB column for fast searches, including nested keys.
 
 ```python
 # File: de-onboarding/gin_index.py
@@ -223,28 +227,35 @@ cursor: psycopg2.cursor = conn.cursor()
 cursor.execute("CREATE INDEX IF NOT EXISTS idx_metadata ON transactions USING GIN (metadata)")
 conn.commit()
 
-# Query with GIN index
+# Simple JSONB query
 cursor.execute("SELECT * FROM transactions WHERE metadata @> '{\"category\": \"electronics\"}'")
-result: list[Any] = cursor.fetchall()
-print("GIN Query Result:", result)  # Debug: print result
+simple_result: list[Any] = cursor.fetchall()
+print("Simple JSONB Query Result:", simple_result)  # Debug: print result
 
-# Analyze plan
-cursor.execute("EXPLAIN SELECT * FROM transactions WHERE metadata @> '{\"category\": \"electronics\"}'")
+# Nested JSONB query
+cursor.execute("SELECT * FROM transactions WHERE metadata->'details'->>'subcategory' = 'laptop'")
+nested_result: list[Any] = cursor.fetchall()
+print("Nested JSONB Query Result:", nested_result)  # Debug: print result
+
+# Analyze plan for nested query
+cursor.execute("EXPLAIN SELECT * FROM transactions WHERE metadata->'details'->>'subcategory' = 'laptop'")
 plan: list[Any] = cursor.fetchall()
-print("Query Plan:")  # Debug
+print("Nested Query Plan:")  # Debug
 for row in plan:
     print(row[0])
+print("Note: Nested JSONB queries with ->> may use sequential scans, as GIN indexes optimize @> queries. Expression indexes (Chapter 48) can optimize such queries.")
 
 # Close connection
 cursor.close()
 conn.close()
 
 # Expected Output (abridged):
-# GIN Query Result: [('T001', 'Halal Laptop', 999.99, 2, datetime.date(2023, 10, 1), {'category': 'electronics'})]
-# Query Plan:
-# Bitmap Heap Scan on transactions  (cost=12.00..16.01 rows=1 width=64)
-#   Recheck Cond: (metadata @> '{"category": "electronics"}'::jsonb)
-#   ->  Bitmap Index Scan on idx_metadata  (cost=0.00..12.00 rows=1 width=0)
+# Simple JSONB Query Result: [('T001', 'Halal Laptop', 999.99, 2, datetime.date(2023, 10, 1), {'category': 'electronics', 'details': {'subcategory': 'laptop'}})]
+# Nested JSONB Query Result: [('T001', 'Halal Laptop', 999.99, 2, datetime.date(2023, 10, 1), {'category': 'electronics', 'details': {'subcategory': 'laptop'}})]
+# Nested Query Plan:
+# Seq Scan on transactions  (cost=0.00..1.03 rows=1 width=64)
+#   Filter: ((metadata -> 'details' ->> 'subcategory'::text) = 'laptop'::text)
+# Note: Nested JSONB queries with ->> may use sequential scans, as GIN indexes optimize @> queries. Expression indexes (Chapter 48) can optimize such queries.
 ```
 
 **Follow-Along Instructions**:
@@ -253,16 +264,16 @@ conn.close()
 2. Save as `de-onboarding/gin_index.py`.
 3. Configure editor for 4-space indentation per PEP 8.
 4. Run: `python gin_index.py`.
-5. Verify output shows electronics transactions and “Bitmap Index Scan” on `idx_metadata`.
+5. Verify output shows electronics/laptop transactions and “Bitmap Index Scan” for simple query, “Seq Scan” for nested query.
 6. **Common Errors**:
    - **ProgrammingError**: Ensure `metadata` is JSONB. Check `\d transactions` in `psql`.
-   - **Seq Scan**: Verify GIN index exists.
+   - **Seq Scan**: GIN indexes don’t optimize `->>` queries; expression indexes are covered in Chapter 48.
 
 **Key Points**:
 
-- **GIN Index**: Optimizes JSONB searches with O(log n) complexity for key-value queries.
+- **GIN Index**: Optimizes JSONB searches with O(log n) complexity for `@>` queries; `->>` queries may require expression indexes (Chapter 48).
 - **Storage**: ~15–20MB for 1M rows (JSONB column).
-- **Time Complexity**: O(log n) for indexed JSONB queries.
+- **Time Complexity**: O(log n) for indexed `@>` queries, O(n) for unindexed nested searches.
 - **Space Complexity**: O(n) for index storage.
 - **Implication**: Use GIN for metadata searches in Hijra Group’s analytics.
 
@@ -394,17 +405,18 @@ conn.close()
 
 ### Project Requirements
 
-Build a type-safe PostgreSQL pipeline to load, index, and optimize a transaction database using `data/transactions.csv`, supporting Hijra Group’s analytics. The pipeline creates B-tree and GIN indexes, optimizes queries, tests performance improvements, and handles a larger dataset (1000 rows), ensuring compliance with Islamic Financial Services Board (IFSB) standards.
+Build a type-safe PostgreSQL pipeline to load, index, and optimize a transaction database using `data/transactions.csv`, supporting Hijra Group’s analytics. The pipeline creates B-tree and GIN indexes, optimizes queries, tests performance improvements, handles a larger dataset (1000 rows), reports actual and estimated index sizes in a formatted table, and reduces Airflow DAG execution times, ensuring compliance with Islamic Financial Services Board (IFSB) standards.
 
-- Generate a larger `data/transactions.csv` (1000 rows) with a JSONB `metadata` column.
+- Generate a larger `data/transactions.csv` (1000 rows) with nested JSONB `metadata`.
 - Load `data/transactions.csv` with `pandas.read_csv` and insert into PostgreSQL.
 - Read `data/config.yaml` with PyYAML for validation rules.
 - Create B-tree indexes on `transaction_id` and `date`, and a GIN index on `metadata`.
-- Optimize a query for total sales by product in a date range and a JSONB query.
+- Optimize a query for total sales by product in a date range and a nested JSONB query.
 - Use `EXPLAIN` to verify index usage.
 - Run `VACUUM ANALYZE` for maintenance.
 - Export results to `data/optimized_results.json`.
-- Write `pytest` tests to validate performance and handle duplicates.
+- Report actual and estimated index sizes in a formatted table.
+- Write `pytest` tests to validate performance (indexed queries 2x faster than non-indexed), malformed JSONB, invalid dates, and duplicates.
 - Use type annotations verified by Pyright and 4-space indentation per PEP 8.
 
 ### Sample Input Files
@@ -413,14 +425,14 @@ Build a type-safe PostgreSQL pipeline to load, index, and optimize a transaction
 
 ```csv
 transaction_id,product,price,quantity,date,metadata
-T001,Halal Laptop,999.99,2,2023-10-01,{"category": "electronics"}
-T002,Halal Mouse,24.99,10,2023-10-02,{"category": "accessories"}
-T003,Halal Keyboard,49.99,5,2023-10-03,{"category": "accessories"}
-T004,,29.99,3,2023-10-04,{"category": "misc"}
-T005,Monitor,199.99,2,2023-10-05,{"category": "electronics"}
+T001,Halal Laptop,999.99,2,2023-10-01,{"category": "electronics", "details": {"subcategory": "laptop"}}
+T002,Halal Mouse,24.99,10,2023-10-02,{"category": "accessories", "details": {"subcategory": "mouse"}}
+T003,Halal Keyboard,49.99,5,2023-10-03,{"category": "accessories", "details": {"subcategory": "keyboard"}}
+T004,,29.99,3,2023-10-04,{"category": "misc", "details": {"subcategory": "other"}}
+T005,Monitor,199.99,2,2023-10-05,{"category": "electronics", "details": {"subcategory": "monitor"}}
 ```
 
-`data/config.yaml` (from Appendix 1):
+`data/config.yaml` (from Appendix 1, updated):
 
 ```yaml
 min_price: 10.0
@@ -438,18 +450,20 @@ max_decimals: 2
 
 ### Dataset Seeding Script
 
-Generate a larger `transactions.csv` with 1000 rows.
+Generate a larger `transactions.csv` with 1000 rows and nested JSONB metadata.
 
 ```python
 # File: de-onboarding/seed_transactions.py
 import pandas as pd
 import random
 from datetime import datetime, timedelta
+import json
 
 def generate_transactions(n: int = 1000) -> None:
     """Generate transactions.csv with 1000 rows."""
     products = ["Halal Laptop", "Halal Mouse", "Halal Keyboard", "Monitor", ""]
     categories = ["electronics", "accessories", "misc"]
+    subcategories = ["laptop", "mouse", "keyboard", "monitor", "other"]
     start_date = datetime(2023, 10, 1)
 
     data = {
@@ -458,7 +472,10 @@ def generate_transactions(n: int = 1000) -> None:
         "price": [round(random.uniform(5.0, 1000.0), 2) for _ in range(n)],
         "quantity": [random.randint(1, 150) for _ in range(n)],
         "date": [(start_date + timedelta(days=random.randint(0, 30))).strftime("%Y-%m-%d") for _ in range(n)],
-        "metadata": [f'{{"category": "{random.choice(categories)}"}}' for _ in range(n)]
+        "metadata": [json.dumps({
+            "category": random.choice(categories),
+            "details": {"subcategory": random.choice(subcategories)}
+        }) for _ in range(n)]
     }
 
     df = pd.DataFrame(data)
@@ -507,12 +524,13 @@ flowchart TD
 
 - **Go Criteria**:
   - Generates and loads `transactions.csv` (1000 rows) and `config.yaml`.
-  - Inserts valid records into PostgreSQL.
+  - Inserts valid records into PostgreSQL, handling malformed JSONB and invalid dates.
   - Creates B-tree indexes on `transaction_id` and `date`, and a GIN index on `metadata`.
-  - Optimizes sales and JSONB queries with `EXPLAIN` showing index usage.
+  - Optimizes sales and nested JSONB queries with `EXPLAIN` showing index usage where applicable.
   - Runs `VACUUM ANALYZE`.
   - Exports results to `data/optimized_results.json`.
-  - Passes `pytest` tests for correctness, performance, and duplicates.
+  - Reports actual and estimated index sizes in a formatted table.
+  - Passes `pytest` tests for correctness, performance (indexed queries 2x faster), malformed data, and duplicates.
   - Uses type annotations and 4-space indentation per PEP 8.
 - **No-Go Criteria**:
   - Fails to load or insert data.
@@ -529,8 +547,8 @@ flowchart TD
    - **Problem**: Query uses sequential scan.
    - **Solution**: Check `EXPLAIN` output. Ensure indexes exist (`\d transactions` in `psql`).
 3. **Data Validation Errors**:
-   - **Problem**: Invalid JSONB or duplicate `transaction_id` causes insert failures.
-   - **Solution**: Print `df.head()` and validate with Pydantic. Check for duplicates with `df["transaction_id"].duplicated().sum()`.
+   - **Problem**: Malformed JSONB or duplicate `transaction_id` causes insert failures.
+   - **Solution**: Print `df.head()` and validate with Pydantic. Check duplicates with `df["transaction_id"].duplicated().sum()`.
 4. **Type Annotation Errors**:
    - **Problem**: Pyright flags missing types.
    - **Solution**: Use `Any` for dynamic query results. Run `pyright script.py`.
@@ -538,15 +556,15 @@ flowchart TD
    - **Problem**: Mixed spaces/tabs.
    - **Solution**: Use 4 spaces. Run `python -tt script.py`.
 6. **Test Failures**:
-   - **Problem**: `pytest` tests fail due to schema mismatches or slow queries.
-   - **Solution**: Print `cursor.description` and query execution times.
+   - **Problem**: `pytest` tests fail due to schema mismatches or performance variability.
+   - **Solution**: Print `cursor.description` and query execution times; use relative thresholds.
 
 ### How This Differs from Production
 
 In production, this solution would include:
 
 - **Connection Pooling**: Use `psycopg2.pool` for scalability (Chapter 63).
-- **Automated Maintenance**: Schedule `VACUUM ANALYZE` with Airflow (Chapter 56) to maintain index efficiency.
+- **Automated Maintenance**: Schedule `VACUUM ANALYZE` with Airflow (Chapter 56) to maintain index efficiency, reducing DAG execution times for data processing tasks.
 - **Monitoring**: Track query performance with Grafana (Chapter 66).
 - **Security**: Encrypt connections with SSL (Chapter 65).
 - **Scalability**: Use partial indexes (e.g., `WHERE product LIKE 'Halal%'`) to reduce index size and partitioned tables for large datasets (Chapter 70).
@@ -559,6 +577,7 @@ In production, this solution would include:
 from typing import Any, Dict
 from pydantic import BaseModel, ValidationError
 import json
+import re
 
 def clean_string(s: str) -> str:
     """Strip whitespace from string."""
@@ -583,6 +602,23 @@ def apply_valid_decimals(x: Any, max_decimals: int) -> bool:
     """Apply decimal validation."""
     return is_numeric(str(x), max_decimals)
 
+def is_valid_date(s: str) -> bool:
+    """Check if string is a valid date in YYYY-MM-DD format."""
+    try:
+        from datetime import datetime
+        datetime.strptime(s, "%Y-%m-%d")
+        return True
+    except ValueError:
+        return False
+
+def parse_explain_cost(plan: list[Any]) -> float:
+    """Parse total cost from EXPLAIN output."""
+    for line in plan:
+        match = re.search(r"cost=[\d.]+..([\d.]+)", line[0])
+        if match:
+            return float(match.group(1))
+    return 0.0
+
 class Transaction(BaseModel):
     """Pydantic model for transaction validation."""
     transaction_id: str
@@ -596,13 +632,16 @@ def validate_transaction(row: Dict[str, Any], config: Dict[str, Any]) -> bool:
     """Validate transaction using Pydantic and config rules."""
     try:
         # Clean data
+        metadata = row["metadata"]
+        if isinstance(metadata, str):
+            metadata = json.loads(metadata)
         cleaned = {
             "transaction_id": clean_string(str(row["transaction_id"])),
             "product": clean_string(str(row["product"])),
             "price": float(row["price"]),
             "quantity": int(row["quantity"]),
             "date": str(row["date"]),
-            "metadata": json.loads(row["metadata"]) if isinstance(row["metadata"], str) else row["metadata"]
+            "metadata": metadata
         }
         # Validate with Pydantic
         Transaction(**cleaned)
@@ -618,6 +657,9 @@ def validate_transaction(row: Dict[str, Any], config: Dict[str, Any]) -> bool:
             return False
         if not apply_valid_decimals(cleaned["price"], config["max_decimals"]):
             print(f"Invalid transaction: too many decimals: {row}")
+            return False
+        if not is_valid_date(cleaned["date"]):
+            print(f"Invalid transaction: invalid date: {row}")
             return False
         print(f"Valid transaction: {row}")
         return True
@@ -692,10 +734,13 @@ def load_and_insert_transactions(csv_path: str, config: Dict[str, Any], conn: ps
     cursor = conn.cursor()
     for _, row in df.iterrows():
         try:
+            metadata = row["metadata"]
+            if isinstance(metadata, str):
+                metadata = json.loads(metadata)
             cursor.execute("""
                 INSERT INTO transactions (transaction_id, product, price, quantity, date, metadata)
                 VALUES (%s, %s, %s, %s, %s, %s)
-            """, (row["transaction_id"], row["product"], row["price"], row["quantity"], row["date"], row["metadata"]))
+            """, (row["transaction_id"], row["product"], row["price"], row["quantity"], row["date"], json.dumps(metadata)))
         except psycopg2.IntegrityError as e:
             print(f"Duplicate transaction_id: {row['transaction_id']}")
             conn.rollback()
@@ -715,7 +760,42 @@ def create_indexes(conn: psycopg2.connection) -> None:
     cursor.close()
     print("Indexes created")
 
-def optimize_queries(conn: psycopg2.connection) -> Tuple[List[Any], List[Any], List[Any], List[Any]]:
+def estimate_index_sizes(conn: psycopg2.connection, row_count: int) -> Dict[str, Dict[str, float]]:
+    """Estimate and query actual index sizes in MB."""
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT indexname, pg_relation_size(indexname::regclass) / 1048576.0 as size_mb
+        FROM pg_indexes
+        WHERE tablename = 'transactions'
+    """)
+    actual_sizes = {row[0]: row[1] for row in cursor.fetchall()}
+    cursor.close()
+
+    # Heuristic estimates
+    btree_size_mb = (row_count * 10) / 1_000_000  # ~10 bytes per row
+    gin_size_mb = (row_count * 15) / 1_000_000    # ~15 bytes per row
+    estimated_sizes = {
+        "idx_transaction_id": btree_size_mb,
+        "idx_date": btree_size_mb,
+        "idx_metadata": gin_size_mb
+    }
+
+    return {
+        "actual": actual_sizes,
+        "estimated": estimated_sizes
+    }
+
+def format_index_sizes(index_sizes: Dict[str, Dict[str, float]]) -> str:
+    """Format index sizes as a table."""
+    header = f"{'Index Name':<25} {'Actual Size (MB)':<20} {'Estimated Size (MB)':<20}"
+    rows = []
+    for index in index_sizes["actual"]:
+        actual = index_sizes["actual"].get(index, 0.0)
+        estimated = index_sizes["estimated"].get(index, 0.0)
+        rows.append(f"{index:<25} {actual:<20.2f} {estimated:<20.2f}")
+    return "\n".join([header, "-" * 65] + rows)
+
+def optimize_queries(conn: psycopg2.connection) -> Tuple[List[Any], List[Any], List[Any], List[Any], float, float]:
     """Run optimized queries and analyze plans."""
     cursor = conn.cursor()
 
@@ -742,31 +822,31 @@ def optimize_queries(conn: psycopg2.connection) -> Tuple[List[Any], List[Any], L
     for row in sales_plan:
         print(row[0])
 
-    # JSONB query
+    # Nested JSONB query
     start_time = time.time()
     cursor.execute("""
         SELECT product, COUNT(*) as count
         FROM transactions
-        WHERE metadata @> '{"category": "electronics"}'
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
         GROUP BY product
     """)
     jsonb_results = cursor.fetchall()
     jsonb_time = time.time() - start_time
-    print(f"JSONB Query Results: {jsonb_results} (Time: {jsonb_time:.3f}s)")
+    print(f"Nested JSONB Query Results: {jsonb_results} (Time: {jsonb_time:.3f}s)")
 
     cursor.execute("""
         EXPLAIN SELECT product, COUNT(*) as count
         FROM transactions
-        WHERE metadata @> '{"category": "electronics"}'
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
         GROUP BY product
     """)
     jsonb_plan = cursor.fetchall()
-    print("JSONB Query Plan:")
+    print("Nested JSONB Query Plan:")
     for row in jsonb_plan:
         print(row[0])
 
     cursor.close()
-    return sales_results, sales_plan, jsonb_results, jsonb_plan
+    return sales_results, sales_plan, jsonb_results, jsonb_plan, sales_time, jsonb_time
 
 def run_maintenance(conn: psycopg2.connection) -> None:
     """Run VACUUM ANALYZE."""
@@ -782,7 +862,7 @@ def export_results(sales_results: List[Any], jsonb_results: List[Any], json_path
         "total_sales_by_product": [
             {"product": row[0], "total_sales": float(row[1])} for row in sales_results
         ],
-        "electronics_products": [
+        "laptop_products": [
             {"product": row[0], "count": int(row[1])} for row in jsonb_results
         ]
     }
@@ -815,7 +895,8 @@ def main() -> None:
     setup_database(conn)
     df, valid_count, total_count = load_and_insert_transactions(csv_path, config, conn)
     create_indexes(conn)
-    sales_results, sales_plan, jsonb_results, jsonb_plan = optimize_queries(conn)
+    index_sizes = estimate_index_sizes(conn, total_count)
+    sales_results, sales_plan, jsonb_results, jsonb_plan, sales_time, jsonb_time = optimize_queries(conn)
     run_maintenance(conn)
     export_results(sales_results, jsonb_results, json_path)
 
@@ -823,8 +904,10 @@ def main() -> None:
     print(f"Total Records Processed: {total_count}")
     print(f"Valid Records: {valid_count}")
     print(f"Invalid Records: {total_count - valid_count}")
-    print(f"Sales Results: {sales_results}")
-    print(f"JSONB Results: {jsonb_results}")
+    print(f"Sales Query Time: {sales_time:.3f}s")
+    print(f"Nested JSONB Query Time: {jsonb_time:.3f}s")
+    print("Index Sizes:")
+    print(format_index_sizes(index_sizes))
 
     conn.close()
 
@@ -891,18 +974,13 @@ def test_pipeline(db_connection: psycopg2.connection) -> None:
     assert "idx_metadata" in indexes, "Metadata index missing"
 
     # Test performance with indexes
-    start_time = time.time()
-    sales_results, sales_plan, jsonb_results, jsonb_plan = optimize_queries(db_connection)
-    index_time = time.time() - start_time
-    assert index_time < no_index_time, f"Indexed query ({index_time:.3f}s) not faster than non-indexed ({no_index_time:.3f}s)"
-
+    sales_results, sales_plan, jsonb_results, jsonb_plan, sales_time, jsonb_time = optimize_queries(db_connection)
+    assert sales_time < no_index_time / 2, f"Indexed sales query ({sales_time:.3f}s) not 2x faster than non-indexed ({no_index_time:.3f}s)"
     assert len(sales_results) > 0, f"Expected sales results, got {len(sales_results)}"
     plan_text = " ".join(row[0] for row in sales_plan)
     assert "Index Scan" in plan_text, "Sales query not using index scan"
 
     assert len(jsonb_results) > 0, f"Expected JSONB results, got {len(jsonb_results)}"
-    jsonb_plan_text = " ".join(row[0] for row in jsonb_plan)
-    assert "Bitmap Index Scan" in jsonb_plan_text, "JSONB query not using index scan"
 
     # Test duplicate handling
     df_duplicate = pd.DataFrame({
@@ -911,11 +989,24 @@ def test_pipeline(db_connection: psycopg2.connection) -> None:
         "price": [999.99],
         "quantity": [2],
         "date": ["2023-10-01"],
-        "metadata": ['{"category": "electronics"}']
+        "metadata": ['{"category": "electronics", "details": {"subcategory": "laptop"}}']
     })
     df_duplicate.to_csv("data/duplicate.csv", index=False)
     _, valid_count, _ = load_and_insert_transactions("data/duplicate.csv", config, db_connection)
     assert valid_count == 0, f"Expected 0 valid records for duplicates, got {valid_count}"
+
+    # Test malformed JSONB and invalid date
+    df_invalid = pd.DataFrame({
+        "transaction_id": ["T999"],
+        "product": ["Halal Laptop"],
+        "price": [999.99],
+        "quantity": [2],
+        "date": ["2023-13-01"],
+        "metadata": ['{category: electronics}']
+    })
+    df_invalid.to_csv("data/invalid.csv", index=False)
+    _, valid_count, _ = load_and_insert_transactions("data/invalid.csv", config, db_connection)
+    assert valid_count == 0, f"Expected 0 valid records for invalid data, got {valid_count}"
 
     run_maintenance(db_connection)
     cursor.close()
@@ -932,10 +1023,7 @@ def test_pipeline(db_connection: psycopg2.connection) -> None:
     { "product": "Halal Mouse", "total_sales": 249.9 },
     { "product": "Halal Keyboard", "total_sales": 249.95 }
   ],
-  "electronics_products": [
-    { "product": "Halal Laptop", "count": 200 },
-    { "product": "Monitor", "count": 150 }
-  ]
+  "laptop_products": [{ "product": "Halal Laptop", "count": 200 }]
 }
 ```
 
@@ -946,21 +1034,21 @@ Opening config: data/config.yaml
 Loaded config: {'min_price': 10.0, 'max_quantity': 100, ...}
 Loading CSV: data/transactions.csv
 Initial DataFrame:
-  transaction_id     product   price  quantity        date                 metadata
-0         T001  Halal Laptop  999.99         2  2023-10-01  {"category": "electronics"}
+  transaction_id     product   price  quantity        date                                               metadata
+0         T001  Halal Laptop  999.99         2  2023-10-01  {"category": "electronics", "details": {"subcategory": "laptop"}}
 ...
 Validated DataFrame:
-  transaction_id     product   price  quantity        date                 metadata
-0         T001  Halal Laptop  999.99         2  2023-10-01  {"category": "electronics"}
+  transaction_id     product   price  quantity        date                                               metadata
+0         T001  Halal Laptop  999.99         2  2023-10-01  {"category": "electronics", "details": {"subcategory": "laptop"}}
 ...
 Indexes created
 Sales Query Results: [('Halal Laptop', 1999.98), ...] (Time: 0.002s)
 Sales Query Plan:
 GroupAggregate  (cost=0.15..8.45 rows=3 width=36)
   ->  Index Scan using idx_date on transactions  (cost=0.15..8.27 rows=3 width=28)
-JSONB Query Results: [('Halal Laptop', 200), ...] (Time: 0.003s)
-JSONB Query Plan:
-Bitmap Heap Scan on transactions  (cost=12.00..16.01 rows=1 width=64)
+Nested JSONB Query Results: [('Halal Laptop', 200)] (Time: 0.003s)
+Nested JSONB Query Plan:
+Seq Scan on transactions  (cost=0.00..1.03 rows=1 width=64)
 Maintenance completed
 Exported to data/optimized_results.json
 
@@ -968,6 +1056,14 @@ Optimization Report:
 Total Records Processed: 1000
 Valid Records: 600
 Invalid Records: 400
+Sales Query Time: 0.002s
+Nested JSONB Query Time: 0.003s
+Index Sizes:
+Index Name                Actual Size (MB)     Estimated Size (MB)
+-----------------------------------------------------------------
+idx_transaction_id        0.01                 0.01
+idx_date                  0.01                 0.01
+idx_metadata              0.02                 0.02
 ```
 
 ### How to Run and Test
@@ -979,7 +1075,7 @@ Invalid Records: 400
      - [ ] Create database: `createdb -U postgres sales_db`.
      - [ ] Create `de-onboarding/data/` and populate with `config.yaml` per Appendix 1.
      - [ ] Run `seed_transactions.py` to generate `transactions.csv`.
-     - [ ] Install libraries: `pip install psycopg2-binary pyyaml pydantic pytest`.
+     - [ ] Install libraries: `pip install psycopg2-binary pyyaml pydantic pytest matplotlib`.
      - [ ] Create virtual environment: `python -m venv venv`, activate (Windows: `venv\Scripts\activate`, Unix: `source venv/bin/activate`).
      - [ ] Verify Python 3.10+: `python --version`.
      - [ ] Configure editor for 4-space indentation per PEP 8.
@@ -994,12 +1090,12 @@ Invalid Records: 400
 
    - Open terminal in `de-onboarding/`.
    - Run: `python optimized_processor.py`.
-   - Outputs: `data/optimized_results.json`, console logs.
+   - Outputs: `data/optimized_results.json`, console logs with formatted index size table.
 
 3. **Test**:
 
    - Run: `pytest test_optimized_processor.py -v`.
-   - Verify all tests pass, confirming indexes, query results, performance, and duplicate handling.
+   - Verify all tests pass, confirming indexes, query results, performance, and error handling.
 
 ## 22.5 Practice Exercises
 
@@ -1041,14 +1137,14 @@ Index Scan using idx_product on transactions ...
 4. **How to Test**:
    - Verify “Index Scan” in output.
 
-### Exercise 3: Optimize a JSONB Query
+### Exercise 3: Optimize a Nested JSONB Query
 
-Write a function to query transactions with `metadata` category “electronics”, with 4-space indentation per PEP 8.
+Write a function to query transactions with `metadata` subcategory “laptop”, with 4-space indentation per PEP 8.
 
 **Expected Output**:
 
 ```
-Query Results: [('Halal Laptop', 200), ...]
+Query Results: [('Halal Laptop', 200)]
 ```
 
 **Follow-Along Instructions**:
@@ -1057,7 +1153,7 @@ Query Results: [('Halal Laptop', 200), ...]
 2. Configure editor for 4-space indentation per PEP 8.
 3. Run: `python ex3_jsonb.py`.
 4. **How to Test**:
-   - Verify results and use `EXPLAIN` to confirm GIN index usage.
+   - Verify results and `EXPLAIN` shows query plan (may be Seq Scan without expression index).
 
 ### Exercise 4: Run Maintenance
 
@@ -1108,14 +1204,18 @@ Index Scan using idx_date on transactions ...
 5. **How to Test**:
    - Verify “Index Scan” in plan.
 
-### Exercise 6: Analyze Indexing Trade-Offs
+### Exercise 6: Analyze Indexing Trade-Offs with Index Size
 
-Write a conceptual analysis of B-tree vs. GIN index trade-offs for a 1M-row transaction table, saving to `ex6_concepts.txt`, with 4-space indentation per PEP 8.
+Write a script to analyze B-tree vs. GIN index trade-offs for a 1M-row transaction table and calculate actual index sizes using `pg_indexes`, saving to `ex6_concepts.txt`, with 4-space indentation per PEP 8.
 
 **Expected Output** (`ex6_concepts.txt`):
 
 ```
 B-tree indexes are ideal for equality and range queries (e.g., transaction_id, date), offering O(log n) lookups but require ~10MB for 1M rows. GIN indexes optimize JSONB searches (e.g., metadata), with ~15–20MB storage and slower updates due to complex structures. Use B-tree for structured columns, GIN for JSONB in Hijra Group’s analytics.
+Actual Index Sizes:
+  idx_transaction_id: 0.01 MB
+  idx_date: 0.01 MB
+  idx_metadata: 0.02 MB
 ```
 
 **Follow-Along Instructions**:
@@ -1124,16 +1224,16 @@ B-tree indexes are ideal for equality and range queries (e.g., transaction_id, d
 2. Configure editor for 4-space indentation per PEP 8.
 3. Run: `python ex6_concepts.py`.
 4. **How to Test**:
-   - Verify `ex6_concepts.txt` contains the analysis.
+   - Verify `ex6_concepts.txt` contains analysis and sizes.
 
 ### Exercise 7: Extend Micro-Project with GIN Index
 
-Extend the micro-project by adding a GIN index on `metadata` and querying electronics transactions, with 4-space indentation per PEP 8.
+Extend the micro-project by adding a GIN index on `metadata` and querying laptop transactions, with 4-space indentation per PEP 8.
 
 **Expected Output**:
 
 ```
-Extended Query Results: [('Halal Laptop', 200), ...]
+Extended Query Results: [('Halal Laptop', 200)]
 ```
 
 **Follow-Along Instructions**:
@@ -1142,7 +1242,44 @@ Extended Query Results: [('Halal Laptop', 200), ...]
 2. Configure editor for 4-space indentation per PEP 8.
 3. Run: `python ex7_extend.py`.
 4. **How to Test**:
-   - Verify results and `EXPLAIN` shows GIN index usage.
+   - Verify results and `EXPLAIN` shows query plan.
+
+### Exercise 8: Visualize Query Plan Costs
+
+Write a function to visualize `EXPLAIN` cost estimates for sales and JSONB queries using Matplotlib, saving to `data/query_plan_plot.png`, with 4-space indentation per PEP 8.
+
+**Expected Output**:
+
+```
+Plot saved to data/query_plan_plot.png
+```
+
+**Follow-Along Instructions**:
+
+1. Save as `de-onboarding/ex8_visualize.py`.
+2. Configure editor for 4-space indentation per PEP 8.
+3. Run: `python ex8_visualize.py`.
+4. **How to Test**:
+   - Verify `data/query_plan_plot.png` shows bar plot of query costs.
+
+### Exercise 9: Create an Expression Index
+
+Write a function to create an expression index on `metadata->'details'->>'subcategory'` and re-run the nested JSONB query, noting this previews Chapter 48, with 4-space indentation per PEP 8.
+
+**Expected Output**:
+
+```
+Expression index created
+Query Results: [('Halal Laptop', 200)]
+```
+
+**Follow-Along Instructions**:
+
+1. Save as `de-onboarding/ex9_expression.py`.
+2. Configure editor for 4-space indentation per PEP 8.
+3. Run: `python ex9_expression.py`.
+4. **How to Test**:
+   - Verify results and `EXPLAIN` shows index usage.
 
 ## 22.6 Exercise Solutions
 
@@ -1188,7 +1325,7 @@ def analyze_product_query() -> None:
 analyze_product_query()
 ```
 
-### Solution to Exercise 3: Optimize a JSONB Query
+### Solution to Exercise 3: Optimize a Nested JSONB Query
 
 ```python
 from typing import Any
@@ -1202,7 +1339,7 @@ def optimize_jsonb_query() -> None:
     cursor.execute("""
         SELECT product, COUNT(*) as count
         FROM transactions
-        WHERE metadata @> '{"category": "electronics"}'
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
         GROUP BY product
     """)
     results: list[Any] = cursor.fetchall()
@@ -1210,7 +1347,7 @@ def optimize_jsonb_query() -> None:
     cursor.execute("""
         EXPLAIN SELECT product, COUNT(*) as count
         FROM transactions
-        WHERE metadata @> '{"category": "electronics"}'
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
         GROUP BY product
     """)
     plan: list[Any] = cursor.fetchall()
@@ -1286,18 +1423,33 @@ def fix_slow_query() -> None:
 fix_slow_query()
 ```
 
-**Explanation**:
-
-- **Bug**: `EXTRACT(YEAR FROM date)` prevents index usage due to function application.
-- **Fix**: Use range conditions (`date >= '2023-01-01' AND date < '2024-01-01'`) to leverage `idx_date`.
-
-### Solution to Exercise 6: Analyze Indexing Trade-Offs
+### Solution to Exercise 6: Analyze Indexing Trade-Offs with Index Size
 
 ```python
+from typing import Any
+import psycopg2
+
 def analyze_index_tradeoffs() -> None:
+    conn: psycopg2.connection = psycopg2.connect(
+        dbname="sales_db", user="postgres", password="password", host="localhost", port="5432"
+    )
+    cursor: psycopg2.cursor = conn.cursor()
+    cursor.execute("""
+        SELECT indexname, pg_size_pretty(pg_relation_size(indexname::regclass)) as size
+        FROM pg_indexes
+        WHERE tablename = 'transactions'
+    """)
+    sizes = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
     analysis = """
 B-tree indexes are ideal for equality and range queries (e.g., transaction_id, date), offering O(log n) lookups but require ~10MB for 1M rows. GIN indexes optimize JSONB searches (e.g., metadata), with ~15–20MB storage and slower updates due to complex structures. Use B-tree for structured columns, GIN for JSONB in Hijra Group’s analytics.
-    """
+Actual Index Sizes:
+"""
+    for index, size in sizes:
+        analysis += f"  {index}: {size}\n"
+
     with open("ex6_concepts.txt", "w") as file:
         file.write(analysis.strip())
     print("Analysis saved to ex6_concepts.txt")
@@ -1320,7 +1472,7 @@ def extend_with_gin_index() -> None:
     cursor.execute("""
         SELECT product, COUNT(*) as count
         FROM transactions
-        WHERE metadata @> '{"category": "electronics"}'
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
         GROUP BY product
     """)
     results: list[Any] = cursor.fetchall()
@@ -1328,7 +1480,7 @@ def extend_with_gin_index() -> None:
     cursor.execute("""
         EXPLAIN SELECT product, COUNT(*) as count
         FROM transactions
-        WHERE metadata @> '{"category": "electronics"}'
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
         GROUP BY product
     """)
     plan: list[Any] = cursor.fetchall()
@@ -1342,24 +1494,117 @@ def extend_with_gin_index() -> None:
 extend_with_gin_index()
 ```
 
+### Solution to Exercise 8: Visualize Query Plan Costs
+
+```python
+from typing import Any
+import psycopg2
+import matplotlib.pyplot as plt
+import utils
+
+def visualize_query_plans() -> None:
+    conn: psycopg2.connection = psycopg2.connect(
+        dbname="sales_db", user="postgres", password="password", host="localhost", port="5432"
+    )
+    cursor: psycopg2.cursor = conn.cursor()
+
+    # Get cost for sales query
+    cursor.execute("""
+        EXPLAIN SELECT product, SUM(price * quantity) as total_sales
+        FROM transactions
+        WHERE date BETWEEN '2023-10-01' AND '2023-10-03'
+        GROUP BY product
+    """)
+    sales_plan = cursor.fetchall()
+    sales_cost = utils.parse_explain_cost(sales_plan)
+
+    # Get cost for JSONB query
+    cursor.execute("""
+        EXPLAIN SELECT product, COUNT(*) as count
+        FROM transactions
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
+        GROUP BY product
+    """)
+    jsonb_plan = cursor.fetchall()
+    jsonb_cost = utils.parse_explain_cost(jsonb_plan)
+
+    # Plot costs
+    plt.figure(figsize=(8, 6))
+    plt.bar(["Sales Query", "JSONB Query"], [sales_cost, jsonb_cost])
+    plt.title("Query Plan Cost Estimates")
+    plt.ylabel("Cost (arbitrary units)")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("data/query_plan_plot.png", dpi=100)
+    plt.close()
+    print("Plot saved to data/query_plan_plot.png")
+
+    cursor.close()
+    conn.close()
+
+visualize_query_plans()
+```
+
+### Solution to Exercise 9: Create an Expression Index
+
+```python
+from typing import Any
+import psycopg2
+
+def create_expression_index() -> None:
+    conn: psycopg2.connection = psycopg2.connect(
+        dbname="sales_db", user="postgres", password="password", host="localhost", port="5432"
+    )
+    cursor: psycopg2.cursor = conn.cursor()
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_subcategory ON transactions ((metadata->'details'->>'subcategory'))")
+    print("Expression index created")
+
+    cursor.execute("""
+        SELECT product, COUNT(*) as count
+        FROM transactions
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
+        GROUP BY product
+    """)
+    results: list[Any] = cursor.fetchall()
+    print("Query Results:", results)
+
+    cursor.execute("""
+        EXPLAIN SELECT product, COUNT(*) as count
+        FROM transactions
+        WHERE metadata->'details'->>'subcategory' = 'laptop'
+        GROUP BY product
+    """)
+    plan: list[Any] = cursor.fetchall()
+    print("Query Plan:")
+    for row in plan:
+        print(row[0])
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+create_expression_index()
+```
+
 ## 22.7 Chapter Summary and Connection to Chapter 23
 
 In this chapter, you’ve mastered:
 
-- **Indexing**: B-tree indexes for O(log n) lookups, GIN for JSONB searches.
+- **Indexing**: B-tree indexes for O(log n) lookups, GIN for JSONB searches, and expression indexes for nested queries.
 - **Query Optimization**: Using `EXPLAIN` to ensure index usage and optimize plans.
 - **Performance Tuning**: `VACUUM ANALYZE` for maintenance.
 - **Type-Safe Integration**: Type-annotated `psycopg2` with Pydantic validation.
-- **Testing**: `pytest` tests for performance, correctness, and edge cases.
+- **Testing**: `pytest` tests for performance (indexed queries 2x faster), correctness, malformed data, and duplicates.
+- **Visualization**: Matplotlib plots for query plan costs.
 - **White-Space Sensitivity and PEP 8**: Using 4-space indentation to avoid `IndentationError`.
 
-The micro-project optimized a transaction database with a 1000-row dataset, reducing query times with B-tree and GIN indexes, validating performance with `pytest`, and handling duplicates, all with 4-space indentation per PEP 8. This prepares for Chapter 23’s type-safe integration by ensuring efficient database operations.
+The micro-project optimized a transaction database with a 1000-row dataset, reducing query times with B-tree and GIN indexes, reporting actual and estimated index sizes in a formatted table, validating performance with `pytest`, and handling errors, all with 4-space indentation per PEP 8. This prepares for Chapter 23’s type-safe integration and supports end-to-end pipeline performance in capstone projects (Chapters 68–71), where optimized indexes enhance BigQuery/FastAPI integration and Airflow DAG efficiency.
 
 ### Connection to Chapter 23
 
 Chapter 23 advances **Type-Safe Database Integration**, building on this chapter:
 
 - **Type Safety**: Extends type-annotated `psycopg2` with integrated SQLite/PostgreSQL pipelines.
-- **Performance**: Leverages optimized queries and indexes for robust pipelines.
-- **Validation**: Continues Pydantic validation for data integrity.
+- **Performance**: Leverages optimized queries and indexes for robust pipelines, critical for BigQuery/FastAPI integration in capstone projects.
+- **Validation**: Continues Pydantic validation for data integrity, including JSONB and date handling.
 - **Testing**: Expands `pytest` testing for integrated systems, maintaining 4-space indentation per PEP 8.
