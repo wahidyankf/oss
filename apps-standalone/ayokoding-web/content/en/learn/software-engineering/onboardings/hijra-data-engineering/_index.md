@@ -25,3 +25,13 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [09 - Introduction to Testing in Python](./ch09-introduction-to-testing-in-python/)
 - [10 - Data Engineering Code Quality](./ch10-data-engineering-code-quality/)
 - [11 - Checkpoint 2: Python Code Quality Review](./ch11-checkpoint-2-python-code-quality-review/)
+
+## Phase 3A: Database Fundamentals I
+
+- [12 - SQL Fundamentals with SQLite](./ch12-sql-fundamentals-with-sqlite/)
+- [13 - Python and SQLite Integration](./ch13-python-and-sqlite-integration/)
+- [14 - Advanced Database Operations with SQLite](./ch14-advanced-database-operations-with-sqlite/)
+- [15 - Type-Safe Database Programming](./ch15-type-safe-database-programming/)
+- [16 - PostgreSQL Fundamentals](./ch16-postgresql-fundamentals/)
+- [17 - Python and PostgreSQL Integration](./ch17-python-and-postgresql-integration/)
+- [18 - Checkpoint 3A: Database Fundamentals I Review](./ch18-checkpoint-3a-database-fundamentals-i-review/)
