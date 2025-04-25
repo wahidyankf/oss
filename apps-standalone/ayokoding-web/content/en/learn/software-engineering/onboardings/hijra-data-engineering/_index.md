@@ -104,3 +104,10 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [64 - Airflow in Kubernetes](./ch64-airflow-in-kubernetes/)
 - [65 - Security Best Practices for Data Pipelines](./ch65-security-best-practices-for-data-pipelines/)
 - [66 - Checkpoint 9: Production Deployment Review](./ch66-checkpoint-9-production-deployment-review/)
+
+## Phase 10: Capstone Project
+
+- [67 - Capstone Project Planning](./ch67-capstone-project-planning/)
+- [68 - Capstone Project Implementation Part 1](./ch68-capstone-project-implementation-part-1/)
+- [69 - Capstone Project Implementation Part 2](./ch69-capstone-project-implementation-part-2/)
+- [70 - Capstone Project Implementation Part 3](./ch70-capstone-project-implementation-part-3/)
