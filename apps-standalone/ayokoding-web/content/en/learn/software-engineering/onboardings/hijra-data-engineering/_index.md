@@ -94,3 +94,13 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [57 - Airflow in Docker](./ch57-airflow-in-docker/)
 - [58 - Building Complex Airflow Workflows](./ch58-building-complex-airflow-workflows/)
 - [59 - Checkpoint 8: Pipeline Orchestration Review](./ch59-checkpoint-8-pipeline-orchestration-review/)
+
+## Phase 9: Production Deployment
+
+- [60 - Docker for Data Applications](./ch60-docker-for-data-applications/)
+- [61 - Kubernetes Fundamentals](./ch61-kubernetes-fundamentals/)
+- [62 - Deploying Data Applications to Kubernetes](./ch62-deploying-data-applications-to-kubernetes/)
+- [63 - PostgreSQL in Kubernetes](./ch63-postgresql-in-kubernetes/)
+- [64 - Airflow in Kubernetes](./ch64-airflow-in-kubernetes/)
+- [65 - Security Best Practices for Data Pipelines](./ch65-security-best-practices-for-data-pipelines/)
+- [66 - Checkpoint 9: Production Deployment Review](./ch66-checkpoint-9-production-deployment-review/)
