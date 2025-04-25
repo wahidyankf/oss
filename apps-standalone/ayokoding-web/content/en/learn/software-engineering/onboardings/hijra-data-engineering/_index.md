@@ -83,3 +83,14 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [49 - BigQuery Advanced Optimization](./ch49-bigquery-advanced-optimization/)
 - [50 - Data Visualization and BI Tools](./ch50-data-visualization-and-bi-tools/)
 - [51 - Checkpoint 7: Web and Database Integration Review](./ch51-checkpoint-7-web-and-database-integration-review/)
+
+## Phase 8: Pipeline Orchestration
+
+- [52 - Introduction to Django](./ch52-introduction-to-django/)
+- [53 - Introduction to FastAPI](./ch53-introduction-to-fastapi/)
+- [54 - dbt for Data Transformation](./ch54-dbt-for-data-transformation/)
+- [55 - Simple Scheduling with Python](./ch55-simple-scheduling-with-python/)
+- [56 - Airflow Fundamentals](./ch56-airflow-fundamentals/)
+- [57 - Airflow in Docker](./ch57-airflow-in-docker/)
+- [58 - Building Complex Airflow Workflows](./ch58-building-complex-airflow-workflows/)
+- [59 - Checkpoint 8: Pipeline Orchestration Review](./ch59-checkpoint-8-pipeline-orchestration-review/)
