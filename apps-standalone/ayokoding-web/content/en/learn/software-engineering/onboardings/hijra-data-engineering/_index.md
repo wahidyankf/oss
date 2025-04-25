@@ -72,7 +72,7 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [41 - Type-Safe Data Processing](./ch41-type-safe-data-processing/)
 - [42 - Testing Data Pipelines](./ch42-testing-data-pipelines/)
 - [43 - Advanced Testing Techniques](./ch43-advanced-testing-techniques/)
-- [44 - Advanced Data Processing Review](./ch44-advanced-data-processing-review/)
+- [44 - Checkpoint 6: Advanced Data Processing Review](./ch44-checkpoint-6-advanced-data-processing-review/)
 
 ## Phase 7: Web and Database Integration
 
