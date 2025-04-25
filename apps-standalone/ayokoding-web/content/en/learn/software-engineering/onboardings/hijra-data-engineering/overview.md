@@ -7,7 +7,7 @@ weight: 1
 
 ## Introduction
 
-The **Data Engineering Onboarding Curriculum** is a 70-chapter program transforming programmers into proficient data engineers, tailored for Hijra Group’s ecosystem. It emphasizes PostgreSQL, BigQuery, SQLite, Kubernetes (with Helm Charts), Airflow, dbt, Django, and FastAPI for building robust, testable data pipelines, web UIs, and APIs, aligning with Hijra Group’s needs for scalable analytics and containerized deployments using Uvicorn. Structured for ~52-minute sessions, it features eleven phases with checkpoints (Chapters 6, 11, 18, 24, 30, 37, 44, 58, 65) and micro-projects for practical application, with all Python code after Chapter 7 using type annotations verified by Pyright and tested using `unittest` and/or `pytest` after Chapter 9. The curriculum is designed to be followed in a development environment, with setup instructions to be provided in chapter implementations. **Appendix 1: Required Data Files** provides essential datasets (e.g., `sales.csv`, `transactions.csv`, `sales.db`) for micro-projects and exercises, ensuring consistent seeding of financial transaction data for hands-on learning.
+The **Data Engineering Onboarding Curriculum** is a 70-chapter program transforming programmers into proficient data engineers, tailored for Hijra Group’s ecosystem. It emphasizes PostgreSQL, BigQuery, SQLite, Kubernetes (with Helm Charts), Airflow, dbt, Django, and FastAPI for building robust, testable data pipelines, web UIs, and APIs, aligning with Hijra Group’s needs for scalable analytics and containerized deployments using Uvicorn. Structured for ~52-minute sessions, it features eleven phases with checkpoints (Chapters 6, 11, 18, 24, 30, 37, 44, 51, 59, 66) and micro-projects for practical application, with all Python code after Chapter 7 using type annotations verified by Pyright and tested using `unittest` and/or `pytest` after Chapter 9. The curriculum is designed to be followed in a development environment, with setup instructions to be provided in chapter implementations. **Appendix 1: Required Data Files** provides essential datasets (e.g., `sales.csv`, `transactions.csv`, `sales.db`) for micro-projects and exercises, ensuring consistent seeding of financial transaction data for hands-on learning.
 
 This curriculum equips learners to handle financial transaction data analytics via production-ready pipelines and web interfaces, culminating in capstone projects integrating security, observability, and scalability, with quality built-in from early type safety and testing.
 
@@ -67,10 +67,10 @@ The curriculum spans **eleven phases** with checkpoints for consolidation, total
 - **Phase 4: Cloud Analytics (25–30)**: Focuses on BigQuery, ending with Checkpoint 4 (Chapter 30).
 - **Phase 5: Analytical Storage (31–37)**: Covers **data lakes**, **marts**, ETL, ending with Checkpoint 5 (Chapter 37).
 - **Phase 6: Advanced Processing (38–44)**: Explores NumPy, Pandas, concurrency, advanced testing, ending with Checkpoint 6 (Chapter 44).
-- **Phase 7: Web and Database Integration (45–50)**: Covers Jupyter, database patterns, PostgreSQL, Django, FastAPI, and BI tools, focusing on web and database integration.
-- **Phase 8: Pipeline Orchestration (51–58)**: Includes dbt, Airflow, and orchestration, ending with Checkpoint 7 (Chapter 58).
-- **Phase 9: Production Deployment (59–65)**: Covers Docker, Kubernetes, Helm, security, observability, CI/CD, ending with Checkpoint 8 (Chapter 65).
-- **Phase 10: Capstone Projects (66–70)**: Focuses on planning and implementing end-to-end pipelines with Helm, security, and web interfaces.
+- **Phase 7: Web and Database Integration (45–51)**: Covers Jupyter, database patterns, PostgreSQL, Django, FastAPI, and BI tools, ending with Checkpoint 7 (Chapter 51).
+- **Phase 8: Pipeline Orchestration (52–59)**: Includes dbt, Airflow, and orchestration, ending with Checkpoint 8 (Chapter 59).
+- **Phase 9: Production Deployment (60–66)**: Covers Docker, Kubernetes, Helm, security, observability, CI/CD, ending with Checkpoint 9 (Chapter 66).
+- **Phase 10: Capstone Projects (67–70)**: Focuses on planning and implementing end-to-end pipelines with Helm, security, and web interfaces.
 
 Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), or Advanced (A).
 
@@ -442,14 +442,14 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 - **Micro-Project**: Build a type-safe, tested sales data pipeline that processes `data/sales.csv` through NumPy array computations, Pandas DataFrame transformations, and concurrent tasks using asyncio, with pytest tests for unit, integration, and edge cases (e.g., handling `empty.csv`). See **Appendix 1** for `sales.csv` and `empty.csv` creation instructions.
 - **Role**: Bridges advanced processing to web and database integration with testable pipelines.
 
-### Phase 7: Web and Database Integration (Chapters 45–50)
+### Phase 7: Web and Database Integration (Chapters 45–51)
 
 45. **Jupyter Notebooks for Data Development**
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches type-annotated Jupyter with `jupyter` for data exploration. The micro-project analyzes sales data in a notebook, preparing for BI and web frameworks.
   - **Pitfalls**: Kernel not starting (solution: ensure `ipykernel` installed). Missing dependencies (solution: install `pandas`, `matplotlib`).
-- **Learning Outcomes**: Learners master interactive analysis, ready for database patterns in Chapter 46 and BI tools in Chapter 49.
+- **Learning Outcomes**: Learners master interactive analysis, ready for database patterns in Chapter 46 and BI tools in Chapter 50.
 - **Micro-Project**: Analyze sales data in a Jupyter Notebook with visualizations and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Bridges processing to reporting and web integration.
 
@@ -457,7 +457,7 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches type-annotated database patterns (DAO, Repository) with `psycopg2`. The micro-project implements tested patterns for a task database, preparing for PostgreSQL and web frameworks.
-- **Learning Outcomes**: Learners ensure modular database access, ready for PostgreSQL in Chapter 47 and web frameworks in Chapters 51–52.
+- **Learning Outcomes**: Learners ensure modular database access, ready for PostgreSQL in Chapter 47 and web frameworks in Chapters 52–53.
 - **Micro-Project**: Implement type-annotated DAO patterns for a task database with pytest tests using `data/tasks.db`. See **Appendix 1** for `tasks.db` creation instructions.
 - **Role**: Enhances database modularity for web applications.
 
@@ -489,143 +489,143 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches type-annotated BI visualization with Metabase and `metabase-api`. The micro-project creates a tested sales dashboard, preparing for Django and FastAPI.
-- **Learning Outcomes**: Learners master BI reporting, ready for Django in Chapter 51 and FastAPI in Chapter 52.
+- **Learning Outcomes**: Learners master BI reporting, ready for Django in Chapter 52 and FastAPI in Chapter 53.
 - **Micro-Project**: Create a sales dashboard from a **data mart** with type-annotated Metabase and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Enables stakeholder reporting for web applications.
 
-### Phase 8: Pipeline Orchestration (Chapters 51–58)
+51. **Checkpoint 7: Web and Database Integration Review**
 
-51. **Introduction to Django**
+- **Complexity**: Easy (E)
+- **Description**: Consolidates skills from Chapters 45–50, including Jupyter-based data exploration, DAO/Repository patterns, advanced PostgreSQL/BigQuery optimization, and BI visualization. The micro-project builds a type-annotated tool integrating these techniques, with a BI dashboard and optimized database queries, preparing for pipeline orchestration.
+- **Learning Outcomes**: Learners solidify web and database integration expertise, ready for Phase 8’s pipeline orchestration.
+- **Micro-Project**: Build a type-annotated tool integrating Jupyter analysis, DAO patterns for a task database, optimized PostgreSQL/BigQuery queries, and a Metabase dashboard, validated with pytest tests using `data/sales.csv` and `data/tasks.db`. See **Appendix 1** for `sales.csv` and `tasks.db` creation instructions.
+- **Role**: Bridges web and database integration to pipeline orchestration with testable pipelines.
+
+### Phase 8: Pipeline Orchestration (Chapters 52–59)
+
+52. **Introduction to Django**
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces type-annotated Django for UI (dashboards) and API development with PostgreSQL/SQLite, using Uvicorn, Docker, and libraries (`django`, `djangorestframework`, `PyYAML`). The micro-project builds a robust, tested Django app with a sales dashboard and DRF API, preparing for FastAPI.
-- **Learning Outcomes**: Learners master Django for web applications with robust testing, ready for FastAPI in Chapter 52 and capstone projects in Chapters 66–70.
+- **Learning Outcomes**: Learners master Django for web applications with robust testing, ready for FastAPI in Chapter 53 and capstone projects in Chapters 67–70.
 - **Micro-Project**: Build a type-annotated Django app with UI dashboard and DRF API for sales **data mart** with YAML config, logging, and pytest tests (unit, integration, mocking) using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Enables robust UI and API development for analytics.
 
-52. **Introduction to FastAPI**
+53. **Introduction to FastAPI**
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces type-annotated FastAPI for type-safe API and UI development with PostgreSQL/SQLite, using Uvicorn, Docker, and libraries (`fastapi`, `pydantic`, `PyYAML`). The micro-project builds a robust, tested FastAPI app with a UI and API for transaction data, preparing for dbt.
-- **Learning Outcomes**: Learners master FastAPI for APIs and UIs with robust testing, ready for dbt in Chapter 53 and capstone projects in Chapters 66–70.
+- **Learning Outcomes**: Learners master FastAPI for APIs and UIs with robust testing, ready for dbt in Chapter 54 and capstone projects in Chapters 67–70.
 - **Micro-Project**: Build a type-annotated FastAPI app with UI (Jinja2) and API for transaction **data mart** with YAML config, logging, and pytest tests (unit, integration, mocking) using `data/transactions.csv`. See **Appendix 1** for `transactions.csv` creation instructions.
 - **Role**: Enhances high-performance API and UI development.
 
-53. **dbt for Data Transformation**
+54. **dbt for Data Transformation**
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces type-annotated dbt for robust **data warehouse** transformations with `dbt-core` and data quality tests. The micro-project builds tested sales data models, preparing for orchestration.
-- **Learning Outcomes**: Learners master transformations with testing, ready for scheduling in Chapter 54.
+- **Learning Outcomes**: Learners master transformations with testing, ready for scheduling in Chapter 55.
 - **Micro-Project**: Build type-annotated dbt models for sales data with YAML config, logging, and pytest-validated data quality tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Enables reliable, testable transformations for pipelines.
 
-54. **Simple Scheduling with Python**
+55. **Simple Scheduling with Python**
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches robust type-annotated scheduling with APScheduler and `apscheduler`. The micro-project schedules tested ETL tasks with error handling, preparing for Airflow.
-- **Learning Outcomes**: Learners acquire scheduling skills, ready for Airflow in Chapter 55.
+- **Learning Outcomes**: Learners acquire scheduling skills, ready for Airflow in Chapter 56.
 - **Micro-Project**: Schedule type-annotated ETL tasks for sales data with YAML config, error handling, and pytest tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Bridges to professional orchestration.
 
-55. **Airflow Fundamentals**
+56. **Airflow Fundamentals**
 
 - **Complexity**: Moderate (M)
 - **Description**: Introduces robust type-annotated Airflow orchestration with `apache-airflow`. The micro-project orchestrates a tested sales ETL process, preparing for Dockerized Airflow.
-- **Learning Outcomes**: Learners master Airflow basics, ready for Dockerized Airflow in Chapter 56.
+- **Learning Outcomes**: Learners master Airflow basics, ready for Dockerized Airflow in Chapter 57.
 - **Micro-Project**: Orchestrate a type-annotated sales ETL process with Airflow DAG, YAML config, logging, and pytest tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Establishes robust orchestration skills.
 
-56. **Airflow in Docker**
+57. **Airflow in Docker**
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches robust type-annotated Dockerized Airflow with `apache-airflow`. The micro-project deploys Airflow with a tested DAG, preparing for complex workflows.
-- **Learning Outcomes**: Learners master containerized Airflow, ready for complex workflows in Chapter 57.
+- **Learning Outcomes**: Learners master containerized Airflow, ready for complex workflows in Chapter 58.
 - **Micro-Project**: Deploy type-annotated Airflow in Docker with a sales ETL DAG, YAML config, and pytest tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Enhances orchestration portability.
 
-57. **Building Complex Airflow Workflows**
+58. **Building Complex Airflow Workflows**
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches advanced, robust type-annotated Airflow workflows with `apache-airflow` and retries. The micro-project orchestrates a tested multi-step ETL process, preparing for production-grade orchestration.
-- **Learning Outcomes**: Learners master complex orchestration with robust testing, ready for Checkpoint 7 in Chapter 58.
+- **Learning Outcomes**: Learners master complex orchestration with robust testing, ready for Checkpoint 8 in Chapter 59.
 - **Micro-Project**: Orchestrate a type-annotated sales ETL process with retries, YAML config, logging, and pytest tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Prepares for production-grade, testable workflows.
 
-58. **Checkpoint 7: Pipeline Orchestration Review**
+59. **Checkpoint 8: Pipeline Orchestration Review**
 
 - **Complexity**: Easy (E)
-- **Description**: Consolidates type-annotated dbt, Airflow, Django, and FastAPI skills for robust pipelines. The micro-project builds a tested Airflow pipeline with a FastAPI endpoint, preparing for deployment.
+- **Description**: Consolidates type-annotated dbt, Airflow, Django, and FastAPI skills from Chapters 52–58 for robust pipelines. The micro-project builds a tested Airflow pipeline with a FastAPI endpoint, preparing for production deployment.
 - **Learning Outcomes**: Learners solidify orchestration expertise, ready for Phase 9’s production deployment.
 - **Micro-Project**: Build a robust type-annotated Airflow pipeline with PostgreSQL, BigQuery, dbt, FastAPI, logging, and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Bridges to production deployment with testable pipelines.
 
-### Phase 9: Production Deployment (Chapters 59–65)
+### Phase 9: Production Deployment (Chapters 60–66)
 
-59. **Docker for Data Applications**
+60. **Docker for Data Applications**
 
 - **Complexity**: Moderate (M)
 - **Description**: Advances type-annotated Docker with `pandas`, `psycopg2` for robust data apps. The micro-project packages a tested sales pipeline, preparing for Kubernetes.
-- **Learning Outcomes**: Learners master advanced Docker, ready for Kubernetes in Chapter 60.
+- **Learning Outcomes**: Learners master advanced Docker, ready for Kubernetes in Chapter 61.
 - **Micro-Project**: Package a type-annotated sales pipeline in Docker with Compose, YAML config, and pytest tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Strengthens containerization for deployments.
 
-60. **Kubernetes Fundamentals**
+61. **Kubernetes Fundamentals**
 
 - **Complexity**: Advanced (A)
 - **Description**: Introduces type-annotated Kubernetes and Helm Charts with `kubernetes`. The micro-project deploys a tested minimal pod and Helm Chart, preparing for advanced deployments.
-- **Learning Outcomes**: Learners gain Kubernetes and Helm basics, ready for advanced deployments in Chapter 61.
+- **Learning Outcomes**: Learners gain Kubernetes and Helm basics, ready for advanced deployments in Chapter 62.
 - **Micro-Project**: Deploy a type-annotated minimal pod and Helm Chart for a data application with pytest validation.
 - **Role**: Introduces production-grade orchestration with Helm.
 
-61. **Deploying Data Applications to Kubernetes**
+62. **Deploying Data Applications to Kubernetes**
 
 - **Complexity**: Advanced (A)
 - **Description**: Teaches robust type-annotated Kubernetes deployments with `kubernetes`. The micro-project deploys a tested stateful sales pipeline, preparing for PostgreSQL.
-- **Learning Outcomes**: Learners master deployments, ready for PostgreSQL in Kubernetes in Chapter 62.
+- **Learning Outcomes**: Learners master deployments, ready for PostgreSQL in Kubernetes in Chapter 63.
 - **Micro-Project**: Deploy a type-annotated stateful sales pipeline with StatefulSets and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Advances Kubernetes for database deployment.
 
-62. **PostgreSQL in Kubernetes**
+63. **PostgreSQL in Kubernetes**
 
 - **Complexity**: Advanced (A)
 - **Description**: Runs type-annotated PostgreSQL in Kubernetes with `psycopg2`. The micro-project deploys a tested sales database, preparing for Airflow.
-- **Learning Outcomes**: Learners master stateful deployments, ready for Airflow in Kubernetes in Chapter 63.
+- **Learning Outcomes**: Learners master stateful deployments, ready for Airflow in Kubernetes in Chapter 64.
 - **Micro-Project**: Deploy a type-annotated PostgreSQL sales database with backups and pytest tests.
 - **Role**: Enables scalable database management.
 
-63. **Airflow in Kubernetes**
+64. **Airflow in Kubernetes**
 
 - **Complexity**: Moderate (M)
 - **Description**: Deploys robust type-annotated Airflow in Kubernetes with `apache-airflow` using Helm Charts. The micro-project deploys a tested sales ETL with Helm, preparing for security and observability.
-- **Learning Outcomes**: Learners master production Airflow with Helm, ready for security in Chapter 64 and observability in Chapter 65.
+- **Learning Outcomes**: Learners master production Airflow with Helm, ready for security in Chapter 65 and observability in Chapter 66.
 - **Micro-Project**: Deploy type-annotated Airflow in Kubernetes with a sales ETL Helm Chart, YAML config, logging, and pytest tests using `data/sales.csv` and `config.yaml`. See **Appendix 1** for `sales.csv` and `config.yaml` creation instructions.
 - **Role**: Enables scalable, testable orchestration with Helm.
 
-64. **Security Best Practices for Data Pipelines**
+65. **Security Best Practices for Data Pipelines**
 
 - **Complexity**: Moderate (M)
 - **Description**: Teaches type-annotated API security, data encryption, Kubernetes security, and PII handling (identification, masking, GDPR/PDPA compliance). The micro-project secures a tested sales pipeline with encrypted connections, API authentication, PII masking, and Helm secrets, preparing for observability.
-- **Learning Outcomes**: Learners master pipeline security and PII protection, ready for observability in Chapter 65 and capstone planning in Chapter 66.
+- **Learning Outcomes**: Learners master pipeline security and PII protection, ready for observability in Chapter 66 and capstone planning in Chapter 67.
 - **Micro-Project**: Secure a type-annotated sales pipeline with OAuth2, PostgreSQL encryption, PII masking (e.g., hashing customer IDs), Helm-managed secrets, and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Ensures secure, compliant pipelines for production.
 
-65. **Pipeline Monitoring and Observability**
-
-- **Complexity**: Moderate (M)
-- **Description**: Introduces type-annotated distributed tracing (Jaeger), advanced alerting (Grafana/Slack), and query performance metrics. The micro-project builds a tested monitoring dashboard for a sales pipeline, preparing for capstone projects.
-- **Learning Outcomes**: Learners master pipeline observability, ready for capstone planning in Chapter 66.
-- **Micro-Project**: Implement a type-annotated monitoring dashboard for a sales pipeline with Jaeger tracing, Grafana alerts, and pytest-validated metrics using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
-- **Role**: Enhances pipeline visibility for production.
-
-### Phase 10: Capstone Projects (Chapters 66–70)
-
-66. **Checkpoint 8: Production Deployment Review**
+66. **Checkpoint 9: Production Deployment Review**
 
 - **Complexity**: Easy (E)
-- **Description**: Consolidates type-annotated Docker, Kubernetes, Helm, security, observability, and monitoring skills. The micro-project builds a tested Kubernetes pipeline with a Django dashboard, preparing for capstone projects.
+- **Description**: Consolidates type-annotated Docker, Kubernetes, Helm, security, observability, and monitoring skills from Chapters 60–65. The micro-project builds a tested Kubernetes pipeline with a Django dashboard, preparing for capstone projects.
 - **Learning Outcomes**: Learners solidify deployment expertise, ready for capstone planning in Chapter 67.
 - **Micro-Project**: Build a robust type-annotated Kubernetes pipeline with Django dashboard, Helm Chart, logging, PII masking, observability, and pytest tests using `data/sales.csv`. See **Appendix 1** for `sales.csv` creation instructions.
 - **Role**: Bridges to capstone projects with testable pipelines.
+
+### Phase 10: Capstone Projects (Chapters 67–70)
 
 67. **Capstone Project Planning**
 
@@ -661,4 +661,4 @@ Checkpoints require an 80% passing score. Chapters are Easy (E), Moderate (M), o
 
 ## Outro
 
-The **Data Engineering Onboarding Curriculum** equips learners to excel in Hijra Group’s data engineering ecosystem, progressing from Python fundamentals to robust, testable, and secure data pipelines with Django/FastAPI interfaces and Kubernetes Helm deployments. Through 70 chapters across eleven phases, nine checkpoints, and micro-projects (e.g., financial transaction pipelines with type annotations, validation, logging, PII protection, observability, scalability, Helm Charts, and comprehensive testing using `unittest` and `pytest`), learners master PostgreSQL, BigQuery, Kubernetes, Airflow, and dbt, delivering actionable insights via capstone projects in Phase 10. Designed for a development environment, with setup instructions to be provided in chapter implementations and datasets detailed in **Appendix 1: Required Data Files**, the curriculum ensures hands-on learning aligned with practical upskilling goals.
+The **Data Engineering Onboarding Curriculum** equips learners to excel in Hijra Group’s data engineering ecosystem, progressing from Python fundamentals to robust, testable, and secure data pipelines with Django/FastAPI interfaces and Kubernetes Helm deployments. Through 70 chapters across eleven phases, ten checkpoints, and micro-projects (e.g., financial transaction pipelines with type annotations, validation, logging, PII protection, observability, scalability, Helm Charts, and comprehensive testing using `unittest` and `pytest`), learners master PostgreSQL, BigQuery, Kubernetes, Airflow, and dbt, delivering actionable insights via capstone projects in Phase 10. Designed for a development environment, with setup instructions to be provided in chapter implementations and datasets detailed in **Appendix 1: Required Data Files**, the curriculum ensures hands-on learning aligned with practical upskilling goals.
