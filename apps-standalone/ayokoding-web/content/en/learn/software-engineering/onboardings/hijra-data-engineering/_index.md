@@ -63,3 +63,13 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [35 - Google Cloud Storage Advanced Features](./ch35-google-cloud-storage-advanced-features/)
 - [36 - Python for Data Lake Processing: Optimization](./ch36-python-for-data-lake-processing-optimization/)
 - [37 - Checkpoint 5: Analytical Storage Review](./ch37-checkpoint-5-analytical-storage-review/)
+
+## Phase 6: Advanced Data Processing
+
+- [38 - Advanced NumPy](./ch38-advanced-numpy/)
+- [39 - Advanced Pandas](./ch39-advanced-pandas/)
+- [40 - Concurrency in Python](./ch40-concurrency-in-python/)
+- [41 - Type-Safe Data Processing](./ch41-type-safe-data-processing/)
+- [42 - Testing Data Pipelines](./ch42-testing-data-pipelines/)
+- [43 - Advanced Testing Techniques](./ch43-advanced-testing-techniques/)
+- [44 - Advanced Data Processing Review](./ch44-advanced-data-processing-review/)
