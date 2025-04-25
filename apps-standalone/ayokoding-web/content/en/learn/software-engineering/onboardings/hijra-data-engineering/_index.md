@@ -73,3 +73,13 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [42 - Testing Data Pipelines](./ch42-testing-data-pipelines/)
 - [43 - Advanced Testing Techniques](./ch43-advanced-testing-techniques/)
 - [44 - Advanced Data Processing Review](./ch44-advanced-data-processing-review/)
+
+## Phase 7: Web and Database Integration
+
+- [45 - Jupyter Notebooks for Data Development](./ch45-jupyter-notebooks-for-data-development/)
+- [46 - Data Access Patterns for Applications](./ch46-data-access-patterns-for-applications/)
+- [47 - Advanced PostgreSQL Features](./ch47-advanced-postgresql-features/)
+- [48 - PostgreSQL Performance Optimization](./ch48-postgresql-performance-optimization/)
+- [49 - BigQuery Advanced Optimization](./ch49-bigquery-advanced-optimization/)
+- [50 - Data Visualization and BI Tools](./ch50-data-visualization-and-bi-tools/)
+- [51 - Checkpoint 7: Web and Database Integration Review](./ch51-checkpoint-7-web-and-database-integration-review/)
