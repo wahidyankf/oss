@@ -111,3 +111,7 @@ This curriculum is designed to onboard programmers into data engineering with a 
 - [68 - Capstone Project Implementation Part 1](./ch68-capstone-project-implementation-part-1/)
 - [69 - Capstone Project Implementation Part 2](./ch69-capstone-project-implementation-part-2/)
 - [70 - Capstone Project Implementation Part 3](./ch70-capstone-project-implementation-part-3/)
+
+## Outro
+
+- [Outro](./outro/)
