@@ -1,82 +1,236 @@
-# Hextra Starter Template
+# analisapasar-web
 
-[![Deploy Hugo site to Pages](https://github.com/imfing/hextra-starter-template/actions/workflows/pages.yaml/badge.svg)](https://github.com/imfing/hextra-starter-template/actions/workflows/pages.yaml)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6e83fd88-5ffe-4808-9689-c0f3b100bfe3/deploy-status)](https://app.netlify.com/sites/hextra-starter-template/deploys)
-![Vercel Deployment Status](https://img.shields.io/github/deployments/imfing/hextra-starter-template/production?logo=vercel&logoColor=white&label=vercel&labelColor=black&link=https%3A%2F%2Fhextra-starter-template.vercel.app%2F)
+Market analysis platform providing insights and educational content about financial markets in Indonesian and English. Currently in early development phase.
 
-🐣 Minimal template for getting started with [Hextra](https://github.com/imfing/hextra)
+## Overview
 
-![hextra-template](https://github.com/imfing/hextra-starter-template/assets/5097752/c403b9a9-a76c-47a6-8466-513d772ef0b7)
+AnalisaPasar ("Market Analysis" in Indonesian) is designed to be a comprehensive platform for market analysis content, targeting Indonesian traders and investors who want to understand market dynamics better.
 
-[🌐 Demo ↗](https://imfing.github.io/hextra-starter-template/)
+## Status
 
-## Quick Start
+⚠️ **In Development**: This project is in its early stages with minimal content. The infrastructure is set up and ready for content creation.
 
-Use this template to create your own repository:
+## Features
 
-<img src="https://docs.github.com/assets/cb-77734/mw-1440/images/help/repository/use-this-template-button.webp" width=400 />
+- **Bilingual Support**: Indonesian (primary) and English
+- **Documentation-style Layout**: Using Hextra theme for clear presentation
+- **SEO Optimized**: Hugo static site generation
+- **Responsive Design**: Mobile-friendly interface
+- **Dark/Light Theme**: User preference support
 
-You can also quickly start developing using the following online development environment:
+## Tech Stack
 
-- [GitHub Codespaces](https://github.com/codespaces)
+- **Static Site Generator**: Hugo (latest)
+- **Theme**: Hextra documentation theme
+- **Content Format**: Markdown with YAML frontmatter
+- **Deployment**: Netlify/Vercel ready
+- **Build Tools**: Custom build script
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/imfing/hextra-starter-template)
+## Getting Started
 
-  Create a new codespace and follow the [Local Development](#local-development) to launch the preview
+### Prerequisites
 
-- [Gitpod](https://gitpod.io)
+- Node.js 22.20.0 (managed by Volta)
+- npm 11.1.0
+- Hugo extended version (latest)
 
-  [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/imfing/hextra-starter-template)
+### Installation
+
+```bash
+# Install Hugo (macOS)
+brew install hugo
+
+# Navigate to project
+cd apps-standalone/analisapasar-web
+
+# Install dependencies
+npm install
+```
+
+### Development
+
+```bash
+# Start development server
+npm run dev
+# or
+hugo server -D
+
+# Server runs at http://localhost:1313
+```
+
+### Building
+
+```bash
+# Build for production
+npm run build
+# or
+./build.sh
+# or
+hugo --minify
+
+# Output will be in public/ directory
+```
+
+## Content Structure
+
+```
+content/
+├── _index.md          # Homepage
+├── docs/              # Documentation section
+│   ├── _index.md
+│   └── first-page.md  # Template page
+├── en/                # English content
+│   └── _index.md
+└── id/                # Indonesian content
+    └── _index.md
+```
+
+### Creating Content
+
+#### Market Analysis Articles (Indonesian)
+
+```bash
+hugo new content/id/analisa/nama-topik.md
+```
+
+#### Market Analysis Articles (English)
+
+```bash
+hugo new content/en/analysis/topic-name.md
+```
+
+### Content Frontmatter
+
+```yaml
+---
+title: 'Analisa Pasar Saham Hari Ini'
+date: 2024-01-01
+draft: false
+description: 'Analisa teknikal dan fundamental pasar saham'
+tags: ['saham', 'analisa-teknikal', 'IHSG']
+categories: ['daily-analysis']
+weight: 10
+---
+```
+
+## Configuration
+
+Main configuration in `hugo.yaml`:
+
+```yaml
+baseURL: 'https://analisapasar.com/'
+title: 'Analisa Pasar'
+theme: hextra
+
+languages:
+  id:
+    languageName: 'Indonesia'
+    weight: 1
+  en:
+    languageName: 'English'
+    weight: 2
+
+defaultContentLanguage: 'id'
+```
+
+## Planned Content Categories
+
+### Technical Analysis
+
+- Chart patterns
+- Technical indicators
+- Trading strategies
+- Market psychology
+
+### Fundamental Analysis
+
+- Company analysis
+- Sector analysis
+- Economic indicators
+- Financial ratios
+
+### Market Education
+
+- Trading basics
+- Investment principles
+- Risk management
+- Portfolio management
+
+### Daily/Weekly Analysis
+
+- Market overview
+- Stock picks
+- Sector rotation
+- Economic calendar
+
+## Development Roadmap
+
+1. **Phase 1**: Infrastructure setup ✅
+2. **Phase 2**: Content structure design 🚧
+3. **Phase 3**: Initial content creation
+4. **Phase 4**: Interactive features
+5. **Phase 5**: Community features
+
+## Scripts
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+./build.sh       # Custom build script
+```
 
 ## Deployment
 
-### GitHub Pages
+### Netlify Configuration
 
-A GitHub Actions workflow is provided in [`.github/workflows/pages.yaml`](./.github/workflows/pages.yaml) to [publish to GitHub Pages](https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/) for free.
+```toml
+[build]
+command = "hugo --minify"
+publish = "public"
 
-For details, see [Publishing with a custom GitHub Actions workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow).
-
-Note: in the settings, make sure to set the Pages deployment source to **GitHub Actions**:
-
-<img src="https://github.com/imfing/hextra-starter-template/assets/5097752/99676430-884e-42ab-b901-f6534a0d6eee" width=600 />
-
-[Run the workflow manually](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow) if it's not triggered automatically.
-
-### Netlify
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/imfing/hextra-starter-template)
-
-### Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fimfing%2Fhextra-starter-template&env=HUGO_VERSION)
-
-Override the configuration:
-
-<img src="https://github.com/imfing/hextra-starter-template/assets/5097752/e2e3cecd-c884-47ec-b064-14f896fee08d" width=600 />
-
-## Local Development
-
-Pre-requisites: [Hugo](https://gohugo.io/getting-started/installing/), [Go](https://golang.org/doc/install) and [Git](https://git-scm.com)
-
-```shell
-# Clone the repo
-git clone https://github.com/imfing/hextra-starter-template.git
-
-# Change directory
-cd hextra-starter-template
-
-# Start the server
-hugo mod tidy
-hugo server --logLevel debug --disableFastRender -p 1313
+[build.environment]
+HUGO_VERSION = "0.xxx.x"
 ```
 
-### Update theme
+### Vercel Configuration
 
-```shell
-hugo mod get -u
-hugo mod tidy
+```json
+{
+  "buildCommand": "hugo --minify",
+  "outputDirectory": "public",
+  "build": {
+    "env": {
+      "HUGO_VERSION": "0.xxx.x"
+    }
+  }
+}
 ```
 
-See [Update modules](https://gohugo.io/hugo-modules/use-modules/#update-modules) for more details.
+## Contributing
 
----
+This project is in early development. If you're interested in contributing:
+
+1. Check the roadmap above
+2. Create content in Markdown
+3. Follow the content structure
+4. Submit a pull request
+
+## Future Features
+
+- Real-time market data integration
+- Interactive charts
+- Trading calculators
+- Community discussions
+- Email newsletters
+- Mobile app
+
+## Related Documentation
+
+- [Hugo Documentation](https://gohugo.io/documentation/)
+- [Hextra Theme Documentation](https://imfing.github.io/hextra/)
+- [Standalone Projects Guide](/docs/projects/standalone.md)
+- [Adding New Project Guide](/docs/guides/adding-new-project.md)
+
+## License
+
+MIT License - see the [LICENSE](LICENSE) file for details.

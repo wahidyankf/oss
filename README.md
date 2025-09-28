@@ -9,16 +9,15 @@ This monorepo is a comprehensive development workspace that includes multiple ap
 ```
 oss/
 ├── apps/
-│   ├── next-hello/   # Main Next.js web application integrated into the monorepo
-│   └── web-e2e/      # End-to-end tests for the web application
-├── apps-standalone/  # Apps that are hard/not yet integrated to the monorepo
-│   ├── ayokoding-web/  # Standalone version of the web application
-│   ├── wahidyankf-e2e/  # End-to-end testing environment
-│   └── wahidyankf-web/  # Personal web application
-├── libs/             # Shared libraries and components
-│   └── ...           # Reusable code and shared utilities
-├── scripts/          # Utility scripts for project management
-└── tools/            # Development and build tools
+│   └── next-hello/         # Main Next.js web application integrated into the monorepo
+├── apps-standalone/        # Apps that are hard/not yet integrated to the monorepo
+│   ├── ayokoding-web/      # Hugo-based educational platform
+│   ├── analisapasar-web/   # Hugo-based market analysis site
+│   ├── wahidyankf-web/     # Next.js personal portfolio
+│   ├── wahidyankf-e2e/     # Playwright E2E test suite
+│   └── python-mastery/     # Python learning curriculum
+├── docs/                   # Comprehensive documentation
+└── scripts/                # Utility scripts for project management
 ```
 
 ### Folder Descriptions
@@ -26,7 +25,6 @@ oss/
 #### Apps
 
 - `next-hello`: The primary web application integrated into the monorepo
-- `web-e2e`: End-to-end testing suite for the web application
 
 #### Apps-Standalone
 
@@ -39,13 +37,15 @@ The `apps-standalone` folder is used for applications that are:
 
 Current standalone applications:
 
-- `ayokoding-web`: Standalone version of the web application
-- `wahidyankf-e2e`: End-to-end testing environment
-- `wahidyankf-web`: Personal web application
+- `ayokoding-web`: Hugo-based educational platform (ID/EN)
+- `analisapasar-web`: Hugo-based market analysis site
+- `wahidyankf-web`: Next.js personal portfolio website
+- `wahidyankf-e2e`: Playwright E2E test suite
+- `python-mastery`: Python learning curriculum
 
-#### Libs
+#### Docs
 
-Shared libraries and components that can be used across different applications in the monorepo.
+Comprehensive documentation for the entire monorepo, including architecture, development guides, and troubleshooting.
 
 ## Tech Stack
 
@@ -54,7 +54,7 @@ Shared libraries and components that can be used across different applications i
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Python Formatting**: Black
-- **Node Version Management**: nvm (via .nvmrc)
+- **Node Version Management**: Volta (22.20.0)
 - **Testing**:
   - Unit Testing: Jest
   - E2E Testing: Playwright
@@ -65,17 +65,17 @@ Shared libraries and components that can be used across different applications i
 
 ### Prerequisites
 
-- Node.js (version 20.x or later)
-- npm (version 9.x or later)
-- Nx CLI
+- Node.js 22.20.0 (managed by Volta)
+- npm 11.1.0 (managed by Volta)
+- Nx CLI (optional - can use npx)
 
 ### Installation
 
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/wahidyankf/ayokoding.git
-   cd ayokoding
+   git clone https://github.com/wahidyankf/oss.git
+   cd oss
    ```
 
 2. Install dependencies
@@ -160,8 +160,8 @@ npm run doctor
 
 Checks:
 
-- Required tools (nvm, black)
-- Node version matches .nvmrc
+- Required tools (volta, black)
+- Node version matches Volta configuration
 
 ### Pre-install Checks
 
@@ -176,6 +176,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Wahid Yankfi - [Your Email or Social Media]
+Wahidyan Kresna Fridayoka - [@wahidyankf](https://github.com/wahidyankf)
 
 Project Link: [https://github.com/wahidyankf/oss](https://github.com/wahidyankf/oss)

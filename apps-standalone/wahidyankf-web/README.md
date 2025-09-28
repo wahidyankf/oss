@@ -1,6 +1,6 @@
-# Wahidyan KF Web - Personal Portfolio Website
+# wahidyankf-web
 
-This is a personal portfolio website for Wahidyan Kresna Fridayoka, a seasoned Software Engineer specializing in Frontend Engineering and Engineering Management. Built with Next.js, it showcases Wahidyan's professional experience, skills, and personal projects.
+Personal portfolio website for Wahidyan Kresna Fridayoka, showcasing professional experience as a Software Engineer specializing in Islamic Finance/Sharia-compliant Fintech and Engineering Leadership.
 
 ## Features
 
@@ -15,95 +15,173 @@ This is a personal portfolio website for Wahidyan Kresna Fridayoka, a seasoned S
 
 ## Tech Stack
 
-- Next.js (v14.2.13)
-- React (v18)
-- TypeScript
-- Tailwind CSS (v3.4.1)
-- Lucide React (v0.446.0) and react-icons (v5.3.0) for icons
-- Vitest for unit testing
-- Playwright for end-to-end testing
-- ESLint and Prettier for code quality
-- Husky and lint-staged for Git hooks
-- Vercel for deployment
+- **Framework**: Next.js 14.2.13 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 3.4.1, class-variance-authority, tailwind-merge
+- **Icons**: Lucide React, React Icons
+- **Testing**: Vitest (unit), Playwright (E2E)
+- **Code Quality**: ESLint, Prettier, Husky, lint-staged
+- **Analytics**: Google Analytics, Google Tag Manager
+- **Deployment**: Vercel
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v20.17.0 or later recommended)
-- npm (v10.8.3 or later recommended)
+- Node.js 22.20.0 (managed by Volta)
+- npm 11.1.0
 
 ### Installation
 
-1. Clone the repository:
-   `git clone https://github.com/wahidyankf/wahidyankf-web.git`
-   `cd wahidyankf-web`
+From the repository root:
 
-2. Install dependencies:
-   `npm install`
+```bash
+# Navigate to project
+cd apps-standalone/wahidyankf-web
 
-3. Run the development server:
-   `npm run dev`
+# Install dependencies
+npm install
+```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
+
+```bash
+# Start development server
+npm run dev
+# or from root: npm run wahidyankf-web:dev
+
+# Open http://localhost:3000
+```
 
 ## Testing
 
-Run unit tests:
-`npm run test:unit`
+### Unit Tests (Vitest)
 
-Run unit tests in watch mode:
-`npm run test:unit:watch`
+```bash
+# Run unit tests
+npm run test:unit
 
-Run end-to-end tests:
-`npm run test:e2e`
+# Watch mode
+npm run test:unit:watch
 
-## Linting and Formatting
+# Run with UI
+npx vitest --ui
+```
 
-Run ESLint:
-`npm run lint`
+### E2E Tests
 
-Format code with Prettier:
-`npm run format`
+E2E tests are located in a separate project: `apps-standalone/wahidyankf-e2e`
 
-## Building for Production
+```bash
+cd ../wahidyankf-e2e
+npm test
+```
 
-Build the application for production:
-`npm run build`
+## Building and Code Quality
+
+### Linting and Formatting
+
+```bash
+# ESLint
+npm run lint
+
+# Format with Prettier
+npm run format
+
+# Git hooks automatically format on commit
+```
+
+### Production Build
+
+```bash
+# Build for production
+npm run build
+# or from root: npm run wahidyankf-web:build
+
+# Start production server
+npm start
+```
 
 ## Deployment
 
-The project is configured for deployment on Vercel, providing seamless integration with GitHub for continuous deployment.
+Configured for Vercel deployment with `vercel.json`:
+
+- Automatic deployments disabled for main branch
+- Manual deployments via Vercel CLI or dashboard
+- Environment variables configured in Vercel dashboard
 
 ## Project Structure
 
-The project follows a modular structure:
+```
+wahidyankf-web/
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── cv/              # CV page with search
+│   │   ├── personal-projects/ # Projects showcase
+│   │   ├── layout.tsx       # Root layout with theme
+│   │   └── page.tsx         # Home page
+│   ├── components/          # Reusable components
+│   │   ├── Navigation.tsx   # Responsive navigation
+│   │   ├── SearchComponent.tsx # Search functionality
+│   │   └── HighlightText.tsx # Text highlighting
+│   └── utils/               # Utility functions
+├── public/                  # Static assets
+├── vitest.config.ts         # Vitest configuration
+└── vercel.json              # Vercel configuration
+```
 
-- `src/`: Main application code
-  - `app/`: Next.js App Router pages and layouts
-  - `components/`: Reusable React components
-  - `utils/`: Utility functions
-- `e2e-tests/`: Playwright end-to-end tests
-- `public/`: Static assets
+## Key Features
 
-## Key Components
+### Advanced CV Search
 
-- Navigation: Responsive navigation component for both mobile and desktop layouts
-- SearchComponent: Reusable search input for filtering content
-- HighlightText: Component for highlighting search terms within text
+- Real-time filtering of CV entries
+- Skill-based search
+- Highlighted search results
+- Responsive search interface
 
-## Styling
+### Theme System
 
-The project uses a dual-theme system (dark and light) implemented with Tailwind CSS. The styling is consistent across all pages, with a focus on accessibility and responsiveness.
+- Dark/light mode toggle
+- System preference detection
+- Persistent theme selection
+- Smooth transitions
 
-## Contributing
+### Performance Optimizations
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/wahidyankf/wahidyankf-web/issues).
+- Optimized images and fonts
+- Code splitting
+- Memoized search algorithms
+- Minimal bundle size
 
-## Author
+## Environment Variables
 
-Wahidyan Kresna Fridayoka - [wahidyankf.com](https://wahidyankf.com)
+```bash
+# .env.local
+NEXT_PUBLIC_GA_ID=your-google-analytics-id
+NEXT_PUBLIC_GTM_ID=your-google-tag-manager-id
+```
+
+## Scripts Reference
+
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm start            # Start production server
+npm run lint         # Run ESLint
+npm test             # Run unit tests
+npm run test:unit    # Run unit tests
+npm run test:unit:watch # Watch mode
+npm run format       # Format with Prettier
+npm run prepare      # Setup git hooks
+```
+
+## Related Documentation
+
+- [Standalone Projects Guide](/docs/projects/standalone.md)
+- [Common Commands Reference](/docs/commands/common-commands.md)
+- [Development Workflow](/docs/development/development-workflow.md)
+- [Troubleshooting Guide](/docs/guides/troubleshooting.md)
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+MIT License - see the [LICENSE](LICENSE) file for details.
