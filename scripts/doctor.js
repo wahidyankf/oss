@@ -16,45 +16,49 @@ function checkCommand(command) {
   }
 }
 
-function checkNvm() {
-  if (process.env.NVM_DIR) {
-    console.log('✅ nvm is installed (found NVM_DIR)');
-    return true;
-  }
+function checkVolta() {
   try {
-    execSync('nvm --version', { stdio: 'ignore' });
-    console.log('✅ nvm is installed');
+    execSync('volta --version', { stdio: 'ignore' });
+    console.log('✅ volta is installed');
     return true;
   } catch {
-    console.log('❌ nvm is NOT installed');
-    console.log('   → To fix: Install nvm from https://github.com/nvm-sh/nvm');
+    console.log('❌ volta is NOT installed');
+    console.log('   → To fix: Install volta from https://volta.sh');
     return false;
   }
 }
 
 function checkNodeVersion() {
   try {
-    const nvmrcPath = path.join(process.cwd(), '.nvmrc');
-    if (!fs.existsSync(nvmrcPath)) {
-      console.log('ℹ️  No .nvmrc file found');
+    const packageJsonPath = path.join(process.cwd(), 'package.json');
+    if (!fs.existsSync(packageJsonPath)) {
+      console.log('ℹ️  No package.json file found');
       return true;
     }
 
-    const expectedVersion = fs.readFileSync(nvmrcPath, 'utf8').trim();
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+    const voltaConfig = packageJson.volta;
+
+    if (!voltaConfig || !voltaConfig.node) {
+      console.log('ℹ️  No volta.node version specified in package.json');
+      return true;
+    }
+
+    const expectedVersion = voltaConfig.node;
     const currentVersion = execSync('node -v', { encoding: 'utf8' })
       .trim()
       .replace('v', '');
 
     if (currentVersion === expectedVersion) {
-      console.log(`✅ Node version matches .nvmrc (v${expectedVersion})`);
+      console.log(`✅ Node version matches volta config (v${expectedVersion})`);
       return true;
     } else {
       console.log(`❌ Node version mismatch:`);
       console.log(`   - Current: v${currentVersion}`);
-      console.log(`   - Required: v${expectedVersion} (from .nvmrc)`);
       console.log(
-        `   → To fix: nvm install ${expectedVersion} && nvm use ${expectedVersion}`,
+        `   - Required: v${expectedVersion} (from package.json volta.node)`,
       );
+      console.log(`   → To fix: volta install node@${expectedVersion}`);
       return false;
     }
   } catch (error) {
@@ -68,7 +72,7 @@ console.log('Running system checks...\n');
 
 // Check requirements
 const checks = [
-  { name: 'nvm', result: checkNvm() },
+  { name: 'volta', result: checkVolta() },
   { name: 'black', result: checkCommand('black') },
   { name: 'node version', result: checkNodeVersion() },
 ];
