@@ -12,5 +12,9 @@
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@types/node": "^22.9.1"
+  },
+  "volta": {
+    "node": "22.20.0",
+    "npm": "11.1.0"
   }
 }
