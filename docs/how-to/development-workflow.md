@@ -304,6 +304,6 @@ When you push:
 ## Getting Help
 
 - Check project-specific READMEs
-- Review [Troubleshooting Guide](../guides/troubleshooting.md)
+- Review [Troubleshooting Guide](./troubleshoot-issues.md)
 - Ask in PR comments
 - Check existing issues

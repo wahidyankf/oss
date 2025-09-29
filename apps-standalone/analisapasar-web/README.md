@@ -228,8 +228,8 @@ This project is in early development. If you're interested in contributing:
 
 - [Hugo Documentation](https://gohugo.io/documentation/)
 - [Hextra Theme Documentation](https://imfing.github.io/hextra/)
-- [Standalone Projects Guide](/docs/projects/standalone.md)
-- [Adding New Project Guide](/docs/guides/adding-new-project.md)
+- [Standalone Projects Guide](/docs/reference/standalone-projects.md)
+- [Adding New Project Guide](/docs/how-to/add-new-project.md)
 
 ## License
 

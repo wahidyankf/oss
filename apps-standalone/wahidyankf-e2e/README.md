@@ -174,6 +174,7 @@ test.describe('Feature Name', () => {
    ```
 
 3. **Test User Journeys**
+
    ```typescript
    test('complete user flow', async ({ page }) => {
      // Navigate
@@ -342,8 +343,8 @@ npm run test:codegen      # Open test generator
 
 - [Playwright Documentation](https://playwright.dev)
 - [wahidyankf-web README](../wahidyankf-web/README.md)
-- [Testing Strategy Guide](/docs/development/testing.md)
-- [Troubleshooting Guide](/docs/guides/troubleshooting.md)
+- [Testing Strategy Guide](/docs/how-to/run-tests.md)
+- [Troubleshooting Guide](/docs/how-to/troubleshoot-issues.md)
 
 ## License
 

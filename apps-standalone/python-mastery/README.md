@@ -241,9 +241,9 @@ pip install -r requirements.txt
 
 ## Related Documentation
 
-- [Standalone Projects Guide](/docs/projects/standalone.md)
-- [Development Workflow](/docs/development/development-workflow.md)
-- [Code Style Guide](/docs/development/code-style.md)
+- [Standalone Projects Guide](/docs/reference/standalone-projects.md)
+- [Development Workflow](/docs/how-to/development-workflow.md)
+- [Code Style Guide](/docs/reference/code-style.md)
 
 ## License
 

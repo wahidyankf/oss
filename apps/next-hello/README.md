@@ -176,6 +176,6 @@ PORT=3001 npx nx serve next-hello
 
 ## Related Documentation
 
-- [Nx-Integrated Projects Guide](/docs/projects/nx-integrated.md)
-- [Common Commands Reference](/docs/commands/common-commands.md)
-- [Troubleshooting Guide](/docs/guides/troubleshooting.md)
+- [Nx-Integrated Projects Guide](/docs/reference/nx-projects.md)
+- [Common Commands Reference](/docs/reference/commands.md)
+- [Troubleshooting Guide](/docs/how-to/troubleshoot-issues.md)

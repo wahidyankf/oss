@@ -8,10 +8,10 @@ This is a hybrid monorepo with both Nx-integrated and standalone applications. F
 
 ## Key Documentation
 
-- **[Documentation Index](/docs/README.md)** - Start here for all documentation
-- **[Getting Started](/docs/development/getting-started.md)** - Environment setup
-- **[Common Commands](/docs/commands/common-commands.md)** - Quick command reference
-- **[Architecture](/docs/architecture/)** - Design decisions and structure
+- **[Documentation Index](/docs/)** - Start here for all documentation
+- **[Getting Started](/docs/tutorials/getting-started.md)** - Environment setup
+- **[Common Commands](/docs/reference/commands.md)** - Quick command reference
+- **[Architecture](/docs/explanation/)** - Design decisions and structure
 
 ## Essential Commands
 
@@ -40,13 +40,13 @@ npx nx affected:build             # Only affected
 
 - Use `npx nx <command> <project>`
 - Benefit from caching and affected commands
-- See: [Nx-Integrated Projects Guide](/docs/projects/nx-integrated.md)
+- See: [Nx-Integrated Projects Guide](/docs/reference/nx-projects.md)
 
 ### Standalone (`apps-standalone/`)
 
 - Have their own package.json and build process
 - Use npm scripts from root or navigate to project
-- See: [Standalone Projects Guide](/docs/projects/standalone.md)
+- See: [Standalone Projects Guide](/docs/reference/standalone-projects.md)
 
 ## Important Notes
 
@@ -68,7 +68,7 @@ npx nx affected:build             # Only affected
 
 If you encounter issues, check:
 
-- [Troubleshooting Guide](/docs/guides/troubleshooting.md)
+- [Troubleshooting Guide](/docs/how-to/troubleshoot-issues.md)
 - Project-specific README files
 - Run `npm run doctor` for environment issues
 

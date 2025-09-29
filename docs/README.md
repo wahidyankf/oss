@@ -1,35 +1,49 @@
 # OSS Monorepo Documentation
 
-Welcome to the comprehensive documentation for the OSS monorepo. This documentation is organized to help you quickly find the information you need.
+Welcome to the comprehensive documentation for the OSS monorepo. This documentation follows the [Diátaxis framework](./explanation/diataxis-framework.md) to help you find exactly what you need.
+
+## 🧭 Quick Navigation Guide
+
+- **New to the project?** → Start with [Tutorials](./tutorials/)
+- **Have a specific task?** → Use [How-To Guides](./how-to/)
+- **Need details?** → Check [Reference](./reference/)
+- **Want to understand why?** → Read [Explanation](./explanation/)
 
 ## 📚 Documentation Structure
 
-### [Architecture](./architecture/)
+Our documentation is organized into four distinct types, each serving a specific purpose:
 
-- [Monorepo Structure](./architecture/monorepo-structure.md) - Understanding the repository layout
-- [Technology Stack](./architecture/technology-stack.md) - Technologies and tools used
-- [Design Decisions](./architecture/design-decisions.md) - Key architectural choices
+### 🎓 [Tutorials](./tutorials/)
 
-### [Development](./development/)
+**Learning-oriented** guides that take you by the hand through a series of steps.
 
-- [Getting Started](./development/getting-started.md) - Initial setup and prerequisites
-- [Development Workflow](./development/development-workflow.md) - Day-to-day development practices
-- [Testing Strategy](./development/testing.md) - Testing approaches and commands
-- [Code Style](./development/code-style.md) - Formatting and linting standards
+- [Getting Started](./tutorials/getting-started.md) - Your first steps with the monorepo
 
-### [Projects](./projects/)
+### 🛠️ [How-To Guides](./how-to/)
 
-- [Nx-Integrated Projects](./projects/nx-integrated.md) - Projects managed by Nx
-- [Standalone Projects](./projects/standalone.md) - Independent applications
+**Task-oriented** instructions for achieving specific goals.
 
-### [Commands](./commands/)
+- [Add a New Project](./how-to/add-new-project.md) - Steps to add new applications
+- [Development Workflow](./how-to/development-workflow.md) - Day-to-day development practices
+- [Run Tests](./how-to/run-tests.md) - Testing across different projects
+- [Troubleshoot Issues](./how-to/troubleshoot-issues.md) - Common problems and solutions
 
-- [Common Commands](./commands/common-commands.md) - Frequently used commands reference
+### 📖 [Reference](./reference/)
 
-### [Guides](./guides/)
+**Information-oriented** descriptions of the system.
 
-- [Adding a New Project](./guides/adding-new-project.md) - How to add new applications
-- [Troubleshooting](./guides/troubleshooting.md) - Common issues and solutions
+- [Commands](./reference/commands.md) - Complete command reference
+- [Code Style](./reference/code-style.md) - Coding standards and conventions
+- [Technology Stack](./reference/technology-stack.md) - Technologies and tools used
+- [Nx Projects](./reference/nx-projects.md) - Nx-integrated project details
+- [Standalone Projects](./reference/standalone-projects.md) - Independent application details
+
+### 💡 [Explanation](./explanation/)
+
+**Understanding-oriented** discussions of concepts and decisions.
+
+- [Design Decisions](./explanation/design-decisions.md) - Key architectural choices
+- [Monorepo Structure](./explanation/monorepo-structure.md) - Why we organize code this way
 
 ## 🚀 Quick Links
 
@@ -70,6 +84,6 @@ This monorepo houses multiple interconnected projects:
 
 ## 📖 Getting Help
 
-- For setup issues, see [Getting Started](./development/getting-started.md)
-- For common problems, check [Troubleshooting](./guides/troubleshooting.md)
+- For setup issues, see [Getting Started](./tutorials/getting-started.md)
+- For common problems, check [Troubleshooting](./how-to/troubleshoot-issues.md)
 - For specific project questions, refer to individual project READMEs

@@ -304,7 +304,7 @@ Update root `package.json`:
 
 ### 1. Update Documentation
 
-1. Add to `/docs/projects/standalone.md` or `/docs/projects/nx-integrated.md`
+1. Add to `/docs/reference/standalone-projects.md` or `/docs/reference/nx-projects.md`
 2. Update main README.md project list
 3. Create project-specific README.md
 

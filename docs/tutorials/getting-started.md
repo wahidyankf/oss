@@ -224,7 +224,7 @@ hugo version
 
 ## Next Steps
 
-1. Read the [Development Workflow](./development-workflow.md)
+1. Read the [Development Workflow](../how-to/development-workflow.md)
 2. Check project-specific READMEs
-3. Review [Code Style](./code-style.md) guidelines
-4. Set up your [Testing](./testing.md) environment
+3. Review [Code Style](../reference/code-style.md) guidelines
+4. Set up your [Testing](../how-to/run-tests.md) environment

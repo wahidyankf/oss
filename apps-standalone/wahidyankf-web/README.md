@@ -177,10 +177,10 @@ npm run prepare      # Setup git hooks
 
 ## Related Documentation
 
-- [Standalone Projects Guide](/docs/projects/standalone.md)
-- [Common Commands Reference](/docs/commands/common-commands.md)
-- [Development Workflow](/docs/development/development-workflow.md)
-- [Troubleshooting Guide](/docs/guides/troubleshooting.md)
+- [Standalone Projects Guide](/docs/reference/standalone-projects.md)
+- [Common Commands Reference](/docs/reference/commands.md)
+- [Development Workflow](/docs/how-to/development-workflow.md)
+- [Troubleshooting Guide](/docs/how-to/troubleshoot-issues.md)
 
 ## License
 
