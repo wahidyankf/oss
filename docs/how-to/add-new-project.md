@@ -166,6 +166,9 @@ cd apps-standalone/my-standalone-app
 # Initialize project
 npm init -y
 
+# Add JSON Schema for better editor support
+npm pkg set '$schema'="https://json.schemastore.org/package"
+
 # Add Volta configuration
 npm pkg set volta.node="22.20.0"
 npm pkg set volta.npm="11.1.0"
@@ -275,6 +278,7 @@ Thumbs.db
 #### package.json scripts
 ```json
 {
+  "$schema": "https://json.schemastore.org/package",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

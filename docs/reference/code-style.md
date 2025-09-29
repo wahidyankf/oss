@@ -273,6 +273,40 @@ import clsx from 'clsx';
 }
 ```
 
+## JSON Configuration
+
+### package.json
+
+Always include the JSON Schema reference for better editor support:
+
+```json
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "your-package",
+  "version": "1.0.0"
+}
+```
+
+This provides:
+
+- IntelliSense/autocomplete in supported editors
+- Validation of required and optional fields
+- Type information for property values
+- Documentation on hover
+
+### tsconfig.json
+
+Similarly for TypeScript configuration:
+
+```json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Configuration options
+  }
+}
+```
+
 ## Markdown
 
 ### Documentation Structure

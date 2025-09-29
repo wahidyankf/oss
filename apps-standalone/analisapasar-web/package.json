@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "analisapasar-web",
   "version": "1.0.0",
   "description": "Analisapasar Web is a multilingual Hugo-powered website for learning and sharing knowledge in both English and Indonesian.",

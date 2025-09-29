@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "wahidyankf-e2e",
   "version": "1.0.0",
   "main": "index.js",
