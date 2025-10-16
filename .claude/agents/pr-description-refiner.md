@@ -214,7 +214,7 @@ After discovery, you should know:
 - **Actionable**: Include only context reviewers need to verify the change
 - **Specific title**: Short, actionable, follows conventional commit format
 - **Summarize, don't paste**: Reference issues but summarize key points
-- **Documentation Alignment**: Mention if changes require `@docs/` updates
+- **Documentation Alignment**: Mention if changes require `docs/` updates
 - **No Jargon**: Plain, direct language (avoid "leverage", "utilize",
   "facilitate")
 
