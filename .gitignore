@@ -65,3 +65,11 @@ out
 
 # ts
 tsconfig.tsbuildinfo
+
+# claude
+
+settings.local.json
+settings.local.json.bkup
+
+# Python
+.python-version
