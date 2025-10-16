@@ -181,9 +181,11 @@ defined**
 - **Implementation checklist**: Tasks with checkboxes for tracking progress
 - **Validation checklist**: Verification steps for fresh agents/developers
 - Quality gates and acceptance criteria
-- Commands to run for verification (yarn check:fix:affected, yarn
-  check:apps:fix, etc.)
+- Commands to run for verification (npm run test:all, npm run typecheck, npm run build, etc.)
 - Self-contained instructions for validating the implementation
+
+**This Repository**: Use `npm run test:all` (full validation), `npm run typecheck`, `npm run build`,
+and Nx commands like `npx nx affected:test` / `npx nx affected:build` for validation.
 
 ## CRITICAL: Content Restrictions (KISS Principle)
 
@@ -522,6 +524,7 @@ For each technology discovered in the codebase:
 
 - **Package manager**: yarn, npm, or pnpm (check package-lock.json, yarn.lock,
   pnpm-lock.yaml)
+  - **This repository uses npm** - Node 22.20.0, npm 11.1.0 (managed by Volta)
 - **Node version management**: Volta (.volta in package.json), nvm (.nvmrc), or
   none
 - **Testing**: Discovered from dependencies (Jest, Vitest, Mocha, etc.)

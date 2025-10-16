@@ -222,6 +222,9 @@ Examples:
    - godog → Go Cucumber implementation
    ```
 
+   **This Repository**: No BDD framework installed yet. Gherkin formatting ready via `prettier-plugin-gherkin`.
+   Feature files can be placed in `specs/` directory when BDD framework is added in the future.
+
 3. **Detect E2E framework** from dependencies:
 
    ```
@@ -394,6 +397,8 @@ After detecting the BDD framework, reference the appropriate documentation:
 - **Behave**: Python-specific BDD patterns
 - **SpecFlow**: .NET BDD integration guides
 - **etc.**
+
+**This Repository**: BDD framework documentation will be added when a BDD framework is chosen and implemented.
 
 ## Final Reminders
 

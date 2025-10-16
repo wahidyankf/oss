@@ -182,7 +182,8 @@ When creating or updating documentation:
 
 **Project-Specific Context** (Discover Before Documenting):
 
-- **Package manager**: Discover from lock files (yarn.lock, package-lock.json, pnpm-lock.yaml)
+- **Package manager**: Discover from lock files (package-lock.json for npm, yarn.lock, pnpm-lock.yaml)
+  - **This repository uses npm** - Node 22.20.0, npm 11.1.0 (managed by Volta)
 - **Monorepo tool**: Discover from config (nx.json, turbo.json, lerna.json, or none)
 - **Version management**: Discover from config (.volta, .nvmrc, pyproject.toml with pyenv)
 - **Pre-commit hooks**: Check .husky/, .git/hooks/, pre-commit config
@@ -266,7 +267,8 @@ When creating documentation:
    - High-quality Spring Boot tutorials for version [version]
    - Current best practices for Spring Boot [version] routing
 6. Read related docs (docs/reference/commands.md, etc.) to check for contradictions
-7. Verify command examples match pom.xml and package.json (yarn) scripts
+7. Verify command examples match pom.xml and package.json (npm) scripts
+   - **This repository**: Use npm scripts (not yarn), e.g., `npm run test:all`, `npm run typecheck`
 8. Create crash course tailored for early-level software engineers:
    - Explain Spring Boot routing from fundamentals
    - Use simple language, define technical terms

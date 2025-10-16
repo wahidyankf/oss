@@ -99,6 +99,10 @@ docs/explanation/conventions/ai-assistant-rules.md
    - dotnet test
    ```
 
+   **This Repository**: Key quality commands are `npm run test:all` (full validation),
+   `npm run typecheck`, `npm run build`, and Nx commands like `npx nx test <project>`,
+   `npx nx lint <project>`, `npx nx affected:test`, `npx nx affected:build`.
+
 4. **Discover project architecture** by reading:
 
    ```

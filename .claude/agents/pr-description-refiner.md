@@ -39,7 +39,7 @@ changes.
    - Are clear and specific (avoid vague terms like "updates" or "changes")
    - Stay under 72 characters when possible (excluding ticket reference)
    - Capture the primary purpose of the PR
-   - Include ticket references if present in commits (e.g., `[HBANK-123]`,
+   - Include ticket references if present in commits (e.g., `[SUPERPROJ-123]`,
      `[PROJ-456]`)
 
 3. **Write Clear, Concise PR Descriptions**: Focus on clarity and completeness,
@@ -171,8 +171,8 @@ After discovery, you should know:
    - Note any breaking changes or migration requirements
    - Assess impact on different parts of the system using **discovered tech
      stacks**
-   - Map changes to **discovered quality commands** (e.g., "yarn
-     check:fix:affected passes" or discovered equivalent)
+   - Map changes to **discovered quality commands** (e.g., "npm run test:all passes",
+     "npm run typecheck passes", "npx nx affected:test", or discovered equivalent)
    - **Exclude merge commit changes**: Do NOT include changes that came from
      merging main branch into the PR branch
 
@@ -243,8 +243,8 @@ Use this concise template structure (100-400 words):
 
 ## Testing ✅
 
-- [x] `[discovered quality command]` passes (e.g., `yarn check:fix:affected`,
-      `mvn verify`, `pytest`, etc.)
+- [x] `[discovered quality command]` passes (e.g., `npm run test:all`, `npm run typecheck`,
+      `npx nx affected:test`, `mvn verify`, `pytest`, etc.)
 - [x] Unit tests pass
 - [x] Formatting completed (if pre-commit hooks exist)
 - [x] Conventional commit format verified (if applicable)
