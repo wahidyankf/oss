@@ -69,7 +69,7 @@
       "prettier --write"
     ],
     "*.py": [
-      "black --quiet"
+      "ruff format"
     ]
   },
   "volta": {
