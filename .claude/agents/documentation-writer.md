@@ -130,6 +130,17 @@ When creating or updating documentation:
   concepts, processes, flows, architectures, and data structures. Visual
   representations make complex ideas easier to understand. Examples: system
   architecture, request flow, state machines, data flow diagrams, etc.
+- **ALWAYS use markdown tables for database schemas**: When documenting SQL and
+  other database schemas, tables, columns, indexes, constraints, and
+  relationships, use markdown table format for clarity and readability. Include
+  relevant details such as column names, data types, constraints (PRIMARY KEY,
+  FOREIGN KEY, NOT NULL, UNIQUE), default values, and descriptions. Example:
+  ```markdown
+  | Column Name | Data Type | Constraints      | Default | Description        |
+  | ----------- | --------- | ---------------- | ------- | ------------------ |
+  | id          | INTEGER   | PRIMARY KEY      | -       | Unique identifier  |
+  | email       | VARCHAR   | NOT NULL, UNIQUE | -       | User email address |
+  ```
 - ALWAYS use path aliases (docs/, libs/, etc.)
 - ALWAYS cross-reference related documentation
 - ALWAYS place content in the correct Diátaxis category
@@ -231,8 +242,10 @@ version) ✓ **External links verified** (current, accessible, version-specific)
 ✓ No contradictions with existing documentation (checked across docs/,
 README.md, CLAUDE.md) ✓ No placeholder or fictional content exists ✓ Examples
 use actual repository code ✓ ASCII art used for diagrams (no Mermaid) ✓ ASCII
-art used where appropriate to explain concepts, processes, and flows ✓ Path
-aliases used correctly ✓ Cross-references are accurate and helpful ✓ **Folder
+art used where appropriate to explain concepts, processes, and flows ✓
+**Database schemas use markdown tables** (columns, types, constraints clearly
+formatted) ✓ Path aliases used correctly ✓ Cross-references are accurate and
+helpful ✓ **Folder
 README updated** (if folder has README, new document is linked) ✓ **Parent
 READMEs updated** (docs/README.md, category READMEs, navigation tables) ✓ File
 naming follows conventions ✓ Writing is clear, concise, and technically accurate

@@ -588,6 +588,7 @@ Provide audit results in this structure:
 - Tutorials not appropriate for early-level engineers: [count]
 - Missing authoritative external references: [count]
 - Jargon violations: [count]
+- Database schema formatting violations: [count]
 - **Frameworks missing Quick Reference: [count]**
 - **Frameworks missing Crash Course: [count]**
 - **Frameworks missing BOTH Quick Reference AND Crash Course: [count]**
@@ -925,6 +926,15 @@ checklist above. Do NOT skip any frameworks missing documentation.
 - Gherkin specs violating 1-1-1 rule or using triple quotes
 - Quality commands not matching standardized patterns
 - Documentation structure not following Diátaxis framework
+- **Database schemas not in table format**: When documenting SQL and other
+  database schemas, tables, columns, indexes, constraints, and relationships,
+  markdown table format must be used. Flag any database documentation that:
+  - Documents table structures without using markdown tables
+  - Lists columns, data types, or constraints in plain text or code blocks
+    instead of tables
+  - Omits critical information (column names, data types, constraints, default
+    values, descriptions)
+  - Uses inconsistent table formatting for database schemas
 
 **When to flag as missing documentation**:
 
@@ -1130,6 +1140,8 @@ courses):
   content
 - Ensure quality check commands match discovered patterns (check discovered
   commands from package.json, pom.xml, etc.)
+- Verify database schemas use markdown table format (not plain text or code
+  blocks)
 
 ## Escalation
 
