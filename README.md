@@ -1,174 +1,84 @@
 # OSS Monorepo
 
-## Overview
+A hybrid monorepo combining Nx-integrated and standalone applications for web development, educational content, and E2E testing.
 
-This monorepo is a comprehensive development workspace that includes multiple applications, libraries, and tools. It provides a flexible and scalable approach to managing different projects and standalone applications.
+## Quick Start
+
+```bash
+# Clone and install
+git clone https://github.com/wahidyankf/oss.git
+cd oss
+npm install
+
+# Verify setup
+npm run doctor
+
+# Development
+npx nx serve next-hello              # Nx-integrated app
+npm run wahidyankf-web:dev          # Standalone Next.js
+npm run ayokoding-web:dev           # Standalone Hugo
+
+# Quality checks
+npm run test:all                     # All tests
+npm run typecheck                    # TypeScript validation
+npm run build                        # Build all projects
+```
+
+## Documentation
+
+📚 **[Complete Documentation](docs/README.md)** - Comprehensive guides using Diátaxis framework
+
+**Quick Links**:
+
+- [Getting Started Guide](docs/tutorials/getting-started.md) - Detailed setup instructions
+- [Development Workflow](docs/how-to/development-workflow.md) - Daily development tasks
+- [Common Commands](docs/reference/commands.md) - Full command reference
+- [Architecture Overview](docs/explanation/monorepo-structure.md) - Design decisions
+- [Technology Stack](docs/reference/technology-stack.md) - Complete tech stack details
+- [Troubleshooting](docs/how-to/troubleshoot-issues.md) - Common issues and solutions
 
 ## Project Structure
 
 ```
 oss/
-├── apps/
-│   └── next-hello/         # Main Next.js web application integrated into the monorepo
-├── apps-standalone/        # Apps that are hard/not yet integrated to the monorepo
-│   ├── ayokoding-web/      # Hugo-based educational platform
-│   ├── analisapasar-web/   # Hugo-based market analysis site
-│   ├── wahidyankf-web/     # Next.js personal portfolio
-│   ├── wahidyankf-e2e/     # Playwright E2E test suite
-│   └── python-mastery/     # Python learning curriculum
-├── docs/                   # Comprehensive documentation
-└── scripts/                # Utility scripts for project management
+├── apps/                   # Nx-integrated applications
+│   └── next-hello/         # Next.js app with Nx tooling
+├── apps-standalone/        # Standalone applications
+│   ├── ayokoding-web/      # Hugo educational platform
+│   ├── analisapasar-web/   # Hugo market analysis site
+│   ├── wahidyankf-web/     # Next.js portfolio
+│   ├── wahidyankf-e2e/     # Playwright E2E tests
+│   └── python-mastery/     # Python curriculum
+├── docs/                   # Documentation (Diátaxis framework)
+├── plans/                  # Implementation plans
+└── specs/                  # Gherkin specifications
 ```
 
-### Folder Descriptions
-
-#### Apps
-
-- `next-hello`: The primary web application integrated into the monorepo
-
-#### Apps-Standalone
-
-The `apps-standalone` folder is used for applications that are:
-
-- Difficult to integrate into the monorepo
-- Experimental projects
-- Not yet ready for full monorepo integration
-- Maintained separately from the main monorepo workflow
-
-Current standalone applications:
-
-- `ayokoding-web`: Hugo-based educational platform (ID/EN)
-- `analisapasar-web`: Hugo-based market analysis site
-- `wahidyankf-web`: Next.js personal portfolio website
-- `wahidyankf-e2e`: Playwright E2E test suite
-- `python-mastery`: Python learning curriculum
-
-#### Docs
-
-Comprehensive documentation for the entire monorepo, including architecture, development guides, and troubleshooting.
+See [docs/explanation/monorepo-structure.md](docs/explanation/monorepo-structure.md) for detailed structure explanation.
 
 ## Tech Stack
 
-- **Framework**: Next.js
-- **Monorepo Management**: Nx
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Python Formatting**: Black
-- **Node Version Management**: Volta (22.20.0)
-- **Testing**:
-  - Unit Testing: Jest
-  - E2E Testing: Playwright
-- **Code Formatting**: Prettier
-- **Git Hooks**: Husky
+**Core**: Node.js 22.20.0 (Volta), npm 11.1.0, TypeScript, Nx
+**Frontend**: Next.js, Tailwind CSS, Hugo
+**Testing**: Vitest, Playwright
+**Formatting**: Prettier (JS/TS/Gherkin), ruff (Python)
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 22.20.0 (managed by Volta)
-- npm 11.1.0 (managed by Volta)
-- Nx CLI (optional - can use npx)
-
-### Installation
-
-1. Clone the repository
-
-   ```bash
-   git clone https://github.com/wahidyankf/oss.git
-   cd oss
-   ```
-
-2. Install dependencies
-   ```bash
-   npm install
-   ```
-
-### Development
-
-#### Monorepo Applications
-
-- Start the main application:
-
-  ```bash
-  npx nx serve next-hello
-  ```
-
-- Build for production:
-  ```bash
-  npx nx build next-hello
-  ```
-
-#### Standalone Applications
-
-- Start the standalone web application:
-
-  ```bash
-  npm run ayokoding-web:dev
-  ```
-
-- Build standalone web application:
-  ```bash
-  npm run ayokoding-web:build
-  ```
-
-### Testing
-
-- Run all tests (including standalone and monorepo applications):
-
-  ```bash
-  npm run test:all
-  ```
-
-- Run standalone application tests:
-  ```bash
-  npm run test:all:standalone
-  ```
+See [docs/reference/technology-stack.md](docs/reference/technology-stack.md) for complete details.
 
 ## Contributing
 
+See [docs/how-to/development-workflow.md](docs/how-to/development-workflow.md) for detailed contribution guidelines.
+
+**Quick steps**:
+
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit using conventional format: `type(scope): subject`
+4. Ensure quality checks pass: `npm run test:all`
+5. Push and open a Pull Request
 
-## Git Hooks
-
-The project uses Husky for Git hooks with automated setup:
-
-```bash
-npm run prepare
-```
-
-Hooks include:
-
-- `pre-commit`: Runs lint-staged (Prettier for JS/TS, Black for Python)
-- `commit-msg`: Validates commit messages
-- `pre-push`: Runs tests and builds affected projects
-
-The prepare script ensures all hooks are executable.
-
-## Project Health Checks
-
-The project includes automated checks to ensure proper setup:
-
-### Doctor Script
-
-```bash
-npm run doctor
-```
-
-Checks:
-
-- Required tools (volta, black)
-- Node version matches Volta configuration
-
-### Pre-install Checks
-
-Automatically runs during `npm install` to verify:
-
-- Correct Node version
-- Required tools are installed
+**Commit format**: Use [conventional commits](https://www.conventionalcommits.org/) - `type(scope): description`
+**Git hooks**: Pre-commit formatting, commit message validation, pre-push testing (automatic via Husky)
 
 ## License
 

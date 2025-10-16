@@ -1,84 +1,58 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this hybrid monorepo (Nx-integrated + standalone projects).
 
-## Quick Overview
+## Documentation
 
-This is a hybrid monorepo with both Nx-integrated and standalone applications. For comprehensive documentation, see the `/docs` directory.
+**Start here**: [docs/README.md](docs/README.md) - Complete documentation using Diátaxis framework
 
-## Key Documentation
+**AI Assistant Rules**: [docs/explanation/conventions/ai-assistant-rules.md](docs/explanation/conventions/ai-assistant-rules.md) - **MANDATORY** rules for AI assistants
 
-- **[Documentation Index](/docs/)** - Start here for all documentation
-- **[Getting Started](/docs/tutorials/getting-started.md)** - Environment setup
-- **[Common Commands](/docs/reference/commands.md)** - Quick command reference
-- **[Architecture](/docs/explanation/)** - Design decisions and structure
+**Quick Links**:
+
+- [Getting Started](docs/tutorials/getting-started.md) - Environment setup
+- [Common Commands](docs/reference/commands.md) - Command reference
+- [Development Workflow](docs/how-to/development-workflow.md) - Daily development tasks
+- [Troubleshooting](docs/how-to/troubleshoot-issues.md) - Common issues
 
 ## Essential Commands
 
 ```bash
-# Setup
+# Setup & Validation
 npm install              # Install deps and git hooks
 npm run doctor          # Verify environment
 
-# Development (from root)
-npx nx serve next-hello            # Nx app
-npm run wahidyankf-web:dev         # Standalone Next.js
-npm run ayokoding-web:dev          # Standalone Hugo
+# Quality Checks (MANDATORY before commits)
+npm run test:all        # All tests
+npm run typecheck       # TypeScript validation
+npm run build          # Build all projects
 
-# Testing
-npm run test:all                   # All tests
-npx nx affected:test              # Only affected Nx projects
+# Development
+npx nx serve <project>           # Nx-integrated apps
+npm run <project>:dev           # Standalone apps
 
-# Build
-npm run build                      # All projects
-npx nx affected:build             # Only affected
+# Testing (Nx projects)
+npx nx test <project>           # Single project
+npx nx affected:test           # Only affected
 ```
 
-## Project Types
+## Project Structure
 
-### Nx-Integrated (`apps/`)
+- **Nx-integrated** (`apps/`): Use `npx nx <command> <project>` - [Details](docs/reference/nx-projects.md)
+- **Standalone** (`apps-standalone/`): Use npm scripts - [Details](docs/reference/standalone-projects.md)
+- **Project READMEs**: Each project has specific instructions in its README.md
 
-- Use `npx nx <command> <project>`
-- Benefit from caching and affected commands
-- See: [Nx-Integrated Projects Guide](/docs/reference/nx-projects.md)
+## Key Conventions
 
-### Standalone (`apps-standalone/`)
+- **Versions**: Volta manages Node 22.20.0 / npm 11.1.0
+- **Python**: pyenv with `wkf-oss` environment
+- **Commits**: Conventional format `type(scope): subject`
+- **Formatting**: Automatic via git hooks (Prettier for JS/TS/Gherkin, ruff for Python)
+- **Documentation**: Follow Diátaxis framework (tutorials/how-to/reference/explanation)
 
-- Have their own package.json and build process
-- Use npm scripts from root or navigate to project
-- See: [Standalone Projects Guide](/docs/reference/standalone-projects.md)
+## Working on Tasks
 
-## Important Notes
-
-1. **Node/npm versions**: Managed by Volta (22.20.0/11.1.0)
-2. **Commit format**: `type(scope): subject` (conventional commits)
-3. **Code formatting**: Automatic via git hooks (Prettier/Black)
-4. **Python projects**: Use pyenv and virtual environments
-5. **E2E tests**: Located in separate `wahidyankf-e2e` project
-
-## When Working on Tasks
-
-1. **Research first**: Use search/grep tools to understand the codebase
-2. **Check project README**: Each project has specific instructions
-3. **Run tests**: Ensure changes don't break existing functionality
-4. **Follow conventions**: Match existing code style and patterns
-5. **Lint and typecheck**: Run `npx nx lint <project>` for specific projects and `npm run typecheck` for all Nx projects
-
-## Troubleshooting
-
-If you encounter issues, check:
-
-- [Troubleshooting Guide](/docs/how-to/troubleshoot-issues.md)
-- Project-specific README files
-- Run `npm run doctor` for environment issues
-
-## Project-Specific Details
-
-For detailed information about each project:
-
-- [next-hello](/apps/next-hello/README.md)
-- [wahidyankf-web](/apps-standalone/wahidyankf-web/README.md)
-- [ayokoding-web](/apps-standalone/ayokoding-web/README.md)
-- [analisapasar-web](/apps-standalone/analisapasar-web/README.md)
-- [python-mastery](/apps-standalone/python-mastery/README.md)
-- [wahidyankf-e2e](/apps-standalone/wahidyankf-e2e/README.md)
+1. Check [AI Assistant Rules](docs/explanation/conventions/ai-assistant-rules.md) first
+2. Read project-specific README.md
+3. Run quality checks before committing
+4. See [docs/](docs/) for comprehensive guidance
