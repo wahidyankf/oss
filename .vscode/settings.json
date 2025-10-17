@@ -1,0 +1,28 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.nx/**": true,
+    "**/dist/**": true,
+    "**/.next/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/tmp/**": true,
+    "**/out-tsc/**": true,
+    "**/coverage/**": true,
+    "**/.venv/**": true,
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/.nx": true,
+    "**/coverage": true,
+    "**/.venv": true,
+    "**/__pycache__": true
+  },
+  "files.exclude": {
+    "**/.nx/cache": true
+  }
+}
