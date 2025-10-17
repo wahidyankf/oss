@@ -141,11 +141,16 @@ After discovery, your context understanding should include:
 
 Reference structure for evaluation:
 
-### 4-Document System (MANDATORY)
+### Core Document System (MANDATORY)
 
 1. **README.md**: Summary, status, high-level scope, links to other docs
 2. **requirements.md**: Scope, non-scope, user stories with Gherkin criteria
-3. **tech-docs.md**: Technical design, architecture, testing strategies
+3. **tech-docs.md OR tech-docs/**: Technical design, architecture, testing strategies
+   - **Single file (tech-docs.md)**: Use when total LOC <= 1500
+   - **Split folder (tech-docs/)**: Use when total LOC > 1500
+     - README.md: Overview and navigation
+     - alternatives-\*.md: Analysis of alternatives for each topic
+     - chosen-\*.md: Chosen approach with implementation details
 4. **delivery.md**: Implementation checklist, validation checklist
 
 ### Scope Requirements
@@ -184,10 +189,23 @@ Plans must contain ONLY technical implementation content. NO:
 
 ### Phase 2: Structure Verification
 
-1. **Check Document Existence**: Verify all 4 documents present
-2. **Verify Sections**: Ensure each document has required sections
-3. **Check Formatting**: Validate Markdown structure, headings, code blocks
-4. **Status Markers**: Verify README has appropriate status marker
+1. **Check Document Existence**: Verify all core documents present (README, requirements, tech-docs, delivery)
+2. **Verify Tech-Docs Format** (NEW):
+   - Determine if using tech-docs.md (single file) or tech-docs/ (split folder)
+   - **If tech-docs.md exists**:
+     - Count LOC: `wc -l tech-docs.md`
+     - **Flag if > 1500 LOC**: Should be split into tech-docs/ folder
+   - **If tech-docs/ exists**:
+     - Count total LOC: `wc -l tech-docs/*.md`
+     - **Flag if total <= 1500 LOC**: Should be consolidated into single tech-docs.md
+     - Verify README.md exists in tech-docs/ with proper navigation
+     - Verify alternatives-_.md and chosen-_.md follow naming conventions
+     - Check that split files are concise, not bloated
+   - **If both tech-docs.md and tech-docs/ exist**: CRITICAL ERROR - only one format allowed
+   - **If neither exists**: CRITICAL ERROR - tech-docs required
+3. **Verify Sections**: Ensure each document has required sections
+4. **Check Formatting**: Validate Markdown structure, headings, code blocks
+5. **Status Markers**: Verify README has appropriate status marker
 
 ### Phase 3: Scope Analysis
 
@@ -254,6 +272,13 @@ Plans must contain ONLY technical implementation content. NO:
 3. **Validate Dependencies**: Cross-reference with actual dependency files
 4. **Check Configurations**: Verify technology versions and setup instructions
 5. **Assess Currency**: Flag patterns that seem outdated (suggest web research)
+6. **Verify Data Source Attribution** (NEW):
+   - Check database-related content notes source (migrations vs direct database)
+   - Verify schema references specify origin clearly
+   - Flag missing attribution for database structures
+   - Example good attribution: "Schema from `migrations/001_create_users.sql`"
+   - Example good attribution: "Schema from direct PostgreSQL introspection"
+   - Flag if database info lacks source attribution
 
 ### Phase 6: Convention Compliance
 
@@ -270,6 +295,10 @@ Plans must contain ONLY technical implementation content. NO:
 2. **No Fiction**: Flag any invented endpoints, features, or speculative content
 3. **Research Quality**: Do technical claims reflect current best practices?
 4. **Clarity**: Is plan understandable by fresh developer?
+5. **Conciseness Check** (NEW): Are tech-docs concise yet clear, not bloated?
+   - Flag verbose sections that could be more concise
+   - Flag missing essential details (too concise)
+   - Check if split tech-docs justify their existence (meaningful separation)
 
 ## Reporting Format
 
@@ -280,13 +309,17 @@ Provide audit results in this structure:
 
 ### Plan: [Plan Name]
 **Location**: `plans/[status]--[name]/`
-**Documents Audited**: README.md, requirements.md, tech-docs.md, delivery.md
+**Documents Audited**: README.md, requirements.md, [tech-docs.md OR tech-docs/], delivery.md
+**Tech-Docs Format**: [Single file (tech-docs.md) OR Split folder (tech-docs/)]
+**Tech-Docs LOC**: [Total line count]
 
 ### Summary
 - Critical issues: [count]
+- Tech-docs format issues: [count]
 - Scope clarity issues: [count]
 - Internal contradictions: [count]
 - Technical accuracy issues: [count]
+- Data attribution issues: [count]
 - Convention violations: [count]
 - Structural issues: [count]
 
@@ -294,6 +327,18 @@ Provide audit results in this structure:
 [Brief assessment: Excellent/Good/Needs Work/Serious Issues]
 
 ---
+
+### Tech-Docs Format Issues (NEW)
+
+**CRITICAL: Verify tech-docs uses correct format based on size**
+
+[For each format issue]
+**Problem**: [Single file too large / Split folder too small / Both formats exist / Missing tech-docs]
+**Current State**: [tech-docs.md with X LOC / tech-docs/ with Y total LOC / both exist / neither exists]
+**Required State**: [Split into tech-docs/ folder / Consolidate into tech-docs.md / Choose one format / Create tech-docs]
+**LOC Count**: [Actual line count]
+**Recommendation**: [Specific action needed]
+**Severity**: Critical/High
 
 ### Critical Issues
 
@@ -341,6 +386,18 @@ Provide audit results in this structure:
 **Actual State**: [What verification shows]
 **Recommendation**: [Correction needed]
 **Severity**: High/Medium
+
+### Data Source Attribution Issues (NEW)
+
+**CRITICAL: Database content must specify source (migrations vs database)**
+
+[For each attribution issue]
+**Location**: `file.md:section`
+**Problem**: [Missing attribution / Unclear source / Ambiguous reference]
+**Current State**: [What's documented without attribution]
+**Required Attribution**: [Specify if from migrations or direct database]
+**Example Fix**: ["Schema from `migrations/001_create_users.sql`" OR "Schema from direct PostgreSQL introspection"]
+**Severity**: Medium/High
 
 ### Convention Violations
 

@@ -121,10 +121,14 @@ After discovery, you should know:
 - **Special Conventions**: [Discovered from CLAUDE.md]
 - **Port Numbers**: [Discovered from config files if relevant]
 
-## Mandatory Plan Structure (4-Document System)
+## Mandatory Plan Structure (4-Document System with Smart Tech-Docs)
 
-Every plan MUST contain exactly these four documents in
-`plans/in-progress--{name}/`:
+Every plan MUST contain these core documents in `plans/in-progress--{name}/`:
+
+- README.md (always required)
+- requirements.md (always required)
+- tech-docs.md OR tech-docs/ folder (smart split based on 1500 LOC threshold)
+- delivery.md (always required)
 
 ### 1. README.md
 
@@ -165,16 +169,49 @@ The requirements.md document MUST include these sections in this order:
 **Scope and non-scope are MANDATORY - never create a plan without both clearly
 defined**
 
-### 3. tech-docs.md
+### 3. tech-docs.md OR tech-docs/ (Smart Splitting)
+
+**CRITICAL: Tech-docs must adapt based on size and complexity**
+
+#### Single File Format (tech-docs.md) - Use when total LOC <= 1500
 
 - Technical design and architecture decisions
 - Implementation approach and patterns
 - Code structure and organization
-- Technology choices with rationale
+- Technology choices with rationale (with alternatives considered)
 - Integration points and dependencies
 - Testing strategies:
   - BDD tests with mocking for unit/integration tests
   - E2E tests with real API calls (NO MOCKING)
+- **Data source attribution**: Note if using database migrations or direct database queries
+
+#### Split Folder Format (tech-docs/) - Use when total LOC > 1500
+
+When tech-docs exceeds 1500 LOC, split into a folder structure:
+
+```
+tech-docs/
+├── README.md                      # Overview, navigation, shared context
+├── alternatives-<topic>.md        # Analysis of alternatives for each major decision
+├── chosen-<topic>.md             # Chosen approach with implementation details
+├── alternatives-<topic2>.md       # Additional decision points
+└── chosen-<topic2>.md            # Additional chosen approaches
+```
+
+**Split tech-docs/ requirements:**
+
+- **README.md**: Brief overview, links to all documents, shared context
+- **alternatives-\*.md**: Concise comparison of options (pros/cons table format preferred)
+- **chosen-\*.md**: Implementation details for selected approach only
+- **Naming convention**: Use descriptive topic names (auth, storage, caching, api-design, etc.)
+- **Keep concise**: Each file should be focused and clear, not bloated
+- **Data attribution**: Note in each file if using database migrations or direct database
+
+**Consolidation Rule:**
+
+- If split tech-docs/ folder exists but total LOC across all files <= 1500, merge back into single tech-docs.md
+- Delete the tech-docs/ folder after merging
+- Preserve all content during merge, just reorganize into single-file format
 
 ### 4. delivery.md
 
@@ -264,31 +301,44 @@ When a plan is completed, you MUST execute these steps:
    - Version compatibility and breaking changes
    - Tool capabilities and correct usage patterns
 
-6. **Create 4-Document Structure**: Generate all four required documents using
+6. **Create Core Documents**: Generate README, requirements, delivery using
    **discovered context**
 
-7. **Use Real References**: Verify file paths and modules exist using Read tool
+7. **Create Tech-Docs (Smart Format)**:
+   - **Estimate complexity**: Assess if tech-docs will exceed 1500 LOC
+   - **If <= 1500 LOC expected**: Create single `tech-docs.md` file
+   - **If > 1500 LOC expected**: Create `tech-docs/` folder with split structure
+   - **Include data attribution**: Note if using database migrations vs direct database queries
+   - **Keep concise**: Focus on essential technical details, avoid bloat
 
-8. **Apply KISS Principle**: Exclude all forbidden content types
+8. **Use Real References**: Verify file paths and modules exist using Read tool
 
-9. **Self-Verify**: Run through self-verification protocol before finalizing
+9. **Apply KISS Principle**: Exclude all forbidden content types
 
-10. **Confirm with User**: Present plan structure and key sections
+10. **Self-Verify**: Run through self-verification protocol before finalizing
+
+11. **Confirm with User**: Present plan structure and key sections
 
 ### Updating an Existing Plan
 
-1. **Read Current State**: Load all four plan documents
-2. **Identify Changes**: Determine what needs updating (progress, scope,
+1. **Read Current State**: Load all plan documents (README, requirements, tech-docs.md OR tech-docs/, delivery)
+2. **Check Tech-Docs Format**: Determine if using single file or split folder
+3. **Identify Changes**: Determine what needs updating (progress, scope,
    technical approach)
-3. **Research if Needed**: If updating technical content, use WebSearch and
+4. **Research if Needed**: If updating technical content, use WebSearch and
    WebFetch to verify current best practices and accuracy
-4. **Update Relevant Documents**: Modify appropriate files while preserving
+5. **Update Relevant Documents**: Modify appropriate files while preserving
    structure
-5. **Update Checkboxes**: Mark completed items in delivery.md
-6. **Maintain Consistency**: Keep format and terminology aligned across all 4
+6. **Apply Smart Tech-Docs Management**:
+   - **If tech-docs.md exists and growing > 1500 LOC**: Split into tech-docs/ folder
+   - **If tech-docs/ exists and total LOC <= 1500**: Consolidate into tech-docs.md and delete folder
+   - **Count LOC**: Use `wc -l` on all tech-docs files to check threshold
+   - **Preserve content**: Never lose information during split or merge operations
+7. **Update Checkboxes**: Mark completed items in delivery.md
+8. **Maintain Consistency**: Keep format and terminology aligned across all
    documents
-7. **Self-Verify**: Run through verification checks
-8. **Confirm Updates**: Summarize changes for user
+9. **Self-Verify**: Run through verification checks including tech-docs format
+10. **Confirm Updates**: Summarize changes for user
 
 ### Completing a Plan
 
@@ -440,6 +490,10 @@ Every task must be:
 - Use proper Markdown hierarchy (##, ###, ####)
 - Include code blocks for technical references
 - No jargon usage
+- **Data Source Attribution**: Always note whether database information comes from:
+  - Database migrations (e.g., "Schema from `migrations/001_create_users.sql`")
+  - Direct database queries (e.g., "Schema from direct PostgreSQL introspection")
+  - This helps developers understand data source and trust level
 
 ## Output Format
 
@@ -459,26 +513,38 @@ When creating or updating plans:
 
 Before finalizing any plan, you MUST verify:
 
-1. **Structure Compliance**: All four documents present and properly formatted
-2. **Scope Clarity Verified** (CRITICAL):
+1. **Structure Compliance**: All core documents present and properly formatted
+2. **Tech-Docs Format Verification** (NEW):
+   - Check if using single tech-docs.md or split tech-docs/ folder
+   - **If tech-docs.md**: Verify total LOC <= 1500 (use `wc -l tech-docs.md`)
+   - **If tech-docs/**: Verify total LOC > 1500 across all files (use `wc -l tech-docs/*.md`)
+   - **If tech-docs/ with total LOC <= 1500**: Consolidate to single file and delete folder
+   - Verify README.md in tech-docs/ has proper navigation if split
+   - Verify alternatives-_.md and chosen-_.md follow naming convention
+3. **Data Source Attribution** (NEW):
+   - Verify database-related content notes source (migrations vs direct database)
+   - Check schema references specify where data comes from
+   - Ensure clarity on whether using migration files or database introspection
+4. **Scope Clarity Verified** (CRITICAL):
    - requirements.md has explicit, comprehensive "Scope" section
    - requirements.md has explicit, comprehensive "Non-Scope" section
    - Non-scope is as detailed as scope (not just 1-2 items)
    - Scope boundaries are crystal clear with no ambiguity
    - README.md scope summary matches requirements.md detailed scope
    - No vague scope statements ("improve", "enhance", etc.)
-3. **Content Restrictions**: No forbidden content types included
-4. **Real References**: All file paths and modules verified with Read tool
-5. **Gherkin Quality**: Acceptance criteria follow 1-1-1 rule
-6. **Testing Strategy**: Clear distinction between BDD and E2E tests
-7. **Actionable Tasks**: Every task is specific and implementable
-8. **No Fiction**: Zero invented or speculative content
-9. **KISS Compliance**: Focus purely on technical implementation
-10. **No Jargon**: Plain, direct language throughout
-11. **Web Research Completed**: All technical claims verified using WebSearch
+5. **Content Restrictions**: No forbidden content types included
+6. **Real References**: All file paths and modules verified with Read tool
+7. **Gherkin Quality**: Acceptance criteria follow 1-1-1 rule
+8. **Testing Strategy**: Clear distinction between BDD and E2E tests
+9. **Actionable Tasks**: Every task is specific and implementable
+10. **No Fiction**: Zero invented or speculative content
+11. **KISS Compliance**: Focus purely on technical implementation
+12. **No Jargon**: Plain, direct language throughout
+13. **Web Research Completed**: All technical claims verified using WebSearch
     and WebFetch
-12. **Basic Consistency Check**: Quick scan for obvious contradictions between
+14. **Basic Consistency Check**: Quick scan for obvious contradictions between
     documents
+15. **Conciseness Check** (NEW): Verify tech-docs content is concise yet clear, not bloated
 
 **Note**: For comprehensive consistency verification, recommend the user invoke
 the **plan-auditor** agent after you finish writing.
