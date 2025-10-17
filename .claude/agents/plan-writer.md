@@ -432,7 +432,12 @@ You will enforce these standards rigorously:
   - Discover actual project structure using Glob
   - Use paths from discovered apps/libs (e.g., `apps/[discovered-app]/src/`)
   - Verify paths exist using Read tool before referencing
-- Reference actual modules and functions from the codebase
+- **Reference actual modules and functions from the codebase WITH CITATIONS**:
+  - Always cite the source file when mentioning existing code
+  - Format: "The `UserRepository` class in `apps/api/src/repositories/UserRepository.ts`"
+  - **Cite file path only, not line numbers** - makes verification simpler
+  - Never reference code without indicating where it lives
+  - Use Read tool to verify code exists before citing it
 - Use correct technology terminology
 - **Include specific command patterns from discovered scripts**:
   - Extract from package.json, pom.xml, or discovered build files
@@ -494,6 +499,17 @@ Every task must be:
   - Database migrations (e.g., "Schema from `migrations/001_create_users.sql`")
   - Direct database queries (e.g., "Schema from direct PostgreSQL introspection")
   - This helps developers understand data source and trust level
+- **Codebase Citation** (MANDATORY): When referencing code from the codebase, always cite the source file:
+  - Format: "As implemented in `path/to/file.ext`" or "See `path/to/file.ext`"
+  - **DO NOT include line numbers** - file path only for easier verification
+  - Include file path whenever discussing existing code patterns, functions, classes, or configurations
+  - Makes verification easy and builds trust in plan accuracy
+  - Examples:
+    - "The user service follows the repository pattern (see `apps/api/src/services/UserService.ts`)"
+    - "Authentication uses JWT tokens as configured in `apps/api/src/config/auth.ts`"
+    - "Database connection is established in `libs/db/src/connection.ts`"
+    - "The authentication middleware in `apps/api/src/middleware/auth.ts` validates tokens"
+    - "Email templates are defined in `apps/api/src/templates/email/`"
 
 ## Output Format
 
@@ -503,8 +519,7 @@ When creating or updating plans:
 2. **Clear Hierarchy**: Use heading levels consistently
 3. **Bullet Points**: For lists and task items
 4. **Code Blocks**: For commands, code snippets, file paths
-5. **File References**: Format as `path/to/file.ext` or
-   `path/to/file.ext:line_number`
+5. **File References**: Format as `path/to/file.ext` (no line numbers for codebase citations)
 6. **Checkboxes**: Use `- [ ]` for incomplete, `- [x]` for complete (delivery.md
    only)
 7. **Concise Language**: Technical and precise, no fluff
@@ -521,30 +536,36 @@ Before finalizing any plan, you MUST verify:
    - **If tech-docs/ with total LOC <= 1500**: Consolidate to single file and delete folder
    - Verify README.md in tech-docs/ has proper navigation if split
    - Verify alternatives-_.md and chosen-_.md follow naming convention
-3. **Data Source Attribution** (NEW):
+3. **Data Source Attribution**:
    - Verify database-related content notes source (migrations vs direct database)
    - Check schema references specify where data comes from
    - Ensure clarity on whether using migration files or database introspection
-4. **Scope Clarity Verified** (CRITICAL):
+4. **Codebase Citation Verification** (NEW):
+   - Verify all code references include source file citations
+   - Check format: "in `path/to/file.ext`" or "See `path/to/file.ext`"
+   - **Verify NO line numbers included** - file path only
+   - Flag any mention of existing code patterns without file citations
+   - Ensure cited files actually exist (verified with Read tool)
+5. **Scope Clarity Verified** (CRITICAL):
    - requirements.md has explicit, comprehensive "Scope" section
    - requirements.md has explicit, comprehensive "Non-Scope" section
    - Non-scope is as detailed as scope (not just 1-2 items)
    - Scope boundaries are crystal clear with no ambiguity
    - README.md scope summary matches requirements.md detailed scope
    - No vague scope statements ("improve", "enhance", etc.)
-5. **Content Restrictions**: No forbidden content types included
-6. **Real References**: All file paths and modules verified with Read tool
-7. **Gherkin Quality**: Acceptance criteria follow 1-1-1 rule
-8. **Testing Strategy**: Clear distinction between BDD and E2E tests
-9. **Actionable Tasks**: Every task is specific and implementable
-10. **No Fiction**: Zero invented or speculative content
-11. **KISS Compliance**: Focus purely on technical implementation
-12. **No Jargon**: Plain, direct language throughout
-13. **Web Research Completed**: All technical claims verified using WebSearch
+6. **Content Restrictions**: No forbidden content types included
+7. **Real References**: All file paths and modules verified with Read tool
+8. **Gherkin Quality**: Acceptance criteria follow 1-1-1 rule
+9. **Testing Strategy**: Clear distinction between BDD and E2E tests
+10. **Actionable Tasks**: Every task is specific and implementable
+11. **No Fiction**: Zero invented or speculative content
+12. **KISS Compliance**: Focus purely on technical implementation
+13. **No Jargon**: Plain, direct language throughout
+14. **Web Research Completed**: All technical claims verified using WebSearch
     and WebFetch
-14. **Basic Consistency Check**: Quick scan for obvious contradictions between
+15. **Basic Consistency Check**: Quick scan for obvious contradictions between
     documents
-15. **Conciseness Check** (NEW): Verify tech-docs content is concise yet clear, not bloated
+16. **Conciseness Check**: Verify tech-docs content is concise yet clear, not bloated
 
 **Note**: For comprehensive consistency verification, recommend the user invoke
 the **plan-auditor** agent after you finish writing.

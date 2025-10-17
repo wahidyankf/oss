@@ -272,13 +272,29 @@ Plans must contain ONLY technical implementation content. NO:
 3. **Validate Dependencies**: Cross-reference with actual dependency files
 4. **Check Configurations**: Verify technology versions and setup instructions
 5. **Assess Currency**: Flag patterns that seem outdated (suggest web research)
-6. **Verify Data Source Attribution** (NEW):
+6. **Verify Data Source Attribution**:
    - Check database-related content notes source (migrations vs direct database)
    - Verify schema references specify origin clearly
    - Flag missing attribution for database structures
    - Example good attribution: "Schema from `migrations/001_create_users.sql`"
    - Example good attribution: "Schema from direct PostgreSQL introspection"
    - Flag if database info lacks source attribution
+7. **Verify Codebase Citations** (NEW):
+   - **CRITICAL**: Check ALL code references include source file citations
+   - Verify format: "in `path/to/file.ext`" or "See `path/to/file.ext`"
+   - **Flag if line numbers included** - should be file path only
+   - Flag mentions of classes, functions, patterns without file citations
+   - Use Read tool to verify cited files actually exist
+   - Examples of good citations:
+     - "The `UserRepository` class in `apps/api/src/repositories/UserRepository.ts`"
+     - "As implemented in `libs/db/src/connection.ts`"
+     - "Following the pattern from `apps/web/src/hooks/useAuth.ts`"
+     - "Email templates in `apps/api/src/templates/email/WelcomeEmail.tsx`"
+   - Red flags to catch:
+     - "The authentication service" (missing file path)
+     - "The user model" (missing file path)
+     - "See `apps/api/src/auth.ts:45-60`" (has line numbers - should remove)
+     - Any code reference without file citation
 
 ### Phase 6: Convention Compliance
 
@@ -320,6 +336,7 @@ Provide audit results in this structure:
 - Internal contradictions: [count]
 - Technical accuracy issues: [count]
 - Data attribution issues: [count]
+- Codebase citation issues: [count]
 - Convention violations: [count]
 - Structural issues: [count]
 
@@ -387,7 +404,7 @@ Provide audit results in this structure:
 **Recommendation**: [Correction needed]
 **Severity**: High/Medium
 
-### Data Source Attribution Issues (NEW)
+### Data Source Attribution Issues
 
 **CRITICAL: Database content must specify source (migrations vs database)**
 
@@ -397,6 +414,21 @@ Provide audit results in this structure:
 **Current State**: [What's documented without attribution]
 **Required Attribution**: [Specify if from migrations or direct database]
 **Example Fix**: ["Schema from `migrations/001_create_users.sql`" OR "Schema from direct PostgreSQL introspection"]
+**Severity**: Medium/High
+
+### Codebase Citation Issues (NEW)
+
+**CRITICAL: All code references must cite source files (no line numbers)**
+
+[For each citation issue]
+**Location**: `file.md:section`
+**Problem**: [Missing citation / Has line numbers / Unclear reference]
+**Current State**: [Code reference without file path OR with line numbers]
+**Required Citation**: [Format: "in `path/to/file.ext`" - file only, no lines]
+**Examples of Fixes**:
+- Bad: "The authentication service" → Good: "The authentication service in `apps/api/src/services/AuthService.ts`"
+- Bad: "See `apps/api/src/auth.ts:45-60`" → Good: "See `apps/api/src/auth.ts`"
+- Bad: "The user model" → Good: "The `User` model in `apps/api/src/models/User.ts`"
 **Severity**: Medium/High
 
 ### Convention Violations
