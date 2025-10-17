@@ -198,7 +198,13 @@ Plans must contain ONLY technical implementation content. NO:
    - **If tech-docs/ exists**:
      - Count total LOC: `wc -l tech-docs/*.md`
      - **Flag if total <= 1500 LOC**: Should be consolidated into single tech-docs.md
-     - Verify README.md exists in tech-docs/ with proper navigation
+     - **Verify README.md has narrative guidance** (NEW - CRITICAL):
+       - Must include numbered reading order (1, 2, 3...)
+       - Must provide narration explaining how documents connect
+       - Must tell reader which file to read first, second, etc.
+       - Must NOT be just an index/list of links
+       - Should include "Reading Guide" or "Reading Order" section
+       - Should explain the story/context of the documentation
      - Verify alternatives-_.md and chosen-_.md follow naming conventions
      - Check that split files are concise, not bloated
    - **If both tech-docs.md and tech-docs/ exist**: CRITICAL ERROR - only one format allowed
@@ -311,10 +317,15 @@ Plans must contain ONLY technical implementation content. NO:
 2. **No Fiction**: Flag any invented endpoints, features, or speculative content
 3. **Research Quality**: Do technical claims reflect current best practices?
 4. **Clarity**: Is plan understandable by fresh developer?
-5. **Conciseness Check** (NEW): Are tech-docs concise yet clear, not bloated?
+5. **Conciseness Check**: Are tech-docs concise yet clear, not bloated?
    - Flag verbose sections that could be more concise
    - Flag missing essential details (too concise)
    - Check if split tech-docs justify their existence (meaningful separation)
+6. **Narrative Quality** (NEW - for split tech-docs/ only):
+   - Does tech-docs/ README.md provide clear reading order?
+   - Does it explain how documents connect and build on each other?
+   - Is there a story/narrative, not just a list?
+   - Can a fresh developer understand where to start and why?
 
 ## Reporting Format
 
@@ -345,15 +356,20 @@ Provide audit results in this structure:
 
 ---
 
-### Tech-Docs Format Issues (NEW)
+### Tech-Docs Format Issues
 
 **CRITICAL: Verify tech-docs uses correct format based on size**
 
 [For each format issue]
-**Problem**: [Single file too large / Split folder too small / Both formats exist / Missing tech-docs]
-**Current State**: [tech-docs.md with X LOC / tech-docs/ with Y total LOC / both exist / neither exists]
-**Required State**: [Split into tech-docs/ folder / Consolidate into tech-docs.md / Choose one format / Create tech-docs]
+**Problem**: [Single file too large / Split folder too small / Both formats exist / Missing tech-docs / README lacks narrative]
+**Current State**: [tech-docs.md with X LOC / tech-docs/ with Y total LOC / both exist / neither exists / README is just index]
+**Required State**: [Split into tech-docs/ folder / Consolidate into tech-docs.md / Choose one format / Create tech-docs / Add narrative guidance]
 **LOC Count**: [Actual line count]
+**README Narrative Check** (if tech-docs/ exists):
+- Has numbered reading order? [Yes/No]
+- Explains document connections? [Yes/No]
+- Provides reading guidance? [Yes/No]
+- More than just link list? [Yes/No]
 **Recommendation**: [Specific action needed]
 **Severity**: Critical/High
 

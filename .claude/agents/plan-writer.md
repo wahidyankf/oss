@@ -200,7 +200,35 @@ tech-docs/
 
 **Split tech-docs/ requirements:**
 
-- **README.md**: Brief overview, links to all documents, shared context
+- **README.md**: NOT just an index - must provide narrative guidance
+  - **Reading order**: Number and sequence the documents (1, 2, 3...)
+  - **Narration**: Explain the story connecting the documents
+  - **Context**: Describe why docs are split and how they relate
+  - **Guidance**: Tell reader which file to read first, second, etc.
+  - **Brief overview**: High-level summary of technical approach
+  - **Example structure**:
+
+    ```markdown
+    # Technical Documentation
+
+    ## Overview
+
+    [Brief summary of technical approach]
+
+    ## Reading Guide
+
+    Read the documents in this order for best understanding:
+
+    1. **alternatives-auth.md** - Start here to understand why we chose JWT
+    2. **chosen-auth.md** - Implementation details for JWT authentication
+    3. **alternatives-storage.md** - Database options we considered
+    4. **chosen-storage.md** - PostgreSQL implementation approach
+
+    ## Narrative
+
+    [Explain how these decisions connect and build on each other]
+    ```
+
 - **alternatives-\*.md**: Concise comparison of options (pros/cons table format preferred)
 - **chosen-\*.md**: Implementation details for selected approach only
 - **Naming convention**: Use descriptive topic names (auth, storage, caching, api-design, etc.)
@@ -529,12 +557,16 @@ When creating or updating plans:
 Before finalizing any plan, you MUST verify:
 
 1. **Structure Compliance**: All core documents present and properly formatted
-2. **Tech-Docs Format Verification** (NEW):
+2. **Tech-Docs Format Verification**:
    - Check if using single tech-docs.md or split tech-docs/ folder
    - **If tech-docs.md**: Verify total LOC <= 1500 (use `wc -l tech-docs.md`)
    - **If tech-docs/**: Verify total LOC > 1500 across all files (use `wc -l tech-docs/*.md`)
    - **If tech-docs/ with total LOC <= 1500**: Consolidate to single file and delete folder
-   - Verify README.md in tech-docs/ has proper navigation if split
+   - **Verify tech-docs/ README.md has narrative guidance** (NEW):
+     - Check reading order is numbered and sequenced
+     - Verify narration explains how documents connect
+     - Ensure guidance tells reader which file to read first
+     - Confirm it's not just a list of links (must have story/context)
    - Verify alternatives-_.md and chosen-_.md follow naming convention
 3. **Data Source Attribution**:
    - Verify database-related content notes source (migrations vs direct database)
